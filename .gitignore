@@ -1,0 +1,15 @@
+
+
+# dependencies
+/frontend/node_modules
+/Backend/node_modules
+
+
+# production
+/FrontEnd/build
+
+# misc
+/FrontEnd/.env.local
+/FrontEnd/.env.development.local
+//FrontEnd/.env.production.local
+
