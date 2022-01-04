@@ -1,12 +1,9 @@
+import AppRouter from './routes/AppRouter';
+
 function App() {
 	return (
-		<div className='container'>
-			<h1>
-				Hola Mundo
-				<span className='text-muted'>
-					<i style={{ color: 'red' }} className='bi-person-square'></i>{' '}
-				</span>
-			</h1>
+		<div className='containerProject container'>
+			<AppRouter />
 		</div>
 	);
 }
