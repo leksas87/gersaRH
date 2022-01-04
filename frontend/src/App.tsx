@@ -1,7 +1,12 @@
 function App() {
 	return (
 		<div className='container'>
-			<h1 style={{ color: 'blue' }}>Hola Mundo</h1>
+			<h1>
+				Hola Mundo
+				<span className='text-muted'>
+					<i style={{ color: 'red' }} className='bi-person-square'></i>{' '}
+				</span>
+			</h1>
 		</div>
 	);
 }
