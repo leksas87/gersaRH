@@ -1,6 +1,6 @@
 * {
+	--backgroundPrimary: #f4f4f5;
 	box-sizing: border-box;
-	--backgroundPrimary: #f6f6f6;
 	scroll-behavior: smooth;
 }
 body {
@@ -9,6 +9,30 @@ body {
 	background-color: var(--backgroundPrimary);
 }
 
-.containerApp {
-	max-width: 1800px;
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+.flex {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+.containerProject {
+	animation: fadein 0.5s ease-in;
+	min-height: 100vh;
+}
+.loadingContainer {
+	width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	background-color: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
