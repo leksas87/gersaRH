@@ -1,12 +1,27 @@
 * {
-	--backgroundPrimary: #f4f4f5;
+	--backgroundBody: #f4f4f5;
+	--backgroundPrimary: #ffffff;
+
+	--colorPrimary: #fff;
+	--colorSecondary: #0f4257;
+	--colorSecondaryHover: #14536e;
+	--colorSecondaryActive: #086086;
+
+	--textColorPrimary: #000000;
+	--textColorSecondary: #0f4257;
+	--textColorLight: #888888;
+	--textColorDisable: #d1d1d1;
+	--textColorError: #f4524f;
+
+	--inputColorPrimary: #ebebeb;
+
 	box-sizing: border-box;
 	scroll-behavior: smooth;
 }
 body {
 	margin: 0;
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: var(--backgroundPrimary);
+	background-color: var(--backgroundBody);
 }
 
 @keyframes fadein {
@@ -26,6 +41,7 @@ body {
 .containerProject {
 	animation: fadein 0.5s ease-in;
 	min-height: 100vh;
+	height: auto;
 }
 .loadingContainer {
 	width: 100%;
@@ -35,4 +51,13 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.textColorLight {
+	color: var(--textColorLight);
+}
+.textColorError {
+	color: var(--textColorError);
+}
+.textColorSecondary {
+	color: var(--textColorSecondary);
 }
