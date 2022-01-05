@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { iUser } from '../../interfaces/interfaces';
 import './LoginPage.css';
 
 const LoginPage = () => {
+	//useState para mensaje de error
+	const [error, setError] = useState<string>('');
+
 	//objeto user para formulario Login
 	const user: iUser = {
 		usuario: '',
@@ -10,20 +14,38 @@ const LoginPage = () => {
 	};
 
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(user);
+	const [formValues, handleInputChange, reset] = useForm(user);
 	//Desestructuracion de propiedades
 	const { usuario, contraseña } = formValues;
 
+	//handleLogin para submit del formulario
 	const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(usuario, contraseña);
+
+		//Si el formulario es valido entonces...
+		if (isFormValid()) {
+			console.log(usuario, contraseña);
+		}
+	};
+
+	//Validación de formulario
+	const isFormValid = (): boolean => {
+		// El campo usuario no deve estar vacío
+		if (usuario.trim().length === 0) {
+			setError('Usuario es requerido');
+			return false;
+			// El campo contraseña debe tener al menos 6 caracteres
+		} else if (contraseña.length < 6) {
+			setError('Contraseña debe tener  al menos 6 caracteres');
+			return false;
+		}
+		//Resetea estado a un string vacío
+		setError('');
+		return true;
 	};
 
 	return (
-		<div
-			style={{ height: 'auto', minHeight: '100vh' }}
-			className='d-flex justify-content-center align-items-center'
-		>
+		<div className='containerProject d-flex justify-content-center align-items-center '>
 			<div className='loginContainer shadow'>
 				<div className='d-flex mb-4'>
 					<img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' />
@@ -44,7 +66,11 @@ const LoginPage = () => {
 						</label>
 						<input
 							type='text'
-							className='form-control inputForm'
+							className={
+								error === 'Usuario es requerido'
+									? 'form-control inputForm is-invalid'
+									: 'form-control inputForm'
+							}
 							id='inputUsuarioLogin'
 							name='usuario'
 							value={usuario}
@@ -53,9 +79,6 @@ const LoginPage = () => {
 							autoComplete='off'
 							onChange={handleInputChange}
 						/>
-						{/* <div id='usuarioHelpLogin' className='form-text textColorError'>
-							Usuario incorrecto.
-						</div> */}
 					</div>
 					<div className='mb-3'>
 						<label htmlFor='exampleInputPassword1' className='form-label'>
@@ -63,17 +86,23 @@ const LoginPage = () => {
 						</label>
 						<input
 							type='password'
-							className='form-control inputForm'
-							id='exampleInputPassword1'
+							className={
+								error === 'Contraseña debe tener  al menos 6 caracteres'
+									? 'form-control inputForm is-invalid'
+									: 'form-control inputForm'
+							}
 							name='contraseña'
 							value={contraseña}
 							placeholder='Ingresa tu contraseña'
 							onChange={handleInputChange}
 						/>
-						{/* <div id='usuarioHelpLogin' className='form-text textColorError'>
-							Contraseña incorrecta.
-						</div> */}
 					</div>
+					{error && (
+						<div className='form-text textColorError'>
+							<i className='bi bi-exclamation-circle'>{` `}</i>
+							{error}.
+						</div>
+					)}
 					<button
 						type='submit'
 						className='btn btn-primary mt-4 shadow-sm inputSubmit'

@@ -20,6 +20,7 @@
 }
 .inputSubmit {
 	width: 100%;
+	border: none;
 	background-color: var(--colorSecondary);
 }
 .inputSubmit:hover {
