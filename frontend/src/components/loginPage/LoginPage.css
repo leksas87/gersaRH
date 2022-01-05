@@ -1,0 +1,47 @@
+.loginContainer {
+	background-color: var(--backgroundPrimary);
+	width: 50%;
+	min-height: 70%;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 20px;
+	flex-direction: column;
+	padding: 5rem 2rem;
+	margin: 2rem 0px;
+}
+.formLogin {
+	width: 60%;
+}
+.inputForm {
+	width: 100%;
+	background-color: var(--inputColorPrimary);
+}
+.inputSubmit {
+	width: 100%;
+	border: none;
+	background-color: var(--colorSecondary);
+}
+.inputSubmit:hover {
+	background-color: var(--colorSecondaryHover);
+}
+.inputSubmit:focus {
+	background-color: var(--colorSecondaryHover);
+}
+.inputSubmit:active {
+	background-color: var(--colorSecondaryActive);
+}
+
+/* +++++Mobile++++ */
+@media (max-width: 764px) {
+	.loginContainer {
+		width: 100%;
+		height: auto;
+		border-radius: 15px;
+		padding: 6rem 2rem;
+	}
+	.formLogin {
+		width: 80%;
+	}
+}

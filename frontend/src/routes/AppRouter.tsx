@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
-import Loading from '../components/loadingPage/Loading';
+import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
 import NotFound from './NotFound';
 import { PrivateRoute } from './PrivateRoute';
