@@ -45,7 +45,7 @@ const LoginPage = () => {
 	};
 
 	return (
-		<div className='containerProject d-flex justify-content-center align-items-center '>
+		<div className='containerProject container d-flex justify-content-center align-items-center '>
 			<div className='loginContainer shadow'>
 				<div className='d-flex mb-4'>
 					<img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' />
