@@ -9,7 +9,9 @@ router.get('/add',async(req,res)=>{
     const links = await pool.query('SELECT * FROM usuario ');
     console.log(links);
     res.status(201).json({
-        message: links,
+        ok:true,
+        msg:'lista de usuarios',
+        usuarios: links,
     });
 });
 
