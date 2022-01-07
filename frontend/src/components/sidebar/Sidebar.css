@@ -1,7 +1,8 @@
 .sidebarContainer {
 	width: auto;
 	max-width: 220px;
-	height: 100vh;
+	height: calc(100vh - 2rem);
+	animation: fadein 0.5s ease-in;
 }
 .sidebarLogo {
 	width: 80%;
@@ -66,4 +67,9 @@
 .sidebarLeave {
 	display: flex;
 	align-items: center;
+}
+@media (max-width: 768px) {
+	.sidebarContainer {
+		height: calc(100vh - 8.5rem);
+	}
 }

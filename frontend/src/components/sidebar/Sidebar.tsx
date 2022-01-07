@@ -3,17 +3,20 @@ const Sidebar = () => {
 	return (
 		<>
 			<div className='d-flex flex-column sidebarContainer'>
-				<div className='d-flex justify-content-center mt-4 mb-4 sidebarLogo'>
+				<div className='d-flex justify-content-center  mb-4 sidebarLogo'>
 					<img width='80%' src='assets\gersa-logo.png' alt='gersaLogo' />
 				</div>
 				<div className='sidebarContent'>
 					<nav className='d-flex flex-column sidebarTu'>
 						<label className='fs-6 textColorSecondary'>TÚ</label>
-						<div className='sidebarOption sidebarOptionActive'>
+						<div
+							className='sidebarOption sidebarOptionActive'
+							data-bs-dismiss='offcanvas'
+						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
 						</div>
-						<div className='sidebarOption'>
+						<div className='sidebarOption' data-bs-dismiss='offcanvas'>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
 						</div>
