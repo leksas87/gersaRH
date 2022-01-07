@@ -14,7 +14,7 @@ export const PrivateRoute = ({
 	// const { authState } = useContext(AuthContext);
 
 	// const isAutenticated = authState.uid;
-	// const isAutenticated: boolean = true;
-	const isAutenticated: boolean = false;
+	const isAutenticated: boolean = true;
+	// const isAutenticated: boolean = false;
 	return isAutenticated ? <>{children}</> : <Navigate to='/login' />;
 };

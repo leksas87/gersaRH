@@ -1,0 +1,69 @@
+.sidebarContainer {
+	width: auto;
+	max-width: 220px;
+	height: 100vh;
+}
+.sidebarLogo {
+	width: 80%;
+}
+/* sidebarContent*********************START*/
+.sidebarContent {
+	width: 100%;
+	margin-bottom: 1rem;
+	overflow-y: scroll;
+	scrollbar-color: var(--colorSecondary) transparent;
+	scrollbar-width: thin;
+}
+.sidebarContent::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.sidebarContent::-webkit-scrollbar:vertical {
+	width: 4px;
+}
+.sidebarContent::-webkit-scrollbar-thumb {
+	background-color: var(--colorSecondary);
+	border-radius: 40px;
+}
+/* END********************* */
+
+.sidebarTu {
+	background-color: transparent;
+}
+.sidebarEmpresa {
+	background-color: transparent;
+	margin-top: 1rem;
+}
+
+.sidebarOption {
+	background-color: transparent;
+	border-radius: 10px;
+	height: 40px;
+	width: 95%;
+	padding-left: 5px;
+	margin: 1px 0px;
+	color: var(--colorSecondary);
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+}
+.sidebarOption:hover {
+	background-color: var(--colorOptionHover);
+	cursor: pointer;
+}
+.sidebarOptionActive {
+	background-color: var(--colorSecondary);
+	color: var(--backgroundBody);
+}
+.sidebarOptionActive:hover {
+	background-color: var(--colorSecondary);
+	color: var(--backgroundBody);
+}
+.sidebarIcon {
+	font-size: 1.5rem;
+	margin-right: 10px;
+	margin-left: 5px;
+}
+.sidebarLeave {
+	display: flex;
+	align-items: center;
+}

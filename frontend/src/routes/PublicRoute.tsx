@@ -10,7 +10,7 @@ export const PublicRoute = ({ children }: iChildren) => {
 	// const { authState } = useContext(AuthContext);
 
 	// const isAutenticated = authState.uid;
-	// const isAutenticated = true;
-	const isAutenticated: boolean = false;
+	const isAutenticated = true;
+	// const isAutenticated: boolean = false;
 	return isAutenticated ? <Navigate to='/dashboard' /> : <>{children}</>;
 };

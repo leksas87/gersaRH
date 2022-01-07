@@ -1,0 +1,8 @@
+.navbarContainer {
+	position: fixed;
+	width: 100%;
+	height: 4rem;
+	top: 100;
+	background-color: var(--backgroundBody);
+	padding: 0px 1rem;
+}
