@@ -6,3 +6,16 @@
 	background-color: var(--backgroundBody);
 	padding: 0px 1rem;
 }
+.navbarIcon {
+	font-size: 2rem;
+	margin-right: 10px;
+	margin-left: 5px;
+	color: var(--textColorSecondary);
+}
+.navbarBtnMenu {
+	background-color: transparent;
+}
+.navbarBtnMenu:hover {
+	background-color: var(--colorOptionHover);
+	cursor: pointer;
+}
