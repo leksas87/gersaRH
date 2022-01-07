@@ -13,4 +13,26 @@ router.get('/add',async(req,res)=>{
     });
 });
 
+router.post('/add', async (req, res) => {
+    try {
+        const { nombres, apellidos,correo} = req.body;
+        const newUser = {
+            nombres,
+            apellidos,
+            correo,
+        };
+        await pool.query('INSERT INTO usuario set ?', [newUser]);
+        res.status(201).json({
+            message: 'created',
+            data: 'some'
+          });
+    } catch (error) {
+        res.status(500).json({
+            message:'Error en la consulta',
+            error:error.message,
+        })
+    }
+   
+});
+
 module.exports = router;
