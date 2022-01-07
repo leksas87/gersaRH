@@ -35,4 +35,22 @@ router.post('/add', async (req, res) => {
    
 });
 
+router.get('/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await pool.query('DELETE FROM usuario WHERE ID = ?', [id]);
+        res.status(201).json({
+            message: 'borrado con exito',
+            data: id
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message:'Error en la consulta',
+            error:error.message,
+        })
+    }
+    
+});
+
 module.exports = router;
