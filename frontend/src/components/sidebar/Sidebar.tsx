@@ -21,7 +21,7 @@ const Sidebar = () => {
 							Mi perfil
 						</div>
 						<div className='sidebarOption'>
-							<i className='bi bi-clock sidebarIcon' />
+							<i className='bi bi-clock sidebarIcon ' />
 							Reloj Checador
 						</div>
 						<div className='sidebarOption'>
