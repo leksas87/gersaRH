@@ -1,5 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../../actions/loginActions';
+import { RootSote } from '../../store/Store';
 import './Sidebar.css';
 const Sidebar = () => {
+	const dispatch = useDispatch();
+	//Senecesita el state que indica el roll, nombre y apellido del usuario
+	const { roll, nombre, apellido } = useSelector(
+		(state: RootSote) => state.auth
+	);
 	return (
 		<>
 			<div className='d-flex flex-column sidebarContainer'>
@@ -30,34 +38,63 @@ const Sidebar = () => {
 						</div>
 						<div className='sidebarOption'>
 							<i className='bi bi-card-checklist sidebarIcon' />
-							Tareas
+							Solicitudes
 						</div>
 					</nav>
-					<nav className='d-flex flex-column sidebarEmpresa'>
-						<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-						<div className='sidebarOption'>
-							<i className='bi bi-person-video2 sidebarIcon' />
-							Empleados
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-calendar-week sidebarIcon' />
-							Calendario
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-folder2-open sidebarIcon' />
-							Archivos
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-gear sidebarIcon ' />
-							Empresa
-						</div>
-					</nav>
-					<div className='mt-3 sidebarLeave'>
-						<i
-							className='bi bi-person-circle sidebarIcon'
-							style={{ color: '#ff0062' }}
-						/>
-						Ivan Santana ●
+					{roll === 'Administrador' && (
+						<nav className='d-flex flex-column sidebarEmpresa'>
+							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
+							<div className='sidebarOption'>
+								<i className='bi bi-person-video2 sidebarIcon' />
+								Empleados
+							</div>
+							<div className='sidebarOption'>
+								<i className='bi bi-calendar-week sidebarIcon' />
+								Calendario
+							</div>
+							<div className='sidebarOption'>
+								<i className='bi bi-folder2-open sidebarIcon' />
+								Archivos
+							</div>
+							<div className='sidebarOption'>
+								<i className='bi bi-gear sidebarIcon ' />
+								Empresa
+							</div>
+						</nav>
+					)}
+					<div className='mt-3 btn-group '>
+						<button
+							type='button'
+							className='sidebarLeaveButton sidebarOption'
+							data-bs-toggle='dropdown'
+							aria-expanded='false'
+						>
+							<div className='custm-imgCount me-2'>
+								<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
+							</div>
+							{`${nombre} ${apellido}`}
+						</button>
+						<ul className='dropdown-menu dropdown-menu-end'>
+							<li>
+								<button
+									className='dropdown-item custm-dropdown-item'
+									type='button'
+									onClick={() => dispatch(logOut())}
+								>
+									Salir
+								</button>
+							</li>
+							<li>
+								<button className='dropdown-item custm-dropdown-item' type='button'>
+									Another action
+								</button>
+							</li>
+							<li>
+								<button className='dropdown-item custm-dropdown-item' type='button'>
+									Something else here
+								</button>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

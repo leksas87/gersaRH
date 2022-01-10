@@ -19,11 +19,9 @@ const Navbar = () => {
 					<div>
 						<img width='100px' src='assets\gersa-logo.png' alt='gersa-logo' />
 					</div>
-					<div>
-						<i
-							className='bi bi-person-circle navbarIcon'
-							style={{ color: '#ff0062' }}
-						/>
+
+					<div className=' custm-imgCount'>
+						<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
 					</div>
 				</nav>
 			</div>
