@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootSote } from '../../store/Store';
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
-	//state que guarda el si la pantalla es pequeña o no
+	//Se necesita el state que indica el nombre del usuario
+	const { nombre } = useSelector((state: RootSote) => state.auth);
+	//state que guarda un boolean si la pantalla es pequeña o no
 	const [screenSize, setScreenSize] = useState<boolean>(false);
 
 	//Effect para el manejo del resize de la pantalla
@@ -53,30 +57,12 @@ const DashboardPage = () => {
 							}}
 							className='d-flex justify-content-center align-items-center flex-column shadow'
 						>
-							<h3>¡Hola, Ivan!</h3>
+							<h3>¡Hola, {nombre}!</h3>
 							<p className='text-center'>
 								Bienvenido de vuelta.
 								<br /> Esto es lo nuevo por aqui...
 							</p>
 						</div>
-						<div
-							className='d-flex justify-content-center align-items-center flex-column shadow'
-							style={{
-								width: '300px',
-								height: '300px',
-								backgroundColor: 'white',
-								margin: '1rem',
-							}}
-						></div>
-						<div
-							className='d-flex justify-content-center align-items-center flex-column shadow'
-							style={{
-								width: '300px',
-								height: '300px',
-								backgroundColor: 'white',
-								margin: '1rem',
-							}}
-						></div>
 					</div>
 				</div>
 			</div>

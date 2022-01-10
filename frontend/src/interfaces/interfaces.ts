@@ -1,17 +1,20 @@
 //Auth Interfaces
 export interface iAuthState {
 	uid: string;
-	name: string | null;
+	nombre: string | null;
+	apellido: string | null;
+	roll: string;
 	authState: {
 		loading: boolean;
-		msgError: string | null;
+		isAutenticated: boolean;
 	};
 }
 export interface iUsuario {
 	uid: string;
 	name: string | null;
+	roll: string;
 }
-//Interface de Usuario
+//Interface de Usuario para login
 export interface iUser {
 	usuario: string;
 	contraseña: string;

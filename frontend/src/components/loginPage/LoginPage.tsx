@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { startLogin } from '../../actions/loginActions';
 import { useForm } from '../../hooks/useForm';
 import { iUser } from '../../interfaces/interfaces';
+import Swal from 'sweetalert2';
 import './LoginPage.css';
 
 const LoginPage = () => {
+	const dispatch = useDispatch();
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
@@ -14,7 +18,7 @@ const LoginPage = () => {
 	};
 
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange, reset] = useForm(user);
+	const [formValues, handleInputChange] = useForm(user);
 	//Desestructuracion de propiedades
 	const { usuario, contraseña } = formValues;
 
@@ -22,9 +26,9 @@ const LoginPage = () => {
 	const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		//Si el formulario es valido entonces...
+		//Si el formulario es valido entonces dispatch startLogin...
 		if (isFormValid()) {
-			console.log(usuario, contraseña);
+			dispatch(startLogin(usuario, contraseña));
 		}
 	};
 
