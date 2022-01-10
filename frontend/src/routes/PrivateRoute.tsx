@@ -1,7 +1,8 @@
-import { ReactChild, ReactChildren, ReactElement, useContext } from 'react';
+import { ReactChild, ReactChildren, ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { JsxElement } from 'typescript';
-// import AuthContext from '../context/authContext/AuthContext';
+import { RootSote } from '../store/Store';
 
 interface iChildren {
 	children: ReactChild | ReactChildren | JSX.Element[] | JSX.Element;
@@ -10,11 +11,9 @@ interface iChildren {
 export const PrivateRoute = ({
 	children,
 }: iChildren): ReactElement<JsxElement> => {
-	//Senecesita un state que indique si el usuario está autenticado o no
-	// const { authState } = useContext(AuthContext);
-
-	// const isAutenticated = authState.uid;
-	// const isAutenticated: boolean = true;
-	const isAutenticated: boolean = false;
+	//Senecesita el state que indica si el usuario está autenticado o no
+	const { authState } = useSelector((state: RootSote) => state.auth);
+	//isAutenticated
+	const isAutenticated: boolean = authState.isAutenticated;
 	return isAutenticated ? <>{children}</> : <Navigate to='/login' />;
 };

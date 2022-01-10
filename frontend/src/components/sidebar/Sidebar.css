@@ -1,0 +1,104 @@
+.sidebarContainer {
+	/* width: auto; */
+	/* max-width: 220px; */
+	width: 220px;
+	height: calc(100vh - 2rem);
+	animation: fadein 0.5s ease-in;
+}
+.sidebarLogo {
+	width: 80%;
+}
+/* sidebarContent*********************START*/
+.sidebarContent {
+	width: 100%;
+	margin-bottom: 1rem;
+	overflow-y: scroll;
+	scrollbar-color: var(--colorSecondary) transparent;
+	scrollbar-width: thin;
+}
+.sidebarContent::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.sidebarContent::-webkit-scrollbar:vertical {
+	width: 4px;
+}
+.sidebarContent::-webkit-scrollbar-thumb {
+	background-color: var(--colorSecondary);
+	border-radius: 40px;
+}
+/* END********************* */
+
+.sidebarTu {
+	background-color: transparent;
+}
+.sidebarEmpresa {
+	background-color: transparent;
+	margin-top: 1rem;
+}
+
+.sidebarOption {
+	background-color: transparent;
+	border-radius: 10px;
+	height: 40px;
+	width: 95%;
+	padding-left: 5px;
+	margin: 1px 0px;
+	color: var(--colorSecondary);
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+}
+.sidebarOption:hover {
+	background-color: var(--colorOptionHover);
+	cursor: pointer;
+}
+.sidebarOptionActive {
+	background-color: var(--colorSecondary);
+	color: var(--backgroundBody);
+}
+.sidebarOptionActive::after {
+	content: '●';
+	margin-top: 2px;
+	font-size: 7px;
+	position: absolute;
+	right: 22px;
+}
+.sidebarOptionActive:hover {
+	background-color: var(--colorSecondary);
+	color: var(--backgroundBody);
+}
+.sidebarIcon {
+	font-size: 1.5rem;
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.sidebarLeaveButton {
+	border: none;
+	width: 100%;
+}
+.custm-dropdown-item:active {
+	background-color: var(--colorSecondary);
+}
+.custm-imgCount {
+	background-color: var(--colorSecondary);
+	width: 30px;
+	height: 30px;
+	color: #ff0062;
+	color: var(--backgroundBody);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+@media (max-width: 768px) {
+	.sidebarContainer {
+		height: calc(100vh - 8.5rem);
+	}
+	.sidebarOptionActive::after {
+		position: absolute;
+		right: 55px;
+	}
+}

@@ -1,0 +1,24 @@
+.navbarContainer {
+	position: fixed;
+	width: 100%;
+	height: 4rem;
+	top: 100;
+	background-color: var(--backgroundBody);
+	padding: 0px 1rem;
+	animation: fadein 0.5s ease-in;
+}
+.navbarIcon {
+	font-size: 2rem;
+	margin-right: 10px;
+	margin-left: 5px;
+	color: var(--textColorSecondary);
+}
+.navbarBtnMenu {
+	background-color: transparent;
+	border: none;
+}
+.navbarBtnMenu:hover {
+	background-color: var(--colorOptionHover);
+	border-radius: 10px;
+	cursor: pointer;
+}

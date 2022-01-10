@@ -5,6 +5,7 @@
 	--colorPrimary: #fff;
 	--colorSecondary: #0f4257;
 	--colorSecondaryHover: #14536e;
+	--colorOptionHover: #eaeaea;
 	--colorSecondaryActive: #086086;
 
 	--textColorPrimary: #000000;
@@ -12,6 +13,7 @@
 	--textColorLight: #888888;
 	--textColorDisable: #d1d1d1;
 	--textColorError: #f4524f;
+	--textColorError2: #ff0062;
 
 	--inputColorPrimary: #ebebeb;
 
@@ -42,6 +44,7 @@ body {
 	animation: fadein 0.5s ease-in;
 	min-height: 100vh;
 	height: auto;
+	min-width: 216px;
 }
 .loadingContainer {
 	width: 100%;
