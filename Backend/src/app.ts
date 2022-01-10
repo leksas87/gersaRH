@@ -2,7 +2,7 @@ import express,{Application} from 'express';
 import morgan from 'morgan';
 //Routes
 import IndexRoutes from "./routes/index.routes";
-import PostRoutes from './routes/post.routes'
+import PostRoutes from './routes/user.routes'
 
 export class App{
 

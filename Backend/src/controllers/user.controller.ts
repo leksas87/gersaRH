@@ -1,6 +1,7 @@
 import {Request,Response} from 'express'
 import {connect} from '../database'
-import {Post} from '../interface/Post'
+import {Post} from '../interface/user'
+import * as bcrypt from 'bcrypt'
 
 export async function getPosts(req:Request,res:Response): Promise<Response>{
     const conn=await connect();
@@ -10,6 +11,7 @@ export async function getPosts(req:Request,res:Response): Promise<Response>{
 
 export async function createPost(req:Request,res:Response) {
     const newPost:Post=req.body;
+    newPost.password = bcrypt.hashSync(newPost.password, 10)
     const conn=await connect();
     await conn.query("INSERT INTO usuario SET ?",[newPost]);
     return res.json({
