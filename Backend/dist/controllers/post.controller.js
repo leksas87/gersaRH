@@ -25,7 +25,7 @@ function createPost(req, res) {
         const conn = yield (0, database_1.connect)();
         yield conn.query("INSERT INTO usuario SET ?", [newPost]);
         return res.json({
-            message: 'Post Created',
+            message: 'Usuario Creado',
             data: newPost
         });
     });
@@ -46,7 +46,7 @@ function deletePost(req, res) {
         const conn = yield (0, database_1.connect)();
         const post = yield conn.query('DELETE FROM usuario where id=?', [id]);
         return res.json({
-            message: 'Post deleted'
+            message: 'Usuario borrado'
         });
     });
 }
@@ -58,7 +58,7 @@ function updatePost(req, res) {
         const conn = yield (0, database_1.connect)();
         const post = yield conn.query('UPDATE usuario SET ? where id=?', [updatePost, id]);
         return res.json({
-            message: 'Post updated'
+            message: 'Usuario actualizado'
         });
     });
 }
