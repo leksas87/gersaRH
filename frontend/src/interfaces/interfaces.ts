@@ -1,9 +1,9 @@
 //Auth Interfaces
 export interface iAuthState {
-	uid: string;
-	nombre: string | null;
-	apellido: string | null;
-	roll: string;
+	id: string;
+	firstName: string | null;
+	lastName: string | null;
+	roll: number | null;
 	authState: {
 		loading: boolean;
 		isAutenticated: boolean;

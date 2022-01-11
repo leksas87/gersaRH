@@ -8,10 +8,10 @@ import { iAuthState } from '../interfaces/interfaces';
 
 //Estado inicial
 const INITIAL_STATE: iAuthState = {
-	uid: '',
-	nombre: '',
-	apellido: '',
-	roll: '',
+	id: '',
+	firstName: '',
+	lastName: '',
+	roll: null,
 	authState: {
 		loading: false,
 		isAutenticated: false,
@@ -32,19 +32,19 @@ export const LogInReducer = (
 		case AUTH_SUCCESS:
 			return {
 				...state,
-				uid: action.payload.usuario.uid,
-				nombre: action.payload.usuario.nombre,
-				apellido: action.payload.usuario.apellido,
+				id: action.payload.usuario.id,
+				firstName: action.payload.usuario.firstName,
+				lastName: action.payload.usuario.lastName,
 				roll: action.payload.usuario.roll,
 				authState: { ...state.authState, isAutenticated: true, loading: false },
 			};
 		case AUTH_LOGOUT:
 			return {
 				...state,
-				uid: '',
-				nombre: '',
-				apellido: '',
-				roll: '',
+				id: '',
+				firstName: '',
+				lastName: '',
+				roll: null,
 				authState: { ...state.authState, isAutenticated: false },
 			};
 
