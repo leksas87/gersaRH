@@ -6,7 +6,7 @@ const authorize = require('_middleware/authorize')
 const userService = require('./user.service');
 
 // routes
-router.post('/login', authenticateSchema, authenticate);
+router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/register', registerSchema, register);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
@@ -18,7 +18,7 @@ module.exports = router;
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
-        correo: Joi.string().required(),
+        username: Joi.string().required(),
         password: Joi.string().required()
     });
     validateRequest(req, next, schema);
@@ -32,9 +32,9 @@ function authenticate(req, res, next) {
 
 function registerSchema(req, res, next) {
     const schema = Joi.object({
-        nombres: Joi.string().required(),
-        apellidos: Joi.string().required(),
-        correo: Joi.string().required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        username: Joi.string().required(),
         password: Joi.string().min(6).required()
     });
     validateRequest(req, next, schema);
@@ -64,9 +64,9 @@ function getById(req, res, next) {
 
 function updateSchema(req, res, next) {
     const schema = Joi.object({
-        nombres: Joi.string().empty(''),
-        apellidos: Joi.string().empty(''),
-        correo: Joi.string().empty(''),
+        firstName: Joi.string().empty(''),
+        lastName: Joi.string().empty(''),
+        username: Joi.string().empty(''),
         password: Joi.string().min(6).empty('')
     });
     validateRequest(req, next, schema);

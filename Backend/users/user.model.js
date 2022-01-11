@@ -4,10 +4,10 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
-        nombres: { type: DataTypes.STRING, allowNull: false },
-        apellidos: { type: DataTypes.STRING, allowNull: false },
-        correo: { type: DataTypes.STRING, allowNull: false },
-        password: { type: DataTypes.STRING, allowNull: false }
+        firstName: { type: DataTypes.STRING, allowNull: false },
+        lastName: { type: DataTypes.STRING, allowNull: false },
+        username: { type: DataTypes.STRING, allowNull: false },
+        hash: { type: DataTypes.STRING, allowNull: false }
     };
 
     const options = {
@@ -21,5 +21,5 @@ function model(sequelize) {
         }
     };
 
-    return sequelize.define('usuario', attributes, options);
+    return sequelize.define('User', attributes, options);
 }
