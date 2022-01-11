@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
-import { ModalPage } from "../registroUsuario/ModalPage";
+import { ModalPage } from '../registroUsuario/ModalPage';
 import './Sidebar.css';
 const Sidebar = () => {
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
-	const { roll, nombre, apellido } = useSelector(
+	const { roll, firstName, lastName } = useSelector(
 		(state: RootSote) => state.auth
 	);
 	return (
@@ -42,17 +42,17 @@ const Sidebar = () => {
 							Solicitudes
 						</div>
 					</nav>
-					{roll === 'Administrador' && (
+					{roll === 1 && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
 							<div className='sidebarOption'>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
 							</div>
-							<div 
-							  className='sidebarOption' 
-							  data-bs-toggle="modal" 
-							  data-bs-target="#miModal"
+							<div
+								className='sidebarOption'
+								data-bs-toggle='modal'
+								data-bs-target='#miModal'
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								RUsuarios
@@ -70,8 +70,7 @@ const Sidebar = () => {
 								Empresa
 							</div>
 
-							<ModalPage/>
-							
+							<ModalPage />
 						</nav>
 					)}
 					<div className='mt-3 btn-group '>
@@ -84,7 +83,9 @@ const Sidebar = () => {
 							<div className='custm-imgCount me-2'>
 								<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
 							</div>
-							{`${nombre} ${apellido}`}
+							<span
+								style={{ textTransform: 'capitalize' }}
+							>{`${firstName} ${lastName}`}</span>
 						</button>
 						<ul className='dropdown-menu dropdown-menu-end'>
 							<li>

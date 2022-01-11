@@ -7,7 +7,7 @@ import './DashboardPage.css';
 
 const DashboardPage = () => {
 	//Se necesita el state que indica el nombre del usuario
-	const { nombre } = useSelector((state: RootSote) => state.auth);
+	const { firstName } = useSelector((state: RootSote) => state.auth);
 	//state que guarda un boolean si la pantalla es pequeña o no
 	const [screenSize, setScreenSize] = useState<boolean>(false);
 
@@ -35,7 +35,7 @@ const DashboardPage = () => {
 
 		// Se remueve el evento Listener resize
 		return () => window.removeEventListener('resize', (): void => screenResize());
-	}, [setScreenSize]);
+	}, [setScreenSize, screenSize]);
 
 	return (
 		<>
@@ -57,7 +57,9 @@ const DashboardPage = () => {
 							}}
 							className='d-flex justify-content-center align-items-center flex-column shadow'
 						>
-							<h3>¡Hola, {nombre}!</h3>
+							<h3>
+								¡Hola, <span style={{ textTransform: 'capitalize' }}>{firstName}</span>!
+							</h3>
 							<p className='text-center'>
 								Bienvenido de vuelta.
 								<br /> Esto es lo nuevo por aqui...

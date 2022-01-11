@@ -5,10 +5,10 @@ export const AUTH_SUCCESS = 'authSuccess';
 
 //Usuario que se recibe del fetch al ahcer logIn
 export type Usuario = {
-	uid: string;
-	nombre: string;
-	apellido: string;
-	roll: string;
+	id: string;
+	firstName: string;
+	lastName: string;
+	roll: number;
 	token: string;
 };
 //Cargando
