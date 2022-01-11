@@ -9,7 +9,7 @@ function errorHandler(err, req, res, next) {
             return res.status(statusCode).json({ message: err });
         case err.name === 'UnauthorizedError':
             // jwt authentication error
-            return res.status(401).json({ message: 'Unauthorized' });
+            return res.status(401).json({ message: 'Usuario no autorizado' });
         default:
             return res.status(500).json({ message: err.message });
     }
