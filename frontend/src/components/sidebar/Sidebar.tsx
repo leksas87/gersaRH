@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
+import { ModalPage } from "../registroUsuario/ModalPage";
 import './Sidebar.css';
 const Sidebar = () => {
 	const dispatch = useDispatch();
@@ -48,6 +49,14 @@ const Sidebar = () => {
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
 							</div>
+							<div 
+							  className='sidebarOption' 
+							  data-bs-toggle="modal" 
+							  data-bs-target="#miModal"
+							>
+								<i className='bi bi-person-video2 sidebarIcon' />
+								RUsuarios
+							</div>
 							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
 								Calendario
@@ -60,6 +69,9 @@ const Sidebar = () => {
 								<i className='bi bi-gear sidebarIcon ' />
 								Empresa
 							</div>
+
+							<ModalPage/>
+							
 						</nav>
 					)}
 					<div className='mt-3 btn-group '>
