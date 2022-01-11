@@ -16,7 +16,7 @@ async function authenticate({ username, password }) {
     const user = await db.User.scope('withHash').findOne({ where: { username } });
 
     if (!user || !(await bcrypt.compare(password, user.hash)))
-        throw 'Username or password is incorrect';
+        throw 'Usuario o contraseña incorrecta';
 
     // authentication successful
     const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '2h' });
@@ -34,7 +34,7 @@ async function getById(id) {
 async function create(params) {
     // validate
     if (await db.User.findOne({ where: { username: params.username } })) {
-        throw 'Username "' + params.username + '" is already taken';
+        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
     // hash password
@@ -52,7 +52,7 @@ async function update(id, params) {
     // validate
     const usernameChanged = params.username && user.username !== params.username;
     if (usernameChanged && await db.User.findOne({ where: { username: params.username } })) {
-        throw 'Username "' + params.username + '" is already taken';
+        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
     // hash password if it was entered
@@ -76,7 +76,7 @@ async function _delete(id) {
 
 async function getUser(id) {
     const user = await db.User.findByPk(id);
-    if (!user) throw 'User not found';
+    if (!user) throw 'Usuario no encontrado';
     return user;
 }
 

@@ -1,11 +1,11 @@
 {
-    "name": "node-mysql-registration-login-api",
+    "name": "gersa",
     "version": "1.0.0",
-    "description": "Node.js + MySQL API for User Management, Authentication and Registration",
+    "description": "",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/cornflourblue/node-mysql-registration-login-api.git"
+        "url": ""
     },
     "scripts": {
         "start": "node ./server.js",
