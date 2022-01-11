@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { startLogin } from '../../actions/loginActions';
 import { useForm } from '../../hooks/useForm';
 import { iUser } from '../../interfaces/interfaces';
-import Swal from 'sweetalert2';
 import './LoginPage.css';
 
 const LoginPage = () => {
