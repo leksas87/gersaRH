@@ -1,5 +1,5 @@
 import {Request,Response} from 'express'
-import {connect} from '../database'
+import {connect} from '../helpers/database'
 import {Post} from '../interface/user'
 import * as bcrypt from 'bcrypt'
 
