@@ -3,7 +3,12 @@ import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import { ModalPage } from '../registroUsuario/ModalPage';
 import './Sidebar.css';
-const Sidebar = () => {
+
+interface iProps {
+	screenSize?: boolean;
+}
+
+const Sidebar = ({ screenSize = true }: iProps) => {
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
 	const { roll, firstName, lastName } = useSelector(
@@ -20,12 +25,12 @@ const Sidebar = () => {
 						<label className='fs-6 textColorSecondary'>TÚ</label>
 						<div
 							className='sidebarOption sidebarOptionActive'
-							data-bs-dismiss='offcanvas'
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
 						</div>
-						<div className='sidebarOption' data-bs-dismiss='offcanvas'>
+						<div className='sidebarOption'>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
 						</div>
@@ -45,17 +50,12 @@ const Sidebar = () => {
 					{roll === 1 && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							<div className='sidebarOption'>
-								<i className='bi bi-person-video2 sidebarIcon' />
-								Empleados
-							</div>
 							<div
 								className='sidebarOption'
-								data-bs-toggle='modal'
-								data-bs-target='#miModal'
+								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
-								RUsuarios
+								Empleados
 							</div>
 							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
@@ -69,11 +69,9 @@ const Sidebar = () => {
 								<i className='bi bi-gear sidebarIcon ' />
 								Empresa
 							</div>
-
-							<ModalPage />
 						</nav>
 					)}
-					<div className='mt-3 btn-group '>
+					<div className='mt-3 ms-1 btn-group '>
 						<button
 							type='button'
 							className='sidebarLeaveButton sidebarOption'
@@ -87,12 +85,16 @@ const Sidebar = () => {
 								style={{ textTransform: 'capitalize' }}
 							>{`${firstName} ${lastName}`}</span>
 						</button>
-						<ul className='dropdown-menu dropdown-menu-end'>
+						<ul
+							style={{ border: 'none' }}
+							className='dropdown-menu dropdown-menu-end shadow-sm'
+						>
 							<li>
 								<button
 									className='dropdown-item custm-dropdown-item'
 									type='button'
 									onClick={() => dispatch(logOut())}
+									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 								>
 									Salir
 								</button>

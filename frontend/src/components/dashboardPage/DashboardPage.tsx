@@ -43,7 +43,7 @@ const DashboardPage = () => {
 			<div className='d-flex container mt-5'>
 				{!screenSize && (
 					<div className='sidebar-sticky'>
-						<Sidebar />
+						<Sidebar screenSize={screenSize} />
 					</div>
 				)}
 				<div className='dashboardContainer'>
