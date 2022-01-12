@@ -18,20 +18,6 @@
 	width: 100%;
 	background-color: var(--inputColorPrimary);
 }
-.inputSubmit {
-	width: 100%;
-	border: none;
-	background-color: var(--colorSecondary);
-}
-.inputSubmit:hover {
-	background-color: var(--colorSecondaryHover);
-}
-.inputSubmit:focus {
-	background-color: var(--colorSecondaryHover);
-}
-.inputSubmit:active {
-	background-color: var(--colorSecondaryActive);
-}
 
 /* +++++Mobile++++ */
 @media (max-width: 764px) {

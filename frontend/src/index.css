@@ -64,3 +64,21 @@ body {
 .textColorSecondary {
 	color: var(--textColorSecondary);
 }
+.textColorPrimary {
+	color: var(--textColorPrimary);
+}
+
+.inputSubmit {
+	width: 100%;
+	border: none;
+	background-color: var(--colorSecondary);
+}
+.inputSubmit:hover {
+	background-color: var(--colorSecondaryHover);
+}
+.inputSubmit:focus {
+	background-color: var(--colorSecondaryHover);
+}
+.inputSubmit:active {
+	background-color: var(--colorSecondaryActive);
+}

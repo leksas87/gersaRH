@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootSote } from '../../store/Store';
+import Empleados from '../empleados/Empleados';
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './DashboardPage.css';
@@ -48,7 +49,7 @@ const DashboardPage = () => {
 				)}
 				<div className='dashboardContainer'>
 					<div className='d-flex'>
-						<div
+						{/* <div
 							style={{
 								width: '300px',
 								height: '300px',
@@ -64,7 +65,8 @@ const DashboardPage = () => {
 								Bienvenido de vuelta.
 								<br /> Esto es lo nuevo por aqui...
 							</p>
-						</div>
+						</div> */}
+						<Empleados />
 					</div>
 				</div>
 			</div>

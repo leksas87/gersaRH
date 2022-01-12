@@ -1,0 +1,66 @@
+.custm-modalContent {
+	background-color: var(--backgroundPrimary);
+	border-radius: 20px;
+	min-height: 60vh;
+	margin-top: 5rem;
+}
+.custm-modalIcon {
+	background-color: var(--backgroundPrimary);
+	width: 100px;
+	height: 100px;
+	border-radius: 11px;
+	font-size: 50px;
+	color: var(--textColorSecondary);
+	margin-top: -45px;
+	margin-left: 35px;
+	box-shadow: 0px 2px 5px 3px rgba(47, 47, 47, 0.2);
+}
+.custm-iconExit {
+	font-size: 25px;
+}
+.custm-input {
+	border: 2px solid var(--textColorSecondary);
+	border-radius: 11px;
+	height: 3rem;
+	margin-bottom: 1rem;
+}
+.custm-btnFormSubmit {
+	width: auto;
+	height: 3rem;
+	margin-top: 1rem;
+	margin-bottom: 5rem;
+	padding: 10px 17px;
+	border-radius: 11px;
+	color: var(--backgroundPrimary);
+}
+.custm-inputGird {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-areas: 'Name Apellido';
+	width: 100%;
+	height: 100%;
+}
+.grid-area-Name {
+	grid-area: Name;
+	margin-right: 1rem;
+}
+.grid-area-Apellido {
+	grid-area: Apellido;
+	margin-left: 1rem;
+}
+
+/* tamaño maximo de la pantalla */
+@media (max-width: 848px) {
+	.custm-inputGird {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'Name'
+			'Apellido';
+	}
+	.grid-area-Name {
+		margin-right: 0px;
+	}
+	.grid-area-Apellido {
+		margin-left: 0px;
+	}
+}
