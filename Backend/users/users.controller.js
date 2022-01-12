@@ -7,7 +7,8 @@ const userService = require('./user.service');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
+router.post('/register',authorize(), registerSchema, register);
+router.post('/registerMaster', registerSchemaMaster, registerMaster);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
@@ -34,8 +35,19 @@ function registerSchema(req, res, next) {
     const schema = Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
+        username: Joi.string().required()
+    });
+    validateRequest(req, next, schema);
+}
+
+
+function registerSchemaMaster(req, res, next) {
+    const schema = Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
         username: Joi.string().required(),
-        password: Joi.string().min(6).required(),
+        active:Joi.string().required(),
+        password: Joi.string().min(6).empty(''),
         roll:Joi.number().required()
     });
     validateRequest(req, next, schema);
@@ -43,6 +55,12 @@ function registerSchema(req, res, next) {
 
 function register(req, res, next) {
     userService.create(req.body)
+        .then(() => res.json({ message: 'Registro exitoso' }))
+        .catch(next);
+}
+
+function registerMaster(req, res, next) {
+    userService.createMaster(req.body)
         .then(() => res.json({ message: 'Registro exitoso' }))
         .catch(next);
 }

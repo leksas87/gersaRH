@@ -8,6 +8,7 @@ module.exports = {
     getAll,
     getById,
     create,
+    createMaster,
     update,
     delete: _delete
 };
@@ -37,11 +38,19 @@ async function create(params) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
+    // save user
+    await db.User.create(params);
+}
+
+async function createMaster(params) {
+    // validate
+    if (await db.User.findOne({ where: { username: params.username } })) {
+        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
+    }
     // hash password
     if (params.password) {
         params.hash = await bcrypt.hash(params.password, 10);
     }
-
     // save user
     await db.User.create(params);
 }
