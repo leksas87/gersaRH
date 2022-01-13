@@ -10,7 +10,8 @@ module.exports = {
     create,
     createMaster,
     update,
-    delete: _delete
+    delete: _delete,
+    reenvioToken
 };
 
 async function authenticate({ username, password }) {
@@ -92,4 +93,14 @@ async function getUser(id) {
 function omitHash(user) {
     const { hash, ...userWithoutHash } = user;
     return userWithoutHash;
+}
+
+ async function reenvioToken(params) {
+    const user = await db.User.findOne({ where: params});
+
+    if (!user)
+        throw 'Usuario no encontrado';
+
+    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '2h' });
+    return { ...omitHash(user.get()), token };
 }
