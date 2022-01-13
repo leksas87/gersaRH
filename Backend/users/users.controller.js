@@ -113,7 +113,7 @@ function revalidaToken(req,res,next) {
 function renewSchema(req, res, next) {
     const schema = Joi.object({
         username: Joi.string().required(),
-        id:Joi.number().required()
+        id:Joi.number()
     });
     validateRequest(req, next, schema);
 }
