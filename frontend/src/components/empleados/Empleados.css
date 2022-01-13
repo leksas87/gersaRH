@@ -1,3 +1,45 @@
+.custm-empleadosContainer {
+	background-color: var(--backgroundPrimary);
+	/* width: 800px; */
+	width: 100%;
+	min-height: 50vh;
+}
+.custm-empleadosHead {
+	height: 4rem;
+	border-bottom: 1px solid var(--textColorDisable);
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.custm-btnNuevoEmpleadoContainer {
+	position: absolute;
+	right: 1rem;
+	display: flex;
+}
+.custm-btnNuevoEmpleado {
+	background-color: var(--backgroundPrimary);
+	border: 2px solid var(--textColorSecondary);
+	border-radius: 20px;
+	padding: 0px 10px;
+	color: var(--textColorSecondary);
+}
+.custm-btnMasEmpleado {
+	width: 2rem;
+	height: 2rem;
+	background-color: var(--backgroundPrimary);
+	border: 2px solid var(--textColorSecondary);
+	border-radius: 50px;
+	font-size: 12px;
+	margin-left: 8px;
+	color: var(--textColorSecondary);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-left: 8px;
+}
+
+/* ---Registro Empleados (MODAL)--- */
 .custm-modalContent {
 	background-color: var(--backgroundPrimary);
 	border-radius: 20px;
@@ -47,6 +89,14 @@
 .grid-area-Apellido {
 	grid-area: Apellido;
 	margin-left: 1rem;
+}
+@media (max-width: 991px) {
+	.custm-empleadosHead {
+		height: 5rem;
+		padding-left: 10px;
+		justify-content: flex-start;
+		align-items: center;
+	}
 }
 
 /* tamaño maximo de la pantalla */
