@@ -46,7 +46,7 @@ function registerSchemaMaster(req, res, next) {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         username: Joi.string().required(),
-        active:Joi.string().required(),
+        active:Joi.boolean().required(),
         password: Joi.string().min(6).empty(''),
         roll:Joi.number().required()
     });
