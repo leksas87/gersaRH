@@ -22,7 +22,7 @@ const Empleados = () => {
 	const { name, apellidos, correo } = formValues;
 
 	//handeRegister para registro del formulario
-	const handeRegister = (e: React.MouseEvent<HTMLElement>) => {
+	const handeRegister = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		//Si el formulario es valido entonces dispatch startLogin...
@@ -122,7 +122,7 @@ const Empleados = () => {
 											paddingTop: '1.5rem',
 										}}
 									>
-										<form>
+										<form onSubmit={handeRegister}>
 											<label htmlFor='recipient-name' className='col-form-label'>
 												Correo electrónico*
 											</label>
@@ -203,7 +203,6 @@ const Empleados = () => {
 											<div className='d-flex justify-content-end'>
 												<button 
 													className='custm-btnFormSubmit inputSubmit'
-													onClick={handeRegister}
 												>
 													Guardar empleado
 												</button>
