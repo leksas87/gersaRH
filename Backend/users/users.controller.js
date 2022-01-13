@@ -14,6 +14,7 @@ router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
+router.post('/renew',authorize(),renewSchema,revalidaToken);
 
 module.exports = router;
 
@@ -101,4 +102,18 @@ function _delete(req, res, next) {
     userService.delete(req.params.id)
         .then(() => res.json({ message: 'User deleted successfully' }))
         .catch(next);
+}
+
+function revalidaToken(req,res,next) {
+    userService.reenvioToken(req.body)
+        .then(user => res.json(user))
+        .catch(next);
+}
+
+function renewSchema(req, res, next) {
+    const schema = Joi.object({
+        username: Joi.string().required(),
+        id:Joi.number().required()
+    });
+    validateRequest(req, next, schema);
 }
