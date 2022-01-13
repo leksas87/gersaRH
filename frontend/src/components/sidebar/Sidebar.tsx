@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
-import { ModalPage } from '../registroUsuario/ModalPage';
 import './Sidebar.css';
 
 interface iProps {
