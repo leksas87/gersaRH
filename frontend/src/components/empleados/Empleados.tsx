@@ -1,6 +1,74 @@
+import { useState } from 'react';
+
+import validator from 'validator';
+import { iEmpleado } from '../../interfaces/interfaces';
+import { useForm } from '../../hooks/useForm';
 import './Empleados.css';
 
 const Empleados = () => {
+
+	//useState para mensaje de error
+	const [error, setError] = useState<string>('');
+
+	//objeto user para formulario Registro
+	const employee: iEmpleado = {
+		name: '',
+		apellidos: '',
+		correo: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(employee);
+	//Desestructuracion de propiedades
+	const { name, apellidos, correo } = formValues;
+
+	const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+       
+		handleInputChange(e);
+		console.log(name,'+',apellidos,'+',correo);
+	}
+	//handeRegister para registro del formulario
+	const handeRegister = (e: React.MouseEvent<HTMLElement>) => {
+		e.preventDefault();
+
+		//Si el formulario es valido entonces dispatch startLogin...
+		if (isFormValid()) {
+			console.log('Todo correcto');
+		} else {
+			console.log('Algo mal')
+		}
+	};
+	
+	//Validación de formulario
+	const isFormValid = (): boolean => {
+		// El campo usuario no deve estar vacío
+		if (name.trim().length === 0 && apellidos.trim().length === 0 && !validator.isEmail( correo ) ) {
+			setError('Nombre, apellidos y correo son requeridos');
+			return false;
+		} else if (name.trim().length === 0 && apellidos.trim().length === 0) {
+			setError('Nombre y apellidos son requerido');
+			return false;
+		} else if (name.trim().length === 0 && !validator.isEmail( correo )) {
+			setError('Nombre y correo son requerido');
+			return false;
+		} else if (apellidos.trim().length === 0 && !validator.isEmail( correo )) {
+			setError('Apellidos y correo son requerido');
+			return false;
+		} else if (name.trim().length === 0 ) {
+			setError('Nombre es requerido');
+			return false;
+		} else if (apellidos.trim().length === 0 ) {
+			setError('Apellidos son requerido');
+			return false;
+		} else if (!validator.isEmail( correo ) ) {
+			setError('Correo electronico no es valido');
+			return false;
+		}
+		//Resetea estado a un string vacío
+		setError('');
+		return true;
+	};
+
+
 	return (
 		<>
 			<div>
@@ -67,8 +135,21 @@ const Empleados = () => {
 											</label>
 											<input
 												type='text'
-												className='custm-input form-control'
-												id='recipient-name'
+												className={
+													(error === 'Correo electronico no es valido' ||
+													 error === 'Nombre, apellido y correo son requeridos'||
+													 error === 'Nombre y correo son requerido'||
+													 error === 'Apellidos y correo son requerido')
+														? 'custm-input form-control is-invalid'
+														: 'custm-input form-control'
+												}
+												id="recipient-name-email"
+												name='correo'
+												value={correo}
+												placeholder='Ingresa el correo electronico'
+												aria-describedby='registerEmail'
+												autoComplete='off'
+												onChange={handleChange}
 											/>
 											<div className='custm-inputGird'>
 												<div className='grid-area-Name'>
@@ -77,8 +158,21 @@ const Empleados = () => {
 													</label>
 													<input
 														type='text'
-														className='custm-input form-control is-invalid'
+														className={
+															(error === 'Nombre es requerido'||
+															error === 'Nombre, apellido y correo son requeridos'||
+															error === 'Nombre y apellidos son requerido'||
+															error === 'Nombre y correo son requerido')
+																? 'custm-input form-control is-invalid'
+																: 'custm-input form-control'
+														}
 														id='recipient-name'
+														name='name'
+														value={name}
+														placeholder='Ingresa el nombre'
+														aria-describedby='registerName'
+														autoComplete='off'
+														onChange={handleChange}
 													/>
 												</div>
 												<div className='grid-area-Apellido'>
@@ -87,13 +181,35 @@ const Empleados = () => {
 													</label>
 													<input
 														type='text'
-														className='custm-input form-control'
-														id='recipient-name'
+														className={
+															(error === 'Apellidos son requerido'||
+															error === 'Nombre, apellido y correo son requeridos'||
+															error === 'Nombre y apellidos son requerido'||
+															error === 'Apellidos y correo son requerido')
+																? 'custm-input form-control is-invalid'
+																: 'custm-input form-control'
+														}
+														id="recipient-apellido"
+														name='apellidos'
+														value={apellidos}
+														placeholder='Ingresa el apellido'
+														aria-describedby='registerLastName'
+														autoComplete='off'
+														onChange={handleChange}
 													/>
 												</div>
 											</div>
+											{error && (
+														<div className='form-text textColorError'>
+															<i className='bi bi-exclamation-circle'>{` `}</i>
+															{error}.
+														</div>
+											)}
 											<div className='d-flex justify-content-end'>
-												<button className='custm-btnFormSubmit inputSubmit'>
+												<button 
+													className='custm-btnFormSubmit inputSubmit'
+													onClick={handeRegister}
+												>
 													Guardar empleado
 												</button>
 											</div>

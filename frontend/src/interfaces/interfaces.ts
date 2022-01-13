@@ -19,3 +19,9 @@ export interface iUser {
 	usuario: string;
 	contraseña: string;
 }
+//Interface de registro empleado
+export interface iEmpleado {
+	name: string;
+	apellidos: string;
+	correo: string;
+}
