@@ -8,8 +8,10 @@ module.exports = {
     getAll,
     getById,
     create,
+    createMaster,
     update,
-    delete: _delete
+    delete: _delete,
+    reenvioToken
 };
 
 async function authenticate({ username, password }) {
@@ -37,11 +39,19 @@ async function create(params) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
+    // save user
+    await db.User.create(params);
+}
+
+async function createMaster(params) {
+    // validate
+    if (await db.User.findOne({ where: { username: params.username } })) {
+        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
+    }
     // hash password
     if (params.password) {
         params.hash = await bcrypt.hash(params.password, 10);
     }
-
     // save user
     await db.User.create(params);
 }
@@ -83,4 +93,14 @@ async function getUser(id) {
 function omitHash(user) {
     const { hash, ...userWithoutHash } = user;
     return userWithoutHash;
+}
+
+ async function reenvioToken(params) {
+    const user = await db.User.findOne({ where: params});
+
+    if (!user)
+        throw 'Usuario no encontrado';
+
+    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '2h' });
+    return { ...omitHash(user.get()), token };
 }

@@ -7,12 +7,14 @@ const userService = require('./user.service');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
+router.post('/register',authorize(), registerSchema, register);
+router.post('/registerMaster', registerSchemaMaster, registerMaster);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
+router.post('/renew',authorize(),renewSchema,revalidaToken);
 
 module.exports = router;
 
@@ -34,8 +36,19 @@ function registerSchema(req, res, next) {
     const schema = Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
+        username: Joi.string().required()
+    });
+    validateRequest(req, next, schema);
+}
+
+
+function registerSchemaMaster(req, res, next) {
+    const schema = Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
         username: Joi.string().required(),
-        password: Joi.string().min(6).required(),
+        active:Joi.boolean().required(),
+        password: Joi.string().min(6).empty(''),
         roll:Joi.number().required()
     });
     validateRequest(req, next, schema);
@@ -43,6 +56,12 @@ function registerSchema(req, res, next) {
 
 function register(req, res, next) {
     userService.create(req.body)
+        .then(() => res.json({ message: 'Registro exitoso' }))
+        .catch(next);
+}
+
+function registerMaster(req, res, next) {
+    userService.createMaster(req.body)
         .then(() => res.json({ message: 'Registro exitoso' }))
         .catch(next);
 }
@@ -83,4 +102,18 @@ function _delete(req, res, next) {
     userService.delete(req.params.id)
         .then(() => res.json({ message: 'User deleted successfully' }))
         .catch(next);
+}
+
+function revalidaToken(req,res,next) {
+    userService.reenvioToken(req.body)
+        .then(user => res.json(user))
+        .catch(next);
+}
+
+function renewSchema(req, res, next) {
+    const schema = Joi.object({
+        username: Joi.string().required(),
+        id:Joi.number()
+    });
+    validateRequest(req, next, schema);
 }
