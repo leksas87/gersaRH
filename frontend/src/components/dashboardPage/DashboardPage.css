@@ -5,10 +5,11 @@
 	position: sticky;
 	top: 0px;
 }
-.dashboardContainer {
+.custm-dashboardContainer {
+	/* background-color: rgb(210, 255, 253); */
 	width: 100%;
 	height: 100%;
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
 	display: flex;
 	justify-content: center;
 }
