@@ -7,7 +7,7 @@ function model(sequelize) {
         firstName: { type: DataTypes.STRING, allowNull: false },
         lastName: { type: DataTypes.STRING, allowNull: false },
         username: { type: DataTypes.STRING, allowNull: false },
-        active:{type: DataTypes.STRING,allowNull:false,defaultValue:'N'},
+        active:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
         hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
         roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 }
     };
