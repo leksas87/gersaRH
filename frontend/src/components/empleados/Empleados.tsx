@@ -21,11 +21,6 @@ const Empleados = () => {
 	//Desestructuracion de propiedades
 	const { name, apellidos, correo } = formValues;
 
-	const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-       
-		handleInputChange(e);
-		console.log(name,'+',apellidos,'+',correo);
-	}
 	//handeRegister para registro del formulario
 	const handeRegister = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
@@ -33,8 +28,6 @@ const Empleados = () => {
 		//Si el formulario es valido entonces dispatch startLogin...
 		if (isFormValid()) {
 			console.log('Todo correcto');
-		} else {
-			console.log('Algo mal')
 		}
 	};
 	
@@ -137,6 +130,7 @@ const Empleados = () => {
 												type='text'
 												className={
 													(error === 'Correo electronico no es valido' ||
+													 error === 'Nombre, apellidos y correo son requeridos'||
 													 error === 'Nombre, apellido y correo son requeridos'||
 													 error === 'Nombre y correo son requerido'||
 													 error === 'Apellidos y correo son requerido')
@@ -149,7 +143,7 @@ const Empleados = () => {
 												placeholder='Ingresa el correo electronico'
 												aria-describedby='registerEmail'
 												autoComplete='off'
-												onChange={handleChange}
+												onChange={handleInputChange}
 											/>
 											<div className='custm-inputGird'>
 												<div className='grid-area-Name'>
@@ -160,7 +154,7 @@ const Empleados = () => {
 														type='text'
 														className={
 															(error === 'Nombre es requerido'||
-															error === 'Nombre, apellido y correo son requeridos'||
+															error === 'Nombre, apellidos y correo son requeridos'||
 															error === 'Nombre y apellidos son requerido'||
 															error === 'Nombre y correo son requerido')
 																? 'custm-input form-control is-invalid'
@@ -172,7 +166,7 @@ const Empleados = () => {
 														placeholder='Ingresa el nombre'
 														aria-describedby='registerName'
 														autoComplete='off'
-														onChange={handleChange}
+														onChange={handleInputChange}
 													/>
 												</div>
 												<div className='grid-area-Apellido'>
@@ -184,6 +178,7 @@ const Empleados = () => {
 														className={
 															(error === 'Apellidos son requerido'||
 															error === 'Nombre, apellido y correo son requeridos'||
+															error === 'Nombre, apellidos y correo son requeridos'||
 															error === 'Nombre y apellidos son requerido'||
 															error === 'Apellidos y correo son requerido')
 																? 'custm-input form-control is-invalid'
@@ -195,7 +190,7 @@ const Empleados = () => {
 														placeholder='Ingresa el apellido'
 														aria-describedby='registerLastName'
 														autoComplete='off'
-														onChange={handleChange}
+														onChange={handleInputChange}
 													/>
 												</div>
 											</div>
