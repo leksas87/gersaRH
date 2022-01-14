@@ -32,14 +32,14 @@ export const fetchConToken = (
 	//Se une el endpoint con la baseURL
 	const url = `${baseUrl}/${endpoint}`;
 	//Se recupera el token guardado el localStorage
-	const token = localStorage.getItem('token') || '';
+	const token = localStorage.getItem('gersa-tkn') || '';
 
 	//Si la peticion es un GET
 	if (method === 'GET') {
 		return fetch(url, {
 			method,
 			headers: {
-				'x-token': token,
+				Authorization: `Bearer ${token}`,
 			},
 		});
 	} else {
@@ -48,7 +48,7 @@ export const fetchConToken = (
 			method,
 			headers: {
 				'Content-type': 'application/json',
-				'x-token': token,
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(data),
 		});

@@ -7,7 +7,7 @@ import {
 	Usuario,
 } from './loginActionsTypes';
 import Swal from 'sweetalert2';
-import { fetchSinToken } from '../helpers/fetch';
+import { fetchConToken, fetchSinToken } from '../helpers/fetch';
 
 //Login
 export const startLogin = (email: string, password: string) => {
@@ -33,6 +33,7 @@ export const startLogin = (email: string, password: string) => {
 			const time = new Date().getTime();
 			//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
 			localStorage.setItem('gersa-tkn-init-date', time.toString());
+			localStorage.setItem('gersaUserName', body.username);
 			//Se asugna el cuerpo de la respuesta a usuario
 			const usuario: Usuario = body;
 			//dispatch que guarda al usuario obtenido en el reducer
@@ -43,6 +44,41 @@ export const startLogin = (email: string, password: string) => {
 		} else {
 			//Mensaje de error proveniente de la API
 			Swal.fire('Error', body.message, 'error');
+		}
+	};
+};
+
+//RenovarToken
+export const startChecking = () => {
+	const gersaUserName = localStorage.getItem('gersaUserName') || '';
+	return async (dispatch: Dispatch<AuthDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const respuesta = await fetchConToken(
+			'users/renew',
+			{ username: gersaUserName },
+			'POST'
+		);
+		const body = await respuesta.json();
+
+		//Condicion si existe un id
+		if (body.id) {
+			//Se guarda el token en localStorage como gersa-tkn
+			localStorage.setItem('gersa-tkn', body.token);
+			const time = new Date().getTime();
+			//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
+			localStorage.setItem('gersa-tkn-init-date', time.toString());
+			localStorage.setItem('gersaUserName', body.username);
+			//Se asugna el cuerpo de la respuesta a usuario
+			const usuario: Usuario = body;
+			//dispatch que guarda al usuario obtenido en el reducer
+			dispatch({
+				type: AUTH_SUCCESS,
+				payload: { usuario },
+			});
+		} else {
+			//Mensaje de error proveniente de la API
+			console.log(body.message);
+			// Swal.fire('Error', body.message, 'error');
 		}
 	};
 };

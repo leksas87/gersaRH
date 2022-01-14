@@ -1,9 +1,10 @@
+import Empleados from './Empleados';
 import './Empleados.css';
 
 const EmpleadosPage = () => {
 	return (
 		<>
-			<div className='custm-empleadosContainer rounded-3 ms-3 shadow'>
+			<div className='custm-empleadosContainer rounded-3 ms-3 shadow mt-4'>
 				<div className='custm-empleadosHead '>
 					<div
 						className='textColorSecondary fs-4'
@@ -12,11 +13,12 @@ const EmpleadosPage = () => {
 						Empleados
 					</div>
 					<div className='custm-btnNuevoEmpleadoContainer'>
-						<button className='custm-btnNuevoEmpleado'>+ Nuevo empleado</button>
-						<button className='custm-btnMasEmpleado'>●●●</button>
+						{/* <button className='custm-btnNuevoEmpleado'>+ Nuevo empleado</button> */}
+						<Empleados />
+						<button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button>
 					</div>
 				</div>
-				<div className='d-flex justify-content-center pt-4'>
+				<div className='d-flex justify-content-center pt-4 p-4'>
 					<div className='table-responsive'>
 						<table className='table  table-hover' style={{ minWidth: '500px' }}>
 							<thead>

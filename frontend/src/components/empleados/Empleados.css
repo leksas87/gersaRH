@@ -22,6 +22,7 @@
 	border: 2px solid var(--textColorSecondary);
 	border-radius: 20px;
 	padding: 0px 10px;
+	height: 2rem;
 	color: var(--textColorSecondary);
 }
 .custm-btnMasEmpleado {
@@ -30,13 +31,16 @@
 	background-color: var(--backgroundPrimary);
 	border: 2px solid var(--textColorSecondary);
 	border-radius: 50px;
-	font-size: 12px;
+	font-size: 10px;
 	margin-left: 8px;
 	color: var(--textColorSecondary);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding-left: 8px;
+}
+.custmBtnActions:hover {
+	background-color: var(--colorSecondary);
+	color: var(--backgroundPrimary);
 }
 
 /* ---Registro Empleados (MODAL)--- */

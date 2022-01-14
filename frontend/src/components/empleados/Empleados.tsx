@@ -6,7 +6,6 @@ import { useForm } from '../../hooks/useForm';
 import './Empleados.css';
 
 const Empleados = () => {
-
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
@@ -30,29 +29,33 @@ const Empleados = () => {
 			console.log('Todo correcto');
 		}
 	};
-	
+
 	//Validación de formulario
 	const isFormValid = (): boolean => {
 		// El campo usuario no deve estar vacío
-		if (name.trim().length === 0 && apellidos.trim().length === 0 && !validator.isEmail( correo ) ) {
+		if (
+			name.trim().length === 0 &&
+			apellidos.trim().length === 0 &&
+			!validator.isEmail(correo)
+		) {
 			setError('Nombre, apellidos y correo son requeridos');
 			return false;
 		} else if (name.trim().length === 0 && apellidos.trim().length === 0) {
 			setError('Nombre y apellidos son requerido');
 			return false;
-		} else if (name.trim().length === 0 && !validator.isEmail( correo )) {
+		} else if (name.trim().length === 0 && !validator.isEmail(correo)) {
 			setError('Nombre y correo son requerido');
 			return false;
-		} else if (apellidos.trim().length === 0 && !validator.isEmail( correo )) {
+		} else if (apellidos.trim().length === 0 && !validator.isEmail(correo)) {
 			setError('Apellidos y correo son requerido');
 			return false;
-		} else if (name.trim().length === 0 ) {
+		} else if (name.trim().length === 0) {
 			setError('Nombre es requerido');
 			return false;
-		} else if (apellidos.trim().length === 0 ) {
+		} else if (apellidos.trim().length === 0) {
 			setError('Apellidos son requerido');
 			return false;
-		} else if (!validator.isEmail( correo ) ) {
+		} else if (!validator.isEmail(correo)) {
 			setError('Correo electronico no es valido');
 			return false;
 		}
@@ -61,14 +64,13 @@ const Empleados = () => {
 		return true;
 	};
 
-
 	return (
 		<>
 			<div>
 				{/* <!-- Button para activar modal --> */}
 				<button
 					type='button'
-					className='btn btn-primary'
+					className='btn custm-btnNuevoEmpleado custmBtnActions'
 					data-bs-toggle='modal'
 					data-bs-target='#exampleModal'
 				>
@@ -108,7 +110,7 @@ const Empleados = () => {
 										className='d-flex flex-column'
 										style={{ maxWidth: '300px', lineHeight: '28px' }}
 									>
-										<label className='textColorPrimary fs-2'>Crear empleado</label>
+										<label className='textColorPrimary mb-2 fs-2'>Crear empleado</label>
 										<label
 											className='textColorLight fw-light'
 											style={{ lineHeight: '15px' }}
@@ -129,15 +131,15 @@ const Empleados = () => {
 											<input
 												type='text'
 												className={
-													(error === 'Correo electronico no es valido' ||
-													 error === 'Nombre, apellidos y correo son requeridos'||
-													 error === 'Nombre, apellido y correo son requeridos'||
-													 error === 'Nombre y correo son requerido'||
-													 error === 'Apellidos y correo son requerido')
+													error === 'Correo electronico no es valido' ||
+													error === 'Nombre, apellidos y correo son requeridos' ||
+													error === 'Nombre, apellido y correo son requeridos' ||
+													error === 'Nombre y correo son requerido' ||
+													error === 'Apellidos y correo son requerido'
 														? 'custm-input form-control is-invalid'
 														: 'custm-input form-control'
 												}
-												id="recipient-name-email"
+												id='recipient-name-email'
 												name='correo'
 												value={correo}
 												placeholder='Ingresa el correo electronico'
@@ -153,10 +155,10 @@ const Empleados = () => {
 													<input
 														type='text'
 														className={
-															(error === 'Nombre es requerido'||
-															error === 'Nombre, apellidos y correo son requeridos'||
-															error === 'Nombre y apellidos son requerido'||
-															error === 'Nombre y correo son requerido')
+															error === 'Nombre es requerido' ||
+															error === 'Nombre, apellidos y correo son requeridos' ||
+															error === 'Nombre y apellidos son requerido' ||
+															error === 'Nombre y correo son requerido'
 																? 'custm-input form-control is-invalid'
 																: 'custm-input form-control'
 														}
@@ -176,15 +178,15 @@ const Empleados = () => {
 													<input
 														type='text'
 														className={
-															(error === 'Apellidos son requerido'||
-															error === 'Nombre, apellido y correo son requeridos'||
-															error === 'Nombre, apellidos y correo son requeridos'||
-															error === 'Nombre y apellidos son requerido'||
-															error === 'Apellidos y correo son requerido')
+															error === 'Apellidos son requerido' ||
+															error === 'Nombre, apellido y correo son requeridos' ||
+															error === 'Nombre, apellidos y correo son requeridos' ||
+															error === 'Nombre y apellidos son requerido' ||
+															error === 'Apellidos y correo son requerido'
 																? 'custm-input form-control is-invalid'
 																: 'custm-input form-control'
 														}
-														id="recipient-apellido"
+														id='recipient-apellido'
 														name='apellidos'
 														value={apellidos}
 														placeholder='Ingresa el apellido'
@@ -195,15 +197,13 @@ const Empleados = () => {
 												</div>
 											</div>
 											{error && (
-														<div className='form-text textColorError'>
-															<i className='bi bi-exclamation-circle'>{` `}</i>
-															{error}.
-														</div>
+												<div className='form-text textColorError'>
+													<i className='bi bi-exclamation-circle'>{` `}</i>
+													{error}.
+												</div>
 											)}
 											<div className='d-flex justify-content-end'>
-												<button 
-													className='custm-btnFormSubmit inputSubmit'
-												>
+												<button className='custm-btnFormSubmit inputSubmit'>
 													Guardar empleado
 												</button>
 											</div>
