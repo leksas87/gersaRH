@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootSote } from '../../store/Store';
-import Empleados from '../empleados/Empleados';
 import EmpleadosPage from '../empleados/EmpleadosPage';
+import InicioPage from '../inicioPage/InicioPage';
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
-	//Se necesita el state que indica el nombre del usuario
-	const { firstName } = useSelector((state: RootSote) => state.auth);
 	//state que guarda un boolean si la pantalla es pequeña o no
 	const [screenSize, setScreenSize] = useState<boolean>(false);
 
@@ -49,28 +45,8 @@ const DashboardPage = () => {
 					</div>
 				)}
 				<div className='custm-dashboardContainer'>
-					<EmpleadosPage />
-					<div className='d-flex flex-column'>
-						{/* <div
-							style={{
-								width: '300px',
-								height: '300px',
-								backgroundColor: 'white',
-								margin: '1rem',
-							}}
-							className='d-flex justify-content-center align-items-center flex-column shadow'
-						>
-							<h3>
-								¡Hola, <span style={{ textTransform: 'capitalize' }}>{firstName}</span>!
-							</h3>
-							<p className='text-center'>
-								Bienvenido de vuelta.
-								<br /> Esto es lo nuevo por aqui...
-							</p>
-						</div> */}
-
-						<Empleados />
-					</div>
+					<InicioPage />
+					{/* <EmpleadosPage /> */}
 				</div>
 			</div>
 		</>

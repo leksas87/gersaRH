@@ -13,6 +13,13 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	const { roll, firstName, lastName } = useSelector(
 		(state: RootSote) => state.auth
 	);
+
+	const startLogOut = () => {
+		localStorage.clear();
+		// localStorage.setItem('gersaUserName', '');
+		dispatch(logOut());
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column sidebarContainer'>
@@ -92,7 +99,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								<button
 									className='dropdown-item custm-dropdown-item'
 									type='button'
-									onClick={() => dispatch(logOut())}
+									onClick={startLogOut}
 									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 								>
 									Salir
