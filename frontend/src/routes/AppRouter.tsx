@@ -47,7 +47,7 @@ const AppRouter = () => {
 							}
 						/>
 						<Route
-							path='/dashboard'
+							path='/dashboard/*'
 							element={
 								<PrivateRoute>
 									<DashboardPage />

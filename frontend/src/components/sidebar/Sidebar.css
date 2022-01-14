@@ -56,13 +56,13 @@
 	background-color: var(--colorSecondary);
 	color: var(--backgroundBody);
 }
-.sidebarOptionActive::after {
+/* .sidebarOptionActive::after {
 	content: '●';
 	margin-top: 2px;
 	font-size: 7px;
 	position: absolute;
 	right: 22px;
-}
+} */
 .sidebarOptionActive:hover {
 	background-color: var(--colorSecondary);
 	color: var(--backgroundBody);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import EmpleadosPage from '../empleados/EmpleadosPage';
 import InicioPage from '../inicioPage/InicioPage';
 import Navbar from '../navbar/Navbar';
@@ -45,7 +46,14 @@ const DashboardPage = () => {
 					</div>
 				)}
 				<div className='custm-dashboardContainer'>
-					<InicioPage />
+					{/* <ScrollToTop /> */}
+
+					<Routes>
+						<Route path='/' element={<InicioPage />} />
+						<Route path='/' element={<EmpleadosPage />} />
+					</Routes>
+
+					{/* <InicioPage /> */}
 					{/* <EmpleadosPage /> */}
 				</div>
 			</div>
