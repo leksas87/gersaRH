@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import {
 	AuthDispatchTypes,
+	AUTH_LOADING_FINISH,
 	AUTH_LOGOUT,
 	AUTH_START_LOADING,
 	AUTH_SUCCESS,
@@ -14,9 +15,7 @@ export const startLogin = (email: string, password: string) => {
 	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<AuthDispatchTypes>) => {
 		//dispatch para cambiar loading a true
-		dispatch({
-			type: AUTH_START_LOADING,
-		});
+		dispatch({ type: AUTH_START_LOADING });
 		//Peticion Fetch a la API para hacer login
 		const respuesta = await fetchSinToken(
 			'users/authenticate',
@@ -44,6 +43,7 @@ export const startLogin = (email: string, password: string) => {
 		} else {
 			//Mensaje de error proveniente de la API
 			Swal.fire('Error', body.message, 'error');
+			dispatch({ type: AUTH_LOADING_FINISH });
 		}
 	};
 };
@@ -78,6 +78,7 @@ export const startChecking = () => {
 		} else {
 			//Mensaje de error proveniente de la API
 			console.log(body.message);
+			dispatch({ type: AUTH_LOADING_FINISH });
 			// Swal.fire('Error', body.message, 'error');
 		}
 	};

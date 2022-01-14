@@ -1,5 +1,6 @@
 import {
 	AuthDispatchTypes,
+	AUTH_LOADING_FINISH,
 	AUTH_LOGOUT,
 	AUTH_START_LOADING,
 	AUTH_SUCCESS,
@@ -28,6 +29,11 @@ export const LogInReducer = (
 			return {
 				...state,
 				authState: { ...state.authState, loading: true },
+			};
+		case AUTH_LOADING_FINISH:
+			return {
+				...state,
+				authState: { ...state.authState, loading: false },
 			};
 		case AUTH_SUCCESS:
 			return {
