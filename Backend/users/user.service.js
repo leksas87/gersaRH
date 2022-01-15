@@ -25,6 +25,17 @@ async function authenticate({ username, password }) {
     return { ...omitHash(user.get()), token };
 }
 
+async function reenvioToken({ username, password }) {
+    const user = await db.User.scope('withHash').findOne({ where: { username } });
+
+    if (!user )
+        throw 'Usuario o contraseña incorrecta';
+
+    // authentication successful
+    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '2h' });
+    return { ...omitHash(user.get()), token };
+}
+
 async function getAll() {
     return await db.User.findAll();
 }

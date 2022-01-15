@@ -9,12 +9,13 @@ const userService = require('./user.service');
 router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/register',authorize(), registerSchema, register);
 router.post('/registerMaster', registerSchemaMaster, registerMaster);
+router.get('/renew',authorize(),revalidadToken);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
-router.post('/renew',authorize(),renewSchema,revalidaToken);
+
 
 module.exports = router;
 
@@ -28,6 +29,12 @@ function authenticateSchema(req, res, next) {
 
 function authenticate(req, res, next) {
     userService.authenticate(req.body)
+        .then(user => res.json(user))
+        .catch(next);
+}
+
+function revalidadToken(req, res, next) {
+    userService.reenvioToken(req.body)
         .then(user => res.json(user))
         .catch(next);
 }
@@ -102,18 +109,4 @@ function _delete(req, res, next) {
     userService.delete(req.params.id)
         .then(() => res.json({ message: 'User deleted successfully' }))
         .catch(next);
-}
-
-function revalidaToken(req,res,next) {
-    userService.reenvioToken(req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
-function renewSchema(req, res, next) {
-    const schema = Joi.object({
-        username: Joi.string().required(),
-        id:Joi.number()
-    });
-    validateRequest(req, next, schema);
 }
