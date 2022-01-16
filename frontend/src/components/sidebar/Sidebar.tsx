@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
@@ -8,12 +9,18 @@ interface iProps {
 }
 
 const Sidebar = ({ screenSize = true }: iProps) => {
+	//useLocation para conocer el path
+	const { pathname } = useLocation();
+	console.log(pathname);
+
+	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
 	const { roll, firstName, lastName } = useSelector(
 		(state: RootSote) => state.auth
 	);
 
+	//Metodo para cerrar sesion
 	const startLogOut = () => {
 		localStorage.clear();
 		// localStorage.setItem('gersaUserName', '');
@@ -29,13 +36,14 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 				<div className='sidebarContent'>
 					<nav className='d-flex flex-column sidebarTu'>
 						<label className='fs-6 textColorSecondary'>TÚ</label>
-						<div
+						<Link
+							to='/'
 							className='sidebarOption sidebarOptionActive'
 							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
-						</div>
+						</Link>
 						<div className='sidebarOption'>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
@@ -56,13 +64,14 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 					{roll === 1 && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							<div
+							<Link
+								to='/empleados'
 								className='sidebarOption'
 								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
-							</div>
+							</Link>
 							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
 								Calendario

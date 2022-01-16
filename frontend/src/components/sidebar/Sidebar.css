@@ -37,6 +37,7 @@
 }
 
 .sidebarOption {
+	text-decoration: none;
 	background-color: transparent;
 	border-radius: 10px;
 	height: 40px;
@@ -50,6 +51,7 @@
 }
 .sidebarOption:hover {
 	background-color: var(--colorOptionHover);
+	color: var(--colorSecondary);
 	cursor: pointer;
 }
 .sidebarOptionActive {
