@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
@@ -9,10 +9,6 @@ interface iProps {
 }
 
 const Sidebar = ({ screenSize = true }: iProps) => {
-	//useLocation para conocer el path
-	const { pathname } = useLocation();
-	console.log(pathname);
-
 	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
@@ -36,14 +32,17 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 				<div className='sidebarContent'>
 					<nav className='d-flex flex-column sidebarTu'>
 						<label className='fs-6 textColorSecondary'>TÚ</label>
-						<Link
+						<NavLink
 							to='/'
-							className='sidebarOption sidebarOptionActive'
+							// className='sidebarOption sidebarOptionActive'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
 							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
-						</Link>
+						</NavLink>
 						<div className='sidebarOption'>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
@@ -64,14 +63,16 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 					{roll === 1 && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							<Link
+							<NavLink
 								to='/empleados'
-								className='sidebarOption'
+								className={({ isActive }) =>
+									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+								}
 								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
-							</Link>
+							</NavLink>
 							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
 								Calendario

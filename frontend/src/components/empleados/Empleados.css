@@ -1,5 +1,6 @@
 .custm-empleadosContainer {
 	background-color: var(--backgroundPrimary);
+	animation: fadein 0.3s ease-in;
 	/* width: 800px; */
 	width: 100%;
 	min-height: 50vh;
