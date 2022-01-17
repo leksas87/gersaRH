@@ -24,4 +24,5 @@ export interface iEmpleado {
 	name: string;
 	apellidos: string;
 	correo: string;
+	phone: string;
 }

@@ -97,6 +97,14 @@
 	grid-area: Apellido;
 	margin-left: 1rem;
 }
+.custm-tableEmpleados {
+	/* background-color: violet; */
+	width: 100%;
+	border-radius: 10px;
+	background-color: var(--backgroundPrimary);
+	border: 1px solid var(--textColorDisable);
+	overflow: hidden;
+}
 @media (max-width: 991px) {
 	.custm-empleadosHead {
 		height: 5rem;
