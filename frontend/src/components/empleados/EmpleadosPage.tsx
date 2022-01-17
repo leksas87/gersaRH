@@ -4,7 +4,7 @@ import './Empleados.css';
 const EmpleadosPage = () => {
 	return (
 		<>
-			<div className='custm-empleadosContainer rounded-3 ms-3 shadow mt-4'>
+			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
 				<div className='custm-empleadosHead '>
 					<div
 						className='textColorSecondary fs-4'

@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
+import { Offcanvas } from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 interface iProps {
 	screenSize?: boolean;
@@ -23,6 +25,17 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 		dispatch(logOut());
 	};
 
+	const closeOffCanvas = () => {
+		const myOffcanvas = document.getElementById('offcanvasSidebar');
+
+		if (myOffcanvas) {
+			console.log('Cerrando');
+			// myOffcanvas.remove();
+			// const bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+			// console.log(bsOffcanvas.hide());
+		}
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column sidebarContainer'>
@@ -38,7 +51,8 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							className={({ isActive }) =>
 								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
 							}
-							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={closeOffCanvas}
+							// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
@@ -68,7 +82,10 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								className={({ isActive }) =>
 									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
 								}
-								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+								onClick={closeOffCanvas}
+								// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+								// data-bs-toggle='offcanvas'
+								// data-bs-dismiss={'offcanvas'}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados

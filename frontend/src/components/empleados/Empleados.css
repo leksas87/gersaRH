@@ -1,6 +1,8 @@
 .custm-empleadosContainer {
 	background-color: var(--backgroundPrimary);
 	animation: fadein 0.3s ease-in;
+
+	margin-left: 10px;
 	/* width: 800px; */
 	width: 100%;
 	min-height: 50vh;
@@ -106,6 +108,9 @@
 
 /* tamaño maximo de la pantalla */
 @media (max-width: 848px) {
+	.custm-empleadosContainer {
+		margin-left: 0px;
+	}
 	.custm-inputGird {
 		grid-template-columns: 1fr;
 		grid-template-areas:
