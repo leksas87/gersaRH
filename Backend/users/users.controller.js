@@ -4,6 +4,7 @@ const Joi = require('joi');
 const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize')
 const userService = require('./user.service');
+const { required } = require('joi');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -43,7 +44,8 @@ function registerSchema(req, res, next) {
     const schema = Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
-        username: Joi.string().required()
+        username: Joi.string().required(),
+        phone:Joi.string().required()
     });
     validateRequest(req, next, schema);
 }
@@ -56,7 +58,8 @@ function registerSchemaMaster(req, res, next) {
         username: Joi.string().required(),
         active:Joi.boolean().required(),
         password: Joi.string().min(6).empty(''),
-        roll:Joi.number().required()
+        roll:Joi.number().required(),
+        phone:Joi.string().required()
     });
     validateRequest(req, next, schema);
 }
@@ -94,7 +97,8 @@ function updateSchema(req, res, next) {
         firstName: Joi.string().empty(''),
         lastName: Joi.string().empty(''),
         username: Joi.string().empty(''),
-        password: Joi.string().min(6).empty('')
+        password: Joi.string().min(6).empty(''),
+        phone:Joi.string().empty('')
     });
     validateRequest(req, next, schema);
 }
