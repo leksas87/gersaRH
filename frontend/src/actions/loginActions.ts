@@ -50,14 +50,10 @@ export const startLogin = (email: string, password: string) => {
 
 //RenovarToken
 export const startChecking = () => {
-	const gersaUserName = localStorage.getItem('gersaUserName') || '';
+	// const gersaUserName = localStorage.getItem('gersaUserName') || '';
 	return async (dispatch: Dispatch<AuthDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
-		const respuesta = await fetchConToken(
-			'users/renew',
-			{ username: gersaUserName },
-			'POST'
-		);
+		const respuesta = await fetchConToken('users/renew', {}, 'GET');
 		const body = await respuesta.json();
 
 		//Condicion si existe un id
