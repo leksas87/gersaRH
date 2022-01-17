@@ -10,8 +10,8 @@ const Navbar = () => {
 							className='navbarBtnMenu'
 							type='button'
 							data-bs-toggle='offcanvas'
-							data-bs-target='#offcanvasExample'
-							aria-controls='offcanvasExample'
+							data-bs-target='#offcanvasSidebar'
+							aria-controls='offcanvasSidebar'
 						>
 							<i className='bi bi-list navbarIcon' />
 						</button>
@@ -35,7 +35,7 @@ const Navbar = () => {
 					backgroundColor: 'var(--backgroundBody)',
 				}}
 				tabIndex={-1}
-				id='offcanvasExample'
+				id='offcanvasSidebar'
 				aria-labelledby='offcanvasExampleLabel'
 			>
 				<div className='offcanvas-header'>

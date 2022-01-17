@@ -1,23 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
+import { Offcanvas } from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 interface iProps {
 	screenSize?: boolean;
 }
 
 const Sidebar = ({ screenSize = true }: iProps) => {
+	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
 	const { roll, firstName, lastName } = useSelector(
 		(state: RootSote) => state.auth
 	);
 
+	//Metodo para cerrar sesion
 	const startLogOut = () => {
 		localStorage.clear();
 		// localStorage.setItem('gersaUserName', '');
 		dispatch(logOut());
+	};
+
+	const closeOffCanvas = () => {
+		const myOffcanvas = document.getElementById('offcanvasSidebar');
+
+		if (myOffcanvas) {
+			console.log('Cerrando');
+			// myOffcanvas.remove();
+			// const bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+			// console.log(bsOffcanvas.hide());
+		}
 	};
 
 	return (
@@ -29,13 +45,18 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 				<div className='sidebarContent'>
 					<nav className='d-flex flex-column sidebarTu'>
 						<label className='fs-6 textColorSecondary'>TÚ</label>
-						<div
-							className='sidebarOption sidebarOptionActive'
-							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+						<NavLink
+							to='/'
+							// className='sidebarOption sidebarOptionActive'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							onClick={closeOffCanvas}
+							// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
-						</div>
+						</NavLink>
 						<div className='sidebarOption'>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
@@ -56,13 +77,19 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 					{roll === 1 && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							<div
-								className='sidebarOption'
-								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							<NavLink
+								to='/empleados'
+								className={({ isActive }) =>
+									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+								}
+								onClick={closeOffCanvas}
+								// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+								// data-bs-toggle='offcanvas'
+								// data-bs-dismiss={'offcanvas'}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
-							</div>
+							</NavLink>
 							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
 								Calendario

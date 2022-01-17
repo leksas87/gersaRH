@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
+import EmpleadosPage from '../components/empleados/EmpleadosPage';
+import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
-import { PrivateRoute } from './PrivateRoute';
-import { PublicRoute } from './PublicRoute';
+import { RequireAuth } from './RequireAuth';
+import { RequireAuthToHidden } from './RequireAuthToHidden';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -38,23 +40,17 @@ const AppRouter = () => {
 			>
 				<BrowserRouter>
 					<Routes>
-						<Route
-							path='/login'
-							element={
-								<PublicRoute>
-									<LoginPage />
-								</PublicRoute>
-							}
-						/>
-						<Route
-							path='/dashboard/*'
-							element={
-								<PrivateRoute>
-									<DashboardPage />
-								</PrivateRoute>
-							}
-						/>
-						<Route path='/*' element={<NotFound />} />
+						<Route element={<RequireAuthToHidden />}>
+							<Route path='/login' element={<LoginPage />} />
+						</Route>
+
+						<Route element={<RequireAuth />}>
+							<Route path='/' element={<DashboardPage />}>
+								<Route index element={<InicioPage />} />
+								<Route path='empleados' element={<EmpleadosPage />} />
+								<Route path='/*' element={<NotFound />} />
+							</Route>
+						</Route>
 					</Routes>
 				</BrowserRouter>
 			</Suspense>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import EmpleadosPage from '../empleados/EmpleadosPage';
 import InicioPage from '../inicioPage/InicioPage';
 import Navbar from '../navbar/Navbar';
@@ -46,12 +46,11 @@ const DashboardPage = () => {
 					</div>
 				)}
 				<div className='custm-dashboardContainer'>
-					{/* <ScrollToTop /> */}
-
-					<Routes>
+					<Outlet />
+					{/* <Routes>
 						<Route path='/' element={<InicioPage />} />
 						<Route path='/' element={<EmpleadosPage />} />
-					</Routes>
+					</Routes> */}
 
 					{/* <InicioPage /> */}
 					{/* <EmpleadosPage /> */}

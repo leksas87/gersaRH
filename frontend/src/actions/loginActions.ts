@@ -79,7 +79,8 @@ export const startChecking = () => {
 			//Mensaje de error proveniente de la API
 			console.log(body.message);
 			dispatch({ type: AUTH_LOADING_FINISH });
-			// Swal.fire('Error', body.message, 'error');
+			//Limpia localStorage para cerrar la sesion si el toquen no fue valido
+			localStorage.clear();
 		}
 	};
 };
