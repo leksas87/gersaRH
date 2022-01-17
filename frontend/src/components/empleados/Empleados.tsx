@@ -14,11 +14,12 @@ const Empleados = () => {
 		name: '',
 		apellidos: '',
 		correo: '',
+		phone: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
 	const [formValues, handleInputChange] = useForm(employee);
 	//Desestructuracion de propiedades
-	const { name, apellidos, correo } = formValues;
+	const { name, apellidos, correo, phone } = formValues;
 
 	//handeRegister para registro del formulario
 	const handeRegister = (e: React.FormEvent<HTMLFormElement>) => {
@@ -110,7 +111,7 @@ const Empleados = () => {
 										className='d-flex flex-column'
 										style={{ maxWidth: '300px', lineHeight: '28px' }}
 									>
-										<label className='textColorPrimary mb-2 fs-2'>Crear empleado</label>
+										<label className='textColorPrimary fs-2'>Crear empleado</label>
 										<label
 											className='textColorLight fw-light'
 											style={{ lineHeight: '15px' }}
@@ -125,28 +126,6 @@ const Empleados = () => {
 										}}
 									>
 										<form onSubmit={handeRegister}>
-											<label htmlFor='recipient-name' className='col-form-label'>
-												Correo electrónico*
-											</label>
-											<input
-												type='text'
-												className={
-													error === 'Correo electronico no es valido' ||
-													error === 'Nombre, apellidos y correo son requeridos' ||
-													error === 'Nombre, apellido y correo son requeridos' ||
-													error === 'Nombre y correo son requerido' ||
-													error === 'Apellidos y correo son requerido'
-														? 'custm-input form-control is-invalid'
-														: 'custm-input form-control'
-												}
-												id='recipient-name-email'
-												name='correo'
-												value={correo}
-												placeholder='Ingresa el correo electronico'
-												aria-describedby='registerEmail'
-												autoComplete='off'
-												onChange={handleInputChange}
-											/>
 											<div className='custm-inputGird'>
 												<div className='grid-area-Name'>
 													<label htmlFor='recipient-name' className='col-form-label'>
@@ -196,6 +175,50 @@ const Empleados = () => {
 													/>
 												</div>
 											</div>
+											<label htmlFor='recipient-name' className='col-form-label'>
+												Correo electrónico*
+											</label>
+											<input
+												type='text'
+												className={
+													error === 'Correo electronico no es valido' ||
+													error === 'Nombre, apellidos y correo son requeridos' ||
+													error === 'Nombre, apellido y correo son requeridos' ||
+													error === 'Nombre y correo son requerido' ||
+													error === 'Apellidos y correo son requerido'
+														? 'custm-input form-control is-invalid'
+														: 'custm-input form-control'
+												}
+												id='recipient-name-email'
+												name='correo'
+												value={correo}
+												placeholder='Ingresa el correo electronico'
+												aria-describedby='registerEmail'
+												autoComplete='off'
+												onChange={handleInputChange}
+											/>
+											<label htmlFor='recipient-name' className='col-form-label'>
+												Numero de telefono*
+											</label>
+											<input
+												type='text'
+												className={
+													error === 'Correo electronico no es valido' ||
+													error === 'Nombre, apellidos y correo son requeridos' ||
+													error === 'Nombre, apellido y correo son requeridos' ||
+													error === 'Nombre y correo son requerido' ||
+													error === 'Apellidos y correo son requerido'
+														? 'custm-input form-control is-invalid'
+														: 'custm-input form-control'
+												}
+												id='recipient-name-phone'
+												name='phone'
+												value={phone}
+												placeholder='Ingresa el numero de telefono'
+												aria-describedby='registerPhone'
+												autoComplete='off'
+												onChange={handleInputChange}
+											/>
 											{error && (
 												<div className='form-text textColorError'>
 													<i className='bi bi-exclamation-circle'>{` `}</i>

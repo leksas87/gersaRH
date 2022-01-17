@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
-import { Offcanvas } from 'bootstrap';
-import * as bootstrap from 'bootstrap';
+// import { Offcanvas } from 'bootstrap';
+// import * as bootstrap from 'bootstrap';
 
 interface iProps {
 	screenSize?: boolean;

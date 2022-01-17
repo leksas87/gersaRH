@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
-import EmpleadosPage from '../empleados/EmpleadosPage';
-import InicioPage from '../inicioPage/InicioPage';
+import { Outlet } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './DashboardPage.css';
