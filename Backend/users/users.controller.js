@@ -35,7 +35,7 @@ function authenticate(req, res, next) {
 }
 
 function revalidadToken(req, res, next) {
-    userService.reenvioToken(req.body)
+    userService.reenvioToken(req.user)
         .then(user => res.json(user))
         .catch(next);
 }
