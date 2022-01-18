@@ -1,11 +1,14 @@
 .custm-empleadosContainer {
 	background-color: var(--backgroundPrimary);
+	/* background-color: violet; */
 	animation: fadein 0.3s ease-in;
 
 	margin-left: 10px;
 	/* width: 800px; */
 	width: 100%;
 	min-height: 50vh;
+	/* max-height: 90vh; */
+	/* overflow-y: auto; */
 }
 .custm-empleadosHead {
 	height: 4rem;
@@ -103,7 +106,13 @@
 	border-radius: 10px;
 	background-color: var(--backgroundPrimary);
 	border: 1px solid var(--textColorDisable);
-	overflow: hidden;
+
+	/* overflow: hidden; */
+}
+.cutm-tablaResponsive {
+	background-color: violet;
+	max-height: 60vh;
+	overflow-y: auto;
 }
 @media (max-width: 991px) {
 	.custm-empleadosHead {

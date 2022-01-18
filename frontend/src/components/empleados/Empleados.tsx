@@ -4,8 +4,11 @@ import validator from 'validator';
 import { iEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
 import './Empleados.css';
+import { useDispatch } from 'react-redux';
+import { registerNewUser } from '../../actions/usersActions/usersActions';
 
 const Empleados = () => {
+	const dispatch = useDispatch();
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
@@ -27,7 +30,7 @@ const Empleados = () => {
 
 		//Si el formulario es valido entonces dispatch startLogin...
 		if (isFormValid()) {
-			console.log('Todo correcto');
+			dispatch(registerNewUser(name, apellidos, correo, phone));
 		}
 	};
 

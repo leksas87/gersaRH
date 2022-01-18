@@ -26,3 +26,10 @@ export interface iEmpleado {
 	correo: string;
 	phone: string;
 }
+//Interface de usuarios
+export interface iUsuariosReducer {
+	registerState: {
+		loading: boolean;
+	};
+	users: iEmpleado[];
+}

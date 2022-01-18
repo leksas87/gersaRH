@@ -21,7 +21,7 @@ const INITIAL_STATE: iAuthState = {
 
 //Reducer
 export const LogInReducer = (
-	state = INITIAL_STATE,
+	state: iAuthState = INITIAL_STATE,
 	action: AuthDispatchTypes
 ): iAuthState => {
 	switch (action.type) {
