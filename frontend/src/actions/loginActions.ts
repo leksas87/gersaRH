@@ -26,15 +26,15 @@ export const startLogin = (email: string, password: string) => {
 		const body = await respuesta.json();
 
 		//Condicion si existe un id
-		if (body.id) {
+		if (body.ok) {
 			//Se guarda el token en localStorage como gersa-tkn
-			localStorage.setItem('gersa-tkn', body.token);
+			localStorage.setItem('gersa-tkn', body.data.token);
 			const time = new Date().getTime();
 			//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
 			localStorage.setItem('gersa-tkn-init-date', time.toString());
-			localStorage.setItem('gersaUserName', body.username);
+			localStorage.setItem('gersaUserName', body.data.username);
 			//Se asugna el cuerpo de la respuesta a usuario
-			const usuario: Usuario = body;
+			const usuario: Usuario = body.data;
 			//dispatch que guarda al usuario obtenido en el reducer
 			dispatch({
 				type: AUTH_SUCCESS,
@@ -57,15 +57,15 @@ export const startChecking = () => {
 		const body = await respuesta.json();
 
 		//Condicion si existe un id
-		if (body.id) {
+		if (body.ok) {
 			//Se guarda el token en localStorage como gersa-tkn
-			localStorage.setItem('gersa-tkn', body.token);
+			localStorage.setItem('gersa-tkn', body.data.token);
 			const time = new Date().getTime();
 			//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
 			localStorage.setItem('gersa-tkn-init-date', time.toString());
-			localStorage.setItem('gersaUserName', body.username);
+			localStorage.setItem('gersaUserName', body.data.username);
 			//Se asugna el cuerpo de la respuesta a usuario
-			const usuario: Usuario = body;
+			const usuario: Usuario = body.data;
 			//dispatch que guarda al usuario obtenido en el reducer
 			dispatch({
 				type: AUTH_SUCCESS,
