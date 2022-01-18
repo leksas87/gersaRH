@@ -3,15 +3,13 @@ import { useState } from 'react';
 import validator from 'validator';
 import { iNuevoEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
-import { RootSote } from '../../store/Store';
 import './Empleados.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { registerNewUser } from '../../actions/usersActions/usersActions';
 
 const Empleados = () => {
 	const dispatch = useDispatch();
 
-	const { registerState } = useSelector((state: RootSote) => state.users);
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
@@ -286,14 +284,10 @@ const Empleados = () => {
 												</div>
 											)}
 											<div className='d-flex justify-content-end'>
-												{registerState.loading
-												?(<button className='custm-btnFormSubmit inputSubmit'>
-													Guardar empleado2
-												</button>)
-												:(<button className='custm-btnFormSubmit inputSubmit'>
-												Guardar empleado1
-											</button>)
-												}
+												<button className='custm-btnFormSubmit inputSubmit'>
+													Guardar empleado
+												</button>
+												
 											</div>
 										</form>
 									</div>
