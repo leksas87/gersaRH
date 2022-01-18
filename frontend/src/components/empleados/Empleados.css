@@ -6,7 +6,8 @@
 	margin-left: 10px;
 	/* width: 800px; */
 	width: 100%;
-	min-height: 50vh;
+	min-height: 90vh;
+	margin-bottom: 10px;
 	/* max-height: 90vh; */
 	/* overflow-y: auto; */
 }
@@ -17,6 +18,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	/* z-index: 50; */
 }
 .custm-btnNuevoEmpleadoContainer {
 	position: absolute;
@@ -100,20 +102,60 @@
 	grid-area: Apellido;
 	margin-left: 1rem;
 }
+/* ++++++++++++++++++++++EmpleadosPage++++++++++++++++++++++++++++++++ */
 .custm-tableEmpleados {
-	/* background-color: violet; */
 	width: 100%;
 	border-radius: 10px;
 	background-color: var(--backgroundPrimary);
 	border: 1px solid var(--textColorDisable);
-
-	/* overflow: hidden; */
+	overflow: hidden;
 }
 .cutm-tablaResponsive {
-	background-color: violet;
-	max-height: 60vh;
+	background-color: transparent;
+	max-height: 55vh;
 	overflow-y: auto;
 }
+.custm-tableHead {
+	background-color: #f4f4f5;
+	border-bottom: 1px solid var(--textColorDisable);
+}
+.custm-empleadosIcon {
+	font-size: 3.5rem;
+	color: var(--textColorError2);
+}
+.custm-descEmpleados {
+	max-width: 20rem;
+}
+
+.custm-NumEmpleados {
+	background-color: var(--textColorSecondary);
+	color: var(--backgroundPrimary);
+	padding: 10px 25px;
+	border-radius: 10px;
+	font-size: 1.5rem;
+}
+.custm-tableSearchBar {
+	width: 40%;
+	height: 5rem;
+}
+.custm-tableThead {
+	background-color: #f4f4f5;
+	height: 3rem;
+}
+.custm-table-tr {
+	height: 4rem;
+}
+.custm-table-tr:hover {
+	cursor: pointer;
+}
+.custm-table-tr td {
+	vertical-align: middle;
+}
+.custm-table-tr th {
+	vertical-align: middle;
+}
+
+/* ++++++++++MediaQuerys+++++++++++++++ */
 @media (max-width: 991px) {
 	.custm-empleadosHead {
 		height: 5rem;
@@ -139,5 +181,25 @@
 	}
 	.grid-area-Apellido {
 		margin-left: 0px;
+	}
+	.custm-empleadosIcon {
+		font-size: 2rem;
+		color: var(--textColorError2);
+	}
+	.custm-descEmpleados {
+		max-width: auto;
+	}
+	.custm-NumEmpleados {
+		background-color: var(--textColorSecondary);
+		color: var(--backgroundPrimary);
+		padding: 5px;
+		border-radius: 10px;
+		font-size: 1rem;
+	}
+}
+/* tamaño maximo de la pantalla */
+@media (max-width: 320px) {
+	.custm-coninerTituloEmpleados {
+		flex-wrap: wrap;
 	}
 }
