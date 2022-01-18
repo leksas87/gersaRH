@@ -1,8 +1,23 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getUsers } from '../../actions/usersActions/usersActions';
+import { RootSote } from '../../store/Store';
 import Empleados from './Empleados';
 import './Empleados.css';
 
 const EmpleadosPage = () => {
+	//Dispatch para ejetur la accion.
+	const dispatch = useDispatch();
+	//Senecesita el state que indica si el usuario está autenticado o no
+	const { empleados } = useSelector((state: RootSote) => state.users);
+
+	//Efecto que ejecuta la accion getUsers cada que carga el componente.
+	useEffect(() => {
+		dispatch(getUsers());
+		console.log('Ejecutando useEffect');
+	}, [dispatch]);
+
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -14,15 +29,12 @@ const EmpleadosPage = () => {
 						Empleados
 					</div>
 					<div className='custm-btnNuevoEmpleadoContainer'>
-						{/* <button className='custm-btnNuevoEmpleado'>+ Nuevo empleado</button> */}
+						{/* Boton Nuevo Empleado */}
 						<Empleados />
 						<button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button>
 					</div>
 				</div>
-				<div
-					// style={{ backgroundColor: 'turquoise' }}
-					className='d-flex flex-column justify-content-center pt-4 p-4'
-				>
+				<div className='d-flex flex-column justify-content-center pt-4 p-4'>
 					<div className='custm-coninerTituloEmpleados d-flex  justify-content-between ms-3'>
 						<div>
 							<div className='d-flex '>
@@ -39,7 +51,7 @@ const EmpleadosPage = () => {
 						</div>
 						<div className='d-flex align-items-center'>
 							<div className='d-flex flex-column align-items-center custm-NumEmpleados mb-3 me-2'>
-								<div>3486</div>
+								<div>{empleados.length}</div>
 								<div>Empleados</div>
 							</div>
 						</div>
@@ -71,275 +83,25 @@ const EmpleadosPage = () => {
 									</tr>
 								</thead>
 								<tbody>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount ms-2'>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr
-										className='custm-table-tr'
-										onClick={() => {
-											console.log('aqui');
-										}}
-									>
-										<th scope='row'>
-											<div className='custm-imgCount ms-2'>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount ms-2'>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ivan</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
-									<tr className='custm-table-tr'>
-										<th scope='row'>
-											<div className='custm-imgCount '>
-												<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-											</div>
-										</th>
-										<td>Ultimo</td>
-										<td>Santana</td>
-										<td>ivan.sanatana@gmail.com</td>
-										<td>7471406561</td>
-									</tr>
+									{empleados.map((empleado) => (
+										<tr
+											key={empleado.id}
+											className='custm-table-tr'
+											onClick={() => {
+												console.log('aqui');
+											}}
+										>
+											<th scope='row'>
+												<div className='custm-imgCount ms-2'>
+													<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
+												</div>
+											</th>
+											<td>{empleado.firstName}</td>
+											<td>{empleado.lastName}</td>
+											<td>{empleado.username}</td>
+											<td>{empleado.phone}</td>
+										</tr>
+									))}
 								</tbody>
 							</table>
 						</div>

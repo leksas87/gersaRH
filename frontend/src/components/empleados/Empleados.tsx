@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import validator from 'validator';
-import { iEmpleado } from '../../interfaces/interfaces';
+import { iNuevoEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
 import './Empleados.css';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ const Empleados = () => {
 	const [error, setError] = useState<string>('');
 
 	//objeto user para formulario Registro
-	const employee: iEmpleado = {
+	const employee: iNuevoEmpleado = {
 		name: '',
 		apellidos: '',
 		correo: '',

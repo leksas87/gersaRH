@@ -77,6 +77,7 @@ export const startChecking = () => {
 			dispatch({ type: AUTH_LOADING_FINISH });
 			//Limpia localStorage para cerrar la sesion si el toquen no fue valido
 			localStorage.clear();
+			dispatch({ type: AUTH_LOGOUT });
 		}
 	};
 };
