@@ -16,7 +16,7 @@ function authorize() {
 
             // check user still exists
             if (!user)
-                return res.status(401).json({ message: 'Usuario no autorizado' });
+                return res.status(401).json({ message: 'Usuario no autorizado',ok:false});
 
             // authorization successful
             req.user = user.get();
