@@ -15,7 +15,6 @@ export const registerNewUser = (
 	correo: string,
 	phone: string
 ) => {
-	console.log(name, apellidos, correo, phone, 'RECIBIENDO');
 	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//dispatch para cambiar loading a true
@@ -38,16 +37,16 @@ export const registerNewUser = (
 		const body = await respuesta.json();
 
 		//Mensajes de Confirmación o Error
-		if (body.message === 'Registro exitoso') {
+		if (body.ok) {
 			dispatch({
 				type: REGISTER_USER_LOADING_END,
 			});
 			Swal.fire({
 				position: 'top-end',
 				icon: 'success',
-				title: '¡Registro exitoso!',
+				title: `¡${body.message}!`,
 				showConfirmButton: false,
-				timer: 1500,
+				timer: 2000,
 			});
 		} else {
 			dispatch({
@@ -73,10 +72,12 @@ export const getUsers = () => {
 		//.json() a la respuesta
 		const body = await respuesta.json();
 
-		console.log(body);
-		//Agregar condicion sí (body.ok){}else{}
-
-		//Se guarda los usuarios obtenidos en el Reducer
-		dispatch({ type: GET_USERS_SUCCESSFUL, payload: { empleados: body } });
+		if (body.ok) {
+			//Se guarda los usuarios obtenidos en el Reducer
+			dispatch({ type: GET_USERS_SUCCESSFUL, payload: { empleados: body.data } });
+		} else {
+			console.log('Algo salio mal');
+			console.log(body.message);
+		}
 	};
 };
