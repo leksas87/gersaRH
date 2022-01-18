@@ -30,13 +30,13 @@ function authenticateSchema(req, res, next) {
 
 function authenticate(req, res, next) {
     userService.authenticate(req.body)
-        .then(user => res.json(user))
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
         .catch(next);
 }
 
 function revalidadToken(req, res, next) {
-    userService.reenvioToken(req.body)
-        .then(user => res.json(user))
+    userService.reenvioToken(req.user)
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
         .catch(next);
 }
 
@@ -57,7 +57,7 @@ function registerSchemaMaster(req, res, next) {
         lastName: Joi.string().required(),
         username: Joi.string().required(),
         active:Joi.boolean().required(),
-        password: Joi.string().min(6).empty(''),
+        password: Joi.string().required(),
         roll:Joi.number().required(),
         phone:Joi.string().required()
     });
@@ -66,19 +66,19 @@ function registerSchemaMaster(req, res, next) {
 
 function register(req, res, next) {
     userService.create(req.body)
-        .then(() => res.json({ message: 'Registro exitoso' }))
+        .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
         .catch(next);
 }
 
 function registerMaster(req, res, next) {
     userService.createMaster(req.body)
-        .then(() => res.json({ message: 'Registro exitoso' }))
+        .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
         .catch(next);
 }
 
 function getAll(req, res, next) {
     userService.getAll()
-        .then(users => res.json(users))
+        .then(users => res.json({ data:users ,message:'Succesful',ok:true}))
         .catch(next);
 }
 
@@ -88,7 +88,7 @@ function getCurrent(req, res, next) {
 
 function getById(req, res, next) {
     userService.getById(req.params.id)
-        .then(user => res.json(user))
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
         .catch(next);
 }
 
@@ -105,12 +105,12 @@ function updateSchema(req, res, next) {
 
 function update(req, res, next) {
     userService.update(req.params.id, req.body)
-        .then(user => res.json(user))
+        .then(user => res.json({data:user ,message:'Succesful',ok:true}))
         .catch(next);
 }
 
 function _delete(req, res, next) {
     userService.delete(req.params.id)
-        .then(() => res.json({ message: 'User deleted successfully' }))
+        .then(() => res.json({ message: 'Usuario eliminado exitosamente' ,ok:true}))
         .catch(next);
 }

@@ -1,3 +1,5 @@
+import { iEmpleado } from '../actions/usersActions/usersActionTypes';
+
 //Auth Interfaces
 export interface iAuthState {
 	id: string;
@@ -20,7 +22,7 @@ export interface iUser {
 	contraseña: string;
 }
 //Interface de registro empleado
-export interface iEmpleado {
+export interface iNuevoEmpleado {
 	name: string;
 	apellidos: string;
 	correo: string;
@@ -31,5 +33,5 @@ export interface iUsuariosReducer {
 	registerState: {
 		loading: boolean;
 	};
-	users: iEmpleado[];
+	empleados: iEmpleado[];
 }

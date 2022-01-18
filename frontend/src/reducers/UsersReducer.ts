@@ -2,6 +2,7 @@ import {
 	UsersDispatchTypes,
 	REGISTER_USER_START_LOADING,
 	REGISTER_USER_LOADING_END,
+	GET_USERS_SUCCESSFUL,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -10,7 +11,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 	registerState: {
 		loading: false,
 	},
-	users: [],
+	empleados: [],
 };
 
 //Reducer
@@ -28,6 +29,11 @@ export const UsersReducer = (
 			return {
 				...state,
 				registerState: { loading: false },
+			};
+		case GET_USERS_SUCCESSFUL:
+			return {
+				...state,
+				empleados: [...action.payload.empleados],
 			};
 
 		default:
