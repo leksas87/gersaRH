@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getUsers } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 import Empleados from './Empleados';
 import './Empleados.css';
 
 const EmpleadosPage = () => {
+	const navigate = useNavigate();
 	//Dispatch para ejetur la accion.
 	const dispatch = useDispatch();
 	//Senecesita el state que indica si el usuario está autenticado o no
@@ -15,9 +16,12 @@ const EmpleadosPage = () => {
 	//Efecto que ejecuta la accion getUsers cada que carga el componente.
 	useEffect(() => {
 		dispatch(getUsers());
-		console.log('Ejecutando useEffect');
 	}, [dispatch]);
 
+	const irEmpleado = (id: number) => {
+		navigate(`/${id}`);
+		console.log('id empleado: ', id);
+	};
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -88,7 +92,7 @@ const EmpleadosPage = () => {
 											key={empleado.id}
 											className='custm-table-tr'
 											onClick={() => {
-												console.log('aqui');
+												irEmpleado(empleado.id);
 											}}
 										>
 											<th scope='row'>

@@ -1,5 +1,3 @@
-import { iUser } from '../../interfaces/interfaces';
-
 //Types
 export const REGISTER_USER_START_LOADING = 'regiserUserStartLoading';
 export const REGISTER_USER_LOADING_END = 'registerUserLoadingEnd';

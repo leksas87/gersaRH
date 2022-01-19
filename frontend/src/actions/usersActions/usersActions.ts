@@ -48,6 +48,11 @@ export const registerNewUser = (
 				showConfirmButton: false,
 				timer: 2000,
 			});
+			//obtiene nuevamente los usuarios.
+			dispatch<any>(getUsers());
+			//Cerrar modal
+			const miExampleModal = document.getElementById('exampleModal');
+			miExampleModal?.click();
 		} else {
 			dispatch({
 				type: REGISTER_USER_LOADING_END,
@@ -65,7 +70,7 @@ export const registerNewUser = (
 
 //Obtener usuarios.
 export const getUsers = () => {
-	console.log('Ejecutando getUsers');
+	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer obtener los usuarios
 		const respuesta = await fetchConToken('users', {}, 'GET');
