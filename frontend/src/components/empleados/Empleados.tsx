@@ -4,11 +4,12 @@ import validator from 'validator';
 import { iNuevoEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
 import './Empleados.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { registerNewUser } from '../../actions/usersActions/usersActions';
 
 const Empleados = () => {
 	const dispatch = useDispatch();
+
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
@@ -40,19 +41,57 @@ const Empleados = () => {
 		if (
 			name.trim().length === 0 &&
 			apellidos.trim().length === 0 &&
-			!validator.isEmail(correo)
-		) {
-			setError('Nombre, apellidos y correo son requeridos');
+			!validator.isEmail(correo) &&
+			phone.trim().length < 10
+		){
+			setError('Nombre, apellidos, correo y numero de telefono son requeridos');
 			return false;
-		} else if (name.trim().length === 0 && apellidos.trim().length === 0) {
+		}else if (
+				name.trim().length === 0 && 
+				apellidos.trim().length === 0 && 
+				!validator.isEmail(correo) 
+		){
+			setError('Nombre, apellidos y correo son requerido');
+			return false;
+		}else if (
+			apellidos.trim().length === 0 && 
+			!validator.isEmail(correo) && 
+			phone.trim().length < 10
+		){
+			setError('Apellidos, correo y numero de telefono son requerido');
+			return false;
+		}else if (
+			name.trim().length === 0 && 
+			apellidos.trim().length === 0 && 
+			phone.trim().length < 10
+		){
+			setError('Nombre, apellidos y numero de telefono son requerido');
+			return false;
+		}else if (
+			name.trim().length === 0 &&  
+			!validator.isEmail(correo) && 
+			phone.trim().length < 10
+		){
+			setError('Nombre, correo y numero de telefono son requerido');
+			return false;
+		}else if (name.trim().length === 0 && apellidos.trim().length === 0) {
 			setError('Nombre y apellidos son requerido');
 			return false;
 		} else if (name.trim().length === 0 && !validator.isEmail(correo)) {
 			setError('Nombre y correo son requerido');
 			return false;
+		} else if (name.trim().length === 0 && phone.trim().length < 10 ) {
+			setError('Nombre y numero de telefono son requerido');
+			return false;
 		} else if (apellidos.trim().length === 0 && !validator.isEmail(correo)) {
 			setError('Apellidos y correo son requerido');
-			return false;
+			return false;	
+		} else if (apellidos.trim().length === 0 && phone.trim().length < 10) {
+			setError('Apellidos y numero de telefono son requerido');
+			return false;	
+		} else if (!validator.isEmail(correo) && phone.trim().length < 10) {
+			setError('Correo y numero de telefono son requerido');
+			return false;	
 		} else if (name.trim().length === 0) {
 			setError('Nombre es requerido');
 			return false;
@@ -61,6 +100,9 @@ const Empleados = () => {
 			return false;
 		} else if (!validator.isEmail(correo)) {
 			setError('Correo electronico no es valido');
+			return false;
+		} else if (phone.trim().length < 10) {
+			setError('Numero de telefono debe tener 10 digitos');
 			return false;
 		}
 		//Resetea estado a un string vacío
@@ -137,10 +179,14 @@ const Empleados = () => {
 													<input
 														type='text'
 														className={
+															error === 'Nombre, apellidos, correo y numero de telefono son requeridos'||
 															error === 'Nombre es requerido' ||
+															error === 'Nombre, correo y numero de telefono son requerido'||
+															error === 'Nombre, apellidos y numero de telefono son requerido'||
 															error === 'Nombre, apellidos y correo son requeridos' ||
 															error === 'Nombre y apellidos son requerido' ||
-															error === 'Nombre y correo son requerido'
+															error === 'Nombre y correo son requerido'||
+															error === 'Nombre y numero de telefono son requerido'
 																? 'custm-input form-control is-invalid'
 																: 'custm-input form-control'
 														}
@@ -160,9 +206,12 @@ const Empleados = () => {
 													<input
 														type='text'
 														className={
+															error === 'Nombre, apellidos, correo y numero de telefono son requeridos'||
 															error === 'Apellidos son requerido' ||
-															error === 'Nombre, apellido y correo son requeridos' ||
+															error === 'Nombre, apellidos y numero de telefono son requerido'||
+															error === 'Apellidos, correo y numero de telefono son requerido'||
 															error === 'Nombre, apellidos y correo son requeridos' ||
+															error === 'Apellidos y numero de telefono son requerido'||
 															error === 'Nombre y apellidos son requerido' ||
 															error === 'Apellidos y correo son requerido'
 																? 'custm-input form-control is-invalid'
@@ -184,9 +233,12 @@ const Empleados = () => {
 											<input
 												type='text'
 												className={
+													error === 'Nombre, apellidos, correo y numero de telefono son requeridos'||
 													error === 'Correo electronico no es valido' ||
+													error === 'Nombre, correo y numero de telefono son requerido'||
+													error === 'Apellidos, correo y numero de telefono son requerido'||
 													error === 'Nombre, apellidos y correo son requeridos' ||
-													error === 'Nombre, apellido y correo son requeridos' ||
+													error === 'Correo y numero de telefono son requerido'||
 													error === 'Nombre y correo son requerido' ||
 													error === 'Apellidos y correo son requerido'
 														? 'custm-input form-control is-invalid'
@@ -206,11 +258,14 @@ const Empleados = () => {
 											<input
 												type='text'
 												className={
-													error === 'Correo electronico no es valido' ||
-													error === 'Nombre, apellidos y correo son requeridos' ||
-													error === 'Nombre, apellido y correo son requeridos' ||
-													error === 'Nombre y correo son requerido' ||
-													error === 'Apellidos y correo son requerido'
+													error === 'Nombre, apellidos, correo y numero de telefono son requeridos'||
+													error === 'Nombre, correo y numero de telefono son requerido'||
+													error === 'Nombre, apellidos y numero de telefono son requerido'||
+													error === 'Apellidos, correo y numero de telefono son requerido'||
+													error === 'Apellidos y numero de telefono son requerido'||
+													error === 'Correo y numero de telefono son requerido'||
+													error === 'Nombre y numero de telefono son requerido'||
+													error === 'Numero de telefono debe tener 10 digitos'
 														? 'custm-input form-control is-invalid'
 														: 'custm-input form-control'
 												}
@@ -232,6 +287,7 @@ const Empleados = () => {
 												<button className='custm-btnFormSubmit inputSubmit'>
 													Guardar empleado
 												</button>
+												
 											</div>
 										</form>
 									</div>
