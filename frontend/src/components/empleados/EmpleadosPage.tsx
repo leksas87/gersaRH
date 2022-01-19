@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getUsers } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 import Empleados from './Empleados';

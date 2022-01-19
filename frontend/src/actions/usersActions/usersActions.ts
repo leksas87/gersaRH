@@ -48,7 +48,11 @@ export const registerNewUser = (
 				showConfirmButton: false,
 				timer: 2000,
 			});
+			//obtiene nuevamente los usuarios.
 			dispatch<any>(getUsers());
+			//Cerrar modal
+			const miExampleModal = document.getElementById('exampleModal');
+			miExampleModal?.click();
 		} else {
 			dispatch({
 				type: REGISTER_USER_LOADING_END,

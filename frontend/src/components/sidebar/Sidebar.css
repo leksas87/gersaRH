@@ -57,14 +57,14 @@
 .sidebarOptionActive {
 	background-color: var(--colorSecondary);
 	color: var(--backgroundBody);
+	position: relative;
 }
-/* .sidebarOptionActive::after {
+.sidebarOptionActive::after {
 	content: '●';
-	margin-top: 2px;
-	font-size: 7px;
+	font-size: 8px;
 	position: absolute;
-	right: 22px;
-} */
+	right: 12px;
+}
 .sidebarOptionActive:hover {
 	background-color: var(--colorSecondary);
 	color: var(--backgroundBody);
@@ -98,9 +98,5 @@
 @media (max-width: 768px) {
 	.sidebarContainer {
 		height: calc(100vh - 8.5rem);
-	}
-	.sidebarOptionActive::after {
-		position: absolute;
-		right: 55px;
 	}
 }
