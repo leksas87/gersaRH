@@ -7,6 +7,7 @@ import {
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
+// import * as bootstrap from 'bootstrap';
 
 //Registro de nuevo Usuario
 export const registerNewUser = (
@@ -34,7 +35,7 @@ export const registerNewUser = (
 			'POST'
 		);
 		//.json() a la respuesta
-		const body = await respuesta.json();
+		const body = await respuesta?.json();
 
 		//Mensajes de Confirmación o Error
 		if (body.ok) {
@@ -53,6 +54,11 @@ export const registerNewUser = (
 			//Cerrar modal
 			const miExampleModal = document.getElementById('exampleModal');
 			miExampleModal?.click();
+
+			// if (miExampleModal) {
+			// 	const modal = bootstrap.Modal.getInstance(miExampleModal);
+			// 	modal?.hide();
+			// }
 		} else {
 			dispatch({
 				type: REGISTER_USER_LOADING_END,
@@ -75,7 +81,7 @@ export const getUsers = () => {
 		//Peticion Fetch a la API para hacer obtener los usuarios
 		const respuesta = await fetchConToken('users', {}, 'GET');
 		//.json() a la respuesta
-		const body = await respuesta.json();
+		const body = await respuesta?.json();
 
 		if (body.ok) {
 			//Se guarda los usuarios obtenidos en el Reducer
