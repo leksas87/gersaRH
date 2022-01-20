@@ -3,11 +3,11 @@ import { useState } from 'react';
 import validator from 'validator';
 import { iNuevoEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
-import './Empleados.css';
+import './ModalNuevoEmpleado.css';
 import { useDispatch } from 'react-redux';
 import { registerNewUser } from '../../actions/usersActions/usersActions';
 
-const Empleados = () => {
+const ModalNuevoEmpleado = () => {
 	const dispatch = useDispatch();
 
 	//useState para mensaje de error
@@ -307,4 +307,4 @@ const Empleados = () => {
 	);
 };
 
-export default Empleados;
+export default ModalNuevoEmpleado;

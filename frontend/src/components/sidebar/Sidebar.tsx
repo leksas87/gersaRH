@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { logOut } from '../../actions/loginActions';
+import { logOut } from '../../actions/loginActions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
 // import { Offcanvas } from 'bootstrap';

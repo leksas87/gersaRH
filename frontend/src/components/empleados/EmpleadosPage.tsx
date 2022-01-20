@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getUsers } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
-import Empleados from './Empleados';
-import './Empleados.css';
+import ModalNuevoEmpleado from './ModalNuevoEmpleado';
+import './EmpleadosPage.css';
+import TablaEmpleados from './TablaEmpleados';
 
 const EmpleadosPage = () => {
-	const navigate = useNavigate();
 	//Dispatch para ejetur la accion.
 	const dispatch = useDispatch();
 	//Senecesita el state que indica si el usuario está autenticado o no
@@ -18,14 +17,10 @@ const EmpleadosPage = () => {
 		dispatch(getUsers());
 	}, [dispatch]);
 
-	const irEmpleado = (id: number) => {
-		navigate(`/${id}`);
-		console.log('id empleado: ', id);
-	};
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
-				<div className='custm-empleadosHead '>
+				<div className='custm-empleadosHead'>
 					<div
 						className='textColorSecondary fs-4'
 						style={{ textDecoration: 'underline' }}
@@ -34,7 +29,7 @@ const EmpleadosPage = () => {
 					</div>
 					<div className='custm-btnNuevoEmpleadoContainer'>
 						{/* Boton Nuevo Empleado */}
-						<Empleados />
+						<ModalNuevoEmpleado />
 						<button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button>
 					</div>
 				</div>
@@ -60,56 +55,7 @@ const EmpleadosPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className='custm-tableEmpleados'>
-						<div className='d-flex flex-column custm-tableHead'>
-							<div className='custm-tableSearchBar d-flex align-items-center ms-3'>
-								<div className='form-floating '>
-									<input
-										style={{ borderRadius: '30px' }}
-										type='text'
-										className='form-control'
-										id='floatingInput'
-										placeholder='Ingresa tu busqueda'
-									/>
-									<label htmlFor='floatingInput'>Buscar</label>
-								</div>
-							</div>
-						</div>
-						<div className='table-responsive cutm-tablaResponsive'>
-							<table className='table table-hover '>
-								<thead className='custm-tableThead'>
-									<tr>
-										<th scope='col'></th>
-										<th scope='col'>Nombre</th>
-										<th scope='col'>Apellidos</th>
-										<th scope='col'>Correo</th>
-										<th scope='col'>Telefono</th>
-									</tr>
-								</thead>
-								<tbody>
-									{empleados.map((empleado) => (
-										<tr
-											key={empleado.id}
-											className='custm-table-tr'
-											onClick={() => {
-												irEmpleado(empleado.id);
-											}}
-										>
-											<th scope='row'>
-												<div className='custm-imgCount ms-2'>
-													<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-												</div>
-											</th>
-											<td>{empleado.firstName}</td>
-											<td>{empleado.lastName}</td>
-											<td>{empleado.username}</td>
-											<td>{empleado.phone}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					</div>
+					<TablaEmpleados empleados={empleados} />
 				</div>
 			</div>
 		</>

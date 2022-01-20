@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { startChecking } from '../actions/loginActions';
+import { startChecking } from '../actions/loginActions/loginActions';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadosPage from '../components/empleados/EmpleadosPage';
 import InicioPage from '../components/inicioPage/InicioPage';
