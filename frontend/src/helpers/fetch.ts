@@ -19,6 +19,8 @@ export const fetchSinToken = (
 				'Content-type': 'application/json',
 			},
 			body: JSON.stringify(data),
+		}).catch((error) => {
+			console.log(error.message, 'Error');
 		});
 	}
 };
@@ -41,6 +43,8 @@ export const fetchConToken = (
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
+		}).catch((error) => {
+			console.log(error.message);
 		});
 	} else {
 		//Si la peticion es POST, PUT, DELETE
@@ -51,6 +55,8 @@ export const fetchConToken = (
 				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(data),
+		}).catch((error) => {
+			console.log(error.message);
 		});
 	}
 };
