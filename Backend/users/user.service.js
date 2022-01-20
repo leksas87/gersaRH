@@ -17,6 +17,12 @@ module.exports = {
 async function authenticate({ username, password }) {
     const user = await db.User.scope('withHash').findOne({ where: { username } });
 
+    if (user.active != true) {
+        return res.status(401).send({
+          message: "Pending Account. Please Verify Your Email!",
+        });
+    }
+
     if (!user || !(await bcrypt.compare(password, user.hash)))
         throw 'Usuario o contraseña incorrecta';
 
