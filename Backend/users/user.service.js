@@ -17,6 +17,10 @@ module.exports = {
 async function authenticate({ username, password }) {
     const user = await db.User.scope('withHash').findOne({ where: { username } });
 
+    if (user.active != true)       
+          throw "Cuenta inactiva, favor de verificar su email";
+
+
     if (!user || !(await bcrypt.compare(password, user.hash)))
         throw 'Usuario o contraseña incorrecta';
 
