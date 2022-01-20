@@ -1,0 +1,58 @@
+/* ++++++++++++++++++++++EmpleadosPage++++++++++++++++++++++++++++++++ */
+.custm-tableEmpleados {
+	width: 100%;
+	border-radius: 10px;
+	background-color: var(--backgroundPrimary);
+	border: 1px solid var(--textColorDisable);
+	overflow: hidden;
+}
+.custm-tableHead {
+	background-color: #f4f4f5;
+	border-bottom: 1px solid var(--textColorDisable);
+}
+.custm-tableSearchBar {
+	width: 40%;
+	height: 5rem;
+}
+.cutm-tablaResponsive {
+	background-color: transparent;
+	max-height: 55vh;
+	overflow-y: auto;
+}
+.custm-tableThead {
+	background-color: #f4f4f5;
+	height: 3rem;
+}
+.custm-table-tr {
+	height: 4rem;
+}
+.custm-table-tr:hover {
+	cursor: pointer;
+}
+.custm-table-tr td {
+	vertical-align: middle;
+}
+.custm-table-tr th {
+	vertical-align: middle;
+}
+.custm-imgCount {
+	background-color: var(--colorSecondary);
+	width: 30px;
+	height: 30px;
+	color: var(--backgroundBody);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+/* ++++++++++MediaQuerys+++++++++++++++ */
+@media (max-width: 991px) {
+}
+/* tamaño maximo de la pantalla */
+@media (max-width: 848px) {
+}
+/* tamaño maximo de la pantalla */
+@media (max-width: 320px) {
+}

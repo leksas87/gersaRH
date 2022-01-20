@@ -8,8 +8,8 @@ import {
 	Usuario,
 } from './loginActionsTypes';
 import Swal from 'sweetalert2';
-import { fetchConToken, fetchSinToken } from '../helpers/fetch';
-import { Toast } from '../helpers/swalAlert';
+import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
+import { Toast } from '../../helpers/swalAlert';
 
 //Login
 export const startLogin = (email: string, password: string) => {

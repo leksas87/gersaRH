@@ -4,7 +4,7 @@ import {
 	AUTH_LOGOUT,
 	AUTH_START_LOADING,
 	AUTH_SUCCESS,
-} from '../actions/loginActionsTypes';
+} from '../actions/loginActions/loginActionsTypes';
 import { iAuthState } from '../interfaces/interfaces';
 
 //Estado inicial
