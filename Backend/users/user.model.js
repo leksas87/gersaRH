@@ -10,7 +10,8 @@ function model(sequelize) {
         phone:{type:DataTypes.STRING,allowNull:false},
         active:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
         hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
-        roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 }
+        roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 },
+        confirmationCode: { type: DataTypes.STRING, unique: true },
     };
 
     const options = {
