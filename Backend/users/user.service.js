@@ -69,9 +69,8 @@ async function create(params) {
         name:'GERSA RH',
         email:'ruben.martinez@ulfix.com',
     },
+    templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
     subject: 'Activación de cuenta',
-    text: 'Hello plain world!',
-    html: '<p>Hello HTML world!</p>',
     };
     sgMail.send(msg);
     // save user
