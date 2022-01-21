@@ -57,6 +57,20 @@ async function create(params) {
     const token = jwt.sign({email: params.username}, config.secret);
 
     params.confirmationCode=token;
+
+    const sgMail = require('@sendgrid/mail');
+    // console.log(process.env.SENDGRID_API_KEY);
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const API_KEY='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'
+    sgMail.setApiKey(API_KEY)
+    const msg = {
+    to: 'hrmartinez86@gmail.com',
+    from: 'ruben.martinez@ulfix.com',
+    subject: 'Activación de cuenta',
+    text: 'Hello plain world!',
+    html: '<p>Hello HTML world!</p>',
+    };
+    sgMail.send(msg);
     // save user
     await db.User.create(params);
 }
