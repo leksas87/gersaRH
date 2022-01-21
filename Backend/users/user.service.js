@@ -65,7 +65,10 @@ async function create(params) {
     sgMail.setApiKey(API_KEY)
     const msg = {
     to: 'hrmartinez86@gmail.com',
-    from: 'ruben.martinez@ulfix.com',
+    from: {
+        name:'GERSA RH',
+        email:'ruben.martinez@ulfix.com',
+    },
     subject: 'Activación de cuenta',
     text: 'Hello plain world!',
     html: '<p>Hello HTML world!</p>',
