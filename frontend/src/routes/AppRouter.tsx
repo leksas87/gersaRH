@@ -51,6 +51,8 @@ const AppRouter = () => {
 								<Route path='/*' element={<NotFound />} />
 							</Route>
 						</Route>
+
+						<Route path='/confirmacion' element={<h1>Página de Confirmación</h1>} />
 					</Routes>
 				</BrowserRouter>
 			</Suspense>
