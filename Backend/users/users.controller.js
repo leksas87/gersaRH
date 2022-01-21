@@ -45,7 +45,8 @@ function registerSchema(req, res, next) {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         username: Joi.string().required(),
-        phone:Joi.string().required()
+        phone:Joi.string().required(),
+        confirmationCode:Joi.string()
     });
     validateRequest(req, next, schema);
 }

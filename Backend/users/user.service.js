@@ -54,6 +54,9 @@ async function create(params) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
+    const token = jwt.sign({email: params.username}, config.secret);
+
+    params.confirmationCode=token;
     // save user
     await db.User.create(params);
 }
