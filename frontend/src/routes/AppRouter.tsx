@@ -53,6 +53,10 @@ const AppRouter = () => {
 						</Route>
 
 						<Route path='/confirmacion' element={<h1>Página de Confirmación</h1>} />
+						<Route
+							path='/recuperacion'
+							element={<h1>Página de Recuperación de Password</h1>}
+						/>
 					</Routes>
 				</BrowserRouter>
 			</Suspense>
