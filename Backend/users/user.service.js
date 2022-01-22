@@ -64,13 +64,10 @@ async function create(params) {
     const API_KEY='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'
     sgMail.setApiKey(API_KEY)
     const msg = {
-    to: 'hrmartinez86@gmail.com',
-    from: {
-        name:'GERSA RH',
-        email:'ruben.martinez@ulfix.com',
-    },
-    templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
-    subject: 'Activación de cuenta',
+        to: params.username,
+        from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
+        // subject: 'Activación de cuenta',
+        templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
     };
     sgMail.send(msg);
     // save user
