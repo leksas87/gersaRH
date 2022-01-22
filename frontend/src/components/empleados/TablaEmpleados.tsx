@@ -12,8 +12,9 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 
 	//Metodo para navegar al perfil del empleado
 	const irEmpleado = (id: number) => {
-		navigate(`/${id}`);
-		console.log('id empleado: ', id);
+		// navigate(`/empleados/${id}`);
+		//usando solo el is convertido en string (Es lo mismo por que las rutas se créan relativas a la ruta actual).
+		navigate(id.toString());
 	};
 	return (
 		<>
