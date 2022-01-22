@@ -19,7 +19,7 @@ const AppRouter = () => {
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
 	const { authState } = useSelector((state: RootSote) => state.auth);
 
-	//Efecto que renueva el token cada que se refesca o carga el sitio
+	//Efecto que renueva el token cada que se refesca o carga la pagina
 	useEffect(() => {
 		dispatch(startChecking());
 	}, [dispatch]);
@@ -66,6 +66,10 @@ const AppRouter = () => {
 						<Route
 							path='/recuperacion'
 							element={<h1>Página de Recuperación de Password</h1>}
+						/>
+						<Route
+							path='/solicitudnuevacontrasena'
+							element={<h1>¿Olvidaste tu contraseña?</h1>}
 						/>
 					</Routes>
 				</BrowserRouter>
