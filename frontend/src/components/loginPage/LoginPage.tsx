@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { startLogin } from '../../actions/loginActions/loginActions';
 import { useForm } from '../../hooks/useForm';
 import { iUser } from '../../interfaces/interfaces';
@@ -99,6 +100,14 @@ const LoginPage = () => {
 							placeholder='Ingresa tu contraseña'
 							onChange={handleInputChange}
 						/>
+					</div>
+					<div>
+						<Link
+							style={{ textDecoration: 'none', color: '#048edf' }}
+							to='/recuperarcontrasena'
+						>
+							¿Olvidaste tu contraseña?
+						</Link>
 					</div>
 					{error && (
 						<div className='form-text textColorError'>

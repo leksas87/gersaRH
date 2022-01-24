@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
@@ -11,6 +11,8 @@ interface iProps {
 }
 
 const Sidebar = ({ screenSize = true }: iProps) => {
+	//hook useNavigate
+	const navigate = useNavigate();
 	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
@@ -25,15 +27,9 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 		dispatch(logOut());
 	};
 
-	const closeOffCanvas = () => {
-		const myOffcanvas = document.getElementById('offcanvasSidebar');
-
-		if (myOffcanvas) {
-			console.log('Cerrando');
-			// myOffcanvas.remove();
-			// const bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-			// console.log(bsOffcanvas.hide());
-		}
+	//se usa navigate ya que data-bs-dismiss del offCanvas no permite el redireccionamiento directo
+	const navigateTo = (ruta: string) => {
+		navigate(ruta);
 	};
 
 	return (
@@ -51,8 +47,10 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							className={({ isActive }) =>
 								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
 							}
-							onClick={closeOffCanvas}
-							// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/');
+							}}
 						>
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
@@ -82,10 +80,10 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								className={({ isActive }) =>
 									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
 								}
-								onClick={closeOffCanvas}
-								// data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
-								// data-bs-toggle='offcanvas'
-								// data-bs-dismiss={'offcanvas'}
+								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+								onClick={() => {
+									navigateTo('/empleados');
+								}}
 							>
 								<i className='bi bi-person-video2 sidebarIcon' />
 								Empleados
