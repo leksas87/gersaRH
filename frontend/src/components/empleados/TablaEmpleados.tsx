@@ -1,5 +1,7 @@
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { iEmpleado } from '../../actions/usersActions/usersActionTypes';
+import { sortEmployees } from '../../helpers/sortEmployees';
 import './TablaEmpleados.css';
 
 //interface para las props del componente
@@ -8,7 +10,10 @@ interface iTablaEmpleadosProps {
 }
 
 const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
+
+	const [isAscending, setIsAscending] = useState<boolean>(true);
 	const navigate = useNavigate();
+	
 
 	//Metodo para navegar al perfil del empleado
 	const irEmpleado = (id: number) => {
@@ -16,6 +21,7 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 		//usando solo el is convertido en string (Es lo mismo por que las rutas se créan relativas a la ruta actual).
 		navigate(id.toString());
 	};
+
 	return (
 		<>
 			<div className='custm-tableEmpleados'>
@@ -38,10 +44,47 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 						<thead className='custm-tableThead'>
 							<tr>
 								<th scope='col'></th>
-								<th scope='col'>Nombre</th>
-								<th scope='col'>Apellidos</th>
-								<th scope='col'>Correo</th>
-								<th scope='col'>Telefono</th>
+								<th scope='col' className='custm-col'>Nombre     
+									<i 
+										className="custm-icon bi bi-arrow-down-up" 
+										onClick={() => {
+											sortEmployees(empleados,"Nombre",isAscending);
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
+											
+										}}
+									/>
+								</th>
+								<th scope='col' className='custm-col'>Apellidos
+									<i 
+										className="custm-icon bi bi-arrow-down-up" 
+										onClick={() => {
+											sortEmployees(empleados,"Apellidos",isAscending);
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
+										}}
+									/>
+								</th>
+								<th scope='col' className='custm-col'>Correo
+									<i 
+										className="custm-icon bi bi-arrow-down-up" 
+										onClick={() => {
+											sortEmployees(empleados,"Correo",isAscending);
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
+										}}
+									/>
+								</th>
+								<th scope='col' className='custm-col'>Telefono
+									<i 
+										className="custm-icon bi bi-arrow-down-up" 
+										onClick={() => {
+											sortEmployees(empleados,"Telefono",isAscending);
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
+										}}
+									/>
+								</th>
 							</tr>
 						</thead>
 						<tbody>

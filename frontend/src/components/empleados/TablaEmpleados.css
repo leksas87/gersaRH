@@ -46,6 +46,15 @@
 	align-items: center;
 	overflow: hidden;
 }
+.custm-icon {
+	color: var(--textColorLight);
+	font-size: 10px;
+	margin: 5px 10px 0 5px;
+}
+.custm-col{
+	min-width: 120px;
+}
+
 
 /* ++++++++++MediaQuerys+++++++++++++++ */
 @media (max-width: 991px) {
