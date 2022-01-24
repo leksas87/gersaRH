@@ -1,8 +1,6 @@
-import  { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { iEmpleado } from '../../actions/usersActions/usersActionTypes';
-import { RootSote } from '../../store/Store';
 import { sortEmployees } from '../../helpers/sortEmployees';
 import './TablaEmpleados.css';
 
@@ -13,27 +11,9 @@ interface iTablaEmpleadosProps {
 
 const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 
-	const [displayListArr, setDisplayListArr] = useState(empleados);
-	const [bandera, setBandera] = useState(true);
-	const [bandera1, setBandera1] = useState(true);
-	const [bandera2, setBandera2] = useState(true);
-	const [bandera3, setBandera3] = useState(true);
+	const [isAscending, setIsAscending] = useState(true);
 	const navigate = useNavigate();
 	
-
-	//Senecesita el state que indica si el usuario está autenticado o no
-	const { empleados:employees } = useSelector((state: RootSote) => state.users);
-
-	const activeLength= useRef( employees.length );
-
-	useEffect(() => {
-        console.log(displayListArr);
-        if ( displayListArr.length !== activeLength.current  ) {
-			setDisplayListArr(empleados);
-			console.log(displayListArr);
-        }
-
-    }, [displayListArr, setDisplayListArr, empleados])
 
 	//Metodo para navegar al perfil del empleado
 	const irEmpleado = (id: number) => {
@@ -41,46 +21,6 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 		console.log('id empleado: ', id);
 	};
 
-	const handleOrdene = ( num: number) => {
-		
-		switch (num) {
-			case 1:sortEmployees(empleados,num,bandera);
-					setDisplayListArr(empleados);
-					if(bandera === true){
-						setBandera(false);
-					}else{
-						setBandera(true);
-					}
-				break;
-
-			case 2:sortEmployees(empleados,num,bandera1);
-					setDisplayListArr(empleados);
-					if(bandera1 === true){
-						setBandera1(false);
-					}else{
-						setBandera1(true);
-					}
-				break;
-			case 3:sortEmployees(empleados,num,bandera2);
-					setDisplayListArr(empleados);
-					if(bandera2 === true){
-						setBandera2(false);
-					}else{
-						setBandera2(true);
-					}
-				break;
-			case 4:sortEmployees(empleados,num,bandera3);
-					setDisplayListArr(empleados);
-					if(bandera3 === true){
-						setBandera3(false);
-					}else{
-						setBandera3(true);
-					}
-				break;			
-			default:
-				break;
-		}
-	};
 	return (
 		<>
 			<div className='custm-tableEmpleados'>
@@ -107,7 +47,12 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i 
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
-											handleOrdene(1);
+											sortEmployees(empleados,"Nombre",isAscending);
+											if(isAscending === true){
+												setIsAscending(false);
+											}else{
+												setIsAscending(true);
+											}
 										}}
 									/>
 								</th>
@@ -115,7 +60,12 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i 
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
-											handleOrdene(2);
+											sortEmployees(empleados,"Apellidos",isAscending);
+											if(isAscending === true){
+												setIsAscending(false);
+											}else{
+												setIsAscending(true);
+											}
 										}}
 									/>
 								</th>
@@ -123,7 +73,12 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i 
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
-											handleOrdene(3);
+											sortEmployees(empleados,"Correo",isAscending);
+											if(isAscending === true){
+												setIsAscending(false);
+											}else{
+												setIsAscending(true);
+											}
 										}}
 									/>
 								</th>
@@ -131,14 +86,19 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i 
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
-											handleOrdene(4);
+											sortEmployees(empleados,"Telefono",isAscending);
+											if(isAscending === true){
+												setIsAscending(false);
+											}else{
+												setIsAscending(true);
+											}
 										}}
 									/>
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{displayListArr.map((empleado: iEmpleado) => (
+							{empleados.map((empleado: iEmpleado) => (
 								<tr
 									key={empleado.id}
 									className='custm-table-tr'

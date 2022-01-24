@@ -5,12 +5,12 @@ import { iEmpleado } from '../actions/usersActions/usersActionTypes';
 
 export const sortEmployees = (
     empleados:iEmpleado[],
-    tipo: number,
-    bandera: boolean
+    tipo: string,
+    isAscending: boolean
     ) => {
         switch (tipo) {
-            case 1:
-                if(bandera){
+            case "Nombre":
+                if(isAscending){
                     empleados.sort(( a, b ) => 
                     { 
                         const primero = a.firstName.toLocaleLowerCase();
@@ -40,8 +40,8 @@ export const sortEmployees = (
                 }
                 
                 break;
-            case 2:
-                if(bandera){
+            case "Apellidos":
+                if(isAscending){
                     empleados.sort(( a, b ) => 
                     { 
                         const primero = a.lastName.toLocaleLowerCase();
@@ -71,8 +71,8 @@ export const sortEmployees = (
                 }
                 break;
 
-            case 3:
-                if(bandera){
+            case "Correo":
+                if(isAscending){
                     empleados.sort(( a, b ) => 
                     { 
                         const primero = a.username.toLocaleLowerCase();
@@ -102,8 +102,8 @@ export const sortEmployees = (
                 }
                 
                 break;
-            case 4:
-                if(bandera){
+            case "Telefono":
+                if(isAscending){
                     empleados.sort(( a, b ) => 
                     { 
                         const primero = a.phone.toLocaleLowerCase();
