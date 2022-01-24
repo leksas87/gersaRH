@@ -57,8 +57,27 @@ async function create(params) {
     const token = jwt.sign({email: params.username}, config.secret);
 
     params.confirmationCode=token;
-    // save user
-    await db.User.create(params);
+
+    const sgMail = require('@sendgrid/mail');
+    // console.log(process.env.SENDGRID_API_KEY);
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const API_KEY='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'
+    try {
+        sgMail.setApiKey(API_KEY)
+        const msg = {
+            to: params.username,
+            from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
+            subject:'Confirmación de registro',
+            templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
+  
+        };
+        await sgMail.send(msg);
+        // save user
+        await db.User.create(params);
+    } catch (error) {
+        console.log(error.message);
+    }
+    
 }
 
 async function createMaster(params) {
