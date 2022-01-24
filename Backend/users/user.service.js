@@ -67,7 +67,9 @@ async function create(params) {
         const msg = {
             to: params.username,
             from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
+            subject:'Confirmación de registro',
             templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
+  
         };
         await sgMail.send(msg);
         // save user
