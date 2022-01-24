@@ -1,0 +1,22 @@
+.custm-arrowLeft {
+	position: absolute;
+	top: 20px;
+	left: 25px;
+	text-decoration: 'none';
+	font-size: 2rem;
+	color: var(--textColorSecondary);
+}
+.custm-msngRecuperar {
+	background-color: #048edf;
+	color: var(--colorPrimary);
+	border-radius: 8px;
+	padding: 5px;
+	text-align: center;
+	font-weight: 600;
+}
+
+@media (max-width: 572px) {
+	.custm-btnRecuperar {
+		font-size: 12px;
+	}
+}
