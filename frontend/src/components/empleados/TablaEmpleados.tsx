@@ -11,7 +11,7 @@ interface iTablaEmpleadosProps {
 
 const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 
-	const [isAscending, setIsAscending] = useState(true);
+	const [isAscending, setIsAscending] = useState<boolean>(true);
 	const navigate = useNavigate();
 	
 
@@ -48,11 +48,9 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
 											sortEmployees(empleados,"Nombre",isAscending);
-											if(isAscending === true){
-												setIsAscending(false);
-											}else{
-												setIsAscending(true);
-											}
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
+											
 										}}
 									/>
 								</th>
@@ -61,11 +59,8 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
 											sortEmployees(empleados,"Apellidos",isAscending);
-											if(isAscending === true){
-												setIsAscending(false);
-											}else{
-												setIsAscending(true);
-											}
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
 										}}
 									/>
 								</th>
@@ -74,11 +69,8 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
 											sortEmployees(empleados,"Correo",isAscending);
-											if(isAscending === true){
-												setIsAscending(false);
-											}else{
-												setIsAscending(true);
-											}
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
 										}}
 									/>
 								</th>
@@ -87,11 +79,8 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 										className="custm-icon bi bi-arrow-down-up" 
 										onClick={() => {
 											sortEmployees(empleados,"Telefono",isAscending);
-											if(isAscending === true){
-												setIsAscending(false);
-											}else{
-												setIsAscending(true);
-											}
+											isAscending ? setIsAscending(false) 
+														: setIsAscending(true)
 										}}
 									/>
 								</th>

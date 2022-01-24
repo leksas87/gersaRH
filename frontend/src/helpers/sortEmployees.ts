@@ -1,5 +1,3 @@
-//import React from 'react'
-
 import { iEmpleado } from '../actions/usersActions/usersActionTypes';
 
 
