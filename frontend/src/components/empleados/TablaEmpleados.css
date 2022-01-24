@@ -52,7 +52,7 @@
 	margin: 5px 10px 0 5px;
 }
 .custm-col{
-	display: flexbox;
+	min-width: 120px;
 }
 
 
