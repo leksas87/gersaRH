@@ -8,6 +8,7 @@ import EmpleadosPage from '../components/empleados/EmpleadosPage';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
+import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
@@ -68,8 +69,8 @@ const AppRouter = () => {
 							element={<h1>Página de Recuperación de Password</h1>}
 						/>
 						<Route
-							path='/solicitudnuevacontrasena'
-							element={<h1>¿Olvidaste tu contraseña?</h1>}
+							path='/recuperarcontrasena'
+							element={<RecuperarContraseñaPage />}
 						/>
 					</Routes>
 				</BrowserRouter>

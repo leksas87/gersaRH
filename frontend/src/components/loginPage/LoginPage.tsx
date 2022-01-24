@@ -104,7 +104,7 @@ const LoginPage = () => {
 					<div>
 						<Link
 							style={{ textDecoration: 'none', color: '#048edf' }}
-							to='/solicitudnuevacontrasena'
+							to='/recuperarcontrasena'
 						>
 							¿Olvidaste tu contraseña?
 						</Link>
