@@ -64,11 +64,15 @@ async function create(params) {
     const API_KEY='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'
     try {
         sgMail.setApiKey(API_KEY)
+        const url='http://localhost:4000/confirmacion/'+params.confirmationCode;
         const msg = {
             to: params.username,
             from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
             subject:'Confirmación de registro',
             templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
+            dynamic_template_data: {
+                url: url,
+            },
   
         };
         await sgMail.send(msg);
