@@ -42,15 +42,15 @@ const RecuperarContraseñaPage = () => {
 					</div>
 					{/* Mensaje condicional al enviar la petición 	 */}
 					<div className='custm-msngRecuperar'>
-						Si el correo existe en nuestro sistema, en unos minutos recibirás un email
-						con las instrucciones para acceder.
+						¡Si el correo existe en nuestro sistema, en unos minutos recibirás un
+						email con las instrucciones para acceder!
 					</div>
 					<button
 						type='submit'
 						className='btn btn-primary mt-4 shadow-sm inputSubmit p-3 custm-btnRecuperar'
 						style={{ borderRadius: '70px' }}
 					>
-						Enviar instrucciones para restablecer contraseña
+						Enviar instrucciones
 					</button>
 				</form>
 			</div>
