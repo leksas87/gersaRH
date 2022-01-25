@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
+const { isPropertyAccessOrQualifiedName } = require('typescript');
 
 module.exports = {
     authenticate,
@@ -66,16 +67,18 @@ async function create(params) {
     const sgMail = require('@sendgrid/mail');
 
     const API_KEY=process.env.SENDGRID_API_KEY
+
     const URL=process.env.URL
+    
     try {
         sgMail.setApiKey(API_KEY)
         const url=URL+params.confirmationCode;
         console.log(url);
         const msg = {
             to: params.username,
-            from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
+            from: {email:process.env.EMAIL,name:process.env.NAME,},
             subject:'Confirmación de registro',
-            templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
+            templateId: process.env.TEMPLETE,
             dynamic_template_data: {
                 url: url,
             },
