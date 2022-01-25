@@ -14,6 +14,7 @@ import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
+import { ConfirmarContraseña } from "../components/confirmarContraseña/ConfirmarContraseña";
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const AppRouter = () => {
 						<Route path='/confirmacion' element={<h1>Página de Confirmación</h1>} />
 						<Route
 							path='/recuperacion'
-							element={<h1>Página de Recuperación de Password</h1>}
+							element={<ConfirmarContraseña />}
 						/>
 						<Route
 							path='/recuperarcontrasena'
