@@ -30,7 +30,64 @@ const EmpleadosPage = () => {
 					<div className='custm-btnNuevoEmpleadoContainer'>
 						{/* Boton Nuevo Empleado */}
 						<ModalNuevoEmpleado />
-						<button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button>
+						{/* <button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button> */}
+						<div className='dropdown'>
+							<button
+								className='btn custm-btnMasEmpleado custmBtnActions'
+								type='button'
+								id='btnMenuEmpleadosMas'
+								data-bs-toggle='dropdown'
+								aria-expanded='false'
+							>
+								●●●
+							</button>
+							<ul
+								className='dropdown-menu custm-dropDownBtnMas'
+								aria-labelledby='btnMenuEmpleadosMas'
+							>
+								<li>
+									<button
+										className='dropdown-item custm-dropdown-item custm-dropItem'
+										type='button'
+									>
+										<div className='fs-4'>Importar empleados</div>
+										<div className='custm-dropItemText'>
+											Importa nuevos empleados en masa
+										</div>
+										<div className='custm-dropItemText'>desde la plantilla de excel.</div>
+									</button>
+								</li>
+								<li>
+									<button
+										className='dropdown-item custm-dropdown-item custm-dropItem'
+										type='button'
+									>
+										<div className='fs-4'>Descarga la plantilla</div>
+										<div className='fs-4'>excel</div>
+										<div className='custm-dropItemText'>
+											Descarga la plantilla en formato Excel.
+										</div>
+									</button>
+								</li>
+								<li>
+									<button
+										className='dropdown-item custm-dropdown-item custm-dropItem'
+										type='button'
+									>
+										<div className='fs-4'>
+											Enviar invitaciones{' '}
+											<i style={{ color: '#2890BD' }} className='bi bi-send-fill' />
+										</div>
+										<div className='custm-dropItemText'>
+											Enviar invitaciones a todas las cuentas
+										</div>
+										<div className='custm-dropItemText'>
+											con correo pendiente de activación.
+										</div>
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div className='d-flex flex-column justify-content-center pt-4 p-4'>
