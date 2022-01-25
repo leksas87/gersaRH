@@ -11,7 +11,8 @@ module.exports = {
     createMaster,
     update,
     delete: _delete,
-    reenvioToken
+    reenvioToken,
+    getByToken
 };
 
 async function authenticate({ username, password }) {
@@ -48,6 +49,10 @@ async function getById(id) {
     return await getUser(id);
 }
 
+async function getByToken(token) {
+    return await getUserToken(token);
+}
+
 async function create(params) {
     // validate
     if (await db.User.findOne({ where: { username: params.username } })) {
@@ -64,7 +69,7 @@ async function create(params) {
     const API_KEY='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'
     try {
         sgMail.setApiKey(API_KEY)
-        const url='http://localhost:4000/confirmacion/'+params.confirmationCode;
+        const url='http://localhost:3000/confirmacion/'+params.confirmationCode;
         const msg = {
             to: params.username,
             from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
@@ -127,6 +132,12 @@ async function _delete(id) {
 
 async function getUser(id) {
     const user = await db.User.findByPk(id);
+    if (!user) throw 'Usuario no encontrado';
+    return user;
+}
+
+async function getUserToken(token) {
+    const user = await db.User.findOne({where:{confirmationCode:token}});
     if (!user) throw 'Usuario no encontrado';
     return user;
 }

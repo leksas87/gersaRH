@@ -16,9 +16,17 @@ router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
+router.get('/confirmation/:token',authenticateToken);
 
 
 module.exports = router;
+
+function authenticateToken(req, res, next) {
+    console.log(req.params.token);
+    userService.getByToken(req.params.token)
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
@@ -50,7 +58,6 @@ function registerSchema(req, res, next) {
     });
     validateRequest(req, next, schema);
 }
-
 
 function registerSchemaMaster(req, res, next) {
     const schema = Joi.object({
