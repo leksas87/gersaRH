@@ -64,12 +64,13 @@ async function create(params) {
     params.confirmationCode=token;
 
     const sgMail = require('@sendgrid/mail');
-    // console.log(process.env.SENDGRID_API_KEY);
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const API_KEY='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'
+
+    const API_KEY=process.env.SENDGRID_API_KEY
+    const URL=process.env.URL
     try {
         sgMail.setApiKey(API_KEY)
-        const url='http://localhost:3000/confirmacion/'+params.confirmationCode;
+        const url=URL+params.confirmationCode;
+        console.log(url);
         const msg = {
             to: params.username,
             from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
