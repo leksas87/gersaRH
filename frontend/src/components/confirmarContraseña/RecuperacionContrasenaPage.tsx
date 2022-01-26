@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import './ConfirmarContraseñaPage.css';
-const ConfirmarContraseñaPage = () => {
+const RecuperacionContrasenaPage = () => {
 	//el token es valido
 	const istokenOK: boolean = true;
 
@@ -50,7 +50,10 @@ const ConfirmarContraseñaPage = () => {
 	};
 
 	return (
-		<div className='custm-backgroundConfirm'>
+		<div
+			className='custm-backgroundConfirm'
+			style={{ backgroundColor: 'var(--backgroundBody)' }}
+		>
 			{istokenOK ? (
 				<div className='custm-ConfirmContainer d-flex flex-column align-items-center'>
 					<div
@@ -67,7 +70,9 @@ const ConfirmarContraseñaPage = () => {
 							className='d-flex justify-content-center'
 							style={{ width: '100%', textAlign: 'center' }}
 						>
-							<label className='custm-textTittleCC'>ESTABLECE TU CONTRASEÑA</label>
+							<label className='custm-textTittleCC'>
+								CAMBIA TU CONTRASEÑA PARA ACCEDER A GERSA
+							</label>
 						</div>
 					</div>
 					<div className='fw-light fs-2 textColorError2 mb-4'>
@@ -94,7 +99,7 @@ const ConfirmarContraseñaPage = () => {
 								className='custm-labelinputFromControlCC textColorSecondary'
 								htmlFor='floatingPassword'
 							>
-								Contraseña
+								Nueva Contraseña
 							</label>
 						</div>
 						<div className='form-floating mb-3'>
@@ -115,7 +120,7 @@ const ConfirmarContraseñaPage = () => {
 								className='custm-labelinputFromControlCC textColorSecondary'
 								htmlFor='floatingPassword'
 							>
-								Confirma tu Contraseña
+								Confirma tu Nueva Contraseña
 							</label>
 						</div>
 						{error && (
@@ -158,4 +163,4 @@ const ConfirmarContraseñaPage = () => {
 	);
 };
 
-export default ConfirmarContraseñaPage;
+export default RecuperacionContrasenaPage;
