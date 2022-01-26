@@ -2,14 +2,14 @@
 	background-color: #758486;
 }
 
-.custm-body-cc div{
+.custm-body-cc div {
 	background-color: var(--backgroundBody);
 	width: 60vw;
 	height: 66vh;
-	border-radius: 10px ;	
+	border-radius: 10px;
 }
-.custm-shadow-cc{
-	box-shadow: 0px 5px 19px -1px rgba(0,0,0,0.75);
+.custm-shadow-cc {
+	box-shadow: 0px 5px 19px -1px rgba(0, 0, 0, 0.75);
 	height: 66vh;
 }
 
@@ -24,15 +24,14 @@
 	margin: 0 0 1vh 0;
 	width: 100%;
 	background-color: var(--backgroundBody);
-	border-radius: 10px;	
+	border-radius: 10px;
 }
 
-
-.custm-input-cc:focus{
-	border-color:unset;
+.custm-input-cc:focus {
+	border-color: unset;
 }
 
-.custm-input-cc::after{
+.custm-input-cc::after {
 	border-bottom: none;
 }
 
@@ -45,27 +44,25 @@
 	border-radius: 11px;
 	color: var(--backgroundPrimary);
 }
-.custm-label-cc{
+.custm-label-cc {
 	font-weight: 900;
 	color: var(--textColorSecondary);
 }
 
-.custm-label-cci{
+.custm-label-cci {
 	font-weight: 900;
 	color: var(--textColorError);
 }
 
 @media (max-width: 990px) {
-	.custm-title-cc{
+	.custm-title-cc {
 		font-weight: 300;
 		font-size: 5px;
 		margin: 0 0 0 3vw;
 	}
-	
 }
 @media (max-height: 600px) {
-	.custm-body-cc div{
+	.custm-body-cc div {
 		height: 380px;
 	}
-	
 }
