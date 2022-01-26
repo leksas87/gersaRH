@@ -1,7 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const db = require('_helpers/db');
+const db = require('helpers/db');
 const { isPropertyAccessOrQualifiedName } = require('typescript');
 
 module.exports = {
