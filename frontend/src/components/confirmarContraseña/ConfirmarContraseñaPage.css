@@ -1,0 +1,59 @@
+.custm-backgroundConfirm {
+	/* background-color: #6da7af; */
+	background-color: #769ba0;
+	width: 100%;
+	min-height: 100vh;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+.custm-ConfirmContainer {
+	background-color: var(--colorPrimary);
+	width: 883px;
+	height: 461px;
+	border-radius: 10px;
+	box-shadow: 0px 11px 20px 10px rgba(0, 0, 0, 0.25);
+}
+.custm-textTittleCC {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--colorSecondary);
+}
+.custmFromCC {
+	width: 70%;
+}
+.custm-inputFromControlCC {
+	background-color: transparent;
+	border: 1px solid var(--colorSecondary);
+	border-radius: 10px;
+}
+.custm-btnSubmitCC {
+	font-size: 1.2rem;
+	height: 3rem;
+	border-radius: 10px;
+}
+.custm-CoverImgLogo {
+	filter: drop-shadow(1px 1px 10px rgb(255, 255, 255));
+}
+
+/* +++++Mobile++++ */
+@media (max-width: 764px) {
+	.custm-ConfirmContainer {
+		background-color: var(--colorPrimary);
+		width: 95%;
+		height: 461px;
+		min-width: 270px;
+	}
+	.custm-textTittleCC {
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+	.custmFromCC {
+		width: 80%;
+	}
+	.custm-labelinputFromControlCC {
+		font-size: 13px;
+	}
+}

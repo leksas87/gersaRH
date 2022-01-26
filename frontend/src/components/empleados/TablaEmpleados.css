@@ -56,8 +56,11 @@
 }
 .custm-icon {
 	color: var(--textColorLight);
-	font-size: 10px;
+	font-size: 14px;
 	margin: 5px 10px 0 5px;
+}
+.custm-icon:hover {
+	cursor: pointer;
 }
 .custm-col {
 	min-width: 120px;
