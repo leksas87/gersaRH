@@ -66,11 +66,11 @@ const AppRouter = () => {
 						{/* Rutas públicas */}
 						<Route
 							path='/confirmacion/:tknconfirmacion'
-							element={<h1>Página de Confirmación</h1>}
+							element={<ConfirmarContraseña />}
 						/>
 						<Route
 							path='/recuperacion'
-							element={<ConfirmarContraseña />}
+							element={<h1>Página de recuperacion de password</h1>}
 						/>
 						<Route
 							path='/recuperarcontrasena'
