@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
+const { isPropertyAccessOrQualifiedName } = require('typescript');
 
 module.exports = {
     authenticate,
@@ -11,7 +12,8 @@ module.exports = {
     createMaster,
     update,
     delete: _delete,
-    reenvioToken
+    reenvioToken,
+    getByToken
 };
 
 async function authenticate({ username, password }) {
@@ -48,6 +50,10 @@ async function getById(id) {
     return await getUser(id);
 }
 
+async function getByToken(token) {
+    return await getUserToken(token);
+}
+
 async function create(params) {
     // validate
     if (await db.User.findOne({ where: { username: params.username } })) {
@@ -59,16 +65,23 @@ async function create(params) {
     params.confirmationCode=token;
 
     const sgMail = require('@sendgrid/mail');
-    // console.log(process.env.SENDGRID_API_KEY);
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const API_KEY='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'
+
+    const API_KEY=process.env.SENDGRID_API_KEY
+
+    const URL=process.env.URL
+    
     try {
         sgMail.setApiKey(API_KEY)
+        const url=URL+params.confirmationCode;
+        console.log(url);
         const msg = {
             to: params.username,
-            from: {email:'ruben.martinez@ulfix.com',name:'GERSA RH',},
+            from: {email:process.env.EMAIL,name:process.env.NAME,},
             subject:'Confirmación de registro',
-            templateId: 'd-dac1fe57dcba43039fe8f12db8a3f9e1',
+            templateId: process.env.TEMPLETE,
+            dynamic_template_data: {
+                url: url,
+            },
   
         };
         await sgMail.send(msg);
@@ -123,6 +136,12 @@ async function _delete(id) {
 
 async function getUser(id) {
     const user = await db.User.findByPk(id);
+    if (!user) throw 'Usuario no encontrado';
+    return user;
+}
+
+async function getUserToken(token) {
+    const user = await db.User.findOne({where:{confirmationCode:token}});
     if (!user) throw 'Usuario no encontrado';
     return user;
 }

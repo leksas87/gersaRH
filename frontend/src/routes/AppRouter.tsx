@@ -64,7 +64,10 @@ const AppRouter = () => {
 						</Route>
 
 						{/* Rutas públicas */}
-						<Route path='/confirmacion' element={<h1>Página de Confirmación</h1>} />
+						<Route
+							path='/confirmacion/:tknconfirmacion'
+							element={<h1>Página de Confirmación</h1>}
+						/>
 						<Route
 							path='/recuperacion'
 							element={<ConfirmarContraseña />}
