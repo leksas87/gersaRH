@@ -35,3 +35,8 @@ export interface iUsuariosReducer {
 	};
 	empleados: iEmpleado[];
 }
+//Interface de confirmacion contraseña
+export interface iConfirmarContraseña {
+	contraseña1: string;
+	contraseña2: string;
+}

@@ -1,32 +1,39 @@
-.custm-body {
+.custm-body-cc {
 	background-color: #758486;
 }
 
-.custm-body div{
+.custm-body-cc div{
 	background-color: var(--backgroundBody);
 	width: 60vw;
 	height: 66vh;
-	border-radius: 10px ;
+	border-radius: 10px ;	
+}
+.custm-shadow-cc{
+	box-shadow: 0px 5px 19px -1px rgba(0,0,0,0.75);
+	height: 66vh;
 }
 
-.custm-title {
+.custm-title-cc {
 	font-weight: 550;
 	margin: 1vh 0 0 0;
 }
 
-.custm-input {
-	border:transparent;
+.custm-input-cc {
+	border: 2px solid var(--textColorSecondary);
 	height: 2rem;
 	margin: 0 0 1vh 0;
 	width: 100%;
 	background-color: var(--backgroundBody);
+	border-radius: 10px;	
 }
 
-.custm-input2{
-	border: 2px solid var(--textColorSecondary);
-	margin:  0 0 0 0;
-	padding: 0 1vw 0 1vw;
-	border-radius: 15px;
+
+.custm-input-cc:focus{
+	border-color:unset;
+}
+
+.custm-input-cc::after{
+	border-bottom: none;
 }
 
 .custm-btnFormSubmit {
@@ -38,11 +45,27 @@
 	border-radius: 11px;
 	color: var(--backgroundPrimary);
 }
+.custm-label-cc{
+	font-weight: 900;
+	color: var(--textColorSecondary);
+}
+
+.custm-label-cci{
+	font-weight: 900;
+	color: var(--textColorError);
+}
 
 @media (max-width: 990px) {
-	.custm-title{
+	.custm-title-cc{
 		font-weight: 300;
-		width: 30vw;
+		font-size: 5px;
+		margin: 0 0 0 3vw;
+	}
+	
+}
+@media (max-height: 600px) {
+	.custm-body-cc div{
+		height: 380px;
 	}
 	
 }
