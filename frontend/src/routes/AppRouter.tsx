@@ -14,6 +14,7 @@ import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
+import { ConfirmarContraseña } from "../components/confirmarContraseña/ConfirmarContraseña";
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -65,11 +66,11 @@ const AppRouter = () => {
 						{/* Rutas públicas */}
 						<Route
 							path='/confirmacion/:tknconfirmacion'
-							element={<h1>Página de Confirmación</h1>}
+							element={<ConfirmarContraseña />}
 						/>
 						<Route
 							path='/recuperacion'
-							element={<h1>Página de Recuperación de Password</h1>}
+							element={<h1>Página de recuperacion de password</h1>}
 						/>
 						<Route
 							path='/recuperarcontrasena'
