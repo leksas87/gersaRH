@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
+import { ConfirmarContraseña } from '../components/confirmarContraseña/ConfirmarContraseña';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/EmpleadoPerfil';
 import EmpleadosPage from '../components/empleados/EmpleadosPage';
@@ -14,7 +15,6 @@ import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
-import { ConfirmarContraseña } from "../components/confirmarContraseña/ConfirmarContraseña";
 
 const AppRouter = () => {
 	const dispatch = useDispatch();

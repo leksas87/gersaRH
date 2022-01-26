@@ -11,8 +11,16 @@
 	border-bottom: 1px solid var(--textColorDisable);
 }
 .custm-tableSearchBar {
-	width: 40%;
-	height: 5rem;
+	width: 100%;
+	min-height: 5rem;
+	display: flex;
+	padding: 10px 0px;
+}
+.custm-inputSearch {
+	/* background-color: tomato; */
+	max-width: 300px;
+	border-radius: 10px;
+	margin-left: 10px;
 }
 .cutm-tablaResponsive {
 	background-color: transparent;
@@ -51,10 +59,9 @@
 	font-size: 10px;
 	margin: 5px 10px 0 5px;
 }
-.custm-col{
+.custm-col {
 	min-width: 120px;
 }
-
 
 /* ++++++++++MediaQuerys+++++++++++++++ */
 @media (max-width: 991px) {
@@ -63,5 +70,8 @@
 @media (max-width: 848px) {
 }
 /* tamaño maximo de la pantalla */
-@media (max-width: 320px) {
+@media (max-width: 420px) {
+	.custm-inputSearch {
+		max-width: 80%;
+	}
 }
