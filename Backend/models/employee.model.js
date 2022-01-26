@@ -3,8 +3,7 @@ const { Model, DataTypes, Deferrable } = require('sequelize');
 module.exports = model;
 
 function model(sequelize) {
-    const attributes = {
-        
+    const attributes = {   
         userId: {type: DataTypes.INTEGER,allowNull:true},
         tipoIdentificacion: { type: DataTypes.STRING, allowNull: true },
         documentoIdentidad: { type: DataTypes.STRING, allowNull: true },
