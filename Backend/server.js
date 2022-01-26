@@ -3,14 +3,14 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const errorHandler = require('_middleware/error-handler');
+const errorHandler = require('middleware/error-handler');
 require('dotenv').config();;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // api routes
-app.use('/api/users', require('./users/users.controller'));
+app.use('/api/users', require('./controllers/users.controller'));
 
 // global error handler
 app.use(errorHandler);
