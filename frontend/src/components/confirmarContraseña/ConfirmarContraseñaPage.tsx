@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+	sendPassword,
+	validationToken,
+} from '../../actions/passwordsActions/passActions';
 import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
 import './ConfirmarContraseñaPage.css';
 const ConfirmarContraseñaPage = () => {
-	//el token es valido
-	const istokenOK: boolean = true;
+	//Se necesita el state que indica el nombre del usuario
+	const { id, username, passworUpdated } = useSelector(
+		(state: RootSote) => state.pass
+	);
+
+	//useParams para obtener los parametros de la ruta
+	const params = useParams();
+	//Asignacion del parametro en una const
+	const tkn = params.tknconfirmacion;
+
+	//useDispatch para ejeturar las acciones del passActions
+	const dispatch = useDispatch();
+
+	//useNavigate para enviar a inicio
+	const navigate = useNavigate();
 
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
@@ -29,7 +48,8 @@ const ConfirmarContraseñaPage = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isFormValid()) {
-			console.log(contraseña1);
+			console.log('Enviando');
+			if (tkn) dispatch(sendPassword(tkn, username, contraseña1));
 		}
 	};
 
@@ -40,7 +60,7 @@ const ConfirmarContraseñaPage = () => {
 			setError('Contraseña debe tener  al menos 6 caracteres');
 			return false;
 			// El campo contraseña debe tener al menos 6 caracteres
-		} else if (contraseña1.trim().length !== contraseña2.trim().length) {
+		} else if (contraseña1.trim() !== contraseña2.trim()) {
 			setError('Las contraseñas no coinciden');
 			return false;
 		}
@@ -49,9 +69,21 @@ const ConfirmarContraseñaPage = () => {
 		return true;
 	};
 
+	//Efecto que se ejecuta al cargar el componente
+	useEffect(() => {
+		dispatch(validationToken(tkn));
+	}, [dispatch, tkn]);
+
+	//useEffect para redireccionar al login una vez se actualizo el password
+	useEffect(() => {
+		if (passworUpdated) {
+			navigate('/');
+		}
+	}, [passworUpdated, navigate]);
+
 	return (
 		<div className='custm-backgroundConfirm'>
-			{istokenOK ? (
+			{!!id ? (
 				<div className='custm-ConfirmContainer d-flex flex-column align-items-center'>
 					<div
 						className='d-flex'
@@ -70,9 +102,7 @@ const ConfirmarContraseñaPage = () => {
 							<label className='custm-textTittleCC'>ESTABLECE TU CONTRASEÑA</label>
 						</div>
 					</div>
-					<div className='fw-light fs-2 textColorError2 mb-4'>
-						ivan.santana@ulfix.com
-					</div>
+					<div className='fw-light fs-2 textColorError2 mb-4'>{username}</div>
 					{/* Formulario */}
 					<form className='custmFromCC' onSubmit={handleSubmit}>
 						<div className='form-floating mb-4'>
