@@ -1,6 +1,6 @@
 const jwt = require('express-jwt');
 const { secret } = require('config.json');
-const sequelize = require('./../libs/sequelize');
+const {models} = require('./../libs/sequelize');
 
 module.exports = authorize;
 
@@ -12,7 +12,7 @@ function authorize() {
         // attach full user record to request object
         async (req, res, next) => {
             // get user with id from token 'sub' (subject) property
-            const user = await sequelize.findByPk(req.user.sub);
+            const user = await models.User.findByPk(req.user.sub);
 
             // check user still exists
             if (!user)

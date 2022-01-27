@@ -4,27 +4,15 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 const USER_TABLE = 'Users';
 
 const UserSchema = {
-  id: {
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataTypes.INTEGER
-  },
-  username: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    unique: true,
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  createdAt: {
-    allowNull: false,
-    type: DataTypes.DATE,
-    field: 'create_at',
-    defaultValue: Sequelize.NOW
-  }
+  id: {allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
+  firstName: { type: DataTypes.STRING, allowNull: false },
+  lastName: { type: DataTypes.STRING, allowNull: false },
+  username: { type: DataTypes.STRING, allowNull: false },
+  phone:{type:DataTypes.STRING,allowNull:false},
+  active:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
+  hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
+  roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 },
+  confirmationCode: { type: DataTypes.STRING, unique: true },
 }
 
 class User extends Model {

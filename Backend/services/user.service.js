@@ -1,7 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const sequelize = require('./../libs/sequelize');
+const {models} = require('./../libs/sequelize');
 
 module.exports = {
     authenticate,
@@ -16,7 +16,7 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    const user = await sequelize.findOne({ where: { username } });
+    const user = await models.User.findOne({ where: { username } });
 
     if (user.active != true)       
           throw "Cuenta inactiva, favor de verificar su email";
@@ -31,7 +31,7 @@ async function authenticate({ username, password }) {
 }
 
 async function reenvioToken({ username, password }) {
-    const user = await db.User.scope('withHash').findOne({ where: { username } });
+    const user = await models.User.scope('withHash').findOne({ where: { username } });
 
     if (!user )
         throw 'Usuario o contraseña incorrecta';
@@ -42,7 +42,7 @@ async function reenvioToken({ username, password }) {
 }
 
 async function getAll() {
-    return await db.User.findAll();
+    return await models.User.findAll();
 }
 
 async function getById(id) {
@@ -55,7 +55,7 @@ async function getByToken(token) {
 
 async function create(params) {
     // validate
-    if (await db.User.findOne({ where: { username: params.username } })) {
+    if (await models.User.findOne({ where: { username: params.username } })) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
@@ -85,7 +85,7 @@ async function create(params) {
         };
         await sgMail.send(msg);
         // save user
-        await db.User.create(params);
+        await models.User.create(params);
     } catch (error) {
         console.log(error.message);
     }
@@ -94,7 +94,7 @@ async function create(params) {
 
 async function createMaster(params) {
     // validate
-    if (await db.User.findOne({ where: { username: params.username } })) {
+    if (await models.User.findOne({ where: { username: params.username } })) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
     // hash password
@@ -102,7 +102,7 @@ async function createMaster(params) {
         params.hash = await bcrypt.hash(params.password, 10);
     }
     // save user
-    await db.User.create(params);
+    await models.User.create(params);
 }
 
 async function update(id, params) {
@@ -110,7 +110,7 @@ async function update(id, params) {
 
     // validate
     const usernameChanged = params.username && user.username !== params.username;
-    if (usernameChanged && await db.User.findOne({ where: { username: params.username } })) {
+    if (usernameChanged && await models.User.findOne({ where: { username: params.username } })) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
@@ -132,13 +132,13 @@ async function _delete(id) {
 }
 
 async function getUser(id) {
-    const user = await db.User.findByPk(id);
+    const user = await models.User.findByPk(id);
     if (!user) throw 'Usuario no encontrado';
     return user;
 }
 
 async function getUserToken(token) {
-    const user = await db.User.findOne({where:{confirmationCode:token}});
+    const user = await models.User.findOne({where:{confirmationCode:token}});
     if (!user) throw 'Usuario no encontrado';
     return user;
 }
@@ -149,7 +149,7 @@ function omitHash(user) {
 }
 
  async function reenvioToken(params) {
-    const user = await db.User.findOne({ where: params});
+    const user = await models.User.findOne({ where: params});
 
     if (!user)
         throw 'Usuario no encontrado';
