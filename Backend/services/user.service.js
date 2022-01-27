@@ -129,7 +129,7 @@ async function update(id, params) {
 
 async function updateConfirmation( params ) {
     console.log(params)
-    const user = await db.User.findOne({where:{username:params.username}});
+    const user = await models.User.findOne({where:{username:params.username}});
     if (!user) throw 'Usuario no encontrado';
 
     // hash password if it was entered
