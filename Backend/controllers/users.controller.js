@@ -15,12 +15,20 @@ router.get('/', getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
-router.delete('/:id', authorize(), _delete);
+router.delete('/:id', _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
+router.post('/recuperacion', recovery);
 
 
 module.exports = router;
+
+function recovery(req, res, next) {
+    console.log(req.body);
+    userService.recoveryByUserName(req.body)
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function updateConfirmation(req, res, next) {
     console.log(req.body);

@@ -15,6 +15,7 @@ module.exports = {
     reenvioToken,
     getByToken,
     updateConfirmation,
+    recoveryByUserName
 };
 
 async function authenticate({ username, password }) {
@@ -108,6 +109,47 @@ async function createMaster(params) {
     // save user
     await db.User.create(params);
 }
+
+async function recoveryByUserName(params) {
+    console.log(params)
+    const user = await db.User.findOne({where:{username:params.username}});
+    // validate
+    if (!user) throw 'Usuario no encontrado';
+
+    const token = jwt.sign({email: params.username}, config.secret);
+
+    user.confirmationCode=token;
+
+    const sgMail = require('@sendgrid/mail');
+
+    const API_KEY=process.env.SENDGRID_API_KEY
+
+    const URL=process.env.URLR
+    
+    try {
+        sgMail.setApiKey(API_KEY)
+        const url=URL+user.confirmationCode;
+        console.log(url);
+        const msg = {
+            to: params.username,
+            from: {email:process.env.EMAIL,name:process.env.NAME,},
+            subject:'Recuperacion contraseña',
+            templateId: process.env.TEMPLETER,
+            dynamic_template_data: {
+                url: url,
+                nombre: user.firstName
+            },
+  
+        };
+        await sgMail.send(msg);
+        // actualizar el user
+        await user.save();
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+}
+
 
 async function update(id, params) {
     const user = await getUser(id);
