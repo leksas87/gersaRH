@@ -19,6 +19,7 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 
 
+
 module.exports = router;
 
 function authenticateToken(req, res, next) {

@@ -1,8 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const db = require('helpers/db');
-const { isPropertyAccessOrQualifiedName } = require('typescript');
+const sequelize = require('./../libs/sequelize');
 
 module.exports = {
     authenticate,
@@ -17,7 +16,7 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    const user = await db.User.scope('withHash').findOne({ where: { username } });
+    const user = await sequelize.findOne({ where: { username } });
 
     if (user.active != true)       
           throw "Cuenta inactiva, favor de verificar su email";
@@ -131,8 +130,6 @@ async function _delete(id) {
     const user = await getUser(id);
     await user.destroy();
 }
-
-// helper functions
 
 async function getUser(id) {
     const user = await db.User.findByPk(id);
