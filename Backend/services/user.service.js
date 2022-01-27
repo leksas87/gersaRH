@@ -12,7 +12,8 @@ module.exports = {
     update,
     delete: _delete,
     reenvioToken,
-    getByToken
+    getByToken,
+    updateConfirmation,
 };
 
 async function authenticate({ username, password }) {
@@ -117,6 +118,25 @@ async function update(id, params) {
     // hash password if it was entered
     if (params.password) {
         params.hash = await bcrypt.hash(params.password, 10);
+    }
+
+    // copy params to user and save
+    Object.assign(user, params);
+    await user.save();
+
+    return omitHash(user.get());
+}
+
+async function updateConfirmation( params ) {
+    console.log(params)
+    const user = await db.User.findOne({where:{username:params.username}});
+    if (!user) throw 'Usuario no encontrado';
+
+    // hash password if it was entered
+    if (params.password) {
+        params.hash = await bcrypt.hash(params.password, 10);
+        params.active = true;
+        params.confirmationCode = null;
     }
 
     // copy params to user and save

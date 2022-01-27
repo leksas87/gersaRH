@@ -17,6 +17,9 @@
 
 	--inputColorPrimary: #ebebeb;
 
+	--gersaColorPrimary: #213b7e;
+	--gersaColorSecondary: #73a8d6;
+
 	box-sizing: border-box;
 	scroll-behavior: smooth;
 }
@@ -60,6 +63,9 @@ body {
 }
 .textColorError {
 	color: var(--textColorError);
+}
+.textColorError2 {
+	color: var(--textColorError2);
 }
 .textColorSecondary {
 	color: var(--textColorSecondary);

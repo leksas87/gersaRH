@@ -10,16 +10,25 @@ router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/register',authorize(), registerSchema, register);
 router.post('/registerMaster', registerSchemaMaster, registerMaster);
 router.get('/renew',authorize(),revalidadToken);
-router.get('/', authorize(), getAll);
+router.get('/', getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
+router.post('/confirmation',updateConfirmation);
 
 
 
 module.exports = router;
+
+function updateConfirmation(req, res, next) {
+    console.log(req.body);
+    userService.updateConfirmation(req.body)
+        .then(user => res.json({data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
 
 function authenticateToken(req, res, next) {
     console.log(req.params.token);

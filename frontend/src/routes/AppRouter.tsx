@@ -2,7 +2,8 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
-import { ConfirmarContraseña } from '../components/confirmarContraseña/ConfirmarContraseña';
+import ConfirmarContraseñaPage from '../components/confirmarContraseña/ConfirmarContraseñaPage';
+import RecuperacionContrasenaPage from '../components/confirmarContraseña/RecuperacionContrasenaPage';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/EmpleadoPerfil';
 import EmpleadosPage from '../components/empleados/EmpleadosPage';
@@ -66,11 +67,11 @@ const AppRouter = () => {
 						{/* Rutas públicas */}
 						<Route
 							path='/confirmacion/:tknconfirmacion'
-							element={<ConfirmarContraseña />}
+							element={<ConfirmarContraseñaPage />}
 						/>
 						<Route
-							path='/recuperacion'
-							element={<h1>Página de recuperacion de password</h1>}
+							path='/recuperacion/:tknconfirmacion'
+							element={<RecuperacionContrasenaPage />}
 						/>
 						<Route
 							path='/recuperarcontrasena'
