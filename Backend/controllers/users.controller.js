@@ -21,13 +21,6 @@ router.post('/confirmation',updateConfirmation);
 
 
 module.exports = router;
-/*
-function authenticateUserConfirmation(req, res, next) {
-    console.log(req.body);
-    userService.getByToken(req.body)
-        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
-        .catch(next);
-}*/
 
 function updateConfirmation(req, res, next) {
     console.log(req.body);
@@ -36,11 +29,6 @@ function updateConfirmation(req, res, next) {
         .catch(next);
 }
 
-function update(req, res, next) {
-    userService.update(req.params.id, req.body)
-        .then(user => res.json({data:user ,message:'Succesful',ok:true}))
-        .catch(next);
-}
 
 function authenticateToken(req, res, next) {
     console.log(req.params.token);
@@ -132,12 +120,12 @@ function updateSchema(req, res, next) {
     });
     validateRequest(req, next, schema);
 }
-/*
+
 function update(req, res, next) {
     userService.update(req.params.id, req.body)
         .then(user => res.json({data:user ,message:'Succesful',ok:true}))
         .catch(next);
-}*/
+}
 
 function _delete(req, res, next) {
     userService.delete(req.params.id)

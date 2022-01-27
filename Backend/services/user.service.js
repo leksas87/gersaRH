@@ -15,7 +15,6 @@ module.exports = {
     reenvioToken,
     getByToken,
     updateConfirmation,
-    getByTokenAndName
 };
 
 async function authenticate({ username, password }) {
@@ -56,10 +55,6 @@ async function getById(id) {
 
 async function getByToken(token) {
     return await getUserToken(token);
-}
-
-async function getByTokenAndName({token, userName}) {
-    return await getUserTokenAndName(token, userName);
 }
 
 async function create(params) {
@@ -144,6 +139,7 @@ async function updateConfirmation( params ) {
     if (params.password) {
         params.hash = await bcrypt.hash(params.password, 10);
         params.active = true;
+        params.confirmationCode = null;
     }
 
     // copy params to user and save
@@ -169,13 +165,6 @@ async function getUser(id) {
 async function getUserToken(token) {
     const user = await db.User.findOne({where:{confirmationCode:token}});
     if (!user) throw 'Usuario no encontrado';
-    return user;
-}
-
-async function getUserTokenAndName(token, userName) {
-    const user = await db.User.findOne({where:{confirmationCode:token}});
-    if (!user) throw 'Usuario no encontrado';
-    if (user.username !== userName) throw 'Usuario no encontrado';
     return user;
 }
 
