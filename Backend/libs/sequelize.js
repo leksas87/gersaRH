@@ -1,11 +1,19 @@
-const { Pool } = require('mysql2');
+const { Sequelize } = require('sequelize');
 
 const { config } = require('./../config/config');
+const setupModels = require('./../db/models');
 
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 const URI = `mysql://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
-const pool = new Pool({ connectionString: URI });
+const sequelize = new Sequelize(URI, {
+  dialect: 'mysql',
+  logging: true,
+});
 
-module.exports = pool;
+setupModels(sequelize);
+
+sequelize.sync();
+
+module.exports = sequelize;

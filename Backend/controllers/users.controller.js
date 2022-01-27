@@ -4,7 +4,6 @@ const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
-const { required } = require('joi');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -18,6 +17,7 @@ router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
+
 
 
 module.exports = router;
