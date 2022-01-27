@@ -1,11 +1,13 @@
 
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USER_TABLE = 'Users';
+const {USER_TABLE} = require('./user.model');
 
-const UserSchema = {
+const EMPLOYEE_TABLE = 'Employees';
+
+const EmployeeSchema = {
   id: {allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
-  userId: {type: DataTypes.INTEGER,allowNull:true},
+  userId: {type: DataTypes.INTEGER,allowNull:true,references:{model:USER_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   tipoIdentificacion: { type: DataTypes.STRING, allowNull: true },
   documentoIdentidad: { type: DataTypes.STRING, allowNull: true },
   fechaNacimiento:{type:DataTypes.STRING,allowNull:false},
@@ -25,21 +27,21 @@ const UserSchema = {
   empergenciaTelefono:{type:DataTypes.STRING,allowNull:true},
 }
 
-class User extends Model {
-  static associate() {
-    // associate
+class Employee extends Model {
+  static associate(models) {
+    this.belongsTo(models.User,{as:'user'});
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: EMPLOYEE_TABLE,
+      modelName: 'Employee',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { USER_TABLE, UserSchema, User }
+module.exports = { EMPLOYEE_TABLE, EmployeeSchema, Employee }
 
