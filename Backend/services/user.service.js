@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('helpers/db');
-const { isPropertyAccessOrQualifiedName } = require('typescript');
+//const { isPropertyAccessOrQualifiedName } = require('typescript');
 
 module.exports = {
     authenticate,
@@ -13,7 +13,9 @@ module.exports = {
     update,
     delete: _delete,
     reenvioToken,
-    getByToken
+    getByToken,
+    updateConfirmation,
+    getByTokenAndName
 };
 
 async function authenticate({ username, password }) {
@@ -43,7 +45,9 @@ async function reenvioToken({ username, password }) {
 }
 
 async function getAll() {
-    return await db.User.findAll();
+    const algo = await db.User.findAll();
+    console.log(algo);
+    return algo;
 }
 
 async function getById(id) {
@@ -52,6 +56,10 @@ async function getById(id) {
 
 async function getByToken(token) {
     return await getUserToken(token);
+}
+
+async function getByTokenAndName({token, userName}) {
+    return await getUserTokenAndName(token, userName);
 }
 
 async function create(params) {
@@ -127,6 +135,24 @@ async function update(id, params) {
     return omitHash(user.get());
 }
 
+async function updateConfirmation( params ) {
+    console.log(params)
+    const user = await db.User.findOne({where:{username:params.username}});
+    if (!user) throw 'Usuario no encontrado';
+
+    // hash password if it was entered
+    if (params.password) {
+        params.hash = await bcrypt.hash(params.password, 10);
+        params.active = true;
+    }
+
+    // copy params to user and save
+    Object.assign(user, params);
+    await user.save();
+
+    return omitHash(user.get());
+}
+
 async function _delete(id) {
     const user = await getUser(id);
     await user.destroy();
@@ -143,6 +169,13 @@ async function getUser(id) {
 async function getUserToken(token) {
     const user = await db.User.findOne({where:{confirmationCode:token}});
     if (!user) throw 'Usuario no encontrado';
+    return user;
+}
+
+async function getUserTokenAndName(token, userName) {
+    const user = await db.User.findOne({where:{confirmationCode:token}});
+    if (!user) throw 'Usuario no encontrado';
+    if (user.username !== userName) throw 'Usuario no encontrado';
     return user;
 }
 
