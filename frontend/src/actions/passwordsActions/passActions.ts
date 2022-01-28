@@ -8,6 +8,7 @@ import {
 	PASSWORD_UPDATED,
 } from './passActionsTypes';
 
+//Validar token recibido por mail
 export const validationToken = (token: any) => {
 	return async (dispatch: Dispatch<PassDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer login
@@ -36,6 +37,7 @@ export const validationToken = (token: any) => {
 	};
 };
 
+//Envio de confirmacion de Contraseña o Nueva Contraseña
 export const sendPassword = (
 	tkn: string,
 	userName: string,
@@ -78,6 +80,33 @@ export const sendPassword = (
 					timer: 2000,
 				});
 				console.log(body.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//Solicitud de nueva contraseña
+export const passwordRequestNew = (userName: string) => {
+	return async (dispatch: Dispatch<PassDispatchTypes>) => {
+		//Peticion Fetch a la API para hacer login
+		try {
+			const respuesta = await fetchSinToken(
+				`users/recuperacion/`,
+				{ username: userName },
+				'POST'
+			);
+			//.json() a la respuesta
+			const body = await respuesta?.json();
+
+			//Condicion si existe un id
+			if (body.ok) {
+				console.log('Solicitud detectada');
+			} else {
+				console.log('Solicitud detectada');
+				//Mensaje de error proveniente de la API
+				// console.log(body.message);
 			}
 		} catch (error) {
 			console.log(error);
