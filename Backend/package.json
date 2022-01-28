@@ -11,7 +11,8 @@
         "start": "node ./server.js",
         "start:dev": "nodemon ./server.js",
         "migrations:generate": "sequelize-cli migration:generate --name",
-        "migrations:run": "sequelize-cli db:migrate"
+        "migrations:run": "sequelize-cli db:migrate",
+        "mogrations:revert":"sequelize-cli db:migrate:undo:all"
     },
     "dependencies": {
         "@sendgrid/mail": "^7.6.0",
