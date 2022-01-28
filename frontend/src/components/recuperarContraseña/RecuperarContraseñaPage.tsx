@@ -32,8 +32,8 @@ const RecuperarContraseñaPage = () => {
 	const handleSolicitarRecuperacion = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		dispatch(passwordRequestNew(userName));
 		if (isFormValid()) {
-			dispatch(passwordRequestNew(userName));
 			setMsg(true);
 			Swal.fire({
 				position: 'center',
