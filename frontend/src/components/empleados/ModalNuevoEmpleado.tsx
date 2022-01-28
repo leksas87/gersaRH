@@ -158,7 +158,7 @@ const ModalNuevoEmpleado = () => {
 									>
 										<label className='textColorPrimary fs-2'>Crear empleado</label>
 										<label
-											className='textColorLight fw-light'
+											className='textColorLight fw-light mt-2'
 											style={{ lineHeight: '15px' }}
 										>
 											Completa la información siguiente para añadir un nuevo empleado.

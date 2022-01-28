@@ -11,7 +11,7 @@ import './ConfirmarContraseñaPage.css';
 const RecuperacionContrasenaPage = () => {
 	//Se necesita el state que indica el nombre del usuario
 	const { id, username, passworUpdated } = useSelector(
-		(state: RootSote) => state.pass
+		(state: RootSote | any) => state.pass
 	);
 
 	//useParams para obtener los parametros de la ruta
