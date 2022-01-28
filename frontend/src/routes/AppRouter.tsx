@@ -5,7 +5,10 @@ import { startChecking } from '../actions/loginActions/loginActions';
 import ConfirmarContraseñaPage from '../components/confirmarContraseña/ConfirmarContraseñaPage';
 import RecuperacionContrasenaPage from '../components/confirmarContraseña/RecuperacionContrasenaPage';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
-import EmpleadoPerfil from '../components/empleados/EmpleadoPerfil';
+import EmpleadoPerfil from '../components/empleados/empleadoPerfil/EmpleadoPerfil';
+import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/PageEmpleadoInfoContrato';
+import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
+import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
 import EmpleadosPage from '../components/empleados/EmpleadosPage';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
@@ -58,21 +61,29 @@ const AppRouter = () => {
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
 									<Route path='empleados' element={<EmpleadosPage />} />
-									<Route path='empleados/:empleadoId' element={<EmpleadoPerfil />} />
+									<Route path='empleados/:empleadoId/' element={<EmpleadoPerfil />}>
+										<Route path='perfil' element={<PageEmpleadoPerfil />} />
+										<Route path='personal' element={<PageEmpleadoPersonal />} />
+										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+										<Route path='*' element={<NotFound />} />
+									</Route>
 								</Route>
 								<Route path='/*' element={<NotFound />} />
 							</Route>
 						</Route>
 
 						{/* Rutas públicas */}
+						{/* Nueva Cuenta */}
 						<Route
 							path='/confirmacion/:tknconfirmacion'
 							element={<ConfirmarContraseñaPage />}
 						/>
+						{/* Cambiar Password */}
 						<Route
 							path='/recuperacion/:tknconfirmacion'
 							element={<RecuperacionContrasenaPage />}
 						/>
+						{/* Página para solicitar nuevo password */}
 						<Route
 							path='/recuperarcontrasena'
 							element={<RecuperarContraseñaPage />}

@@ -3,6 +3,7 @@ import {
 	REGISTER_USER_START_LOADING,
 	REGISTER_USER_LOADING_END,
 	GET_USERS_SUCCESSFUL,
+	GET_USER_BY_ID,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -12,6 +13,15 @@ const INITIAL_STATE: iUsuariosReducer = {
 		loading: false,
 	},
 	empleados: [],
+	perfilEmpleado: {
+		id: 0,
+		firstName: '',
+		lastName: '',
+		username: '',
+		phone: '',
+		roll: 0,
+		active: false,
+	},
 };
 
 //Reducer
@@ -34,6 +44,11 @@ export const UsersReducer = (
 			return {
 				...state,
 				empleados: [...action.payload.empleados],
+			};
+		case GET_USER_BY_ID:
+			return {
+				...state,
+				perfilEmpleado: { ...action.payload.empleado },
 			};
 
 		default:

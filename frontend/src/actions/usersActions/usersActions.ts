@@ -4,6 +4,7 @@ import {
 	REGISTER_USER_START_LOADING,
 	REGISTER_USER_LOADING_END,
 	GET_USERS_SUCCESSFUL,
+	GET_USER_BY_ID,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
@@ -86,6 +87,25 @@ export const getUsers = () => {
 		if (body.ok) {
 			//Se guarda los usuarios obtenidos en el Reducer
 			dispatch({ type: GET_USERS_SUCCESSFUL, payload: { empleados: body.data } });
+		} else {
+			console.log('Algo salio mal');
+			console.log(body.message);
+		}
+	};
+};
+
+//Obtener usuarios.
+export const getUserById = (id: string) => {
+	// console.log('Ejecutando getUsers');
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para hacer obtener los usuarios
+		const respuesta = await fetchConToken(`users/${id}`, {}, 'GET');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se guarda los usuarios obtenidos en el Reducer
+			dispatch({ type: GET_USER_BY_ID, payload: { empleado: body.data } });
 		} else {
 			console.log('Algo salio mal');
 			console.log(body.message);

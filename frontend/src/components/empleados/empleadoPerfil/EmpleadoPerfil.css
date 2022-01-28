@@ -1,0 +1,93 @@
+.custm-empleadoNavLink {
+	text-decoration: none;
+	color: var(--textColorSecondary);
+	transition: ease-in-out 0.2s;
+}
+.custm-empleadoNavLink:hover {
+	cursor: pointer;
+	color: var(--textColorSecondary);
+	transform: scale(0.94);
+}
+.custm-empleadoNavLink-Active {
+	border-bottom: 2px solid var(--textColorSecondary);
+}
+
+.custm-empleadoContainerContent {
+	/* border: 1px solid teal; */
+	padding: 1rem;
+	min-width: 300px;
+	width: 50%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+/* +++++PageEmpleadoPErfil++++ */
+.custm-textSendInvitation {
+	margin: 0px 30px 0px 30px;
+}
+.custm-btnSendInvitation {
+	border-radius: 25px;
+	padding: 10px 3rem;
+	border: 1px solid #ffffff;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	transition: ease-in 0.1s;
+}
+.custm-btnSendInvitation:hover {
+	transform: scale(0.98);
+	border: 1px solid #ffffff;
+	box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/* ++++++++++Formulario Styles+++++++++++++++ */
+.custm-empleadoFormContainer {
+	background-color: var(--colorBackgroundForm);
+	border: 1px solid var(--colorBorderForm);
+	border-radius: 12px;
+	padding: 5px;
+	padding-bottom: 15px;
+	width: 97%;
+}
+.custm-btnToggle {
+	transition: ease-in 0.1s;
+}
+.custm-btnToggle:hover {
+	transition: ease-in 0.1s;
+	transform: scale(0.9);
+}
+.custm-empleadoFormIntput {
+	border-radius: 10px;
+}
+.custm-empleadoFormSubmit {
+	background-color: var(--colorPrimary);
+	border: 2px solid var(--colorSecondary);
+	color: var(--textColorSecondary);
+	padding: 0px 1.5rem;
+	border-radius: 15px;
+	height: auto;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+	transition: ease-in 0.1s;
+}
+.custm-empleadoFormSubmit:hover {
+	background-color: var(--colorPrimary);
+	color: var(--textColorSecondary);
+	transform: scale(0.98);
+	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 991px) {
+	.custm-empleadoContainerContent {
+		padding: 0rem;
+		min-width: 200px;
+		width: 100%;
+	}
+}
+
+@media (max-width: 454px) {
+	.custm-textSendInvitation {
+		margin: 0px 0px 0px 0px;
+	}
+	.custm-btnSendInvitation {
+		padding: 10px 2rem;
+		font-size: 12px;
+	}
+}

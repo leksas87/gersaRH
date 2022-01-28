@@ -34,6 +34,7 @@ export interface iUsuariosReducer {
 		loading: boolean;
 	};
 	empleados: iEmpleado[];
+	perfilEmpleado: iEmpleado;
 }
 //Interface de confirmacion contraseña
 export interface iConfirmarContraseña {
