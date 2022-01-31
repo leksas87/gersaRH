@@ -86,6 +86,16 @@
 	transform: scale(0.98);
 	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
 }
+.custm-btnWeek {
+	background-color: var(--colorSecondary);
+	color: white;
+	border: 1px solid var(--colorSecondary);
+	border-radius: 25px;
+	width: 5%;
+}
+.custm-btnWeek:hover {
+	background-color: var(--colorSecondaryActive);
+}
 
 @media (max-width: 991px) {
 	.custm-empleadoContainerContent {

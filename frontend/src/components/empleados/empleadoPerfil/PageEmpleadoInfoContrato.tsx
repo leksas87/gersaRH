@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux';
 import { useToggle } from '../../../hooks/useToggle';
+import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoInfoContrato = () => {
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [infoBasicavalue, toggleInfoBasic] = useToggle(false); //Recibe el valor inicial
 	const [horasLabValue, toggleHorasLab] = useToggle(false); //Recibe el valor inicial
@@ -113,25 +118,138 @@ const PageEmpleadoInfoContrato = () => {
 							</div>
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
-								<div className='mb-4'>
-									<label className='custm-Width100'>Horas</label>
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Horas'
-										disabled={!horasLabValue}
-									/>
+								<div className='d-flex mb-4'>
+									<div className='me-1'>
+										<label className='custm-Width100'>Horas</label>
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											placeholder='Horas'
+											disabled={!horasLabValue}
+										/>
+									</div>
+									<div className='ms-1'>
+										<label className='custm-Width100'>Unidad</label>
+										<input
+											className='form-control custm-empleadoFormIntput'
+											type='text'
+											placeholder='Unidad'
+											disabled={!horasLabValue}
+										/>
+									</div>
 								</div>
-								<div className='mb-4'>
-									<label className='custm-Width100'>Unidad</label>
 
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Unidad'
-										disabled={!horasLabValue}
-									/>
+								<div className='d-flex justify-content-center textColorLight mb-1'>
+									<label>
+										<span className='text-capitalize'>{perfilEmpleado.firstName}</span>{' '}
+										trabaja a la semana los días:
+									</label>
 								</div>
+								<div
+									className='d-flex justify-content-center'
+									// style={{ backgroundColor: 'turquoise' }}
+								>
+									<div
+										className='btn-group mb-4 custm-Width100'
+										role='group'
+										aria-label='Basic checkbox toggle button group'
+									>
+										<input
+											type='checkbox'
+											className='btn-check '
+											id='btncheckLunes'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckLunes'
+										>
+											L
+										</label>
+
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckMartes'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckMartes'
+										>
+											M
+										</label>
+
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckMiercoles'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckMiercoles'
+										>
+											M
+										</label>
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckJueves'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckJueves'
+										>
+											J
+										</label>
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckViernes'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckViernes'
+										>
+											V
+										</label>
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckSabado'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckSabado'
+										>
+											S
+										</label>
+										<input
+											type='checkbox'
+											className='btn-check'
+											id='btncheckDomingo'
+											autoComplete='off'
+											disabled={!horasLabValue}
+										/>
+										<label
+											className='btn btn-outline-primary custm-btnWeek'
+											htmlFor='btncheckDomingo'
+										>
+											D
+										</label>
+									</div>
+								</div>
+
 								<div
 									className='d-flex justify-content-end custm-Width100'
 									style={{ height: '3rem' }}

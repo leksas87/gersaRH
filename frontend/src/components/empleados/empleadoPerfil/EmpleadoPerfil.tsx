@@ -22,7 +22,7 @@ const EmpleadoPerfil = () => {
 
 	useEffect(() => {
 		if (empleadoId) dispatch(getUserById(empleadoId));
-	}, []);
+	}, [dispatch, empleadoId]);
 
 	return (
 		<>

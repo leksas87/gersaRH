@@ -11,10 +11,17 @@
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	padding-top: 2rem;
+}
+.custm-mtop {
+	margin-top: 0rem;
 }
 
 @media (max-width: 768px) {
 	.dashboardContainer {
+		margin-top: 3rem;
+	}
+	.custm-mtop {
 		margin-top: 3rem;
 	}
 }
