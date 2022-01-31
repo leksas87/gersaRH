@@ -20,6 +20,12 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 		(state: RootSote) => state.auth
 	);
 
+	//Tomar Solo el primer nombre y el primer apellido
+	const indiceName = firstName.indexOf(' ');
+	const indiceLastname = lastName.indexOf(' ');
+	const name = firstName.substring(0, indiceName);
+	const lastname = lastName.substring(0, indiceLastname);
+
 	//Metodo para cerrar sesion
 	const startLogOut = () => {
 		localStorage.clear();
@@ -112,9 +118,11 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							<div className='custm-imgCount me-2'>
 								<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
 							</div>
-							<span
-								style={{ textTransform: 'capitalize' }}
-							>{`${firstName} ${lastName}`}</span>
+							<span style={{ textTransform: 'capitalize' }}>
+								{name ? name : firstName}
+								{` `}
+								{lastname ? lastname : lastName}
+							</span>
 						</button>
 						<ul
 							style={{ border: 'none' }}

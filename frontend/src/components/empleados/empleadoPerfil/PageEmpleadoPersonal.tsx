@@ -250,25 +250,27 @@ const PageEmpleadoPersonal = () => {
 										disabled={!direccionValue}
 									/>
 								</div>
-								<div className='mb-4'>
-									<label className='custm-Width100'>Ciudad</label>
+								<div className='d-flex mb-4'>
+									<div className='me-1'>
+										<label className='custm-Width100'>Ciudad</label>
 
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Ciudad'
-										disabled={!direccionValue}
-									/>
-								</div>
-								<div className='mb-4'>
-									<label className='custm-Width100'>Código Postal</label>
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											placeholder='Ciudad'
+											disabled={!direccionValue}
+										/>
+									</div>
+									<div className='ms-1'>
+										<label className='custm-Width100'>Código Postal</label>
 
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Código Postal'
-										disabled={!direccionValue}
-									/>
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											placeholder='Código Postal'
+											disabled={!direccionValue}
+										/>
+									</div>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Estado / Provincia / Región</label>
