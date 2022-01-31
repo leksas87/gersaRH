@@ -18,7 +18,7 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
-
+router.post('/registerFile',authorize());
 
 
 module.exports = router;
