@@ -13,6 +13,7 @@ const UserSchema = {
   hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
   roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 },
   confirmationCode: { type: DataTypes.STRING, unique: true },
+  isEmployeeActive:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:true},
 }
 
 class User extends Model {
