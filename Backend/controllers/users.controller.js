@@ -71,7 +71,8 @@ function registerSchema(req, res, next) {
         lastName: Joi.string().required(),
         username: Joi.string().required(),
         phone:Joi.string().required(),
-        confirmationCode:Joi.string()
+        sendInvitation:Joi.boolean(),
+        confirmationCode:Joi.string(),
     });
     validateRequest(req, next, schema);
 }
