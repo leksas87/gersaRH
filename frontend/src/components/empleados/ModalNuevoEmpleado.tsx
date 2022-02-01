@@ -13,6 +13,10 @@ const ModalNuevoEmpleado = () => {
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
 
+	//useState para manejo del checkbox
+	const [checked, setChecked] = useState<boolean>(false);
+	const handleClick = () => setChecked(!checked);
+
 	//objeto user para formulario Registro
 	const employee: iNuevoEmpleado = {
 		name: '',
@@ -31,7 +35,7 @@ const ModalNuevoEmpleado = () => {
 
 		//Si el formulario es valido entonces dispatch startLogin...
 		if (isFormValid()) {
-			dispatch(registerNewUser(name, apellidos, correo, phone));
+			dispatch(registerNewUser(name, apellidos, correo, phone, checked));
 		}
 	};
 
@@ -288,7 +292,11 @@ const ModalNuevoEmpleado = () => {
 												<input
 													className='form-check-input custm-InputSwitch'
 													type='checkbox'
+													name='sendInvitation'
+													// value={sendInvitation}
 													id='switchModalNewEmployee'
+													onClick={handleClick}
+													checked={checked}
 												/>
 												<label
 													className='form-check-label'
