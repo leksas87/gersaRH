@@ -284,6 +284,19 @@ const ModalNuevoEmpleado = () => {
 												autoComplete='off'
 												onChange={handleInputChange}
 											/>
+											<div className='form-check form-switch mt-4'>
+												<input
+													className='form-check-input custm-InputSwitch'
+													type='checkbox'
+													id='switchModalNewEmployee'
+												/>
+												<label
+													className='form-check-label'
+													htmlFor='switchModalNewEmployee'
+												>
+													Enviar invitación al sistema GersaRH
+												</label>
+											</div>
 											{error && (
 												<div className='form-text textColorError'>
 													<i className='bi bi-exclamation-circle'>{` `}</i>

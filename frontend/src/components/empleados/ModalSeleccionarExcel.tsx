@@ -70,10 +70,16 @@ const ModalSeleccionarExcel = () => {
 										/>
 									</div>
 									<div>
-										<label style={{ fontSize: '15px' }}>
-											<input type='checkbox' value='Enviar invitaciones' />
-											Enviar invitación al sistema GersaRH
-										</label>
+										<div className='form-check form-switch'>
+											<input
+												className='form-check-input custm-InputSwitch'
+												type='checkbox'
+												id='switchModalImportFile'
+											/>
+											<label className='form-check-label' htmlFor='switchModalImportFile'>
+												Enviar invitación al sistema GersaRH
+											</label>
+										</div>
 									</div>
 									<div className='d-flex justify-content-end'>
 										<button type='submit' className='custm-btnFormSubmit inputSubmit'>
