@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+global.__basedir = __dirname ;
 // api routes
 app.use('/api/users', require('./controllers/users.controller'));
 app.use('/api/employees', require('./controllers/employees.controller'));

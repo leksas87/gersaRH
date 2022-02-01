@@ -4,6 +4,7 @@ const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
+const upload = require("../middleware/upload");
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -18,13 +19,17 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
-router.post('/registerFile',authorize());
+router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 
 
 module.exports = router;
 
+function registerFile(req, res) {
+    userService.importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename);
+    console.log(res);
+}
+
 function recovery(req, res, next) {
-    console.log(req.body);
     userService.recoveryByUserName(req.body)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
         .catch(next);
