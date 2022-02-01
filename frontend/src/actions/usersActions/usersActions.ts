@@ -8,6 +8,7 @@ import {
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
+import axios from 'axios';
 // import * as bootstrap from 'bootstrap';
 
 //Registro de nuevo Usuario
@@ -111,4 +112,28 @@ export const getUserById = (id: string) => {
 			console.log(body.message);
 		}
 	};
+};
+
+//Descargar Plantilla Excel
+export const downloadTamplateExcel = () => {
+	try {
+		axios({
+			url: '',
+			method: 'GET',
+			responseType: 'blob',
+		})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'plantilla.xlsx');
+				document.body.appendChild(link);
+				link.click();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	} catch (error) {
+		console.log(error);
+	}
 };
