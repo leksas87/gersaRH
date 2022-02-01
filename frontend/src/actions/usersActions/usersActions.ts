@@ -11,12 +11,13 @@ import { fetchConToken } from '../../helpers/fetch';
 import axios from 'axios';
 // import * as bootstrap from 'bootstrap';
 
-//Registro de nuevo Usuario
+//Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
 export const registerNewUser = (
 	name: string,
 	apellidos: string,
 	correo: string,
-	phone: string
+	phone: string,
+	sendInvitation: boolean
 ) => {
 	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
@@ -33,6 +34,7 @@ export const registerNewUser = (
 				lastName: apellidos,
 				username: correo,
 				phone: phone,
+				sendInvitation: sendInvitation,
 			},
 			'POST'
 		);
