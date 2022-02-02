@@ -119,6 +119,12 @@ const ModalSeleccionarExcel = () => {
 											value={archivoSeleccionado}
 											onChange={onchange}
 										/>
+										{errorMsg && (
+											<div className='form-text textColorError'>
+												<i className='bi bi-exclamation-circle'>{` `}</i>
+												{errorMsg}.
+											</div>
+										)}
 									</div>
 									<div>
 										<div className='form-check form-switch'>
@@ -135,6 +141,7 @@ const ModalSeleccionarExcel = () => {
 											</label>
 										</div>
 									</div>
+
 									<div className='d-flex justify-content-end'>
 										<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 											Importar Archivo
