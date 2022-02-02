@@ -20,7 +20,7 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
-router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
+router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile,register);
 
 
 module.exports = router;
@@ -29,7 +29,7 @@ function registerFile(req, res) {
     importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
 }
 
-function importExcelData2MySQL(filePath) {
+function importExcelData2MySQL(filePath,req,res) {
     
     readXlsxFile(filePath).then((rows) => {
         let users = [];
@@ -40,13 +40,11 @@ function importExcelData2MySQL(filePath) {
             username: row[2],
             phone: row[3],
             };
-            
+            userService.create(user)
             users.push(user);
         
         });
         rows.shift();
-        console.log(users);
-        return users;
     })
 
     

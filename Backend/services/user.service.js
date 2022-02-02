@@ -60,6 +60,7 @@ async function getByToken(token) {
 
 async function create(params) {
     // validate
+    try{
     if (await models.User.findOne({ where: { username: params.username } })) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
@@ -74,7 +75,7 @@ async function create(params) {
 
     const URL=process.env.URL
     
-    try {
+    
         sgMail.setApiKey(API_KEY)
         const url=URL+params.confirmationCode;
         console.log(url);
