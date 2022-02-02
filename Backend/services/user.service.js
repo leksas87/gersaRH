@@ -2,7 +2,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const {models} = require('./../libs/sequelize');
-const readXlsxFile = require('read-excel-file/node');
 
 module.exports = {
     authenticate,
@@ -15,18 +14,8 @@ module.exports = {
     reenvioToken,
     getByToken,
     updateConfirmation,
-    recoveryByUserName,
-    importExcelData2MySQL
+    recoveryByUserName
 };
-
-async function importExcelData2MySQL(filePath) {
-    readXlsxFile(filePath).then((rows) => {
-      
-        console.log(rows);
-
-        rows.shift();
-    })
-}
 
 async function authenticate({ username, password }) {
     const user = await models.User.findOne({ where: { username } });

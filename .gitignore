@@ -13,3 +13,5 @@
 /FrontEnd/.env.development.local
 //FrontEnd/.env.production.local
 
+#excel file
+.xls

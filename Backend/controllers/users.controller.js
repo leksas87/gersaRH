@@ -5,6 +5,7 @@ const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
 const upload = require("../middleware/upload");
+const readXlsxFile = require('read-excel-file/node');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -25,10 +26,31 @@ router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile
 module.exports = router;
 
 function registerFile(req, res) {
-    userService.importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename);
-    console.log(res);
+    importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
 }
 
+function importExcelData2MySQL(filePath) {
+    
+    readXlsxFile(filePath).then((rows) => {
+        let users = [];
+        rows.forEach((row) => {
+            let user = {
+            firstName: row[0],
+            lastName: row[1],
+            username: row[2],
+            phone: row[3],
+            };
+            
+            users.push(user);
+        
+        });
+        rows.shift();
+        console.log(users);
+        return users;
+    })
+
+    
+}
 function recovery(req, res, next) {
     userService.recoveryByUserName(req.body)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
