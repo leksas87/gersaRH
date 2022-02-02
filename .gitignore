@@ -14,4 +14,4 @@
 //FrontEnd/.env.production.local
 
 #excel file
-.xlsx
+/Backend/uploads/.xlsx

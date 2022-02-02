@@ -6,6 +6,7 @@ const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
 const upload = require("../middleware/upload");
 const readXlsxFile = require('read-excel-file/node');
+const {models} = require('./../libs/sequelize');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -20,35 +21,75 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
-router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile,register);
+router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 
 
 module.exports = router;
 
-function registerFile(req, res) {
-    importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
-}
-
-function importExcelData2MySQL(filePath,req,res) {
-    
-    readXlsxFile(filePath).then((rows) => {
-        let users = [];
-        rows.forEach((row) => {
-            let user = {
-            firstName: row[0],
-            lastName: row[1],
-            username: row[2],
-            phone: row[3],
-            };
-            userService.create(user)
-            users.push(user);
+async function registerFile(req, res) {
+    // importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
+    const usersNames = [];
+    const URL=`${__basedir}/uploads/${req.file.filename}`;
+    const msnError1='Error, se encontró un correo repetido';
+    const msnError2=`Error, un usuario del archivo excel ya existe en el sistema`;
+    try {
+        await readXlsxFile(URL).then((rows) => {
         
-        });
-        rows.shift();
-    })
+            rows.forEach((row) => {
+                let user = {
+                    firstName: row[0],
+                    lastName: row[1],
+                    username: row[2],
+                    phone: row[3],
+                };
+                
+                if (usersNames.find(element=>element.username === user.username)) {
+                    
+                    throw 'Error, se encontró un correo repetido';
+                    
+                }
+                
+                usersNames.push(user);
+                
+                
+            });
+            rows.shift();
+        })
+    } catch (error) {
+        if (error==='Error, se encontró un correo repetido') {
+            return res.status(400).json({ message:'Error, se encontró un correo repetido',ok:false})
+        }    
+        
+    }
+    console.log(usersNames);
+
+    // try {
+        
+    //     usersNames.forEach(async(element,i) => {
+    //         if(i!==0){
+    //             console.log(element.username);
+    //             if (await models.User.findOne({ where: { username: element.username } })) {
+    //                 throw msnError2;
+    //             }
+
+
+    //         }
+            
+    //         // userService.create(element);
+    //     });
+        
+        
+    // } catch (error) {
+    //     if (error===msnError2) {
+    //         return res.status(400).json({ message:msnError2,ok:false})
+    //     } 
+    // }
+    // console.log(usersNames);
+    //guardar usuario en base de datos
 
     
 }
+
 function recovery(req, res, next) {
     userService.recoveryByUserName(req.body)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
