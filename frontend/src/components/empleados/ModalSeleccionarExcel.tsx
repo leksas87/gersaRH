@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
 
 const ModalSeleccionarExcel = () => {
+	// useState para mensaje de error
+	const [errorMsg, setErrorMsg] = useState('');
+	// useForm para el inputFile
+	const [formValues, onchange] = useForm({
+		archivoSeleccionado: '',
+	});
+	const { archivoSeleccionado } = formValues;
+
+	//useState para manejo del checkbox
+	const [checked, setChecked] = useState<boolean>(false);
+	// handleClick que cambia el valor del check
+	const handleClick = () => setChecked(!checked);
+
+	//handleSubmit para el envio de lso datos del modal al Back
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('Submit Excel');
+
+		const formData = new FormData(e.currentTarget);
+		//Validacion, si el formulario es correcto entonces...
+		if (isFormValid()) {
+			if (checked) {
+				console.log('SendInvitations');
+
+				// fetch('/',{
+				// 	method:'POST',
+				// 	body:formData
+				// })
+			} else {
+				console.log('Do not send Invitations');
+			}
+		}
 	};
+
+	const isFormValid = (): boolean => {
+		// El inputFile no debe estar vacío
+		if (archivoSeleccionado === '') {
+			setErrorMsg('Por favor seleccione un archivo');
+			return false;
+		}
+		//Regresa estado a un string vacío
+		setErrorMsg('');
+		return true;
+	};
+
 	return (
 		<div>
 			{/* <!-- Modal --> */}
@@ -57,6 +98,7 @@ const ModalSeleccionarExcel = () => {
 									</label>
 								</div>
 								<form onSubmit={hanleSubmit}>
+									{/* InputFile */}
 									<div
 										style={{
 											width: '100%',
@@ -64,9 +106,18 @@ const ModalSeleccionarExcel = () => {
 										}}
 									>
 										<input
-											className='form-control custm-InputFile'
+											className={
+												errorMsg === 'Por favor seleccione un archivo'
+													? 'form-control custm-InputFile is-invalid'
+													: 'form-control custm-InputFile '
+											}
 											type='file'
+											name='archivoSeleccionado'
 											id='formFile'
+											accept='.xlsx,.xls'
+											// required={true}
+											value={archivoSeleccionado}
+											onChange={onchange}
 										/>
 									</div>
 									<div>
@@ -75,6 +126,9 @@ const ModalSeleccionarExcel = () => {
 												className='form-check-input custm-InputSwitch'
 												type='checkbox'
 												id='switchModalImportFile'
+												onClick={handleClick}
+												// checked={checked}
+												defaultChecked={checked}
 											/>
 											<label className='form-check-label' htmlFor='switchModalImportFile'>
 												Enviar invitación al sistema GersaRH

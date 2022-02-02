@@ -296,7 +296,8 @@ const ModalNuevoEmpleado = () => {
 													// value={sendInvitation}
 													id='switchModalNewEmployee'
 													onClick={handleClick}
-													checked={checked}
+													// checked={checked}
+													defaultChecked={checked}
 												/>
 												<label
 													className='form-check-label'
