@@ -61,30 +61,35 @@ async function registerFile(req, res) {
         }    
         
     }
-    console.log(usersNames);
 
-    // try {
+    try {
         
-    //     usersNames.forEach(async(element,i) => {
-    //         if(i!==0){
-    //             console.log(element.username);
-    //             if (await models.User.findOne({ where: { username: element.username } })) {
-    //                 throw msnError2;
-    //             }
-
-
-    //         }
+        usersNames.forEach(async(element,i) => {
+            try {
+                if(i!==0){
+                    // console.log(element.username,'-AQUI');
+                    if (await models.User.findOne({ where: { username: element.username } })) {
+                        throw `Error , usuario ${element.username} ya existe en la base de datos . Renglon:${i}`;
+                    }
+    
+                }
+            } catch (error) {
+                console.log(error);
+                return res.status(400).json({ message:error,ok:false})
+            }
             
-    //         // userService.create(element);
-    //     });
+            
+            // userService.create(element);
+        });
         
         
-    // } catch (error) {
-    //     if (error===msnError2) {
-    //         return res.status(400).json({ message:msnError2,ok:false})
-    //     } 
-    // }
-    // console.log(usersNames);
+    } catch (error) {
+        // if (error===msnError2) {
+            console.log(error);
+            return res.status(400).json({ message:error,ok:false})
+        // } 
+    }
+    console.log(usersNames);
     //guardar usuario en base de datos
 
     
