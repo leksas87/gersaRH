@@ -39,4 +39,6 @@ typings
 
 config.json
 
-.env
+/uploads/.env
+
+.xlsx

@@ -4,6 +4,9 @@ const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
+const upload = require("../middleware/upload");
+const readXlsxFile = require('read-excel-file/node');
+const {models} = require('./../libs/sequelize');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
@@ -18,13 +21,95 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
-router.post('/registerFile',authorize());
-
+router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 
 module.exports = router;
 
+async function registerFile(req, res) {
+    // importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
+    const usersNames = [];
+    const URL=`${__basedir}/uploads/${req.file.filename}`;
+
+    try {
+        await readXlsxFile(URL).then((rows) => {
+        
+            rows.forEach((row) => {
+                let user = {
+                    firstName: row[0],
+                    lastName: row[1],
+                    username: row[2],
+                    phone: row[3],
+                };
+                
+                if (usersNames.find(element=>element.username === user.username)) {
+                    
+                    throw 'Error, se encontró un correo repetido';
+                    
+                }
+                
+                usersNames.push(user);
+                
+                
+            });
+            rows.shift();
+        })
+    } catch (error) {
+        if (error==='Error, se encontró un correo repetido') {
+            return res.status(400).json({ message:'Error, se encontró un correo repetido',ok:false})
+        }    
+        
+    }
+
+    try {
+
+        function validationUserName() {
+            // return new Promise((resolve,reject)=>{
+                // resolve(
+                    usersNames.forEach(async(element,i) => {
+                        try {
+                            if(i!==0){
+                                
+                                if (await models.User.findOne({ where: { username: element.username } })) {
+                                    throw `Error , usuario ${element.username} ya existe en la base de datos . Renglon:${i}`;
+                                    return;
+                                }
+                                
+                                console.log(i);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            return res.status(400).json({ message:error,ok:false})
+                        }
+                        
+                        
+                        // userService.create(element);
+                    })
+                    
+                // );
+
+                
+            // })
+            
+            
+        } 
+        
+        await validationUserName();
+        
+        
+    } catch (error) {
+        // if (error===msnError2) {
+            console.log(error);
+            return res.status(400).json({ message:error,ok:false})
+        // } 
+    }
+    console.log('esto no se tiene que ver');
+    // console.log(usersNames);
+    //guardar usuario en base de datos
+
+    
+}
+
 function recovery(req, res, next) {
-    console.log(req.body);
     userService.recoveryByUserName(req.body)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
         .catch(next);

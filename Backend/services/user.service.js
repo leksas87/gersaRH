@@ -60,15 +60,17 @@ async function getByToken(token) {
 
 async function create(params) {
     // validate
-    if (await models.User.findOne({ where: { username: params.username } })) {
-        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
-    }
+    // try{
 
-    const token = jwt.sign({email: params.username}, config.secret);
+        if (await models.User.findOne({ where: { username: params.username } })) {
+            throw 'El Usuario "' + params.username + '" ya existe en el sistema';
+        }
 
-    params.confirmationCode=token;
+        const token = jwt.sign({email: params.username}, config.secret);
 
-    const sgMail = require('@sendgrid/mail');
+        params.confirmationCode=token;
+
+        const sgMail = require('@sendgrid/mail');
 
     const API_KEY=process.env.SENDGRID_API_KEY;
 
