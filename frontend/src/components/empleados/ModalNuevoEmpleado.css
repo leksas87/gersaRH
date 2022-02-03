@@ -63,6 +63,12 @@
 	grid-area: Apellido;
 	margin-left: 1rem;
 }
+.custm-InputSwitch {
+	background-color: transparent;
+}
+.custm-InputSwitch:checked {
+	background-color: var(--colorSecondary);
+}
 
 /* ---Modal Seleccionar Excel -- */
 .custm-InputFile {

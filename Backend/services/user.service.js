@@ -60,8 +60,8 @@ async function getByToken(token) {
 
 async function create(params) {
     // validate
-    try{
-        
+    // try{
+
         if (await models.User.findOne({ where: { username: params.username } })) {
             throw 'El Usuario "' + params.username + '" ya existe en el sistema';
         }
@@ -72,29 +72,38 @@ async function create(params) {
 
         const sgMail = require('@sendgrid/mail');
 
-        const API_KEY=process.env.SENDGRID_API_KEY
+    const API_KEY=process.env.SENDGRID_API_KEY;
 
-        const URL=process.env.URL
-    
-    
-        sgMail.setApiKey(API_KEY)
-        const url=URL+params.confirmationCode;
-        console.log(url);
-        const msg = {
-            to: params.username,
-            from: {email:process.env.EMAIL,name:process.env.NAME,},
-            subject:'Confirmación de registro',
-            templateId: process.env.TEMPLETE,
-            dynamic_template_data: {
-                url: url,
-            },
-  
-        };
-        await sgMail.send(msg);
-        // save user
-        await models.User.create(params);
-    } catch (error) {
-        console.log(error.message);
+    const URL=process.env.URL;
+
+    if(params.sendInvitation) {
+            try {
+                sgMail.setApiKey(API_KEY)
+                const url=URL+params.confirmationCode;
+                console.log(url);
+                const msg = {
+                    to: params.username,
+                    from: {email:process.env.EMAIL,name:process.env.NAME,},
+                    subject:'Confirmación de registro',
+                    templateId: process.env.TEMPLETE,
+                    dynamic_template_data: {
+                        url: url,
+                    },
+        
+                };
+                await sgMail.send(msg);
+                // save user
+                await models.User.create(params);
+            } catch (error) {
+                console.log(error.message);
+            }
+    }else {
+        try {
+            // save user
+            await models.User.create(params);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
     
 }

@@ -8,14 +8,16 @@ import {
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
+import axios from 'axios';
 // import * as bootstrap from 'bootstrap';
 
-//Registro de nuevo Usuario
+//Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
 export const registerNewUser = (
 	name: string,
 	apellidos: string,
 	correo: string,
-	phone: string
+	phone: string,
+	sendInvitation: boolean
 ) => {
 	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
@@ -32,6 +34,7 @@ export const registerNewUser = (
 				lastName: apellidos,
 				username: correo,
 				phone: phone,
+				sendInvitation: sendInvitation,
 			},
 			'POST'
 		);
@@ -109,6 +112,71 @@ export const getUserById = (id: string) => {
 		} else {
 			console.log('Algo salio mal');
 			console.log(body.message);
+		}
+	};
+};
+
+//Descargar Plantilla Excel
+export const downloadTamplateExcel = () => {
+	try {
+		axios({
+			url: '',
+			method: 'GET',
+			responseType: 'blob',
+		})
+			.then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'plantilla.xlsx');
+				document.body.appendChild(link);
+				link.click();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+//Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
+export const resendInvitationByuserName = (correo: string) => {
+	//Falta el async al return (Agregar cuando se haga la peticion a la api)
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//dispatch para cambiar loading a true
+		dispatch({
+			type: REGISTER_USER_START_LOADING,
+		});
+
+		//Peticion Fetch a la API para hacer login
+		const respuesta = await fetchConToken(`sendinvitation/${correo}`, {}, 'GET');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		//Mensajes de Confirmación o Error
+		if (body.ok) {
+			// dispatch({
+			// 	type: RESENDING_INVITATION_BY_USERNAME,
+			// });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: `¡${body.message}!`,
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			dispatch({
+				type: REGISTER_USER_LOADING_END,
+			});
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		}
 	};
 };

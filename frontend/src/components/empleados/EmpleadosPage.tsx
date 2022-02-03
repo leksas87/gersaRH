@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../../actions/usersActions/usersActions';
+import {
+	downloadTamplateExcel,
+	getUsers,
+} from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevoEmpleado from './ModalNuevoEmpleado';
 import './EmpleadosPage.css';
@@ -17,6 +20,10 @@ const EmpleadosPage = () => {
 	useEffect(() => {
 		dispatch(getUsers());
 	}, [dispatch]);
+
+	const downloadTamplate = () => {
+		downloadTamplateExcel();
+	};
 
 	return (
 		<>
@@ -70,6 +77,7 @@ const EmpleadosPage = () => {
 									<button
 										className='dropdown-item custm-dropdown-item custm-dropItem'
 										type='button'
+										onClick={downloadTamplate}
 									>
 										<div className='fs-4'>Descarga la plantilla</div>
 										<div className='fs-4'>excel</div>

@@ -3,8 +3,8 @@ import { iEmpleado } from '../actions/usersActions/usersActionTypes';
 //Auth Interfaces
 export interface iAuthState {
 	id: string;
-	firstName: string | null;
-	lastName: string | null;
+	firstName: string;
+	lastName: string;
 	roll: number | null;
 	authState: {
 		loading: boolean;

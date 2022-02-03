@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { resendInvitationByuserName } from '../../../actions/usersActions/usersActions';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
 
@@ -20,6 +21,13 @@ const PageEmpleadoPerfil = () => {
 		console.log('submit');
 		toggleValue(false);
 	};
+
+	const resendInvitation = () => {
+		console.log('Reenviando');
+		console.log(correo);
+		// resendInvitationByuserName(correo);
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -36,6 +44,7 @@ const PageEmpleadoPerfil = () => {
 									<button
 										type='submit'
 										className='btn btn-primary inputSubmit custm-btnSendInvitation'
+										onClick={resendInvitation}
 									>
 										Reenviar invitacion
 									</button>

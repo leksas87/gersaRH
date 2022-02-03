@@ -34,7 +34,7 @@ const LoginPage = () => {
 
 	//Validación de formulario
 	const isFormValid = (): boolean => {
-		// El campo usuario no deve estar vacío
+		// El campo usuario no debe estar vacío
 		if (usuario.trim().length === 0) {
 			setError('Usuario es requerido');
 			return false;
