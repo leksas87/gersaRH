@@ -22,7 +22,8 @@ router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
 router.get('/descargar/:id', download);
-router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
+// router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
+router.post('/registerFile/:sendInvitation',authorize(),upload.single("uploadfile"),registerFile);
 
 module.exports = router;
 
@@ -35,7 +36,7 @@ function download(req, res) {
 }
 
 async function registerFile(req, res) {
-    // importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
+    const sendInvitation=req.params.sendInvitation;
     const usersNames = [];
     const URL=`${__basedir}/uploads/${req.file.filename}`;
 
@@ -78,7 +79,7 @@ async function registerFile(req, res) {
             
         }
 
-        return res.status(200).json({ message:'Proceso finalizado',ok:true})
+        console.log('Proceso de validacion de usuario no repetido en la base de datos finalizado!!!!');
         
     } catch (error) {
         
@@ -88,13 +89,22 @@ async function registerFile(req, res) {
     }
     try {
         for (const user of usersNames) {
-            ///inicia proceso de guardado
+            ///inicia proceso de guardado,verificamos si se mandara la invitacion
+            if (sendInvitation==='1') {
+                console.log(sendInvitation,'se mandaran las invitaciones');
+                await userService.sendInvitation(user);
+            } else {
+                console.log(sendInvitation,'no se mandaran las invitaciones');
+            }
             await models.User.create(user);
-            console.log('esto no se debe de mostrar');
+            console.log('guardando al usuario',user.username);
+            
         }
     } catch (error) {
-        
+        console.log(error);
+        return res.status(400).json({ message:error,ok:false})
     }
+    return res.status(200).json({ message:'Usuarios almacenados correctamente en la base de datos',ok:true})
 
 }
 
