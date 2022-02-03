@@ -23,15 +23,13 @@ router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
 router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 
-
 module.exports = router;
 
 async function registerFile(req, res) {
     // importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
     const usersNames = [];
     const URL=`${__basedir}/uploads/${req.file.filename}`;
-    const msnError1='Error, se encontró un correo repetido';
-    const msnError2=`Error, un usuario del archivo excel ya existe en el sistema`;
+
     try {
         await readXlsxFile(URL).then((rows) => {
         
@@ -63,24 +61,39 @@ async function registerFile(req, res) {
     }
 
     try {
+
+        function validationUserName() {
+            // return new Promise((resolve,reject)=>{
+                // resolve(
+                    usersNames.forEach(async(element,i) => {
+                        try {
+                            if(i!==0){
+                                
+                                if (await models.User.findOne({ where: { username: element.username } })) {
+                                    throw `Error , usuario ${element.username} ya existe en la base de datos . Renglon:${i}`;
+                                    return;
+                                }
+                                
+                                console.log(i);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            return res.status(400).json({ message:error,ok:false})
+                        }
+                        
+                        
+                        // userService.create(element);
+                    })
+                    
+                // );
+
+                
+            // })
+            
+            
+        } 
         
-        usersNames.forEach(async(element,i) => {
-            try {
-                if(i!==0){
-                    // console.log(element.username,'-AQUI');
-                    if (await models.User.findOne({ where: { username: element.username } })) {
-                        throw `Error , usuario ${element.username} ya existe en la base de datos . Renglon:${i}`;
-                    }
-    
-                }
-            } catch (error) {
-                console.log(error);
-                return res.status(400).json({ message:error,ok:false})
-            }
-            
-            
-            // userService.create(element);
-        });
+        await validationUserName();
         
         
     } catch (error) {
@@ -89,7 +102,8 @@ async function registerFile(req, res) {
             return res.status(400).json({ message:error,ok:false})
         // } 
     }
-    console.log(usersNames);
+    console.log('esto no se tiene que ver');
+    // console.log(usersNames);
     //guardar usuario en base de datos
 
     
