@@ -21,9 +21,18 @@ router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
+router.get('/descargar/:id', download);
 router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 
 module.exports = router;
+
+function download(req, res) {
+    var dirname ='storage/template/plantilla-empleados.xlsx';
+    var fileName = "plantilla-empleados.xlsx"
+    res.download(dirname,fileName, (error) => {
+        error?console.log(error):console.log("Listo")
+        });
+}
 
 async function registerFile(req, res) {
     // importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename); 
