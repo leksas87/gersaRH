@@ -42,23 +42,23 @@ async function registerFile(req, res) {
     try {
         await readXlsxFile(URL).then((rows) => {
         
-            rows.forEach((row) => {
-                let user = {
-                    firstName: row[0],
-                    lastName: row[1],
-                    username: row[2],
-                    phone: row[3],
-                };
-                
-                if (usersNames.find(element=>element.username === user.username)) {
+            rows.forEach((row,i) => {
+                if (i!==0) {
+                    let user = {
+                        firstName: row[0],
+                        lastName: row[1],
+                        username: row[2],
+                        phone: row[3],
+                    };
+                    if (usersNames.find(element=>element.username === user.username)) {
                     
-                    throw 'Error, se encontró un correo repetido';
-                    
+                        throw 'Error, se encontró un correo repetido';
+                        
+                    }                
+                    usersNames.push(user);
                 }
                 
-                usersNames.push(user);
-                
-                
+                          
             });
             rows.shift();
         })
@@ -71,51 +71,31 @@ async function registerFile(req, res) {
 
     try {
 
-        function validationUserName() {
-            // return new Promise((resolve,reject)=>{
-                // resolve(
-                    usersNames.forEach(async(element,i) => {
-                        try {
-                            if(i!==0){
-                                
-                                if (await models.User.findOne({ where: { username: element.username } })) {
-                                    throw `Error , usuario ${element.username} ya existe en la base de datos . Renglon:${i}`;
-                                    return;
-                                }
-                                
-                                console.log(i);
-                            }
-                        } catch (error) {
-                            console.log(error);
-                            return res.status(400).json({ message:error,ok:false})
-                        }
-                        
-                        
-                        // userService.create(element);
-                    })
-                    
-                // );
+        for (const user of usersNames) {
+            if (await models.User.findOne({ where: { username: user.username } })) {
+                throw `Error , usuario ${user.username} ya existe en la base de datos . Renglon:`;
+            }
+            
+        }
 
-                
-            // })
-            
-            
-        } 
-        
-        await validationUserName();
-        
+        return res.status(200).json({ message:'Proceso finalizado',ok:true})
         
     } catch (error) {
-        // if (error===msnError2) {
-            console.log(error);
-            return res.status(400).json({ message:error,ok:false})
-        // } 
+        
+        console.log(error);
+        return res.status(400).json({ message:error,ok:false})
+        
     }
-    console.log('esto no se tiene que ver');
-    // console.log(usersNames);
-    //guardar usuario en base de datos
+    try {
+        for (const user of usersNames) {
+            ///inicia proceso de guardado
+            await models.User.create(user);
+            console.log('esto no se debe de mostrar');
+        }
+    } catch (error) {
+        
+    }
 
-    
 }
 
 function recovery(req, res, next) {
