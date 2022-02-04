@@ -16,7 +16,8 @@ module.exports = {
     getByToken,
     updateConfirmation,
     recoveryByUserName,
-    sendInvitation
+    sendInvitation,
+    getByUserName
 };
 
 async function authenticate({ username, password }) {
@@ -54,6 +55,24 @@ async function getAll() {
 
 async function getById(id) {
     return await getUser(id);
+}
+
+async function getByUserName(params) {
+
+    const user = await models.User.findOne({ where: { username: params.username } });
+    if (!user) throw 'Usuario no encontrado';
+    //return user;
+    if(!user.isEmployeeActive) throw 'Este usuario no esta contratado';
+    if(user.active) throw 'Usuario ya activado';
+
+    try {
+        await sendInvitation(params)
+        user.confirmationCode = params.confirmationCode;
+        await user.save();
+    } catch (error) {
+        
+        console.log(error.message);
+    }
 }
 
 async function getByToken(token) {

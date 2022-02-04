@@ -26,7 +26,16 @@ router.get('/descargar/:id', download);
 router.post('/registerFile/:sendInvitation',authorize(),upload.single("uploadfile"),registerFile);
 //registerFile/sendInvitation
 //registerFile/notSend
+router.get('/sendinvitation/:username',authorize(), getByUserName);
+
+
 module.exports = router;
+
+function getByUserName(req, res, next) {
+    userService.getByUserName(req.params)
+        .then(user => res.json({ message:'Envío exitoso',ok:true}))
+        .catch(next);
+}
 
 function download(req, res) {
     var dirname ='storage/template/plantilla-empleados.xlsx';
