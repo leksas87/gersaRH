@@ -24,7 +24,8 @@ router.post('/recuperacion', recovery);
 router.get('/descargar/:id', download);
 // router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 router.post('/registerFile/:sendInvitation',authorize(),upload.single("uploadfile"),registerFile);
-
+//registerFile/sendInvitation
+//registerFile/notSend
 module.exports = router;
 
 function download(req, res) {
