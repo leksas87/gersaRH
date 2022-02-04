@@ -77,33 +77,33 @@ async function create(params) {
     const URL=process.env.URL;
 
     if(params.sendInvitation) {
-            try {
-                sgMail.setApiKey(API_KEY)
-                const url=URL+params.confirmationCode;
-                console.log(url);
-                const msg = {
-                    to: params.username,
-                    from: {email:process.env.EMAIL,name:process.env.NAME,},
-                    subject:'Confirmación de registro',
-                    templateId: process.env.TEMPLETE,
-                    dynamic_template_data: {
-                        url: url,
-                    },
-        
-                };
-                await sgMail.send(msg);
-                // save user
-                await models.User.create(params);
-            } catch (error) {
-                console.log(error.message);
-            }
-    }else {
         try {
-            // save user
-            await models.User.create(params);
+            sgMail.setApiKey(API_KEY)
+            const url=URL+params.confirmationCode;
+            console.log(url);
+            const msg = {
+                to: params.username,
+                from: {email:process.env.EMAIL,name:process.env.NAME,},
+                subject:'Confirmación de registro',
+                templateId: process.env.TEMPLETE,
+                dynamic_template_data: {
+                    url: url,
+                },
+    
+            };
+            await sgMail.send(msg);
         } catch (error) {
             console.log(error.message);
         }
+    }
+    try {
+        // save user
+        const user = await models.User.create(params);
+        await models.Employee.create({
+            userId: user.id
+        })
+    } catch (error) {
+        console.log(error.message);
     }
     
 }
