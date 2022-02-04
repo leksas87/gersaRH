@@ -61,10 +61,19 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							<i className='bi bi-house-door sidebarIcon' />
 							Inicio
 						</NavLink>
-						<div className='sidebarOption'>
+						<NavLink
+							to='/miperfil'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/miperfil');
+							}}
+						>
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
-						</div>
+						</NavLink>
 						<div className='sidebarOption'>
 							<i className='bi bi-clock sidebarIcon ' />
 							Reloj Checador
