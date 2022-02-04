@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const {models} = require('./../libs/sequelize');
+const { func } = require('joi');
 
 module.exports = {
     authenticate,
@@ -14,7 +15,8 @@ module.exports = {
     reenvioToken,
     getByToken,
     updateConfirmation,
-    recoveryByUserName
+    recoveryByUserName,
+    sendInvitation
 };
 
 async function authenticate({ username, password }) {
@@ -59,43 +61,19 @@ async function getByToken(token) {
 }
 
 async function create(params) {
-    // validate
-    // try{
 
-        if (await models.User.findOne({ where: { username: params.username } })) {
-            throw 'El Usuario "' + params.username + '" ya existe en el sistema';
-        }
-
-        const token = jwt.sign({email: params.username}, config.secret);
-
-        params.confirmationCode=token;
-
-        const sgMail = require('@sendgrid/mail');
-
-    const API_KEY=process.env.SENDGRID_API_KEY;
-
-    const URL=process.env.URL;
+    if (await models.User.findOne({ where: { username: params.username } })) {
+        throw 'El Usuario "' + params.username + '" ya existe en el sistema';
+    }
 
     if(params.sendInvitation) {
-        try {
-            sgMail.setApiKey(API_KEY)
-            const url=URL+params.confirmationCode;
-            console.log(url);
-            const msg = {
-                to: params.username,
-                from: {email:process.env.EMAIL,name:process.env.NAME,},
-                subject:'Confirmación de registro',
-                templateId: process.env.TEMPLETE,
-                dynamic_template_data: {
-                    url: url,
-                },
-    
-            };
-            await sgMail.send(msg);
-        } catch (error) {
-            console.log(error.message);
-        }
+            try {
+                await sendInvitation(params)
+            } catch (error) {
+                console.log(error.message);
+            }
     }
+        
     try {
         // save user
         const user = await models.User.create(params);
@@ -106,6 +84,33 @@ async function create(params) {
         console.log(error.message);
     }
     
+}
+
+async function sendInvitation(params) {
+    const token = jwt.sign({email: params.username}, config.secret);
+
+    params.confirmationCode=token;
+    
+    const sgMail = require('@sendgrid/mail');
+
+    const API_KEY=process.env.SENDGRID_API_KEY;
+
+    const URL=process.env.URL;
+
+    sgMail.setApiKey(API_KEY)
+    const url=URL+params.confirmationCode;
+    console.log(url);
+    const msg = {
+        to: params.username,
+        from: {email:process.env.EMAIL,name:process.env.NAME,},
+        subject:'Confirmación de registro',
+        templateId: process.env.TEMPLETE,
+        dynamic_template_data: {
+            url: url,
+        },
+
+    };
+    await sgMail.send(msg);
 }
 
 async function createMaster(params) {
