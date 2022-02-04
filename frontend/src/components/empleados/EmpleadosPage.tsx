@@ -21,6 +21,7 @@ const EmpleadosPage = () => {
 		dispatch(getUsers());
 	}, [dispatch]);
 
+	//funcion para descargar tempalte
 	const downloadTamplate = () => {
 		downloadTamplateExcel();
 	};

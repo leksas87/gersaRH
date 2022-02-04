@@ -116,8 +116,8 @@ export const getUserById = (id: string) => {
 	};
 };
 
-//Descargar Plantilla Excel
-export const downloadTamplateExcel = () => {
+//Descargar Plantilla Excel desde Servidor
+export const downloadTamplateExcelFromServer = () => {
 	try {
 		axios({
 			url: '',
@@ -138,6 +138,19 @@ export const downloadTamplateExcel = () => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+//Descargar Plantilla Excel desde Front
+export const downloadTamplateExcel = () => {
+	const downloadInstance = document.createElement('a');
+	downloadInstance.href =
+		'http://localhost:3000/assets/tamplates/excelTest.xlsx';
+	downloadInstance.target = '_blank';
+	downloadInstance.download = 'plantillaImportarEmpleadosGersaRH';
+
+	document.body.appendChild(downloadInstance);
+	downloadInstance.click();
+	document.body.removeChild(downloadInstance);
 };
 
 //Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
