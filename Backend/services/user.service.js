@@ -61,8 +61,6 @@ async function getByToken(token) {
 }
 
 async function create(params) {
-    // validate
-    // try{
 
     if (await models.User.findOne({ where: { username: params.username } })) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
@@ -71,18 +69,19 @@ async function create(params) {
     if(params.sendInvitation) {
             try {
                 await sendInvitation(params)
-                // save user
-                await models.User.create(params);
             } catch (error) {
                 console.log(error.message);
             }
-    }else {
-        try {
-            // save user
-            await models.User.create(params);
-        } catch (error) {
-            console.log(error.message);
-        }
+    }
+        
+    try {
+        // save user
+        const user = await models.User.create(params);
+        await models.Employee.create({
+            userId: user.id
+        })
+    } catch (error) {
+        console.log(error.message);
     }
     
 }
