@@ -13,6 +13,10 @@ import EmpleadosPage from '../components/empleados/EmpleadosPage';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
+import MiPerfil from '../components/miPerfilPage/MiPerfil';
+import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
+import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
+import PagePerfil from '../components/miPerfilPage/PagePerfil';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
@@ -58,6 +62,11 @@ const AppRouter = () => {
 						<Route element={<RequireAuth />}>
 							<Route path='/' element={<DashboardPage />}>
 								<Route index element={<InicioPage />} />
+								<Route path='miperfil/' element={<MiPerfil />}>
+									<Route index element={<PagePerfil />} />
+									<Route path='personal' element={<PageInfoPersonal />} />
+									<Route path='infocontrato' element={<PageInfoContrato />} />
+								</Route>
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
 									<Route path='empleados' element={<EmpleadosPage />} />
