@@ -1,29 +1,27 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { getUserById } from '../../actions/usersActions/usersActions';
 // import { getUserById } from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 // import './EmpleadoPerfil.css';
 
 const MiPerfil = () => {
+	const navigate = useNavigate();
+	// navigate('/miperfil');
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
 
 	//Tomar Solo el primer nombre y el primer apellido
-	const indiceName = perfilEmpleado.firstName.indexOf(' ');
-	const indiceLastname = perfilEmpleado.lastName.indexOf(' ');
-	const name = perfilEmpleado.firstName.substring(0, indiceName);
-	const lastName = perfilEmpleado.lastName.substring(0, indiceLastname);
+	const indiceName = firstName.indexOf(' ');
+	const indiceLastname = lastName.indexOf(' ');
+	const name = firstName.substring(0, indiceName);
+	const lastname = lastName.substring(0, indiceLastname);
 
 	//Hook para obtener los parametros del url
 	const params = useParams();
-	const dispatch = useDispatch();
-	const empleadoId = params.empleadoId;
 
-	useEffect(() => {
-		if (empleadoId) dispatch(getUserById(empleadoId));
-	}, [dispatch, empleadoId]);
+	useEffect(() => {}, []);
 
 	return (
 		<>
@@ -38,10 +36,9 @@ const MiPerfil = () => {
 					</div>
 					<div className='fs-4 textColorSecondary'>
 						<span className='text-capitalize'>
-							HOli
-							{name ? name : perfilEmpleado.firstName}
+							{name ? name : firstName}
 							{` `}
-							{lastName ? lastName : perfilEmpleado.lastName}
+							{lastname ? lastname : lastName}
 						</span>
 					</div>
 				</div>
@@ -51,7 +48,7 @@ const MiPerfil = () => {
 					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
 				>
 					<NavLink
-						to={`/empleados/${params.empleadoId}/perfil`}
+						to={`/miperfil/`}
 						// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
 						className={({ isActive }) =>
 							isActive
@@ -62,7 +59,7 @@ const MiPerfil = () => {
 						Perfil
 					</NavLink>
 					<NavLink
-						to={`/empleados/${params.empleadoId}/personal`}
+						to={`/miperfil/personal`}
 						className={({ isActive }) =>
 							isActive
 								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
@@ -72,7 +69,7 @@ const MiPerfil = () => {
 						Personal
 					</NavLink>
 					<NavLink
-						to={`/empleados/${params.empleadoId}/infocontrato`}
+						to={`/miperfil/infocontrato`}
 						className={({ isActive }) =>
 							isActive
 								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'

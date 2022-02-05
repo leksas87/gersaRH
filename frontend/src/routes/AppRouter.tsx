@@ -14,6 +14,9 @@ import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
 import MiPerfil from '../components/miPerfilPage/MiPerfil';
+import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
+import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
+import PagePerfil from '../components/miPerfilPage/PagePerfil';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
@@ -60,9 +63,9 @@ const AppRouter = () => {
 							<Route path='/' element={<DashboardPage />}>
 								<Route index element={<InicioPage />} />
 								<Route path='miperfil/' element={<MiPerfil />}>
-									<Route path='perfil' element={<h1>perfil</h1>} />
-									<Route path='personal' element={<h1>personal</h1>} />
-									<Route path='infocontrato' element={<h1>info contratos</h1>} />
+									<Route index element={<PagePerfil />} />
+									<Route path='personal' element={<PageInfoPersonal />} />
+									<Route path='infocontrato' element={<PageInfoContrato />} />
 								</Route>
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
