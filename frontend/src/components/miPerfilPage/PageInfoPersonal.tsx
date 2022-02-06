@@ -285,12 +285,7 @@ const PageInfoPersonal = () => {
 					</div>
 					{/* Derecha */}
 					<div className='custm-empleadoContainerContent'>
-						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer'>
-							<div className='d-flex justify-content-end custm-Width100'>
-								<button className='btn fs-3 custm-btnToggle'>
-									<i className='bi bi-pencil-square textColorSecondary' />
-								</button>
-							</div>
+						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer pt-5'>
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }}>
 								<div className='mb-4'>
@@ -347,12 +342,7 @@ const PageInfoPersonal = () => {
 					</div>
 					{/* Derecha */}
 					<div className='custm-empleadoContainerContent'>
-						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer'>
-							<div className='d-flex justify-content-end custm-Width100'>
-								<button className='btn fs-3 custm-btnToggle'>
-									<i className='bi bi-pencil-square textColorSecondary' />
-								</button>
-							</div>
+						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer pt-5'>
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }}>
 								<div className='mb-4'>
@@ -410,12 +400,7 @@ const PageInfoPersonal = () => {
 					</div>
 					{/* Derecha */}
 					<div className='custm-empleadoContainerContent'>
-						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer'>
-							<div className='d-flex justify-content-end custm-Width100'>
-								<button className='btn fs-3 custm-btnToggle'>
-									<i className='bi bi-pencil-square textColorSecondary' />
-								</button>
-							</div>
+						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer pt-5'>
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }}>
 								<div className='mb-4'>

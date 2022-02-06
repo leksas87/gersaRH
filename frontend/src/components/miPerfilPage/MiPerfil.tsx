@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
-import { getUserById } from '../../actions/usersActions/usersActions';
-// import { getUserById } from '../../../actions/usersActions/usersActions';
+import { useSelector } from 'react-redux';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import { RootSote } from '../../store/Store';
-// import './EmpleadoPerfil.css';
 
 const MiPerfil = () => {
-	const navigate = useNavigate();
-	// navigate('/miperfil');
+	//useLocation para conocer el path
+	const { pathname } = useLocation();
+
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
 
@@ -18,15 +16,12 @@ const MiPerfil = () => {
 	const name = firstName.substring(0, indiceName);
 	const lastname = lastName.substring(0, indiceLastname);
 
-	//Hook para obtener los parametros del url
-	const params = useParams();
-
+	//useEfect para ejecutar...
 	useEffect(() => {}, []);
 
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
-				{/* <h1>Empleado - {params.empleadoId}</h1> */}
 				<div
 					className='d-flex justify-content-center align-items-center p-4'
 					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
@@ -47,17 +42,27 @@ const MiPerfil = () => {
 					className='d-flex justify-content-center align-items-center p-3'
 					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
 				>
-					<NavLink
-						to={`/miperfil/`}
-						// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
-						}
-					>
-						Perfil
-					</NavLink>
+					{pathname === '/miperfil' ? (
+						<NavLink
+							to={`/miperfil/`}
+							// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
+							className='fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+						>
+							Perfil
+						</NavLink>
+					) : (
+						<NavLink
+							to={`/miperfil/`}
+							// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
+							className={({ isActive }) =>
+								isActive
+									? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+									: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+							}
+						>
+							Perfil
+						</NavLink>
+					)}
 					<NavLink
 						to={`/miperfil/personal`}
 						className={({ isActive }) =>
