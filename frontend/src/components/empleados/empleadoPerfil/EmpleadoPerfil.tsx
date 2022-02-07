@@ -14,6 +14,7 @@ const EmpleadoPerfil = () => {
 	const indiceLastname = perfilEmpleado.lastName.indexOf(' ');
 	const name = perfilEmpleado.firstName.substring(0, indiceName);
 	const lastName = perfilEmpleado.lastName.substring(0, indiceLastname);
+	const roll = perfilEmpleado.roll;
 
 	//Hook para obtener los parametros del url
 	const params = useParams();
@@ -45,7 +46,7 @@ const EmpleadoPerfil = () => {
 							{lastName ? lastName : perfilEmpleado.lastName}
 						</span>
 					</div>
-					<div className='custm-btnNuevoEmpleadoContainer me-3'>
+					<div className='custm-btnNuevoEmpleadoContainer me-2'>
 						<div className='dropdown'>
 							{/* Boton para activar ventana DropDown */}
 							<button
@@ -82,21 +83,41 @@ const EmpleadoPerfil = () => {
 									</button>
 								</li>
 								<li>
-									<button
-										className='dropdown-item custm-dropdown-item custm-dropItem'
-										type='button'
-										// onClick={downloadTamplate}
-									>
-										<div className='fs-4'>Nombrar administrador</div>
+									{/* rollId 2 = Empleado */}
+									{roll === 2 && (
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											// onClick={downloadTamplate}
+										>
+											<div className='fs-4'>Nombrar administrador</div>
 
-										<div className='custm-dropItemText'>
-											Tendrá visibilidad total en la cuenta de
-										</div>
-										<div className='custm-dropItemText'>
-											la empresa y podrá ver y editar datos
-										</div>
-										<div className='custm-dropItemText'>de otros colaboradores.</div>
-									</button>
+											<div className='custm-dropItemText'>
+												Tendrá visibilidad total en la cuenta de
+											</div>
+											<div className='custm-dropItemText'>
+												la empresa y podrá ver y editar datos
+											</div>
+											<div className='custm-dropItemText'>de otros colaboradores.</div>
+										</button>
+									)}
+									{/* rollId 1 = Admin */}
+									{roll === 1 && (
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											// onClick={downloadTamplate}
+										>
+											<div className='fs-4'>Quitar como admin</div>
+
+											<div className='custm-dropItemText'>
+												Convierte este admin en un empleado
+											</div>
+											<div className='custm-dropItemText'>
+												básico sin poderes en la empresa.
+											</div>
+										</button>
+									)}
 								</li>
 								<li>
 									<button
