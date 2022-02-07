@@ -19,7 +19,6 @@ export const registerNewUser = (
 	phone: string,
 	sendInvitation: boolean
 ) => {
-	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//dispatch para cambiar loading a true
 		dispatch({
@@ -153,25 +152,20 @@ export const downloadTamplateExcel = () => {
 	document.body.removeChild(downloadInstance);
 };
 
-//Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
+//Reenviar Invitacion individual by username
 export const resendInvitationByuserName = (correo: string) => {
-	//Falta el async al return (Agregar cuando se haga la peticion a la api)
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//dispatch para cambiar loading a true
-		dispatch({
-			type: REGISTER_USER_START_LOADING,
-		});
-
-		//Peticion Fetch a la API para hacer login
-		const respuesta = await fetchConToken(`sendinvitation/${correo}`, {}, 'GET');
+		//Peticion Fetch a la API para enviar la invitación al mail
+		const respuesta = await fetchConToken(
+			`users/sendinvitation/${correo}`,
+			{},
+			'GET'
+		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
 
 		//Mensajes de Confirmación o Error
 		if (body.ok) {
-			// dispatch({
-			// 	type: RESENDING_INVITATION_BY_USERNAME,
-			// });
 			Swal.fire({
 				position: 'top-end',
 				icon: 'success',
@@ -180,9 +174,6 @@ export const resendInvitationByuserName = (correo: string) => {
 				timer: 2000,
 			});
 		} else {
-			dispatch({
-				type: REGISTER_USER_LOADING_END,
-			});
 			Swal.fire({
 				position: 'top-end',
 				icon: 'error',

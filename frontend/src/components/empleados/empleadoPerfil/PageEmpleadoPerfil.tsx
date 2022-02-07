@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resendInvitationByuserName } from '../../../actions/usersActions/usersActions';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
@@ -7,6 +7,8 @@ import { RootSote } from '../../../store/Store';
 const PageEmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//Dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
 
 	const nombre = perfilEmpleado.firstName;
 	const correo = perfilEmpleado.username;
@@ -23,9 +25,9 @@ const PageEmpleadoPerfil = () => {
 	};
 
 	const resendInvitation = () => {
-		console.log('Reenviando');
-		console.log(correo);
-		// resendInvitationByuserName(correo);
+		// console.log('Reenviando');
+		// console.log(correo);
+		dispatch(resendInvitationByuserName(correo));
 	};
 
 	return (
