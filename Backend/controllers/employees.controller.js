@@ -7,8 +7,15 @@ const employeeService = require('../services/employee.service');
 
 // routes
 router.post('/register',registerSchema, register);
+router.get('/:id', authorize(), getById);
 
 module.exports = router;
+
+function getById(req, res, next) {
+    employeeService.getEmployeeById(req.params.id)
+        .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function registerSchema(req, res, next) {
     const schema = Joi.object({
