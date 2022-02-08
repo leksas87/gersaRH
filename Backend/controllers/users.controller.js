@@ -60,6 +60,9 @@ async function registerFile(req, res) {
                         lastName: row[1],
                         username: row[2],
                         phone: row[3],
+                        tipoIdentificacion:row[4],
+                        documentoIdentidad:row[5],
+                        
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
                     
@@ -106,7 +109,14 @@ async function registerFile(req, res) {
             } else if(sendInvitation==='donotsend'){
                 console.log(sendInvitation,'no se mandaran las invitaciones');
             }
-            await models.User.create(user);
+            // await models.User.create(user);
+            const employee = await models.User.create(user);
+            await models.Employee.create({
+                userId: employee.id,
+                tipoIdentificacion:user.tipoIdentificacion,
+                documentoIdentidad:user.documentoIdentidad,
+                
+            })
             console.log('guardando al usuario',user.username);
             
         }
