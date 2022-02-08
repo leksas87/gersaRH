@@ -220,6 +220,8 @@ function updateSchema(req, res, next) {
         password: Joi.string().min(6).empty(''),
         phone:Joi.string().empty(''),
         active:Joi.boolean(),
+        roll:Joi.number(),
+        isEmployeeActive:Joi.boolean()
     });
     validateRequest(req, next, schema);
 }
