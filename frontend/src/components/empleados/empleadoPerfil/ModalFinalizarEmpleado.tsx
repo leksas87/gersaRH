@@ -1,19 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { terminateUserById } from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../../store/Store';
 
 const ModalFinalizarEmpleado = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//useDispath para ejecutar las Actions
+	const dispatch = useDispatch();
 
 	//handleSubmit para el envio de lso datos del modal al Back
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('Finalizando...');
+		dispatch(terminateUserById(perfilEmpleado.id));
 	};
 
 	return (
 		<div>
-			{/* <!-- Modal --> */}
+			{/* <!-- Modal Finalizar Empleado --> */}
 			<div
 				className='modal fade'
 				id='ModalFinalizarEmpleado'

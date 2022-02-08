@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import { getUserById } from '../../../actions/usersActions/usersActions';
+import {
+	getUserById,
+	makeAdminToUserById,
+	removeAdminToUserById,
+} from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../../store/Store';
 import './EmpleadoPerfil.css';
 import ModalElimnarAcceso from './ModalElimnarAcceso';
@@ -10,6 +14,8 @@ import ModalFinalizarEmpleado from './ModalFinalizarEmpleado';
 const EmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//useDispatch para ehecutar las Actions
+	const dispatch = useDispatch();
 
 	//Tomar Solo el primer nombre y el primer apellido
 	const indiceName = perfilEmpleado.firstName.indexOf(' ');
@@ -21,7 +27,6 @@ const EmpleadoPerfil = () => {
 
 	//Hook para obtener los parametros del url
 	const params = useParams();
-	const dispatch = useDispatch();
 	const empleadoId = params.empleadoId;
 
 	useEffect(() => {
@@ -30,11 +35,11 @@ const EmpleadoPerfil = () => {
 
 	//metodo para remover Permisos de Administrador
 	const quitarAdmin = () => {
-		console.log('quitarAdmin');
+		dispatch(removeAdminToUserById(perfilEmpleado.id));
 	};
 	//metodo para asignar Permisos de Administrador
 	const nombrarAdmin = () => {
-		console.log('nombrarAdmin');
+		dispatch(makeAdminToUserById(perfilEmpleado.id));
 	};
 	return (
 		<>

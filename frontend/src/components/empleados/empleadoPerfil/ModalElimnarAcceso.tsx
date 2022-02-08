@@ -1,8 +1,17 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAccestoUserById } from '../../../actions/usersActions/usersActions';
+import { RootSote } from '../../../store/Store';
+
 const ModalElimnarAcceso = () => {
+	// dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 	//handleSubmit para el envio de lso datos del modal al Back
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('Eliminando acceso...');
+		dispatch(deleteAccestoUserById(perfilEmpleado.id));
 	};
 
 	return (
