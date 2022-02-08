@@ -5,15 +5,16 @@ export const GET_USERS_SUCCESSFUL = 'getUsersSuccesful';
 export const GET_USER_BY_ID = 'getUsersByID';
 
 //Usuario que se recibe del fetch al ahcer logIn
-export type iEmpleado = {
-	active: boolean;
-	firstName: string;
+export interface iEmpleado {
 	id: number;
+	firstName: string;
 	lastName: string;
-	phone: string;
-	roll: number;
 	username: string;
-};
+	phone: string;
+	active: boolean;
+	roll: number;
+	isEmployeeActive: boolean;
+}
 //Inicia registro
 export interface RegiserUserStartLoading {
 	type: typeof REGISTER_USER_START_LOADING;

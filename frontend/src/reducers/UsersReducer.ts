@@ -21,6 +21,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		phone: '',
 		roll: 0,
 		active: false,
+		isEmployeeActive: true,
 	},
 };
 

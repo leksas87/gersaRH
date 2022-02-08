@@ -4,6 +4,8 @@ import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { getUserById } from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../../store/Store';
 import './EmpleadoPerfil.css';
+import ModalElimnarAcceso from './ModalElimnarAcceso';
+import ModalFinalizarEmpleado from './ModalFinalizarEmpleado';
 
 const EmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
@@ -15,6 +17,7 @@ const EmpleadoPerfil = () => {
 	const name = perfilEmpleado.firstName.substring(0, indiceName);
 	const lastName = perfilEmpleado.lastName.substring(0, indiceLastname);
 	const roll = perfilEmpleado.roll;
+	const isActive = perfilEmpleado.active;
 
 	//Hook para obtener los parametros del url
 	const params = useParams();
@@ -25,6 +28,14 @@ const EmpleadoPerfil = () => {
 		if (empleadoId) dispatch(getUserById(empleadoId));
 	}, [dispatch, empleadoId]);
 
+	//metodo para remover Permisos de Administrador
+	const quitarAdmin = () => {
+		console.log('quitarAdmin');
+	};
+	//metodo para asignar Permisos de Administrador
+	const nombrarAdmin = () => {
+		console.log('nombrarAdmin');
+	};
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -47,6 +58,8 @@ const EmpleadoPerfil = () => {
 						</span>
 					</div>
 					<div className='custm-btnNuevoEmpleadoContainer me-2'>
+						<ModalElimnarAcceso />
+						<ModalFinalizarEmpleado />
 						<div className='dropdown'>
 							{/* Boton para activar ventana DropDown */}
 							<button
@@ -64,31 +77,33 @@ const EmpleadoPerfil = () => {
 								className='dropdown-menu custm-dropDownBtnMas'
 								aria-labelledby='btnEployeeOptions'
 							>
-								<li>
-									{/* Boton para mostrar Modal SeleccionarExcel */}
-									<button
-										className='dropdown-item custm-dropdown-item custm-dropItem'
-										type='button'
-										data-bs-toggle='modal'
-										data-bs-target='#ModalSeleccionarExcel'
-									>
-										<div className='fs-4'>Eliminar acceso</div>
-										<div className='custm-dropItemText'>
-											El empleado no podrá acceder al
-										</div>
-										<div className='custm-dropItemText'>
-											sistema hasta que no le invites
-										</div>
-										<div className='custm-dropItemText'>de nuevo.</div>
-									</button>
-								</li>
+								{isActive && (
+									<li>
+										{/* Boton para mostrar Modal SeleccionarExcel */}
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											data-bs-toggle='modal'
+											data-bs-target='#ModalEliminarAcceso'
+										>
+											<div className='fs-4'>Eliminar acceso</div>
+											<div className='custm-dropItemText'>
+												El empleado no podrá acceder al
+											</div>
+											<div className='custm-dropItemText'>
+												sistema hasta que no le invites
+											</div>
+											<div className='custm-dropItemText'>de nuevo.</div>
+										</button>
+									</li>
+								)}
 								<li>
 									{/* rollId 2 = Empleado */}
 									{roll === 2 && (
 										<button
 											className='dropdown-item custm-dropdown-item custm-dropItem'
 											type='button'
-											// onClick={downloadTamplate}
+											onClick={nombrarAdmin}
 										>
 											<div className='fs-4'>Nombrar administrador</div>
 
@@ -106,7 +121,7 @@ const EmpleadoPerfil = () => {
 										<button
 											className='dropdown-item custm-dropdown-item custm-dropItem'
 											type='button'
-											// onClick={downloadTamplate}
+											onClick={quitarAdmin}
 										>
 											<div className='fs-4'>Quitar como admin</div>
 
@@ -123,8 +138,15 @@ const EmpleadoPerfil = () => {
 									<button
 										className='dropdown-item custm-dropdown-item custm-dropItem'
 										type='button'
+										data-bs-toggle='modal'
+										data-bs-target='#ModalFinalizarEmpleado'
 									>
-										<div className='fs-4'>Finalizar a @Name</div>
+										<div className='fs-4'>
+											Finalizar a{' '}
+											<span className='text-capitalize'>
+												{name ? name : perfilEmpleado.firstName}
+											</span>
+										</div>
 										<div className='custm-dropItemText'>
 											Archiva a este empleado en la tabla
 										</div>
