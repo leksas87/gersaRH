@@ -5,6 +5,10 @@ import {
 	REGISTER_USER_LOADING_END,
 	GET_USERS_SUCCESSFUL,
 	GET_USER_BY_ID,
+	DELETE_ACCESS_TO_USER_BY_ID,
+	MAKE_ADMIN_USER_BY_ID,
+	REMOVE_ADMIN_USER_BY_ID,
+	TERMINATE_USER_BY_ID,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
@@ -77,7 +81,7 @@ export const registerNewUser = (
 	};
 };
 
-//Obtener usuarios.
+//Obtener todos usuarios.
 export const getUsers = () => {
 	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
@@ -96,11 +100,10 @@ export const getUsers = () => {
 	};
 };
 
-//Obtener usuarios.
+//Obtener usuario por ID
 export const getUserById = (id: string) => {
-	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer obtener los usuarios
+		//Peticion Fetch a la API para obtener los usuarios
 		const respuesta = await fetchConToken(`users/${id}`, {}, 'GET');
 		//.json() a la respuesta
 		const body = await respuesta?.json();
@@ -181,6 +184,153 @@ export const resendInvitationByuserName = (correo: string) => {
 				showConfirmButton: false,
 				timer: 1500,
 			});
+		}
+	};
+};
+
+//(PUT -users )Eliminar acceso a usuario por ID
+export const deleteAccestoUserById = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el accesso
+		const respuesta = await fetchConToken(
+			`users/${id}`,
+			{ active: false },
+			'PUT'
+		);
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: DELETE_ACCESS_TO_USER_BY_ID });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Listo!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+			//Cerrar modal
+			const miExampleModal = document.getElementById('ModalEliminarAcceso');
+			miExampleModal?.click();
+		} else {
+			console.log(body.message);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			//Cerrar modal
+			const miExampleModal = document.getElementById('ModalEliminarAcceso');
+			miExampleModal?.click();
+		}
+	};
+};
+
+//(PUT - users )´Hacer administrador a usuario por ID
+export const makeAdminToUserById = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el roll del usuario
+		const respuesta = await fetchConToken(`users/${id}`, { roll: 1 }, 'PUT');
+		// se hace un .json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: MAKE_ADMIN_USER_BY_ID });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Listo!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			console.log(body.message);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
+
+//(PUT - users ) Quitar Admin a usuario por ID
+export const removeAdminToUserById = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el roll del usuario
+		const respuesta = await fetchConToken(`users/${id}`, { roll: 2 }, 'PUT');
+		// se hace un .json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: REMOVE_ADMIN_USER_BY_ID });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Listo!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			console.log(body.message);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
+
+//(PUT -users ) Finalizar a usuario por ID
+export const terminateUserById = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el accesso
+		const respuesta = await fetchConToken(
+			`users/${id}`,
+			{
+				isEmployeeActive: false,
+				active: false,
+			},
+			'PUT'
+		);
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: TERMINATE_USER_BY_ID });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Listo!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+			//Cerrar modal
+			const miExampleModal = document.getElementById('ModalFinalizarEmpleado');
+			miExampleModal?.click();
+		} else {
+			console.log(body.message);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			//Cerrar modal
+			const miExampleModal = document.getElementById('ModalFinalizarEmpleado');
+			miExampleModal?.click();
 		}
 	};
 };

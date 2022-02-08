@@ -4,6 +4,10 @@ import {
 	REGISTER_USER_LOADING_END,
 	GET_USERS_SUCCESSFUL,
 	GET_USER_BY_ID,
+	DELETE_ACCESS_TO_USER_BY_ID,
+	MAKE_ADMIN_USER_BY_ID,
+	REMOVE_ADMIN_USER_BY_ID,
+	TERMINATE_USER_BY_ID,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -21,6 +25,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		phone: '',
 		roll: 0,
 		active: false,
+		isEmployeeActive: true,
 	},
 };
 
@@ -49,6 +54,32 @@ export const UsersReducer = (
 			return {
 				...state,
 				perfilEmpleado: { ...action.payload.empleado },
+			};
+		case DELETE_ACCESS_TO_USER_BY_ID:
+			return {
+				...state,
+				perfilEmpleado: { ...state.perfilEmpleado, active: false },
+			};
+		case MAKE_ADMIN_USER_BY_ID:
+			return {
+				...state,
+				//roll:1 (Administrador)
+				perfilEmpleado: { ...state.perfilEmpleado, roll: 1 },
+			};
+		case REMOVE_ADMIN_USER_BY_ID:
+			return {
+				...state,
+				//roll:2 (Empleado)
+				perfilEmpleado: { ...state.perfilEmpleado, roll: 2 },
+			};
+		case TERMINATE_USER_BY_ID:
+			return {
+				...state,
+				perfilEmpleado: {
+					...state.perfilEmpleado,
+					active: false,
+					isEmployeeActive: false,
+				},
 			};
 
 		default:

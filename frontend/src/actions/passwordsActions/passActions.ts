@@ -11,7 +11,7 @@ import {
 //Validar token recibido por mail
 export const validationToken = (token: any) => {
 	return async (dispatch: Dispatch<PassDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer login
+		//Peticion Fetch a la API para validar token
 		try {
 			const respuesta = await fetchSinToken(`users/confirmation/${token}`, {});
 			//.json() a la respuesta
@@ -44,7 +44,7 @@ export const sendPassword = (
 	password: string
 ) => {
 	return async (dispatch: Dispatch<PassDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer login
+		//Peticion Fetch a la API para confirmar contraseña
 		try {
 			const respuesta = await fetchSinToken(
 				`users/confirmation/`,
@@ -90,7 +90,7 @@ export const sendPassword = (
 //Solicitud de nueva contraseña
 export const passwordRequestNew = (userName: string) => {
 	return async (dispatch: Dispatch<PassDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer login
+		//Peticion Fetch a la API
 		try {
 			const respuesta = await fetchSinToken(
 				`users/recuperacion/`,
@@ -105,8 +105,6 @@ export const passwordRequestNew = (userName: string) => {
 				console.log('Solicitud detectada');
 			} else {
 				console.log('Solicitud detectada');
-				//Mensaje de error proveniente de la API
-				// console.log(body.message);
 			}
 		} catch (error) {
 			console.log(error);

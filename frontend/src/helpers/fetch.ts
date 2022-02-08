@@ -45,6 +45,7 @@ export const fetchConToken = (
 			},
 		}).catch((error) => {
 			console.log(error.message);
+			console.log('geteerror');
 		});
 	} else {
 		//Si la peticion es POST, PUT, DELETE
