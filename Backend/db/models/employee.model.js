@@ -15,7 +15,8 @@ const EmployeeSchema = {
   nacionalidad: { type: DataTypes.STRING, allowNull: true },
   lugarDeTrabajo: { type: DataTypes.STRING, allowNull: true  },
   supervisor: { type: DataTypes.STRING, allowNull:true },
-  numeroCuentaBancaria:{type: DataTypes.INTEGER,allowNull:true},
+  numeroCuentaBancaria:{type: DataTypes.BIGINT,allowNull:true},
+  swiftBic:{ type: DataTypes.STRING, allowNull:true },
   frecuenciaPago:{ type: DataTypes.STRING, allowNull:true },
   direccion1:{ type:DataTypes.STRING,allowNull:true },
   direccion2:{ type:DataTypes.STRING,allowNull:true },
@@ -25,6 +26,10 @@ const EmployeeSchema = {
   pais:{type:DataTypes.STRING,allowNull:true},
   emergenciaNombre:{type:DataTypes.STRING,allowNull:true},
   empergenciaTelefono:{type:DataTypes.STRING,allowNull:true},
+  rfc:{type:DataTypes.STRING,allowNull:true},
+  numeroImms:{type:DataTypes.STRING,allowNull:true},
+  curp:{type:DataTypes.STRING,allowNull:true},
+  fechaAltaImss:{type:DataTypes.DATE,allowNull:true},
 }
 
 class Employee extends Model {
