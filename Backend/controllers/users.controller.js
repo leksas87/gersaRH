@@ -100,10 +100,10 @@ async function registerFile(req, res) {
     try {
         for (const user of usersNames) {
             ///inicia proceso de guardado,verificamos si se mandara la invitacion
-            if (sendInvitation==='1') {
+            if (sendInvitation==='send') {
                 console.log(sendInvitation,'se mandaran las invitaciones');
                 await userService.sendInvitation(user);
-            } else {
+            } else if(sendInvitation==='donotsend'){
                 console.log(sendInvitation,'no se mandaran las invitaciones');
             }
             await models.User.create(user);
@@ -220,6 +220,8 @@ function updateSchema(req, res, next) {
         password: Joi.string().min(6).empty(''),
         phone:Joi.string().empty(''),
         active:Joi.boolean(),
+        roll:Joi.number(),
+        isEmployeeActive:Joi.boolean()
     });
     validateRequest(req, next, schema);
 }
