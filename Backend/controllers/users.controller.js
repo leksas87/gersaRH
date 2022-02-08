@@ -60,6 +60,28 @@ async function registerFile(req, res) {
                         lastName: row[1],
                         username: row[2],
                         phone: row[3],
+                        tipoIdentificacion:row[4],
+                        documentoIdentidad:row[5],
+                        fechaNacimiento:row[6],
+                        genero:row[7],
+                        nacionalidad:row[8],
+                        lugarDeTrabajo:row[9],
+                        supervisor:row[10],
+                        numeroCuentaBancaria:row[11],
+                        swiftBic:row[12],
+                        frecuenciaPago:row[13],
+                        direccion1:row[14],
+                        direccion2:row[15],
+                        ciudad:row[16],
+                        codigoPostal:row[17],
+                        estadoProvincia:row[18],
+                        pais:row[19],
+                        emergenciaNombre:row[20],
+                        empergenciaTelefono:row[21],
+                        rfc:row[22],
+                        numeroImms:row[23],
+                        curp:row[24],
+                        fechaAltaImss:row[25]
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
                     
@@ -106,7 +128,33 @@ async function registerFile(req, res) {
             } else if(sendInvitation==='donotsend'){
                 console.log(sendInvitation,'no se mandaran las invitaciones');
             }
-            await models.User.create(user);
+            // await models.User.create(user);
+            const employee = await models.User.create(user);
+            await models.Employee.create({
+                userId: employee.id,
+                tipoIdentificacion:user.tipoIdentificacion,
+                documentoIdentidad:user.documentoIdentidad,
+                fechaNacimiento:user.fechaNacimiento,
+                genero:user.genero,
+                nacionalidad:user.nacionalidad,
+                lugarDeTrabajo:user.lugarDeTrabajo,
+                supervisor:user.supervisor,
+                numeroCuentaBancaria:user.numeroCuentaBancaria,
+                swiftBic:user.swiftBic,
+                frecuenciaPago:user.frecuenciaPago,
+                direccion1:user.direccion1,
+                direccion2:user.direccion2,
+                ciudad:user.ciudad,
+                codigoPostal:user.codigoPostal,
+                estadoProvincia:user.estadoProvincia,
+                pais:user.pais,
+                emergenciaNombre:user.emergenciaNombre,
+                empergenciaTelefono:user.empergenciaTelefono,
+                rfc:user.rfc,
+                numeroImms:user.numeroImms,
+                curp:user.curp,
+                fechaAltaImss:user.fechaAltaImss,
+            })
             console.log('guardando al usuario',user.username);
             
         }
