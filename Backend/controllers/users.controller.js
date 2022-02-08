@@ -62,7 +62,7 @@ async function registerFile(req, res) {
                         phone: row[3],
                         tipoIdentificacion:row[4],
                         documentoIdentidad:row[5],
-                        
+                        fechaNacimiento:row[6]
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
                     
