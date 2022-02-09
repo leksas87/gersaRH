@@ -8,8 +8,43 @@ const employeeService = require('../services/employee.service');
 // routes
 router.post('/register',registerSchema, register);
 router.get('/:id', authorize(), getById);
+router.put('/:id', authorize(), updateSchema, update);
 
 module.exports = router;
+
+function update(req, res, next) {
+    employeeService.update(req.params.id, req.body)
+        .then(user => res.json({data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function updateSchema(req, res, next) {
+    const schema = Joi.object({
+        tipoIdentificacion: Joi.string().empty(''),
+        documentoIdentidad: Joi.string().empty(''),
+        fechaNacimiento: Joi.date(),
+        genero: Joi.string().empty(''),
+        nacionalidad: Joi.string().empty(''),
+        lugarDeTrabajo: Joi.string().empty(''),
+        supervisor: Joi.string().empty(''),
+        numeroCuentaBancaria: Joi.number(),
+        swiftBic: Joi.string().empty(''),
+        frecuenciaPago: Joi.string().empty(''),
+        direccion1: Joi.string().empty(''),
+        direccion2: Joi.string().empty(''),
+        ciudad: Joi.string().empty(''),
+        codigoPostal: Joi.number(),
+        estadoProvincia: Joi.string().empty(''),
+        pais: Joi.string().empty(''),
+        emergenciaNombre: Joi.string().empty(''),
+        empergenciaTelefono: Joi.string().empty(''),
+        rfc: Joi.string().empty(''),
+        numeroImms: Joi.string().empty(''),
+        curp: Joi.string().empty(''),
+        fechaAltaImss: Joi.date()
+    });
+    validateRequest(req, next, schema);
+}
 
 function getById(req, res, next) {
     employeeService.getEmployeeById(req.params.id)
