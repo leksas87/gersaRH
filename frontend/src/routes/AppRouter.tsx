@@ -10,6 +10,9 @@ import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/Pag
 import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
 import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
 import EmpleadosPage from '../components/empleados/EmpleadosPage';
+import EmpresaArchivados from '../components/empresa/empresaEmpleadosArchivados/EmpresaArchivados';
+import EmpresaDetalles from '../components/empresa/empresaPage/EmpresaDetalles';
+import EmpresaPage from '../components/empresa/empresaPage/EmpresaPage';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
@@ -75,6 +78,16 @@ const AppRouter = () => {
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
 										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 										<Route path='*' element={<NotFound />} />
+									</Route>
+									<Route path='empresa/' element={<EmpresaPage />}>
+										<Route index element={<EmpresaDetalles />} />
+										<Route path='archivados' element={<EmpresaArchivados />} />
+										<Route path='archivados/:empleadoId/' element={<EmpleadoPerfil />}>
+											<Route path='perfil' element={<PageEmpleadoPerfil />} />
+											<Route path='personal' element={<PageEmpleadoPersonal />} />
+											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+											<Route path='*' element={<NotFound />} />
+										</Route>
 									</Route>
 								</Route>
 								<Route path='/*' element={<NotFound />} />

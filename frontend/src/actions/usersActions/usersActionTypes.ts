@@ -7,6 +7,7 @@ export const DELETE_ACCESS_TO_USER_BY_ID = 'deleteAccesToUsersByID';
 export const MAKE_ADMIN_USER_BY_ID = 'makeAdminUsersByID';
 export const REMOVE_ADMIN_USER_BY_ID = 'removeAdminUsersByID';
 export const TERMINATE_USER_BY_ID = 'terminateUsersByID';
+export const CHANGE_TABLE_PATH = 'changeTablePath';
 
 //Usuario que se recibe del fetch al ahcer logIn
 export interface iEmpleado {
@@ -57,6 +58,11 @@ export interface RemoveAdminUsersByID {
 export interface TerminateUsersByID {
 	type: typeof TERMINATE_USER_BY_ID;
 }
+//Cambiar el path de la tabla empleados
+export interface ChangeTablePath {
+	type: typeof CHANGE_TABLE_PATH;
+	payload: string;
+}
 
 //Types para el dispatch
 export type UsersDispatchTypes =
@@ -67,4 +73,5 @@ export type UsersDispatchTypes =
 	| MakeAdminUsersByID
 	| RemoveAdminUsersByID
 	| TerminateUsersByID
+	| ChangeTablePath
 	| GetUsersByID;

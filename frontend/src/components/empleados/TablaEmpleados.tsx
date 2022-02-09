@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { changePath } from '../../actions/usersActions/usersActions';
 import { iEmpleado } from '../../actions/usersActions/usersActionTypes';
 import { sortEmployees } from '../../helpers/sortEmployees';
 import './TablaEmpleados.css';
@@ -10,6 +12,11 @@ interface iTablaEmpleadosProps {
 }
 
 const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
+	//useLocation para conocer el path
+	const { pathname } = useLocation();
+	//dispatch para ejecutar Actions
+	const dispatch = useDispatch();
+
 	//hook searchParams
 	const [searchParams, setSearchParams] = useSearchParams();
 	const filter = searchParams.get('filter') ?? '';
@@ -23,7 +30,7 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 
 	//Metodo para navegar al perfil del empleado
 	const irEmpleado = (id: number) => {
-		navigate(`/empleados/${id}/perfil`);
+		navigate(`${pathname}/${id}/perfil`);
 		//usando solo el is convertido en string (Es lo mismo por que las rutas se créan relativas a la ruta actual).
 		// navigate(id.toString());
 	};
@@ -31,6 +38,10 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 	const handleFilter = (e: any) => {
 		setSearchParams({ filter: e.target.value });
 	};
+
+	useEffect(() => {
+		dispatch(changePath(pathname));
+	}, [pathname]);
 
 	return (
 		<>

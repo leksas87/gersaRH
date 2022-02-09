@@ -8,6 +8,7 @@ import {
 	MAKE_ADMIN_USER_BY_ID,
 	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
+	CHANGE_TABLE_PATH,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -27,6 +28,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		active: false,
 		isEmployeeActive: true,
 	},
+	tablePath: '',
 };
 
 //Reducer
@@ -80,6 +82,11 @@ export const UsersReducer = (
 					active: false,
 					isEmployeeActive: false,
 				},
+			};
+		case CHANGE_TABLE_PATH:
+			return {
+				...state,
+				tablePath: action.payload,
 			};
 
 		default:
