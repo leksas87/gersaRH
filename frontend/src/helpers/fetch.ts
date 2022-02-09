@@ -61,3 +61,26 @@ export const fetchConToken = (
 		});
 	}
 };
+//Metodo para hacer fetch Multipart FormDAta con Token
+export const fetchMultipartFormDataConToken = (
+	endpoint: string,
+	data: FormData,
+	method: string = 'GET'
+) => {
+	//Se une el endpoint con la baseURL
+	const url = `${baseUrl}/${endpoint}`;
+	//Se recupera el token guardado el localStorage
+	const token = localStorage.getItem('gersa-tkn') || '';
+
+	//Si la peticion es POST, PUT, DELETE
+	return fetch(url, {
+		method,
+		headers: {
+			Authorization: `Bearer ${token}`,
+			// uploadfile: `multipart/form-data ${data}`,
+		},
+		body: data,
+	}).catch((error) => {
+		console.log(error.message);
+	});
+};

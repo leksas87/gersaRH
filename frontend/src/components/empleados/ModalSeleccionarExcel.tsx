@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewUsersSend } from '../../actions/usersActions/usersActions';
 import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
 
 const ModalSeleccionarExcel = () => {
+	//Senecesita el state que indica si el usuario está autenticado o no
+	const { registerState } = useSelector((state: RootSote) => state.users);
+	//dispatch para ejecutar Actions
+	const dispatch = useDispatch();
 	// useState para mensaje de error
 	const [errorMsg, setErrorMsg] = useState('');
 	// useForm para el inputFile
 	const [formValues, onchange] = useForm({
-		archivoSeleccionado: '',
+		uploadfile: '',
 	});
-	const { archivoSeleccionado } = formValues;
+	const { uploadfile } = formValues;
 
 	//useState para manejo del checkbox
 	const [checked, setChecked] = useState<boolean>(false);
@@ -20,24 +27,17 @@ const ModalSeleccionarExcel = () => {
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
-		//Validacion, si el formulario es correcto entonces...
-		if (isFormValid()) {
-			if (checked) {
-				console.log('SendInvitations');
 
-				// fetch('/',{
-				// 	method:'POST',
-				// 	body:formData
-				// })
-			} else {
-				console.log('Do not send Invitations');
-			}
+		//Validacion, si el formulario es correcto entonces... Enviar Excel
+		if (isFormValid()) {
+			if (checked) dispatch(registerNewUsersSend(formData, 'donotsend'));
+			else dispatch(registerNewUsersSend(formData, 'send'));
 		}
 	};
 
 	const isFormValid = (): boolean => {
 		// El inputFile no debe estar vacío
-		if (archivoSeleccionado === '') {
+		if (uploadfile === '') {
 			setErrorMsg('Por favor seleccione un archivo');
 			return false;
 		}
@@ -112,11 +112,11 @@ const ModalSeleccionarExcel = () => {
 													: 'form-control custm-InputFile '
 											}
 											type='file'
-											name='archivoSeleccionado'
+											name='uploadfile'
 											id='formFile'
 											accept='.xlsx,.xls'
 											// required={true}
-											value={archivoSeleccionado}
+											value={uploadfile}
 											onChange={onchange}
 										/>
 										{errorMsg && (
@@ -143,9 +143,24 @@ const ModalSeleccionarExcel = () => {
 									</div>
 
 									<div className='d-flex justify-content-end'>
-										<button type='submit' className='custm-btnFormSubmit inputSubmit'>
-											Importar Archivo
-										</button>
+										{registerState ? (
+											<button type='submit' className='custm-btnFormSubmit inputSubmit'>
+												Importar Archivo
+											</button>
+										) : (
+											<button
+												className='btn  custm-btnFormSubmit inputSubmit'
+												type='button'
+												disabled
+											>
+												<span
+													className='spinner-border spinner-border-sm me-2'
+													role='status'
+													aria-hidden='true'
+												></span>
+												Cargando tabla...
+											</button>
+										)}
 									</div>
 								</form>
 							</div>

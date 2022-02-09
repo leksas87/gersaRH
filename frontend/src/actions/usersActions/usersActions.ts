@@ -12,11 +12,14 @@ import {
 	CHANGE_TABLE_PATH,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
-import { fetchConToken } from '../../helpers/fetch';
+import {
+	fetchConToken,
+	fetchMultipartFormDataConToken,
+} from '../../helpers/fetch';
 import axios from 'axios';
 // import * as bootstrap from 'bootstrap';
 
-//Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
+//(POST) Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
 export const registerNewUser = (
 	name: string,
 	apellidos: string,
@@ -341,5 +344,55 @@ export const changePath = (path: string) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Se hace la modificacion del tablePath en el Reducer
 		dispatch({ type: CHANGE_TABLE_PATH, payload: path });
+	};
+};
+
+//(POST) Importar Usuarios (REGISTRO VIA EXCEL) Enviando Invitaciones al Mail
+export const registerNewUsersSend = (formdata: FormData, endpoint: string) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//dispatch para cambiar loading a true
+		dispatch({
+			type: REGISTER_USER_START_LOADING,
+		});
+
+		//Peticion Fetch a la API para hacer login
+		const respuesta = await fetchMultipartFormDataConToken(
+			// 'users/registerFile/donotsend',
+			`users/registerFile/${endpoint}`,
+			formdata,
+			'POST'
+		);
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		//Mensajes de Confirmación o Error
+		if (body.ok) {
+			dispatch({
+				type: REGISTER_USER_LOADING_END,
+			});
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: `¡${body.message}!`,
+				showConfirmButton: false,
+				timer: 2000,
+			});
+			//obtiene nuevamente los usuarios.
+			dispatch<any>(getUsers());
+			//Cerrar modal
+			const miExampleModal = document.getElementById('ModalSeleccionarExcel');
+			miExampleModal?.click();
+		} else {
+			dispatch({
+				type: REGISTER_USER_LOADING_END,
+			});
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
 	};
 };
