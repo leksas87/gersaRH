@@ -6,8 +6,22 @@ const {models} = require('./../libs/sequelize');
 module.exports = {
    
     create,
-    getEmployeeById
+    getEmployeeById,
+    update
 };
+
+async function update(id, params) {
+    const employee = await getEmployeeById(id);
+
+    // validate
+    if ( !employee)  throw 'Empleado no encontrado';
+
+    // copy params to user and save
+    Object.assign(employee, params);
+    await employee.save();
+
+    return employee;
+}
 
 async function create(params) {
      await models.Employee.create(params);
