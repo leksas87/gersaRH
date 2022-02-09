@@ -151,6 +151,8 @@ async function recoveryByUserName(params) {
     // validate
     if (!user) throw 'Usuario no encontrado';
 
+    if(!user.isEmployeeActive)  throw 'Usuario dado de baja';
+
     const token = jwt.sign({email: params.username}, config.secret);
 
     user.confirmationCode=token;
