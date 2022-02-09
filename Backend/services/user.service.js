@@ -234,7 +234,7 @@ async function _delete(id) {
 async function getUser(id) {
     const user = await models.User.findByPk(id);
     if (!user) throw 'Usuario no encontrado';
-    return omitHash(user.get());
+    return user;
 }
 
 async function getUserToken(token) {
