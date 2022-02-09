@@ -9,6 +9,7 @@ import {
 	MAKE_ADMIN_USER_BY_ID,
 	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
+	CHANGE_TABLE_PATH,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
@@ -332,5 +333,13 @@ export const terminateUserById = (id: number) => {
 			const miExampleModal = document.getElementById('ModalFinalizarEmpleado');
 			miExampleModal?.click();
 		}
+	};
+};
+
+//CAmbiar tablePath
+export const changePath = (path: string) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Se hace la modificacion del tablePath en el Reducer
+		dispatch({ type: CHANGE_TABLE_PATH, payload: path });
 	};
 };

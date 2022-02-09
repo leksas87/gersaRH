@@ -111,10 +111,19 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								<i className='bi bi-folder2-open sidebarIcon' />
 								Archivos
 							</div>
-							<div className='sidebarOption'>
+							<NavLink
+								to='/empresa'
+								className={({ isActive }) =>
+									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+								}
+								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+								onClick={() => {
+									navigateTo('/empresa');
+								}}
+							>
 								<i className='bi bi-gear sidebarIcon ' />
 								Empresa
-							</div>
+							</NavLink>
 						</nav>
 					)}
 					<div className='mt-3 ms-1 btn-group '>
