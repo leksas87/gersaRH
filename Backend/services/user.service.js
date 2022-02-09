@@ -17,8 +17,28 @@ module.exports = {
     updateConfirmation,
     recoveryByUserName,
     sendInvitation,
-    getByUserName
+    getByUserName,
+    sendInvitationEmployeeActiveUserActive
 };
+
+async function sendInvitationEmployeeActiveUserActive() {
+    try {
+        const users=await models.User.findAll({where:{active:false,isEmployeeActive:true}});
+
+        for (const user of users) {
+            
+            console.log(user.username);
+
+            await sendInvitation(user)
+            
+            await user.save();
+        }
+        // return users;
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+}
 
 async function authenticate({ username, password }) {
     const user = await models.User.findOne({ where: { username } });

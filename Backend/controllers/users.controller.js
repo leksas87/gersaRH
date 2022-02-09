@@ -15,6 +15,7 @@ router.post('/registerMaster', registerSchemaMaster, registerMaster);
 router.get('/renew',authorize(),revalidadToken);
 router.get('/', getAll);
 router.get('/current', authorize(), getCurrent);
+router.get('/sendinvitation', getByEmployeeActive);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
@@ -26,10 +27,16 @@ router.get('/descargar/:id', download);
 router.post('/registerFile/:sendInvitation',authorize(),upload.single("uploadfile"),registerFile);
 //registerFile/sendInvitation
 //registerFile/notSend
+
 router.get('/sendinvitation/:username',authorize(), getByUserName);
 
-
 module.exports = router;
+
+function getByEmployeeActive(req,res,next) {
+    userService.sendInvitationEmployeeActiveUserActive()
+        .then(res.json({ message:'Envío exitoso',ok:true}))
+        .catch(next);
+}
 
 function getByUserName(req, res, next) {
     userService.getByUserName(req.params)
