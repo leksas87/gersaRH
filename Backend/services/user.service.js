@@ -54,7 +54,8 @@ async function getAll() {
 }
 
 async function getById(id) {
-    return await getUser(id);
+    const user = await models.User.findOne({ where: { id } });
+    return omitHash(user.get());
 }
 
 async function getByUserName(params) {
