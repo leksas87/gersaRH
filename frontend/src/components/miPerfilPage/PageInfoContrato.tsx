@@ -3,7 +3,7 @@ import { RootSote } from '../../store/Store';
 
 const PageInfoContrato = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	// const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	return (
 		<>
@@ -255,7 +255,7 @@ const PageInfoContrato = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='--escoge--'
+										placeholder={perfilEmpleado.frecuenciaPago}
 										disabled
 									/>
 								</div>

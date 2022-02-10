@@ -6,7 +6,8 @@ import { RootSote } from '../../store/Store';
 
 const PagePerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	// const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	// const nombre = firstName;
 	// const correo = perfilEmpleado.username;
@@ -41,7 +42,7 @@ const PagePerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Nombre supervisor'
+										placeholder={perfilEmpleado.supervisor}
 										disabled
 									/>
 								</div>
@@ -62,7 +63,7 @@ const PagePerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Correo electrónico'
+										placeholder={perfilUsuario.username}
 										// placeholder={correo}
 										disabled
 									/>
@@ -72,7 +73,7 @@ const PagePerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Lugar de trabajo'
+										placeholder={perfilEmpleado.lugarDeTrabajo}
 										disabled
 									/>
 								</div>

@@ -1,14 +1,22 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
+import {
+	getEmployeeById,
+	getUserById,
+} from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 
 const MiPerfil = () => {
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
+	//dispatch para ejecutar Actions
+	const dispatch = useDispatch();
 
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
+	const { firstName, lastName, id } = useSelector(
+		(state: RootSote) => state.auth
+	);
 
 	//Tomar Solo el primer nombre y el primer apellido
 	const indiceName = firstName.indexOf(' ');
@@ -17,7 +25,10 @@ const MiPerfil = () => {
 	const lastname = lastName.substring(0, indiceLastname);
 
 	//useEfect para ejecutar...
-	useEffect(() => {}, []);
+	useEffect(() => {
+		dispatch(getUserById(id));
+		dispatch(getEmployeeById(id));
+	}, []);
 
 	return (
 		<>
