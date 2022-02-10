@@ -15,6 +15,10 @@ const EmpleadosPage = () => {
 	const dispatch = useDispatch();
 	//Senecesita el state que indica si el usuario está autenticado o no
 	const { empleados } = useSelector((state: RootSote) => state.users);
+	//Filter para mostrar empreados que propiedad isEmployee = true
+	const empleadosActivos = empleados.filter(
+		(empleado) => empleado.isEmployeeActive === true
+	);
 
 	//Efecto que ejecuta la accion getUsers cada que carga el componente.
 	useEffect(() => {
@@ -125,12 +129,12 @@ const EmpleadosPage = () => {
 						</div>
 						<div className='d-flex align-items-center'>
 							<div className='d-flex flex-column align-items-center custm-NumEmpleados mb-3 me-2'>
-								<div>{empleados.length}</div>
+								<div>{empleadosActivos.length}</div>
 								<div>Empleados</div>
 							</div>
 						</div>
 					</div>
-					<TablaEmpleados empleados={empleados} />
+					<TablaEmpleados empleados={empleadosActivos} />
 				</div>
 			</div>
 		</>

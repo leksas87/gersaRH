@@ -17,6 +17,7 @@ import {
 	fetchMultipartFormDataConToken,
 } from '../../helpers/fetch';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // import * as bootstrap from 'bootstrap';
 
 //(POST) Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
@@ -339,7 +340,7 @@ export const terminateUserById = (id: number) => {
 	};
 };
 
-//CAmbiar tablePath
+//Cambiar tablePath
 export const changePath = (path: string) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Se hace la modificacion del tablePath en el Reducer

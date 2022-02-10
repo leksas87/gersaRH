@@ -5,6 +5,10 @@ import TablaEmpleados from '../../empleados/TablaEmpleados';
 const EmpresaArchivados = () => {
 	//Senecesita el state que indica si el usuario está autenticado o no
 	const { empleados } = useSelector((state: RootSote) => state.users);
+	//Filter para mostrar empreados que propiedad isEmployee = false
+	const empleadosArchivados = empleados.filter(
+		(empleado) => empleado.isEmployeeActive === false
+	);
 	return (
 		<>
 			<div className='d-flex flex-column justify-content-center pt-4 '>
@@ -26,7 +30,7 @@ const EmpresaArchivados = () => {
 						</div>
 					</div>
 				</div>
-				<TablaEmpleados empleados={empleados} />
+				<TablaEmpleados empleados={empleadosArchivados} />
 			</div>
 		</>
 	);
