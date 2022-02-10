@@ -7,6 +7,8 @@ import { RootSote } from '../../../store/Store';
 const PageEmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 	//Dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 
@@ -82,7 +84,7 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Nombre supervisor'
+										placeholder={perfilEmpleado.supervisor}
 										disabled={!value}
 									/>
 								</div>
@@ -113,7 +115,7 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Lugar de trabajo'
+										placeholder={perfilEmpleado.lugarDeTrabajo}
 										disabled={!value}
 									/>
 								</div>

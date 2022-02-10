@@ -5,6 +5,8 @@ import { RootSote } from '../../../store/Store';
 const PageEmpleadoPersonal = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial
@@ -73,8 +75,9 @@ const PageEmpleadoPersonal = () => {
 									<label className='custm-Width100'>Fecha de nacimiento</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Fecha de nacimiento'
+										type='date'
+										value={perfilEmpleado.fechaNacimiento}
+										// placeholder={perfilEmpleado.fechaNacimiento}
 										disabled={!value}
 									/>
 								</div>
@@ -83,7 +86,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Género legal'
+										placeholder={perfilEmpleado.genero}
 										disabled={!value}
 									/>
 								</div>
@@ -92,7 +95,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Nacionalidad'
+										placeholder={perfilEmpleado.nacionalidad}
 										disabled={!value}
 									/>
 								</div>
@@ -110,7 +113,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Frecuencia de pago'
+										placeholder={perfilEmpleado.frecuenciaPago}
 										disabled={!value}
 									/>
 								</div>
@@ -169,7 +172,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='--escoge--'
+										placeholder={perfilEmpleado.tipoIdentificacion}
 										disabled={!ddiValue}
 									/>
 								</div>
@@ -179,7 +182,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Número de identificación'
+										placeholder={perfilEmpleado.documentoIdentidad}
 										disabled={!ddiValue}
 									/>
 								</div>
@@ -236,7 +239,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Dirección'
+										placeholder={perfilEmpleado.direccion1}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -246,7 +249,9 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Opcional'
+										placeholder={
+											perfilEmpleado.direccion2 ? perfilEmpleado.direccion2 : 'Ninguna'
+										}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -257,7 +262,7 @@ const PageEmpleadoPersonal = () => {
 										<input
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
-											placeholder='Ciudad'
+											placeholder={perfilEmpleado.ciudad}
 											disabled={!direccionValue}
 										/>
 									</div>
@@ -267,7 +272,7 @@ const PageEmpleadoPersonal = () => {
 										<input
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
-											placeholder='Código Postal'
+											placeholder={perfilEmpleado.codigoPostal.toString()}
 											disabled={!direccionValue}
 										/>
 									</div>
@@ -278,7 +283,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Estado / Provincia / Región'
+										placeholder={perfilEmpleado.estadoProvincia}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -288,7 +293,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='País'
+										placeholder={perfilEmpleado.pais}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -347,7 +352,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Nombre'
+										placeholder={perfilEmpleado.emergenciaNombre}
 										disabled={!contactoEValue}
 									/>
 								</div>
@@ -357,7 +362,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Teléfono'
+										placeholder={perfilEmpleado.empergenciaTelefono}
 										disabled={!contactoEValue}
 									/>
 								</div>
@@ -416,7 +421,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Cuenta bancaria'
+										placeholder={perfilEmpleado.numeroCuentaBancaria.toString()}
 										disabled={!infoBankEValue}
 									/>
 								</div>
@@ -426,7 +431,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='SWIFT/BIC'
+										placeholder={perfilEmpleado.swiftBic}
 										disabled={!infoBankEValue}
 									/>
 								</div>
@@ -486,7 +491,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='RFC'
+										placeholder={perfilEmpleado.rfc}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -495,7 +500,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Número IMSS'
+										placeholder={perfilEmpleado.numeroImms}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -504,7 +509,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='CURP'
+										placeholder={perfilEmpleado.curp}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -512,8 +517,8 @@ const PageEmpleadoPersonal = () => {
 									<label className='custm-Width100'>Fecha alta IMSS</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Fecha alta IMSS'
+										type='date'
+										value={perfilEmpleado.fechaAltaImss}
 										disabled={!numSafeEValue}
 									/>
 								</div>
