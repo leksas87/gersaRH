@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	downloadTamplateExcel,
 	getUsers,
+	sendInvitationsMassive,
 } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevoEmpleado from './ModalNuevoEmpleado';
@@ -30,6 +31,10 @@ const EmpleadosPage = () => {
 		downloadTamplateExcel();
 	};
 
+	const sendInvitationsAll = () => {
+		console.log('enviando a TOdos');
+		dispatch(sendInvitationsMassive());
+	};
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -95,6 +100,7 @@ const EmpleadosPage = () => {
 									<button
 										className='dropdown-item custm-dropdown-item custm-dropItem'
 										type='button'
+										onClick={sendInvitationsAll}
 									>
 										<div className='fs-4'>
 											Enviar invitaciones{' '}

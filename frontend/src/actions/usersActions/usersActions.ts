@@ -397,3 +397,32 @@ export const registerNewUsersSend = (formdata: FormData, endpoint: string) => {
 		}
 	};
 };
+
+//(GET )Enviar invitacion a todos los pendientes.
+export const sendInvitationsMassive = () => {
+	// console.log('Ejecutando getUsers');
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para hacer obtener los usuarios
+		const respuesta = await fetchConToken('users/sendinvitation', {}, 'GET');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: `¡${body.message}!`,
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
