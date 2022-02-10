@@ -1,14 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsers } from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../../store/Store';
 import TablaEmpleados from '../../empleados/TablaEmpleados';
 
 const EmpresaArchivados = () => {
 	//Senecesita el state que indica si el usuario está autenticado o no
 	const { empleados } = useSelector((state: RootSote) => state.users);
+	//dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
 	//Filter para mostrar empreados que propiedad isEmployee = false
 	const empleadosArchivados = empleados.filter(
 		(empleado) => empleado.isEmployeeActive === false
 	);
+	//Efecto que ejecuta la accion getUsers cada que carga el componente.
+	useEffect(() => {
+		dispatch(getUsers());
+	}, [dispatch]);
 	return (
 		<>
 			<div className='d-flex flex-column justify-content-center pt-4 '>

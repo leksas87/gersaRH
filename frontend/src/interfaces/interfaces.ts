@@ -1,4 +1,7 @@
-import { iEmpleado } from '../actions/usersActions/usersActionTypes';
+import {
+	iEmpleado,
+	iEmployeeData,
+} from '../actions/usersActions/usersActionTypes';
 
 //Auth Interfaces
 export interface iAuthState {
@@ -34,7 +37,8 @@ export interface iUsuariosReducer {
 		loading: boolean;
 	};
 	empleados: iEmpleado[];
-	perfilEmpleado: iEmpleado;
+	perfilUsuario: iEmpleado;
+	perfilEmpleado: iEmployeeData;
 	tablePath: string;
 }
 //Interface de confirmacion contraseña

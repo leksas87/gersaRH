@@ -4,6 +4,8 @@ import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoInfoContrato = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
@@ -53,7 +55,7 @@ const PageEmpleadoInfoContrato = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Cargo'
+										placeholder={'Cargo'}
 										disabled={!infoBasicavalue}
 									/>
 								</div>
@@ -141,7 +143,7 @@ const PageEmpleadoInfoContrato = () => {
 
 								<div className='d-flex justify-content-center textColorLight mb-1'>
 									<label>
-										<span className='text-capitalize'>{perfilEmpleado.firstName}</span>{' '}
+										<span className='text-capitalize'>{perfilUsuario.firstName}</span>{' '}
 										trabaja a la semana los días:
 									</label>
 								</div>
@@ -295,7 +297,7 @@ const PageEmpleadoInfoContrato = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='--escoge--'
+										placeholder={perfilEmpleado.frecuenciaPago}
 										disabled={!salarioBruValue}
 									/>
 								</div>

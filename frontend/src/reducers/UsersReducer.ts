@@ -9,6 +9,7 @@ import {
 	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
+	GET_EMPLOYEE_BY_ID,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -18,7 +19,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		loading: false,
 	},
 	empleados: [],
-	perfilEmpleado: {
+	perfilUsuario: {
 		id: 0,
 		firstName: '',
 		lastName: '',
@@ -27,6 +28,32 @@ const INITIAL_STATE: iUsuariosReducer = {
 		roll: 0,
 		active: false,
 		isEmployeeActive: true,
+	},
+	perfilEmpleado: {
+		id: null,
+		userId: null,
+		tipoIdentificacion: '',
+		documentoIdentidad: '',
+		fechaNacimiento: '',
+		genero: '',
+		nacionalidad: '',
+		lugarDeTrabajo: '',
+		supervisor: '',
+		numeroCuentaBancaria: 0,
+		swiftBic: '',
+		frecuenciaPago: '',
+		direccion1: '',
+		direccion2: '',
+		ciudad: '',
+		codigoPostal: 0,
+		estadoProvincia: '',
+		pais: 'México',
+		emergenciaNombre: '',
+		empergenciaTelefono: '',
+		rfc: '',
+		numeroImms: '',
+		curp: '',
+		fechaAltaImss: '',
 	},
 	tablePath: '',
 };
@@ -55,30 +82,30 @@ export const UsersReducer = (
 		case GET_USER_BY_ID:
 			return {
 				...state,
-				perfilEmpleado: { ...action.payload.empleado },
+				perfilUsuario: { ...action.payload.empleado },
 			};
 		case DELETE_ACCESS_TO_USER_BY_ID:
 			return {
 				...state,
-				perfilEmpleado: { ...state.perfilEmpleado, active: false },
+				perfilUsuario: { ...state.perfilUsuario, active: false },
 			};
 		case MAKE_ADMIN_USER_BY_ID:
 			return {
 				...state,
 				//roll:1 (Administrador)
-				perfilEmpleado: { ...state.perfilEmpleado, roll: 1 },
+				perfilUsuario: { ...state.perfilUsuario, roll: 1 },
 			};
 		case REMOVE_ADMIN_USER_BY_ID:
 			return {
 				...state,
 				//roll:2 (Empleado)
-				perfilEmpleado: { ...state.perfilEmpleado, roll: 2 },
+				perfilUsuario: { ...state.perfilUsuario, roll: 2 },
 			};
 		case TERMINATE_USER_BY_ID:
 			return {
 				...state,
-				perfilEmpleado: {
-					...state.perfilEmpleado,
+				perfilUsuario: {
+					...state.perfilUsuario,
 					active: false,
 					isEmployeeActive: false,
 				},
@@ -87,6 +114,11 @@ export const UsersReducer = (
 			return {
 				...state,
 				tablePath: action.payload,
+			};
+		case GET_EMPLOYEE_BY_ID:
+			return {
+				...state,
+				perfilEmpleado: { ...action.payload.empleadoData },
 			};
 
 		default:

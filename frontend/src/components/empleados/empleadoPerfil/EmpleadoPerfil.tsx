@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import {
+	getEmployeeById,
 	getUserById,
 	makeAdminToUserById,
 	removeAdminToUserById,
@@ -17,7 +18,7 @@ const EmpleadoPerfil = () => {
 	const empleadoId = params.empleadoId;
 
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado, tablePath } = useSelector(
+	const { perfilUsuario: perfilEmpleado, tablePath } = useSelector(
 		(state: RootSote) => state.users
 	);
 	//useDispatch para ehecutar las Actions
@@ -33,6 +34,7 @@ const EmpleadoPerfil = () => {
 
 	useEffect(() => {
 		if (empleadoId) dispatch(getUserById(empleadoId));
+		if (empleadoId) dispatch(getEmployeeById(empleadoId));
 	}, [dispatch, empleadoId]);
 
 	//metodo para remover Permisos de Administrador
