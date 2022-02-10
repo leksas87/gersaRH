@@ -10,6 +10,7 @@ import {
 	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
+	GET_EMPLOYEE_BY_ID,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -116,6 +117,24 @@ export const getUserById = (id: string) => {
 		if (body.ok) {
 			//Se guarda los usuarios obtenidos en el Reducer
 			dispatch({ type: GET_USER_BY_ID, payload: { empleado: body.data } });
+		} else {
+			console.log('Algo salio mal');
+			console.log(body.message);
+		}
+	};
+};
+//(GET) Obtener Empleado por ID
+export const getEmployeeById = (id: string) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para obtener los usuarios
+		const respuesta = await fetchConToken(`employees/${id}`, {}, 'GET');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			console.log(body.data);
+			//Se guarda los usuarios obtenidos en el Reducer
+			dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
 		} else {
 			console.log('Algo salio mal');
 			console.log(body.message);
@@ -234,7 +253,7 @@ export const deleteAccestoUserById = (id: number) => {
 	};
 };
 
-//(PUT - users )´Hacer administrador a usuario por ID
+//(PUT - users )Hacer administrador a usuario por ID
 export const makeAdminToUserById = (id: number) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para modificar el roll del usuario

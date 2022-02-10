@@ -4,14 +4,14 @@ import { RootSote } from '../../../store/Store';
 
 const ModalFinalizarEmpleado = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//useDispath para ejecutar las Actions
 	const dispatch = useDispatch();
 
 	//handleSubmit para el envio de lso datos del modal al Back
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(terminateUserById(perfilEmpleado.id));
+		dispatch(terminateUserById(perfilUsuario.id));
 	};
 
 	return (
@@ -59,7 +59,7 @@ const ModalFinalizarEmpleado = () => {
 								>
 									<label className='textColorPrimary fs-2 mt-3'>
 										Finalizar{' '}
-										<span className='text-capitalize'>{perfilEmpleado.firstName}</span>
+										<span className='text-capitalize'>{perfilUsuario.firstName}</span>
 									</label>
 									<label
 										className='textColorLight fw-light mt-4'

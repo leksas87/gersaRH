@@ -6,13 +6,13 @@ import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//Dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 
-	const nombre = perfilEmpleado.firstName;
-	const correo = perfilEmpleado.username;
-	const isMailActive = perfilEmpleado.active;
+	const nombre = perfilUsuario.firstName;
+	const correo = perfilUsuario.username;
+	const isMailActive = perfilUsuario.active;
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial

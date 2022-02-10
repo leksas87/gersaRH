@@ -6,12 +6,12 @@ const ModalElimnarAcceso = () => {
 	// dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//handleSubmit para el envio de lso datos del modal al Back
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('Eliminando acceso...');
-		dispatch(deleteAccestoUserById(perfilEmpleado.id));
+		dispatch(deleteAccestoUserById(perfilUsuario.id));
 	};
 
 	return (

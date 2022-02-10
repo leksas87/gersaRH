@@ -3,6 +3,7 @@ export const REGISTER_USER_START_LOADING = 'regiserUserStartLoading';
 export const REGISTER_USER_LOADING_END = 'registerUserLoadingEnd';
 export const GET_USERS_SUCCESSFUL = 'getUsersSuccesful';
 export const GET_USER_BY_ID = 'getUsersByID';
+export const GET_EMPLOYEE_BY_ID = 'getEmployeesByID';
 export const DELETE_ACCESS_TO_USER_BY_ID = 'deleteAccesToUsersByID';
 export const MAKE_ADMIN_USER_BY_ID = 'makeAdminUsersByID';
 export const REMOVE_ADMIN_USER_BY_ID = 'removeAdminUsersByID';
@@ -10,6 +11,7 @@ export const TERMINATE_USER_BY_ID = 'terminateUsersByID';
 export const CHANGE_TABLE_PATH = 'changeTablePath';
 
 //Usuario que se recibe del fetch al ahcer logIn
+//En realidad esta interfaz es usuario
 export interface iEmpleado {
 	id: number;
 	firstName: string;
@@ -19,6 +21,32 @@ export interface iEmpleado {
 	active: boolean;
 	roll: number;
 	isEmployeeActive: boolean;
+}
+export interface iEmployeeData {
+	ciudad: string;
+	codigoPostal: number;
+	curp: string;
+	direccion1: string;
+	direccion2: string | null;
+	documentoIdentidad: string;
+	emergenciaNombre: string;
+	empergenciaTelefono: string;
+	estadoProvincia: string;
+	fechaAltaImss: string;
+	fechaNacimiento: string;
+	frecuenciaPago: string;
+	genero: string;
+	id: number | null;
+	lugarDeTrabajo: string;
+	nacionalidad: string;
+	numeroCuentaBancaria: number;
+	numeroImms: string;
+	pais: string;
+	rfc: string;
+	supervisor: string;
+	swiftBic: string;
+	tipoIdentificacion: string;
+	userId: number | null;
 }
 //Inicia registro
 export interface RegiserUserStartLoading {
@@ -40,6 +68,13 @@ export interface GetUsersByID {
 	type: typeof GET_USER_BY_ID;
 	payload: {
 		empleado: iEmpleado;
+	};
+}
+//Obtener EmpleadoData por ID
+export interface GetEmployeesByID {
+	type: typeof GET_EMPLOYEE_BY_ID;
+	payload: {
+		empleadoData: iEmployeeData;
 	};
 }
 //Eliminar accesso a Empleado
@@ -74,4 +109,5 @@ export type UsersDispatchTypes =
 	| RemoveAdminUsersByID
 	| TerminateUsersByID
 	| ChangeTablePath
+	| GetEmployeesByID
 	| GetUsersByID;

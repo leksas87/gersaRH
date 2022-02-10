@@ -4,7 +4,7 @@ import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoPersonal = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial
@@ -55,7 +55,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.firstName}
+										placeholder={perfilUsuario.firstName}
 										disabled={!value}
 									/>
 								</div>
@@ -65,7 +65,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.lastName}
+										placeholder={perfilUsuario.lastName}
 										disabled={!value}
 									/>
 								</div>
@@ -101,7 +101,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.phone}
+										placeholder={perfilUsuario.phone}
 										disabled={!value}
 									/>
 								</div>
