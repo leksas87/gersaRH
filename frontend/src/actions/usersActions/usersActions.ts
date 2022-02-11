@@ -169,7 +169,7 @@ export const downloadTamplateExcelFromServer = () => {
 export const downloadTamplateExcel = () => {
 	const downloadInstance = document.createElement('a');
 	downloadInstance.href =
-		'http://localhost:3000/assets/tamplates/excelTest.xlsx';
+		'http://localhost:3000/assets/tamplates/PlantillaEmpleadosGersaRH.xlsx';
 	downloadInstance.target = '_blank';
 	downloadInstance.download = 'plantillaImportarEmpleadosGersaRH';
 

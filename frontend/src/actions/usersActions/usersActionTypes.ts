@@ -24,7 +24,7 @@ export interface iEmpleado {
 }
 export interface iEmployeeData {
 	ciudad: string;
-	codigoPostal: number;
+	codigoPostal: string;
 	curp: string;
 	direccion1: string;
 	direccion2: string | null;
@@ -39,7 +39,7 @@ export interface iEmployeeData {
 	id: number | null;
 	lugarDeTrabajo: string;
 	nacionalidad: string;
-	numeroCuentaBancaria: number;
+	numeroCuentaBancaria: string;
 	numeroImms: string;
 	pais: string;
 	rfc: string;

@@ -61,7 +61,7 @@ const PageEmpleadoPersonal = () => {
 		direccion1: '',
 		direccion2: '',
 		ciudad: '',
-		codigoPostal: 0,
+		codigoPostal: '',
 		estadoProvincia: '',
 		pais: '',
 	};
@@ -72,7 +72,7 @@ const PageEmpleadoPersonal = () => {
 	};
 	//objeto para formulario InfBancaria
 	const formInfBancaria = {
-		numeroCuentaBancaria: 0,
+		numeroCuentaBancaria: '',
 		swiftBic: '',
 	};
 	//objeto para formulario numSeguridadSocial
