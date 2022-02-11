@@ -163,7 +163,15 @@ async function createMaster(params) {
         params.hash = await bcrypt.hash(params.password, 10);
     }
     // save user
-    await models.User.create(params);
+    try {
+        // save user
+        const user = await models.User.create(params);
+        await models.Employee.create({
+            userId: user.id
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 async function recoveryByUserName(params) {
