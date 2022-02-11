@@ -13,12 +13,22 @@ const PageEmpleadoPersonal = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
-	//Tomar Solo el primer nombre y el primer apellido
+	//Tomar solo la fecha
 	const indiceFechaNacimiento = perfilEmpleado.fechaNacimiento.indexOf('T');
 	const fechaNac = perfilEmpleado.fechaNacimiento.substring(
 		0,
 		indiceFechaNacimiento
 	);
+	//Tomar solo la fecha
+	const indiceFechaImss = perfilEmpleado.fechaAltaImss.indexOf('T');
+	const fechaAltImss = perfilEmpleado.fechaAltaImss.substring(
+		0,
+		indiceFechaImss
+	);
+
+	let direction2 = '';
+	if (perfilEmpleado.direccion2) direction2 = perfilEmpleado.direccion2;
+	else direction2 = '';
 
 	//dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
@@ -41,9 +51,50 @@ const PageEmpleadoPersonal = () => {
 		phone: '',
 		frecuenciaPago: '',
 	};
+	//objeto para formulario DocIdentidad
+	const formDocIdentidad = {
+		tipoIdentificacion: '',
+		documentoIdentidad: '',
+	};
+	//objeto para formulario Direccion
+	const formDireccion = {
+		direccion1: '',
+		direccion2: '',
+		ciudad: '',
+		codigoPostal: 0,
+		estadoProvincia: '',
+		pais: '',
+	};
+	//objeto para formulario ContEmergencia
+	const formContEmergencia = {
+		emergenciaNombre: '',
+		empergenciaTelefono: '',
+	};
+	//objeto para formulario InfBancaria
+	const formInfBancaria = {
+		numeroCuentaBancaria: 0,
+		swiftBic: '',
+	};
+	//objeto para formulario numSeguridadSocial
+	const formNumSeguridadSocial = {
+		rfc: '',
+		numeroImms: '',
+		curp: '',
+		fechaAltaImss: '',
+	};
 
 	//state de formulario Puesto
 	const [infoGralValues, setInfoGralValues] = useState(formInfoGral);
+	const [docIdentidadValues, setDocIdentidadValues] = useState(formDocIdentidad);
+	const [direccionValues, setDireccionValues] = useState(formDireccion);
+	const [contEmergenciaValues, setContEergenciaValues] =
+		useState(formContEmergencia);
+	const [infBancariaValues, setInfBancariaValues] = useState(formInfBancaria);
+	const [numSeguridadSocialValues, setNumSeguridadSocialValues] = useState(
+		formNumSeguridadSocial
+	);
+
+	//Desestructuracion de elemntos del useState
 	const {
 		firstName,
 		lastName,
@@ -53,6 +104,17 @@ const PageEmpleadoPersonal = () => {
 		phone,
 		frecuenciaPago,
 	} = infoGralValues;
+	//Desestructuracion de elemntos del useState
+	const { documentoIdentidad, tipoIdentificacion } = docIdentidadValues;
+	//Desestructuracion de elemntos del useState
+	const { direccion1, direccion2, ciudad, codigoPostal, estadoProvincia, pais } =
+		direccionValues;
+	//Desestructuracion de elemntos del useState
+	const { emergenciaNombre, empergenciaTelefono } = contEmergenciaValues;
+	//Desestructuracion de elemntos del useState
+	const { numeroCuentaBancaria, swiftBic } = infBancariaValues;
+	//Desestructuracion de elemntos del useState
+	const { rfc, numeroImms, fechaAltaImss, curp } = numSeguridadSocialValues;
 
 	useEffect(() => {
 		setInfoGralValues({
@@ -64,14 +126,72 @@ const PageEmpleadoPersonal = () => {
 			phone: perfilUsuario.phone,
 			frecuenciaPago: perfilEmpleado.frecuenciaPago,
 		});
+		setDocIdentidadValues({
+			tipoIdentificacion: perfilEmpleado.tipoIdentificacion,
+			documentoIdentidad: perfilEmpleado.documentoIdentidad,
+		});
+		setDireccionValues({
+			direccion1: perfilEmpleado.direccion1,
+			direccion2: direction2,
+			ciudad: perfilEmpleado.ciudad,
+			codigoPostal: perfilEmpleado.codigoPostal,
+			estadoProvincia: perfilEmpleado.estadoProvincia,
+			pais: perfilEmpleado.pais,
+		});
+		setContEergenciaValues({
+			emergenciaNombre: perfilEmpleado.emergenciaNombre,
+			empergenciaTelefono: perfilEmpleado.empergenciaTelefono,
+		});
+		setInfBancariaValues({
+			numeroCuentaBancaria: perfilEmpleado.numeroCuentaBancaria,
+			swiftBic: perfilEmpleado.swiftBic,
+		});
+		setNumSeguridadSocialValues({
+			rfc: perfilEmpleado.rfc,
+			numeroImms: perfilEmpleado.numeroImms,
+			curp: perfilEmpleado.curp,
+			fechaAltaImss: fechaAltImss,
+		});
 	}, [perfilUsuario, perfilEmpleado]);
 
+	//handleInputChange
 	const handleInputChangeInfoGral = (event: any) => {
 		setInfoGralValues({
 			...infoGralValues,
 			[event.target.name]: event.target.value,
 		});
 	};
+	const handleInputChangeDocIdentidad = (event: any) => {
+		setDocIdentidadValues({
+			...docIdentidadValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChangeDireccion = (event: any) => {
+		setDireccionValues({
+			...direccionValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChangeContEmergencia = (event: any) => {
+		setContEergenciaValues({
+			...contEmergenciaValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChangeInfBancaria = (event: any) => {
+		setInfBancariaValues({
+			...infBancariaValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChangeNumSegSocial = (event: any) => {
+		setNumSeguridadSocialValues({
+			...numSeguridadSocialValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+
 	//Submit del formulario InfoGral
 	const handlesubmitInfoGral = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -92,11 +212,66 @@ const PageEmpleadoPersonal = () => {
 		);
 		toggleValue(false);
 	};
-	//Submit del formulario
-	const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	//Submit del formulario DocIdentidad
+	const handlesubmitDocIdentidad = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('submit');
-		toggleValue(false);
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				tipoIdentificacion: tipoIdentificacion,
+				documentoIdentidad: documentoIdentidad,
+			})
+		);
+		toggleDdiValue(false);
+	};
+	//Submit del formulario Direccion
+	const handlesubmitDireccion = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				direccion1: direccion1,
+				direccion2: direccion2,
+				ciudad: ciudad,
+				codigoPostal: codigoPostal,
+				estadoProvincia: estadoProvincia,
+				pais: pais,
+			})
+		);
+		toggleDireccion(false);
+	};
+	//Submit del formulario ContEmergencia
+	const handlesubmitContEmergencia = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				emergenciaNombre: emergenciaNombre,
+				empergenciaTelefono: empergenciaTelefono,
+			})
+		);
+		toggleContactoE(false);
+	};
+	//Submit del formulario InfBancaria
+	const handlesubmitInfBancaria = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				numeroCuentaBancaria: numeroCuentaBancaria,
+				swiftBic: swiftBic,
+			})
+		);
+		toggleInfoBank(false);
+	};
+	//Submit del formulario NumSegSocial
+	const handlesubmitNumSegSocial = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				rfc: rfc,
+				numeroImms: numeroImms,
+				curp: curp,
+				fechaAltaImss: fechaAltaImss,
+			})
+		);
+		toggleNumSafe(false);
 	};
 
 	return (
@@ -262,13 +437,16 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitDocIdentidad}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Tipo de identificación</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.tipoIdentificacion}
+										// placeholder={perfilEmpleado.tipoIdentificacion}
+										name='tipoIdentificacion'
+										value={tipoIdentificacion}
+										onChange={handleInputChangeDocIdentidad}
 										disabled={!ddiValue}
 									/>
 								</div>
@@ -278,7 +456,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.documentoIdentidad}
+										// placeholder={perfilEmpleado.documentoIdentidad}
+										name='documentoIdentidad'
+										value={documentoIdentidad}
+										onChange={handleInputChangeDocIdentidad}
 										disabled={!ddiValue}
 									/>
 								</div>
@@ -329,13 +510,16 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitDireccion}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Dirección 1</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.direccion1}
+										// placeholder={perfilEmpleado.direccion1}
+										name='direccion1'
+										value={direccion1}
+										onChange={handleInputChangeDireccion}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -345,9 +529,12 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={
-											perfilEmpleado.direccion2 ? perfilEmpleado.direccion2 : 'Ninguna'
-										}
+										// placeholder={
+										// 	perfilEmpleado.direccion2 ? perfilEmpleado.direccion2 : 'Ninguna'
+										// }
+										name='direccion2'
+										value={direccion2}
+										onChange={handleInputChangeDireccion}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -358,7 +545,10 @@ const PageEmpleadoPersonal = () => {
 										<input
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
-											placeholder={perfilEmpleado.ciudad}
+											// placeholder={perfilEmpleado.ciudad}
+											name='ciudad'
+											value={ciudad}
+											onChange={handleInputChangeDireccion}
 											disabled={!direccionValue}
 										/>
 									</div>
@@ -368,7 +558,10 @@ const PageEmpleadoPersonal = () => {
 										<input
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
-											placeholder={perfilEmpleado.codigoPostal.toString()}
+											// placeholder={perfilEmpleado.codigoPostal.toString()}
+											name='codigoPostal'
+											value={codigoPostal}
+											onChange={handleInputChangeDireccion}
 											disabled={!direccionValue}
 										/>
 									</div>
@@ -379,7 +572,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.estadoProvincia}
+										// placeholder={perfilEmpleado.estadoProvincia}
+										name='estadoProvincia'
+										value={estadoProvincia}
+										onChange={handleInputChangeDireccion}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -389,7 +585,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.pais}
+										// placeholder={perfilEmpleado.pais}
+										name='pais'
+										value={pais}
+										onChange={handleInputChangeDireccion}
 										disabled={!direccionValue}
 									/>
 								</div>
@@ -442,13 +641,16 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitContEmergencia}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Nombre</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.emergenciaNombre}
+										// placeholder={perfilEmpleado.emergenciaNombre}
+										name='emergenciaNombre'
+										value={emergenciaNombre}
+										onChange={handleInputChangeContEmergencia}
 										disabled={!contactoEValue}
 									/>
 								</div>
@@ -457,8 +659,11 @@ const PageEmpleadoPersonal = () => {
 
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder={perfilEmpleado.empergenciaTelefono}
+										type='tel'
+										// placeholder={perfilEmpleado.empergenciaTelefono}
+										name='empergenciaTelefono'
+										value={empergenciaTelefono}
+										onChange={handleInputChangeContEmergencia}
 										disabled={!contactoEValue}
 									/>
 								</div>
@@ -511,13 +716,17 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitInfBancaria}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Cuenta bancaria</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder={perfilEmpleado.numeroCuentaBancaria.toString()}
+										// type='string'
+										type='number'
+										// placeholder={perfilEmpleado.numeroCuentaBancaria.toString()}
+										name='numeroCuentaBancaria'
+										value={numeroCuentaBancaria}
+										onChange={handleInputChangeInfBancaria}
 										disabled={!infoBankEValue}
 									/>
 								</div>
@@ -527,7 +736,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.swiftBic}
+										// placeholder={perfilEmpleado.swiftBic}
+										name='swiftBic'
+										value={swiftBic}
+										onChange={handleInputChangeInfBancaria}
 										disabled={!infoBankEValue}
 									/>
 								</div>
@@ -581,13 +793,16 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitNumSegSocial}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>RFC</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.rfc}
+										// placeholder={perfilEmpleado.rfc}
+										name='rfc'
+										value={rfc}
+										onChange={handleInputChangeNumSegSocial}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -596,7 +811,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.numeroImms}
+										// placeholder={perfilEmpleado.numeroImms}
+										name='numeroImms'
+										value={numeroImms}
+										onChange={handleInputChangeNumSegSocial}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -605,7 +823,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.curp}
+										// placeholder={perfilEmpleado.curp}
+										name='curp'
+										value={curp}
+										onChange={handleInputChangeNumSegSocial}
 										disabled={!numSafeEValue}
 									/>
 								</div>
@@ -614,7 +835,9 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='date'
-										// value={perfilEmpleado.fechaAltaImss}
+										name='fechaAltaImss'
+										value={fechaAltaImss}
+										onChange={handleInputChangeNumSegSocial}
 										disabled={!numSafeEValue}
 									/>
 								</div>
