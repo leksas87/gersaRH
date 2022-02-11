@@ -342,7 +342,7 @@ const PageEmpleadoPersonal = () => {
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Género legal</label>
-									<input
+									{/* <input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										// placeholder={perfilEmpleado.genero}
@@ -350,7 +350,17 @@ const PageEmpleadoPersonal = () => {
 										value={genero}
 										onChange={handleInputChangeInfoGral}
 										disabled={!value}
-									/>
+									/> */}
+									<select
+										className='form-select  custm-Width100 custm-empleadoFormIntput'
+										name='genero'
+										value={genero}
+										onChange={handleInputChangeInfoGral}
+										disabled={!value}
+									>
+										<option value='Masculino'>Masculino</option>
+										<option value='Femenino'>Femenino</option>
+									</select>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Nacionalidad</label>
@@ -378,15 +388,17 @@ const PageEmpleadoPersonal = () => {
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Frecuencia de pago</label>
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										// placeholder={perfilEmpleado.frecuenciaPago}
+									<select
+										className='form-select  custm-Width100 custm-empleadoFormIntput'
 										name='frecuenciaPago'
 										value={frecuenciaPago}
 										onChange={handleInputChangeInfoGral}
 										disabled={!value}
-									/>
+									>
+										<option value='Semanal'>Semanal</option>
+										<option value='Quincenal'>Quincenal</option>
+										<option value='Mensual'>Mensual</option>
+									</select>
 								</div>
 								<div
 									className='d-flex justify-content-end custm-Width100'
@@ -440,15 +452,19 @@ const PageEmpleadoPersonal = () => {
 							<form style={{ width: '90%' }} onSubmit={handlesubmitDocIdentidad}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Tipo de identificación</label>
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										// placeholder={perfilEmpleado.tipoIdentificacion}
+
+									<select
+										className='form-select  custm-Width100 custm-empleadoFormIntput'
 										name='tipoIdentificacion'
 										value={tipoIdentificacion}
 										onChange={handleInputChangeDocIdentidad}
 										disabled={!ddiValue}
-									/>
+									>
+										<option value='INE'>INE</option>
+										<option value='Pasaporte'>Pasaporte</option>
+										<option value='Cartilla militar'>Cartilla militar</option>
+										<option value='Cedula profesional'>Cédula profesional</option>
+									</select>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Número de identificación</label>
@@ -733,15 +749,16 @@ const PageEmpleadoPersonal = () => {
 								<div className='mb-4'>
 									<label className='custm-Width100'>SWIFT/BIC</label>
 
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										// placeholder={perfilEmpleado.swiftBic}
+									<select
+										className='form-select  custm-Width100 custm-empleadoFormIntput'
 										name='swiftBic'
 										value={swiftBic}
 										onChange={handleInputChangeInfBancaria}
 										disabled={!infoBankEValue}
-									/>
+									>
+										<option value='SWIFT'>SWIFT</option>
+										<option value='BIC'>BIC</option>
+									</select>
 								</div>
 
 								<div
