@@ -21,6 +21,19 @@
 	border: 1px solid var(--textColorDisable);
 	border-radius: 8px;
 }
+.custm-PostTittle {
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	border-bottom: 1px solid var(--textColorDisable);
+}
+.custm-postBody {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .custm-iPost1 {
 	width: 100%;
 	height: 300px;
