@@ -11,7 +11,7 @@ const PagePerfil = () => {
 
 	// const nombre = firstName;
 	// const correo = perfilEmpleado.username;
-	// const isMailActive = perfilEmpleado.active;
+	const isMailActive = perfilUsuario.active;
 
 	return (
 		<>
@@ -49,7 +49,7 @@ const PagePerfil = () => {
 								<div className='mb-4'>
 									<label className='custm-Width100'>
 										Correo electrónico {/* {isMailActive ? ( */}
-										{false ? (
+										{isMailActive ? (
 											<span style={{ color: '#73EE5F' }}>
 												<i className='bi bi-check-circle-fill' />
 											</span>
