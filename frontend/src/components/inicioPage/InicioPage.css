@@ -5,11 +5,94 @@
 	min-height: 50vh;
 }
 .custm-iPost {
-	width: 300px;
+	width: 100%;
 	height: 300px;
 	background-color: #fff;
-	margin: 1rem;
 	border-radius: 8px;
+}
+.custm-iPost1 {
+	width: 100%;
+	height: 300px;
+	background-color: #fff;
+	border-radius: 8px;
+}
+.custm-iPost2 {
+	width: 100%;
+	height: 620px;
+	background-color: #fff;
+	border-radius: 8px;
+}
+.custm-ContainerListGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: 1fr;
+	row-gap: 20px;
+	column-gap: 20px;
+	grid-template-areas:
+		'post1 post1 post2'
+		'post3 post4 post2'
+		'post5 post6 post7';
+	width: 100%;
+	height: 100%;
+	grid-auto-flow: dense;
+	/* place-items: center; */
+}
+.custm-grid-area {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+}
+.grid-area-post1 {
+	grid-area: post1;
+}
+.grid-area-post2 {
+	grid-area: post2;
+}
+.grid-area-post3 {
+	grid-area: post3;
+}
+.grid-area-post4 {
+	grid-area: post4;
+}
+.grid-area-post5 {
+	grid-area: post5;
+}
+.grid-area-post6 {
+	grid-area: post6;
+}
+.grid-area-post7 {
+	grid-area: post7;
+}
+
+/* maximo de pantalla  */
+@media (max-width: 1200px) {
+	.custm-ContainerListGrid {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas:
+			'post1 post2'
+			'post3  post2'
+			'post4 post5 '
+			'post6 post7 ';
+	}
+}
+/* maximo de pantalla  */
+@media (max-width: 992px) {
+	.custm-ContainerListGrid {
+		grid-template-columns: repeat(1, 1fr);
+		grid-template-areas:
+			'post1'
+			'post2'
+			'post3'
+			'post4'
+			'post5'
+			'post6'
+			'post7';
+	}
+	.custm-iPost2 {
+		height: 300px;
+	}
 }
 
 /* maximo de pantalla  */
