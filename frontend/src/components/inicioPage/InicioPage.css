@@ -4,22 +4,35 @@
 	width: 100%;
 	min-height: 50vh;
 }
+.custm-postShadow {
+	box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.25);
+}
+.custm-underLine {
+	position: relative;
+	margin-top: 1rem;
+	width: 200px;
+	height: 5px;
+	background-color: var(--colorSecondary);
+}
 .custm-iPost {
 	width: 100%;
 	height: 300px;
 	background-color: #fff;
+	border: 1px solid var(--textColorDisable);
 	border-radius: 8px;
 }
 .custm-iPost1 {
 	width: 100%;
 	height: 300px;
 	background-color: #fff;
+	border: 1px solid var(--textColorDisable);
 	border-radius: 8px;
 }
 .custm-iPost2 {
 	width: 100%;
 	height: 620px;
 	background-color: #fff;
+	border: 1px solid var(--textColorDisable);
 	border-radius: 8px;
 }
 .custm-ContainerListGrid {
@@ -36,6 +49,7 @@
 	height: 100%;
 	grid-auto-flow: dense;
 	/* place-items: center; */
+	padding-bottom: 1rem;
 }
 .custm-grid-area {
 	position: relative;
