@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { resendInvitationByuserName } from '../../../actions/usersActions/usersActions';
+import {
+	resendInvitationByuserName,
+	updateEmployeeById,
+	updateUserById,
+} from '../../../actions/usersActions/usersActions';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
 
@@ -19,16 +23,54 @@ const PageEmpleadoPerfil = () => {
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial
 
-	//Submit del formulario
+	//objeto para formulario formPuesto
+	const formPuesto = {
+		supervisor: '',
+		username: '',
+		lugarDeTrabajo: '',
+	};
+	//state de formulario Puesto
+	const [values, setValues] = useState(formPuesto);
+	const { supervisor, username, lugarDeTrabajo } = values;
+
+	useEffect(() => {
+		setValues({
+			supervisor: perfilEmpleado.supervisor,
+			username: perfilUsuario.username,
+			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
+		});
+	}, [perfilUsuario, perfilEmpleado]);
+
+	const handleInputChange = (event: any) => {
+		setValues({
+			...values,
+			[event.target.name]: event.target.value,
+		});
+	};
+	//Submit del formulario Puesto
+
 	const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('submit');
+
+		if (username !== perfilUsuario.username) {
+			dispatch(
+				updateUserById(perfilUsuario.id, {
+					username: username,
+					active: false,
+				})
+			);
+		}
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				supervisor: supervisor,
+				lugarDeTrabajo: lugarDeTrabajo,
+			})
+		);
+
 		toggleValue(false);
 	};
 
 	const resendInvitation = () => {
-		// console.log('Reenviando');
-		// console.log(correo);
 		dispatch(resendInvitationByuserName(correo));
 	};
 
@@ -84,7 +126,10 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.supervisor}
+										// placeholder={perfilEmpleado.supervisor}
+										name='supervisor'
+										value={supervisor}
+										onChange={handleInputChange}
 										disabled={!value}
 									/>
 								</div>
@@ -105,8 +150,11 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										// placeholder='Correo electrónico'
-										placeholder={correo}
+										// placeholder={perfilUsuario.username}
+										// placeholder={correo}
+										value={username}
+										name='username'
+										onChange={handleInputChange}
 										disabled={!value}
 									/>
 								</div>
@@ -115,7 +163,10 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.lugarDeTrabajo}
+										// placeholder={perfilEmpleado.lugarDeTrabajo}
+										value={lugarDeTrabajo}
+										name='lugarDeTrabajo'
+										onChange={handleInputChange}
 										disabled={!value}
 									/>
 								</div>

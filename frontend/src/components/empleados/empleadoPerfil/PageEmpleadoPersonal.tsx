@@ -1,4 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	updateEmployeeById,
+	updateUserById,
+} from '../../../actions/usersActions/usersActions';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
 
@@ -8,6 +13,16 @@ const PageEmpleadoPersonal = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
+	//Tomar Solo el primer nombre y el primer apellido
+	const indiceFechaNacimiento = perfilEmpleado.fechaNacimiento.indexOf('T');
+	const fechaNac = perfilEmpleado.fechaNacimiento.substring(
+		0,
+		indiceFechaNacimiento
+	);
+
+	//dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
+
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial
 	const [ddiValue, toggleDdiValue] = useToggle(false); //Recibe el valor inicial
@@ -16,6 +31,67 @@ const PageEmpleadoPersonal = () => {
 	const [infoBankEValue, toggleInfoBank] = useToggle(false); //Recibe el valor inicial
 	const [numSafeEValue, toggleNumSafe] = useToggle(false); //Recibe el valor inicial
 
+	//objeto para formulario InfoGral
+	const formInfoGral = {
+		firstName: '',
+		lastName: '',
+		fechaNacimiento: '',
+		genero: '',
+		nacionalidad: '',
+		phone: '',
+		frecuenciaPago: '',
+	};
+
+	//state de formulario Puesto
+	const [infoGralValues, setInfoGralValues] = useState(formInfoGral);
+	const {
+		firstName,
+		lastName,
+		fechaNacimiento,
+		genero,
+		nacionalidad,
+		phone,
+		frecuenciaPago,
+	} = infoGralValues;
+
+	useEffect(() => {
+		setInfoGralValues({
+			firstName: perfilUsuario.firstName,
+			lastName: perfilUsuario.lastName,
+			fechaNacimiento: fechaNac,
+			genero: perfilEmpleado.genero,
+			nacionalidad: perfilEmpleado.nacionalidad,
+			phone: perfilUsuario.phone,
+			frecuenciaPago: perfilEmpleado.frecuenciaPago,
+		});
+	}, [perfilUsuario, perfilEmpleado]);
+
+	const handleInputChangeInfoGral = (event: any) => {
+		setInfoGralValues({
+			...infoGralValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	//Submit del formulario InfoGral
+	const handlesubmitInfoGral = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(
+			updateUserById(perfilUsuario.id, {
+				firstName: firstName,
+				lastName: lastName,
+				phone: phone,
+			})
+		);
+		dispatch(
+			updateEmployeeById(perfilUsuario.id, {
+				fechaNacimiento: fechaNacimiento,
+				genero: genero,
+				nacionalidad: nacionalidad,
+				frecuenciaPago: frecuenciaPago,
+			})
+		);
+		toggleValue(false);
+	};
 	//Submit del formulario
 	const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -51,13 +127,16 @@ const PageEmpleadoPersonal = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitInfoGral}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Nombre</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilUsuario.firstName}
+										// placeholder={perfilUsuario.firstName}
+										name='firstName'
+										value={firstName}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -67,7 +146,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilUsuario.lastName}
+										// placeholder={perfilUsuario.lastName}
+										name='lastName'
+										value={lastName}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -76,8 +158,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='date'
-										value={perfilEmpleado.fechaNacimiento}
 										// placeholder={perfilEmpleado.fechaNacimiento}
+										name='fechaNacimiento'
+										value={fechaNacimiento}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -86,7 +170,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.genero}
+										// placeholder={perfilEmpleado.genero}
+										name='genero'
+										value={genero}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -95,7 +182,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.nacionalidad}
+										// placeholder={perfilEmpleado.nacionalidad}
+										name='nacionalidad'
+										value={nacionalidad}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -103,8 +193,11 @@ const PageEmpleadoPersonal = () => {
 									<label className='custm-Width100'>Teléfono</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder={perfilUsuario.phone}
+										type='tel'
+										// placeholder={perfilUsuario.phone}
+										name='phone'
+										value={phone}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -113,7 +206,10 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.frecuenciaPago}
+										// placeholder={perfilEmpleado.frecuenciaPago}
+										name='frecuenciaPago'
+										value={frecuenciaPago}
+										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									/>
 								</div>
@@ -518,7 +614,7 @@ const PageEmpleadoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='date'
-										value={perfilEmpleado.fechaAltaImss}
+										// value={perfilEmpleado.fechaAltaImss}
 										disabled={!numSafeEValue}
 									/>
 								</div>

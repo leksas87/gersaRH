@@ -87,7 +87,7 @@ export const registerNewUser = (
 	};
 };
 
-//Obtener todos usuarios.
+//(GET) Obtener todos usuarios.
 export const getUsers = () => {
 	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
@@ -132,7 +132,6 @@ export const getEmployeeById = (id: string) => {
 		const body = await respuesta?.json();
 
 		if (body.ok) {
-			console.log(body.data);
 			//Se guarda los usuarios obtenidos en el Reducer
 			dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
 		} else {
@@ -179,7 +178,7 @@ export const downloadTamplateExcel = () => {
 	document.body.removeChild(downloadInstance);
 };
 
-//Reenviar Invitacion individual by username
+// (GET) Reenviar Invitacion individual by username
 export const resendInvitationByuserName = (correo: string) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para enviar la invitación al mail
@@ -435,6 +434,67 @@ export const sendInvitationsMassive = () => {
 				timer: 2000,
 			});
 		} else {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
+
+//(PUT -Employee ) Modificar datos del usuario
+export const updateEmployeeById = (id: number, formData: {}) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el accesso
+		const respuesta = await fetchConToken(`employees/${id}`, formData, 'PUT');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Registro exitoso!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			console.log(body.message);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
+//(PUT -users ) Modificar datos del usuario
+export const updateUserById = (id: number, formData: {}) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el accesso
+		const respuesta = await fetchConToken(`users/${id}`, formData, 'PUT');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del usuario en el Reducer
+			dispatch({ type: GET_USER_BY_ID, payload: { empleado: body.data } });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Registro exitoso!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			console.log(body.message);
 			Swal.fire({
 				position: 'top-end',
 				icon: 'error',
