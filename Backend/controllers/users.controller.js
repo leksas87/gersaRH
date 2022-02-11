@@ -94,7 +94,31 @@ async function registerFile(req, res) {
                     
                         throw 'Error, se encontró un correo repetido';
                         
-                    }                
+                    }
+
+                    if( user.tipoIdentificacion === null ) { user.tipoIdentificacion = ""; } 
+                    if( user.documentoIdentidad === null ) { user.documentoIdentidad = ""; }
+                    if( user.fechaNacimiento === null ) { user.fechaNacimiento = '2000-01/01'; }
+                    if( user.genero === null ) { user.genero = ""; }
+                    if( user.nacionalidad === null ) { user.nacionalidad = ""; }             
+                    if( user.lugarDeTrabajo === null ) { user.lugarDeTrabajo = ""; }
+                    if( user.supervisor === null ) { user.supervisor = ""; }
+                    if( user.numeroCuentaBancaria === null ) { user.numeroCuentaBancaria = ""; }
+                    if( user.swiftBic === null ) { user.swiftBic = ""; }
+                    if( user.frecuenciaPago === null ) { user.frecuenciaPago = ""; }
+                    if( user.direccion1 === null ) { user.direccion1 = ""; }
+                    if( user.direccion2 === null ) { user.direccion2 = ""; }
+                    if( user.ciudad === null ) { user.ciudad = ""; }
+                    if( user.codigoPostal === null ) { user.codigoPostal = ""; }
+                    if( user.estadoProvincia === null ) { user.estadoProvincia = ""; }
+                    if( user.pais === null ) { user.pais = ""; }
+                    if( user.emergenciaNombre === null ) { user.emergenciaNombre = ""; }
+                    if( user.empergenciaTelefono === null ) { user.empergenciaTelefono = ""; }
+                    if( user.rfc === null ) { user.rfc = ""; }
+                    if( user.numeroImms === null ) { user.numeroImms = ""; }
+                    if( user.curp === null ) { user.curp = ""; }
+                    if( user.fechaAltaImss === null ) { user.fechaAltaImss = '2000-01/01'; }  
+                                  
                     usersNames.push(user);
                 }
                 
