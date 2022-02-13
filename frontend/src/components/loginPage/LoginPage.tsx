@@ -52,7 +52,8 @@ const LoginPage = () => {
 		<div className='containerProject container d-flex justify-content-center align-items-center '>
 			<div className='loginContainer shadow'>
 				<div className='d-flex mb-4'>
-					<img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' />
+					{/* <img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' /> */}
+					<img width='200px' src='\assets\gersaLogo.svg' alt='gersa-logo' />
 				</div>
 				<form className='formLogin' onSubmit={handleLogin}>
 					<div className='d-flex flex-column mb-3'>

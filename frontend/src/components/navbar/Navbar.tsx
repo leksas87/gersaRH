@@ -16,8 +16,9 @@ const Navbar = () => {
 							<i className='bi bi-list navbarIcon' />
 						</button>
 					</div>
-					<div>
-						<img width='100px' src='assets\gersa-logo.png' alt='gersa-logo' />
+					<div style={{ marginLeft: '-30px' }}>
+						{/* <img width='100px' src='assets\gersa-logo.png' alt='gersa-logo' /> */}
+						<img width='130px' src='\assets\gersaLogo.svg' alt='gersa-logo' />
 					</div>
 
 					<div className=' custm-imgCount'>
