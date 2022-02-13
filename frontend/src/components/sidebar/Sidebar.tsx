@@ -42,7 +42,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 		<>
 			<div className='d-flex flex-column sidebarContainer'>
 				<div className='d-flex justify-content-center  mb-4 sidebarLogo'>
-					<img width='80%' src='assets\gersa-logo.png' alt='gersaLogo' />
+					<img width='100%' src='\assets\gersaLogo.svg' alt='gersa-logo' />
 				</div>
 				<div className='sidebarContent'>
 					<nav className='d-flex flex-column sidebarTu'>

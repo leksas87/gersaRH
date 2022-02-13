@@ -6,7 +6,7 @@ const Loading = () => {
 				style={{ paddingBottom: '10rem' }}
 			>
 				<div style={{ paddingBottom: '2rem' }}>
-					<img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' />
+					<img width='200px' src='\assets\gersaLogo.svg' alt='gersa-logo' />
 				</div>
 				<div className='d-flex justify-content-center'>
 					<div className='spinner-border' role='status'>
