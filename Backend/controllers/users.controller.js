@@ -113,7 +113,7 @@ async function registerFile(req, res) {
 
         for (const user of usersNames) {
             if (await models.User.findOne({ where: { username: user.username } })) {
-                throw `Error , usuario ${user.username} ya existe en la base de datos . Renglon:`;
+                throw `Error , usuario ${user.username} ya existe en la base de datos .`;
             }
             
         }
