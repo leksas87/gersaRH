@@ -4,11 +4,15 @@ import validator from 'validator';
 import { iNuevoEmpleado } from '../../interfaces/interfaces';
 import { useForm } from '../../hooks/useForm';
 import './ModalNuevoEmpleado.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerNewUser } from '../../actions/usersActions/usersActions';
+import { RootSote } from '../../store/Store';
 
 const ModalNuevoEmpleado = () => {
+	//dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
+	//Senecesita el state que indica  el registerState
+	const { registerState } = useSelector((state: RootSote) => state.users);
 
 	//useState para mensaje de error
 	const [error, setError] = useState<string>('');
@@ -313,9 +317,24 @@ const ModalNuevoEmpleado = () => {
 												</div>
 											)}
 											<div className='d-flex justify-content-end'>
-												<button className='custm-btnFormSubmit inputSubmit'>
-													Guardar empleado
-												</button>
+												{!registerState.loading ? (
+													<button className='custm-btnFormSubmit inputSubmit'>
+														Guardar empleado
+													</button>
+												) : (
+													<button
+														className='btn  custm-btnFormSubmit inputSubmit'
+														type='button'
+														disabled
+													>
+														<span
+															className='spinner-border spinner-border-sm me-2'
+															role='status'
+															aria-hidden='true'
+														></span>
+														Cargando tabla...
+													</button>
+												)}
 											</div>
 										</form>
 									</div>
