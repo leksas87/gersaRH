@@ -5,7 +5,7 @@ import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
 
 const ModalSeleccionarExcel = () => {
-	//Senecesita el state que indica si el usuario está autenticado o no
+	//Senecesita el state que indica  el registerState
 	const { registerState } = useSelector((state: RootSote) => state.users);
 	//dispatch para ejecutar Actions
 	const dispatch = useDispatch();
@@ -143,7 +143,7 @@ const ModalSeleccionarExcel = () => {
 									</div>
 
 									<div className='d-flex justify-content-end'>
-										{registerState ? (
+										{!registerState.loading ? (
 											<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 												Importar Archivo
 											</button>

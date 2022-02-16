@@ -70,6 +70,7 @@ const InicioPage = () => {
 					<div className='custm-grid-area grid-area-post7'>
 						<div className='custm-iPost custm-postShadow d-flex flex-column align-items-center'>
 							<div className='custm-PostTittle'>SEMAFORO</div>
+							<div className='textColorLight mt-1'>Faltas, retardos, desempeño.</div>
 							<div className='custm-postBody'>
 								<label className='textColorLight fs-1 text-center'>
 									<span style={{ color: '#76FF73', padding: '0px 3px' }}>

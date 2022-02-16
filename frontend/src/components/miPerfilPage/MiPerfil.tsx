@@ -28,7 +28,7 @@ const MiPerfil = () => {
 	useEffect(() => {
 		dispatch(getUserById(id));
 		dispatch(getEmployeeById(id));
-	}, []);
+	}, [id]);
 
 	return (
 		<>

@@ -6,6 +6,12 @@ const PageInfoPersonal = () => {
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
+	//Tomar solo la fecha
+	const indiceFechaNacimiento = perfilEmpleado.fechaNacimiento.indexOf('T');
+	const fechaNac = perfilEmpleado.fechaNacimiento.substring(
+		0,
+		indiceFechaNacimiento
+	);
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -54,7 +60,7 @@ const PageInfoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='date'
-										placeholder={perfilEmpleado.fechaNacimiento}
+										value={fechaNac}
 										disabled
 									/>
 								</div>
