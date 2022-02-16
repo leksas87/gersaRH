@@ -255,27 +255,33 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 							))}
 						</tbody>
 					</table>
-					{/* The pagination is shown here */}
-					<div className='d-flex justify-content-center align-items-center paginationStyles'>
-						{currentPage !== 1 ? (
-							<button
-								onClick={btnPrevious}
-								type='button'
-								className='btn btn-hover textTittle textBold'
-							>
-								&lt;
-							</button>
-						) : null}
+				</div>
+				{/* The pagination is shown here */}
+				<div
+					className='d-flex justify-content-center align-items-center paginationStyles pagination'
+					// style={{ backgroundColor: 'tomato' }}
+				>
+					{currentPage !== 1 ? (
+						<button
+							onClick={btnPrevious}
+							type='button'
+							className='btn btn-hover textTittle textBold page-item'
+						>
+							&laquo;
+						</button>
+					) : null}
 
-						<div className='pagenumbers' id='paginationEmployees'>
-							{' '}
-						</div>
-						{currentPage !== totalPages ? (
-							<button onClick={btnNext} className='btn btn-hover textTittle textBold'>
-								&gt;
-							</button>
-						) : null}
+					<div className='pagenumbers' id='paginationEmployees'>
+						{' '}
 					</div>
+					{currentPage !== totalPages ? (
+						<button
+							onClick={btnNext}
+							className='btn btn-hover textTittle textBold page-item'
+						>
+							&raquo;
+						</button>
+					) : null}
 				</div>
 			</div>
 		</>

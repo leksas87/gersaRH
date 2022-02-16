@@ -25,7 +25,7 @@
 .cutm-tablaResponsive {
 	background-color: transparent;
 	min-height: 50vh;
-	max-height: 55vh;
+	max-height: 50vh;
 	overflow-y: auto;
 }
 .custm-tableThead {
@@ -65,6 +65,41 @@
 }
 .custm-col {
 	min-width: 120px;
+}
+/* Pagination */
+.paginationStyles {
+	height: 4rem;
+	height: auto;
+}
+
+.pagenumbers button {
+	width: 25px;
+	height: 25px;
+
+	appearance: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+
+	background-color: transparent;
+
+	margin: 5px;
+	transition: 0.4s;
+
+	color: gray;
+	font-size: 1rem;
+}
+
+.pagenumbers button:hover {
+	background-color: lightgray;
+	color: #000;
+}
+
+.pagenumbers button.active {
+	/* background-color: #44EEAA; */
+	color: #000;
+	font-weight: bold;
+	/* box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2); */
 }
 
 /* ++++++++++MediaQuerys+++++++++++++++ */
