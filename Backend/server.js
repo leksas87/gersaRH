@@ -13,6 +13,7 @@ global.__basedir = __dirname ;
 // api routes
 app.use('/api/users', require('./controllers/users.controller'));
 app.use('/api/employees', require('./controllers/employees.controller'));
+app.use('/api/contracts', require('./controllers/contracts.controller'));
 
 // global error handler
 app.use(errorHandler);

@@ -22,6 +22,7 @@ const ContractSchema = {
   domingo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
   tipoSalario: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   cantidadSalario : {type:DataTypes.INTEGER,allowNull:true,defaultValue:0},
+  isContractActivide: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:true }
 }
 
 class Contract extends Model {
