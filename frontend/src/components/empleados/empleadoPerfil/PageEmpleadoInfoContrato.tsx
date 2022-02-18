@@ -22,6 +22,26 @@ const PageEmpleadoInfoContrato = () => {
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
+				<div
+					className='d-flex custm-Width100 justify-content-center p-5'
+					style={{ backgroundColor: 'whitesmoke' }}
+				>
+					<div className='custm-contract'>
+						<div className='custm-contractDate d-flex justify-content-center align-items-center'>
+							ENE 25,2022
+						</div>
+						<div
+							className='d-flex flex-column justify-content-evenly'
+							style={{ height: '100%' }}
+						>
+							<div className='custm-contractLine' />
+							<div className='custm-contractLine2' />
+							<div className='custm-contractLine' />
+							<div className='custm-contractLine2' />
+							<div className='custm-contractLine' />
+						</div>
+					</div>
+				</div>
 				{/* Información básica */}
 				<div className='d-flex flex-wrap custm-Width100 custm-UnderLineSection'>
 					{/* Izquierda */}

@@ -96,6 +96,45 @@
 .custm-btnWeek:hover {
 	background-color: var(--colorSecondaryActive);
 }
+/* Contratos */
+.custm-contract {
+	background-color: #ffffff;
+	width: 110px;
+	height: 150px;
+	border: 3px solid var(--colorSecondary);
+	border-radius: 15px;
+	position: relative;
+}
+.custm-contractDate {
+	position: absolute;
+	background-color: var(--colorSecondary);
+	top: -25px;
+	width: 85px;
+	height: 25px;
+	left: 50%;
+	transform: translatex(-50%);
+	border-radius: 10px 10px 0px 0px;
+	color: #ffffff;
+	font-size: 10px;
+}
+.custm-contractLine {
+	position: relative;
+	width: 80px;
+	height: 5px;
+	margin: 5px;
+	padding: 4px;
+	background-color: var(--textColorDisable);
+	border-radius: 15px;
+}
+.custm-contractLine2 {
+	position: relative;
+	width: 60px;
+	height: 5px;
+	margin: 5px;
+	padding: 4px;
+	background-color: var(--textColorDisable);
+	border-radius: 15px;
+}
 
 @media (max-width: 991px) {
 	.custm-empleadoContainerContent {
