@@ -2,10 +2,22 @@ const {models} = require('./../libs/sequelize');
 
 
 module.exports = {
-
+    getByEmployee,
     create,
     update
 };
+
+async function getByEmployee(id) {
+    
+        const contracts = await models.Contract.findAll({where:{userId: id}});
+        
+        if(contracts.length === 0){ 
+            throw 'Ese usuario no tiene contratos';
+        }else{
+            return contracts;
+        }
+    
+}
 
 async function update(id, params) {
     const contract = await getContract(id);
@@ -21,7 +33,7 @@ async function update(id, params) {
 
 async function getContract(id) {
     const contract = await models.Contract.findByPk(id);
-    if (!contract) throw 'Usuario no encontrado';
+    if (!contract) throw 'Contrato no encontrado';
     return contract;
 }
 
@@ -34,7 +46,6 @@ async function create(params) {
             contract.isContractActivide = false;
             await contract.save();
         }
-        console.log(contract.isContractActivide);
      });
 
      await models.Contract.create(params);
