@@ -9,10 +9,16 @@ const contractService = require('../services/contract.service');
 router.post('/', authorize() ,registerSchema, register);
 router.patch('/:id', authorize(), updateSchema, update);
 router.put('/:id', authorize(), updateSchemaPut, update);
+router.get('/:id', authorize(), getByEmployee);
 
 module.exports = router;
 
 
+function getByEmployee(req,res,next) {
+    contractService.getByEmployee(req.params.id)
+        .then(contracts => res.json({data:contracts ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function updateSchemaPut(req, res, next) {
     const schema = Joi.object({

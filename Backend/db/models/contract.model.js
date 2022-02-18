@@ -3,7 +3,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const {USER_TABLE} = require('./user.model');
 
-const CONTRACT_TABLE = 'Contrats';
+const CONTRACT_TABLE = 'Contracts';
 
 const ContractSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
