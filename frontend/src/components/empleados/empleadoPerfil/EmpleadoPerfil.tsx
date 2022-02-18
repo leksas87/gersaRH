@@ -11,6 +11,7 @@ import { RootSote } from '../../../store/Store';
 import './EmpleadoPerfil.css';
 import ModalElimnarAcceso from './ModalElimnarAcceso';
 import ModalFinalizarEmpleado from './ModalFinalizarEmpleado';
+import ModalNuevoContrato from './ModalNuevoContrato';
 
 const EmpleadoPerfil = () => {
 	//Hook para obtener los parametros del url
@@ -81,6 +82,7 @@ const EmpleadoPerfil = () => {
 					<div className='custm-btnNuevoEmpleadoContainer me-2'>
 						<ModalElimnarAcceso />
 						<ModalFinalizarEmpleado />
+						<ModalNuevoContrato />
 						{tablePath === '/empleados' && (
 							<div className='dropdown'>
 								{/* Boton para activar ventana DropDown */}

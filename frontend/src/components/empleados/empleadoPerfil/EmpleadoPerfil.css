@@ -97,6 +97,36 @@
 	background-color: var(--colorSecondaryActive);
 }
 /* Contratos */
+.custm-contractContainerCenter {
+	width: 100%;
+	background-color: var(--colorBackgroundForm);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	overflow-x: auto;
+}
+.custm-contractContainer {
+	width: 100%;
+	background-color: var(--colorBackgroundForm);
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	overflow-x: auto;
+	scrollbar-color: var(--colorSecondary) transparent;
+	scrollbar-width: thin;
+}
+.custm-contractContainer::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.custm-contractContainer::-webkit-scrollbar {
+	height: 8px;
+}
+.custm-contractContainer::-webkit-scrollbar-thumb {
+	background-color: var(--colorSecondary);
+	border-radius: 40px;
+}
+
 .custm-contract {
 	background-color: #ffffff;
 	width: 110px;
@@ -104,6 +134,10 @@
 	border: 3px solid var(--colorSecondary);
 	border-radius: 15px;
 	position: relative;
+	margin: 10px;
+}
+.custm-contract:hover {
+	cursor: pointer;
 }
 .custm-contractDate {
 	position: absolute;
@@ -119,7 +153,7 @@
 }
 .custm-contractLine {
 	position: relative;
-	width: 80px;
+	width: 60px;
 	height: 5px;
 	margin: 5px;
 	padding: 4px;
@@ -128,12 +162,24 @@
 }
 .custm-contractLine2 {
 	position: relative;
-	width: 60px;
+	width: 40px;
 	height: 5px;
 	margin: 5px;
 	padding: 4px;
 	background-color: var(--textColorDisable);
 	border-radius: 15px;
+}
+.custm-contractBtnPlus {
+	width: 30px;
+	height: 30px;
+	background-color: var(--colorPrimary);
+	border-radius: 50%;
+	border: 2px solid var(--colorSecondary);
+	color: var(--colorSecondary);
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 @media (max-width: 991px) {
