@@ -7,5 +7,5 @@ module.exports = {
 };
 
 async function create(params) {
-    await models.logbook.create(params);
+    await models.Logbook.create(params);
 }
