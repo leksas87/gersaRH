@@ -87,15 +87,21 @@
 	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
 }
 .custm-btnWeek {
-	background-color: var(--colorSecondary);
-	color: white;
-	border: 1px solid var(--colorSecondary);
+	background-color: var(--colorPrimary);
+	color: var(--colorSecondary);
+	border: 2px solid var(--colorSecondary);
 	border-radius: 25px;
 	width: 5%;
 }
 .custm-btnWeek:hover {
-	background-color: var(--colorSecondaryActive);
+	background-color: #a8cbff;
 }
+
+.custm-checkWeek:checked + .custm-btnWeek {
+	background-color: var(--colorSecondary);
+	border: 2px solid var(--colorSecondary);
+}
+
 /* Contratos */
 .custm-contractContainerCenter {
 	width: 100%;
@@ -108,6 +114,7 @@
 }
 .custm-contractContainer {
 	width: 100%;
+	max-width: 1000px;
 	background-color: var(--colorBackgroundForm);
 	display: flex;
 	align-items: center;

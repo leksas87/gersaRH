@@ -47,7 +47,6 @@ const PageEmpleadoInfoContrato = () => {
 							<div className='custm-contractLine' />
 						</div>
 					</button>
-
 					<button type='button' className='custm-contract btn'>
 						<div className='custm-contractDate d-flex justify-content-center align-items-center'>
 							ENE 25,2022
