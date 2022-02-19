@@ -1,47 +1,17 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const { EMPLOYEE_TABLE } = require('./employee.model');
+const {EMPLOYEE_TABLE} = require('./employee.model');
 
 const LOGBOOK_TABLE = 'Logbook';
 
 const LogbookSchema = {
-  id: {
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataTypes.INTEGER
-  },
-  longitude: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  latitude: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  dateCheck: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-  },
-  initHour: {
-    type: DataTypes.TIME,
-    allowNull: false,
-  },
-  endHour: {
-    type: DataTypes.TIME,
-    allowNull: false,
-  },
-  employeeId: {
-    field: 'employeeId',
-    allowNull: true,
-    type: DataTypes.INTEGER,
-    references: {
-      model: EMPLOYEE_TABLE,
-      key: 'id'
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
-  }
+  id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
+  employeeId:{ type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  longitude: { type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  latitude: {type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  dateCheck: {type:DataTypes.DATEONLY,allowNull:true,defaultValue: DataTypes.NOW('yyyy-mm-dd'),},
+  initHour: {type: DataTypes.TIME,allowNull: true,defaultValue:DataTypes.NOW},
+  endHour: {type: DataTypes.TIME,allowNull: true,defaultValue:'00:00:00'},
 }
 
 

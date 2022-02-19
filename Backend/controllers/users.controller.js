@@ -17,17 +17,13 @@ router.get('/', getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/sendinvitation', getByEmployeeActive);
 router.get('/:id', authorize(), getById);
-router.put('/:id', authorize(), updateSchema, update);
+router.patch('/:id', authorize(), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
 router.get('/descargar/:id', download);
-// router.post('/registerFile',authorize(),upload.single("uploadfile"),registerFile);
 router.post('/registerFile/:sendInvitation',authorize(),upload.single("uploadfile"),registerFile);
-//registerFile/sendInvitation
-//registerFile/notSend
-
 router.get('/sendinvitation/:username',authorize(), getByUserName);
 
 module.exports = router;
