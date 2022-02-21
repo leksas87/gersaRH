@@ -87,14 +87,109 @@
 	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
 }
 .custm-btnWeek {
-	background-color: var(--colorSecondary);
-	color: white;
-	border: 1px solid var(--colorSecondary);
+	background-color: #d7ecfa;
+	color: var(--colorSecondary);
+	/* color: var(--colorPrimary); */
+	border: 2px solid var(--colorSecondary);
 	border-radius: 25px;
 	width: 5%;
 }
 .custm-btnWeek:hover {
-	background-color: var(--colorSecondaryActive);
+	background-color: #a8cbff;
+}
+
+.custm-checkWeek:checked + .custm-btnWeek {
+	background-color: var(--colorSecondary);
+	border: 2px solid var(--colorSecondary);
+	transform: scale(1.1);
+	transition: 0.4s;
+}
+
+/* Contratos */
+.custm-contractContainerCenter {
+	width: 100%;
+	background-color: var(--colorBackgroundForm);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	overflow-x: auto;
+}
+.custm-contractContainer {
+	width: 100%;
+	max-width: 1000px;
+	background-color: var(--colorBackgroundForm);
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	overflow-x: auto;
+	scrollbar-color: var(--colorSecondary) transparent;
+	scrollbar-width: thin;
+}
+.custm-contractContainer::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.custm-contractContainer::-webkit-scrollbar {
+	height: 8px;
+}
+.custm-contractContainer::-webkit-scrollbar-thumb {
+	background-color: var(--colorSecondary);
+	border-radius: 40px;
+}
+
+.custm-contract {
+	background-color: #ffffff;
+	width: 110px;
+	height: 150px;
+	border: 3px solid var(--colorSecondary);
+	border-radius: 15px;
+	position: relative;
+	margin: 10px;
+}
+.custm-contract:hover {
+	cursor: pointer;
+}
+.custm-contractDate {
+	position: absolute;
+	background-color: var(--colorSecondary);
+	top: -25px;
+	width: 85px;
+	height: 25px;
+	left: 50%;
+	transform: translatex(-50%);
+	border-radius: 10px 10px 0px 0px;
+	color: #ffffff;
+	font-size: 10px;
+}
+.custm-contractLine {
+	position: relative;
+	width: 60px;
+	height: 5px;
+	margin: 5px;
+	padding: 4px;
+	background-color: var(--textColorDisable);
+	border-radius: 15px;
+}
+.custm-contractLine2 {
+	position: relative;
+	width: 40px;
+	height: 5px;
+	margin: 5px;
+	padding: 4px;
+	background-color: var(--textColorDisable);
+	border-radius: 15px;
+}
+.custm-contractBtnPlus {
+	width: 30px;
+	height: 30px;
+	background-color: var(--colorPrimary);
+	border-radius: 50%;
+	border: 2px solid var(--colorSecondary);
+	color: var(--colorSecondary);
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 @media (max-width: 991px) {
