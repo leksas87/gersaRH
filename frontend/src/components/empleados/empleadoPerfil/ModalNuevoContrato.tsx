@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '../../../hooks/useForm';
 
 const ModalNuevoContrato = () => {
@@ -9,39 +9,40 @@ const ModalNuevoContrato = () => {
 		puesto: '',
 		horasLaborales: '',
 		unidadLaborales: '',
-		lunes: '',
-		martes: '',
-		miercoles: '',
+		cantidadSalario: '',
+		tipoSalario: '',
+	};
+	const days = {
+		lunes: false,
+		martes: false,
+		miercoles: false,
 		jueves: false,
 		viernes: false,
 		sabado: false,
 		domingo: false,
-		cantidadSalario: '',
-		tipoSalario: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
 	const [formValues, handleInputChange] = useForm(newContract);
+	//useState para manejo del checkbox
+	const [checked, setChecked] = useState(days);
 	//Desestructuracion de propiedades
+	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
 	const {
 		fechaDeInicio,
 		fechaDeFinalizacion,
 		puesto,
 		horasLaborales,
 		unidadLaborales,
-		lunes,
-		martes,
-		miercoles,
-		jueves,
-		viernes,
-		sabado,
-		domingo,
 		cantidadSalario,
 		tipoSalario,
 	} = formValues;
-	// const handleClick = () => handleInputChange({ ...formValues, lunes: true });
+
+	const handleClick = (e: any): void => {
+		setChecked({ ...checked, [e.target.name]: !e.target.defaultChecked });
+	};
 
 	//Submit del modal
-	const handeNewContract = (e: React.FormEvent<HTMLFormElement>) => {
+	const handeNewContract = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 		console.log('creando contrato');
 	};
@@ -229,7 +230,7 @@ const ModalNuevoContrato = () => {
 													id='btncheckLunes'
 													name='lunes'
 													defaultChecked={lunes}
-													onChange={handleInputChange}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -244,7 +245,7 @@ const ModalNuevoContrato = () => {
 													id='btncheckMartes'
 													name='martes'
 													defaultChecked={martes}
-													onChange={handleInputChange}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -257,8 +258,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckMiercoles'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='miercoles'
+													defaultChecked={miercoles}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -270,8 +272,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckJueves'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='jueves'
+													defaultChecked={jueves}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -283,8 +286,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckViernes'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='viernes'
+													defaultChecked={viernes}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -296,8 +300,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckSabado'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='sabado'
+													defaultChecked={sabado}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -309,8 +314,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckDomingo'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='domingo'
+													defaultChecked={domingo}
+													onClick={handleClick}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -333,12 +339,10 @@ const ModalNuevoContrato = () => {
 														type='number'
 														className='custm-input form-control mb-0'
 														id='recipient-name'
-														name='name'
-														// value={name}
+														name='cantidadSalario'
+														value={cantidadSalario}
 														placeholder='Salario'
-														aria-describedby='registerName'
-														autoComplete='off'
-														// onChange={handleInputChange}
+														onChange={handleInputChange}
 													/>
 												</div>
 												<div className='ms-3' style={{ width: '100%' }}>
@@ -347,11 +351,12 @@ const ModalNuevoContrato = () => {
 													</label>
 													<select
 														className='form-select custm-input form-control mb-0'
-														name='tipoHoras'
-														// value={frecuenciaPago}
-														// onChange={handleInputChangeInfoGral}
+														name='tipoSalario'
+														value={tipoSalario}
+														onChange={handleInputChange}
 														// disabled={!value}
 													>
+														<option>--Selecciona uno--</option>
 														<option value='Semanal'>Semanal</option>
 														<option value='Quincenal'>Quincenal</option>
 														<option value='Mensual'>Mensual</option>
