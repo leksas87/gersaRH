@@ -101,6 +101,21 @@ const PageEmpleadoInfoContrato = () => {
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
 								<div className='mb-4'>
+									<label className='custm-Width100'>Tipo de contrato</label>
+									<select
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										name='tipoDeContrato'
+										// value={tipoDeContrato}
+										// onChange={handleInputChange}
+										disabled={!infoBasicavalue}
+									>
+										<option>--Selecciona uno--</option>
+										<option value='Indeterminado'>Indeterminado</option>
+										<option value='Por tiempo determinado'>Por tiempo determinado</option>
+										<option value='Por obra determinada'>Por obra determinada</option>
+									</select>
+								</div>
+								<div className='mb-4'>
 									<label className='custm-Width100'>Cargo</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
