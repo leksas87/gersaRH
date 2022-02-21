@@ -22,6 +22,7 @@ function getByEmployee(req,res,next) {
 
 function updateSchemaPut(req, res, next) {
     const schema = Joi.object({
+        tipoDeContrato: Joi.string(),
         puesto: Joi.string().required(),
         fechaDeInicio: Joi.date().required(),
         fechaDeFinalizacion: Joi.date().required(),
@@ -49,6 +50,7 @@ function update(req, res, next) {
 
 function updateSchema(req, res, next) {
     const schema = Joi.object({
+        tipoDeContrato: Joi.string(),
         puesto: Joi.string(),
         fechaDeInicio: Joi.date(),
         fechaDeFinalizacion: Joi.date(),
@@ -71,9 +73,10 @@ function updateSchema(req, res, next) {
 function registerSchema(req, res, next) {
     const schema = Joi.object({
         userId: Joi.number().integer().required(),
+        tipoDeContrato: Joi.string().required(),
         puesto: Joi.string().required(),
         fechaDeInicio: Joi.date().required(),
-        fechaDeFinalizacion: Joi.date().required(),
+        fechaDeFinalizacion: Joi.date(),
         horasLaborales: Joi.number().integer().required(),
         unidadLaborales: Joi.string().required(),
         lunes: Joi.boolean().required(),
@@ -84,8 +87,7 @@ function registerSchema(req, res, next) {
         sabado: Joi.boolean().required(),
         domingo: Joi.boolean().required(),
         tipoSalario: Joi.string().required(),
-        cantidadSalario: Joi.number().integer().required(),
-        isContractActivide: Joi.boolean().required()
+        cantidadSalario: Joi.number().integer().required()
     });
     validateRequest(req, next, schema);
 }
@@ -95,4 +97,3 @@ function register(req, res, next) {
         .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
         .catch(next);
 }
-
