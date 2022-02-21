@@ -1,6 +1,46 @@
 import React from 'react';
+import { useForm } from '../../../hooks/useForm';
 
 const ModalNuevoContrato = () => {
+	//objeto user para formulario Registro
+	const newContract = {
+		fechaDeInicio: '',
+		fechaDeFinalizacion: '',
+		puesto: '',
+		horasLaborales: '',
+		unidadLaborales: '',
+		lunes: '',
+		martes: '',
+		miercoles: '',
+		jueves: false,
+		viernes: false,
+		sabado: false,
+		domingo: false,
+		cantidadSalario: '',
+		tipoSalario: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newContract);
+	//Desestructuracion de propiedades
+	const {
+		fechaDeInicio,
+		fechaDeFinalizacion,
+		puesto,
+		horasLaborales,
+		unidadLaborales,
+		lunes,
+		martes,
+		miercoles,
+		jueves,
+		viernes,
+		sabado,
+		domingo,
+		cantidadSalario,
+		tipoSalario,
+	} = formValues;
+	// const handleClick = () => handleInputChange({ ...formValues, lunes: true });
+
+	//Submit del modal
 	const handeNewContract = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('creando contrato');
@@ -64,13 +104,9 @@ const ModalNuevoContrato = () => {
 													<input
 														type='date'
 														className='custm-input form-control custm-inputDate'
-														id='recipient-name'
-														name='name'
-														// value={name}
-														placeholder='Ingresa el nombre'
-														aria-describedby='registerName'
-														autoComplete='off'
-														// onChange={handleInputChange}
+														name='fechaDeInicio'
+														value={fechaDeInicio}
+														onChange={handleInputChange}
 													/>
 												</div>
 												<div className=''>
@@ -80,13 +116,9 @@ const ModalNuevoContrato = () => {
 													<input
 														type='date'
 														className='custm-input form-control custm-inputDate'
-														id='recipient-apellido'
-														name='apellidos'
-														// value={apellidos}
-														placeholder='Ingresa el apellido'
-														aria-describedby='registerLastName'
-														autoComplete='off'
-														// onChange={handleInputChange}
+														name='fechaDeFinalizacion'
+														value={fechaDeFinalizacion}
+														onChange={handleInputChange}
 													/>
 												</div>
 											</div>
@@ -96,9 +128,8 @@ const ModalNuevoContrato = () => {
 											<select
 												className='form-select custm-input form-control mb-0'
 												name='puesto'
-												// value={genero}
-												// onChange={handleInputChangeInfoGral}
-												// disabled={!value}
+												value={puesto}
+												onChange={handleInputChange}
 											>
 												<option>--Selecciona uno--</option>
 												<option value='ADMINISTRADOR FINANCIERO'>
@@ -161,13 +192,10 @@ const ModalNuevoContrato = () => {
 													<input
 														type='number'
 														className='custm-input form-control mb-0'
-														id='recipient-name'
-														name='name'
-														// value={name}
 														placeholder='Horas'
-														aria-describedby='registerName'
-														autoComplete='off'
-														// onChange={handleInputChange}
+														name='horasLaborales'
+														value={horasLaborales}
+														onChange={handleInputChange}
 													/>
 												</div>
 												<div className='ms-3' style={{ width: '100%' }}>
@@ -176,11 +204,11 @@ const ModalNuevoContrato = () => {
 													</label>
 													<select
 														className='form-select custm-input form-control mb-0'
-														name='tipoHoras'
-														// value={frecuenciaPago}
-														// onChange={handleInputChangeInfoGral}
-														// disabled={!value}
+														name='unidadLaborales'
+														value={unidadLaborales}
+														onChange={handleInputChange}
 													>
+														<option>--Selecciona uno--</option>
 														<option value='Semanal'>Semanal</option>
 														<option value='Quincenal'>Quincenal</option>
 														<option value='Mensual'>Mensual</option>
@@ -199,8 +227,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek '
 													id='btncheckLunes'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='lunes'
+													defaultChecked={lunes}
+													onChange={handleInputChange}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
@@ -213,8 +242,9 @@ const ModalNuevoContrato = () => {
 													type='checkbox'
 													className='btn-check custm-checkWeek'
 													id='btncheckMartes'
-													autoComplete='off'
-													// disabled={!horasLabValue}
+													name='martes'
+													defaultChecked={martes}
+													onChange={handleInputChange}
 												/>
 												<label
 													className='btn btn-outline-primary custm-btnWeek'
