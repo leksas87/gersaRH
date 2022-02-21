@@ -4,6 +4,7 @@ import { useForm } from '../../../hooks/useForm';
 const ModalNuevoContrato = () => {
 	//objeto user para formulario Registro
 	const newContract = {
+		tipoDeContrato: '',
 		fechaDeInicio: '',
 		fechaDeFinalizacion: '',
 		puesto: '',
@@ -28,6 +29,7 @@ const ModalNuevoContrato = () => {
 	//Desestructuracion de propiedades
 	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
 	const {
+		tipoDeContrato,
 		fechaDeInicio,
 		fechaDeFinalizacion,
 		puesto,
@@ -93,13 +95,29 @@ const ModalNuevoContrato = () => {
 									<div
 										style={{
 											width: '100%',
-											paddingTop: '1.5rem',
+											paddingTop: '1rem',
 										}}
 									>
 										<form onSubmit={handeNewContract}>
+											<label htmlFor='tipoContrati' className='pt-2'>
+												Tipo de contrato
+											</label>
+											<select
+												className='form-select custm-input form-control mb-0'
+												name='tipoDeContrato'
+												value={tipoDeContrato}
+												onChange={handleInputChange}
+											>
+												<option>--Selecciona uno--</option>
+												<option value='Indeterminado'>Indeterminado</option>
+												<option value='Por tiempo determinado'>
+													Por tiempo determinado
+												</option>
+												<option value='Por obra determinada'>Por obra determinada</option>
+											</select>
 											<div className='d-flex justify-content-between'>
 												<div className=''>
-													<label htmlFor='recipient-name' className='pt-2'>
+													<label htmlFor='fechaInicio' className='pt-2'>
 														Fecha inicio*
 													</label>
 													<input
@@ -111,7 +129,7 @@ const ModalNuevoContrato = () => {
 													/>
 												</div>
 												<div className=''>
-													<label htmlFor='recipient-name' className='pt-2'>
+													<label htmlFor='fechaFin' className='pt-2'>
 														Fecha fin
 													</label>
 													<input
@@ -123,7 +141,7 @@ const ModalNuevoContrato = () => {
 													/>
 												</div>
 											</div>
-											<label htmlFor='recipient-name' className='pt-2'>
+											<label htmlFor='puesto' className='pt-2'>
 												Puesto
 											</label>
 											<select
@@ -333,7 +351,7 @@ const ModalNuevoContrato = () => {
 													}}
 												>
 													<label htmlFor='recipient-name' className='pt-2'>
-														Salario
+														Salario bruto <span className='textColorLight'>(MXN)</span>
 													</label>
 													<input
 														type='number'
@@ -341,7 +359,7 @@ const ModalNuevoContrato = () => {
 														id='recipient-name'
 														name='cantidadSalario'
 														value={cantidadSalario}
-														placeholder='Salario'
+														placeholder='Cantidad'
 														onChange={handleInputChange}
 													/>
 												</div>
