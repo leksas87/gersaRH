@@ -1,0 +1,26 @@
+.custm-btnCheck {
+	width: 200px;
+	height: 200px;
+	margin: 20px;
+	border-radius: 50%;
+	border: 5px solid var(--colorSecondary);
+}
+.custm-btnCheckIn {
+	background-color: hsla(198, 65%, 45%, 0.15);
+}
+.custm-btnCheckOut {
+	background-color: rgba(214, 0, 78, 0.15);
+}
+.custm-btnCheckTittle {
+	color: var(--colorSecondary);
+	font-weight: bold;
+	font-size: 46px;
+}
+.custm-checkDoor {
+	color: var(--colorSecondary);
+	font-size: 6rem;
+}
+.custm-checkArrow {
+	color: var(--colorSecondary);
+	font-size: 4rem;
+}
