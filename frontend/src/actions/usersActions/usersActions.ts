@@ -18,7 +18,6 @@ import {
 	fetchMultipartFormDataConToken,
 } from '../../helpers/fetch';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 // import * as bootstrap from 'bootstrap';
 
 //(POST) Registro de nuevo Usuario (REGISTRO INDIVIDUAL)

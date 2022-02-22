@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewContract } from '../../../actions/contractsActions/contractsActions';
 import { useForm } from '../../../hooks/useForm';
+import { RootSote } from '../../../store/Store';
 
 const ModalNuevoContrato = () => {
+	//dispatch para ejecutar las contractsActions
+	const dispatch = useDispatch();
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	const { registerState } = useSelector((state: RootSote) => state.contracts);
+
 	//objeto user para formulario Registro
 	const newContract = {
 		tipoDeContrato: '',
@@ -13,6 +22,7 @@ const ModalNuevoContrato = () => {
 		cantidadSalario: '',
 		tipoSalario: '',
 	};
+	// Objeto para el manejo de los dias trabajados
 	const days = {
 		lunes: false,
 		martes: false,
@@ -22,10 +32,22 @@ const ModalNuevoContrato = () => {
 		sabado: false,
 		domingo: false,
 	};
+	//Estado inicial para manejo de errores
+	interface iErrors {
+		msgError: string;
+		errors: string[];
+	}
+	const errors: iErrors = {
+		msgError: '',
+		errors: [],
+	};
 	//Uso de hook useForm para manejo de campos en el formulario
 	const [formValues, handleInputChange] = useForm(newContract);
 	//useState para manejo del checkbox
 	const [checked, setChecked] = useState(days);
+	// useState para manejo de errores
+	const [error, setError] = useState(errors);
+
 	//Desestructuracion de propiedades
 	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
 	const {
@@ -46,8 +68,107 @@ const ModalNuevoContrato = () => {
 	//Submit del modal
 	const handeNewContract = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
-		console.log('creando contrato');
+		if (isFormValid()) {
+			if (!fechaDeFinalizacion) {
+				dispatch(
+					registerNewContract({
+						userId: perfilUsuario.id,
+						puesto: puesto,
+						fechaDeInicio: fechaDeInicio,
+						horasLaborales: horasLaborales,
+						unidadLaborales: unidadLaborales,
+						lunes: lunes,
+						martes: martes,
+						miercoles: miercoles,
+						jueves: jueves,
+						viernes: viernes,
+						sabado: sabado,
+						domingo: domingo,
+						tipoSalario: tipoSalario,
+						cantidadSalario: cantidadSalario,
+						tipoDeContrato: tipoDeContrato,
+					})
+				);
+			} else {
+				dispatch(
+					registerNewContract({
+						userId: perfilUsuario.id,
+						puesto: puesto,
+						fechaDeInicio: fechaDeInicio,
+						fechaDeFinalizacion: fechaDeFinalizacion,
+						horasLaborales: horasLaborales,
+						unidadLaborales: unidadLaborales,
+						lunes: lunes,
+						martes: martes,
+						miercoles: miercoles,
+						jueves: jueves,
+						viernes: viernes,
+						sabado: sabado,
+						domingo: domingo,
+						tipoSalario: tipoSalario,
+						cantidadSalario: cantidadSalario,
+						tipoDeContrato: tipoDeContrato,
+					})
+				);
+			}
+		}
 	};
+
+	const isFormValid = (): boolean => {
+		// El campo usuario no debe estar vacío
+		if (tipoDeContrato === '--Selecciona uno--' || tipoDeContrato === '') {
+			setError({
+				errors: ['tipoDeContrato'],
+				msgError: 'El campo "Tipo de contrato" es obligatorio',
+			});
+			return false;
+			// El campo contraseña debe tener al menos 6 caracteres
+		} else if (fechaDeInicio === '') {
+			setError({
+				errors: ['fechaDeInicio'],
+				msgError: 'El campo "Fecha de inicio" es obligatorio',
+			});
+			return false;
+		} else if (puesto === '--Selecciona uno--' || puesto === '') {
+			setError({
+				errors: ['puesto'],
+				msgError: 'El campo "Puesto" es obligatorio',
+			});
+			return false;
+		} else if (horasLaborales === 0 || horasLaborales === '') {
+			setError({
+				errors: ['horasLaborales'],
+				msgError: 'El campo "Horas" es obligatorio',
+			});
+			return false;
+		} else if (
+			unidadLaborales === '--Selecciona uno--' ||
+			unidadLaborales === ''
+		) {
+			setError({
+				errors: ['unidadLaborales'],
+				msgError: 'El campo "Horas Tipo" es obligatorio',
+			});
+			return false;
+		} else if (cantidadSalario === 0 || cantidadSalario === '') {
+			setError({
+				errors: ['cantidadSalario'],
+				msgError: 'El campo "Salario bruto" es obligatorio',
+			});
+			return false;
+		} else if (tipoSalario === '--Selecciona uno--' || tipoSalario === '') {
+			setError({
+				errors: ['tipoSalario'],
+				msgError: 'El campo "Salario tipo" es obligatorio',
+			});
+			return false;
+		}
+
+		//Resetea estado al valor inicial
+		setError({ errors: [], msgError: '' });
+		return true;
+	};
+
 	return (
 		<>
 			<div>
@@ -103,7 +224,11 @@ const ModalNuevoContrato = () => {
 												Tipo de contrato
 											</label>
 											<select
-												className='form-select custm-input form-control mb-0'
+												className={
+													error.errors.includes('tipoDeContrato')
+														? 'form-select custm-input form-control mb-0  is-invalid'
+														: 'form-select custm-input form-control mb-0'
+												}
 												name='tipoDeContrato'
 												value={tipoDeContrato}
 												onChange={handleInputChange}
@@ -122,7 +247,11 @@ const ModalNuevoContrato = () => {
 													</label>
 													<input
 														type='date'
-														className='custm-input form-control custm-inputDate'
+														className={
+															error.errors.includes('fechaDeInicio')
+																? 'custm-input form-control custm-inputDate is-invalid'
+																: 'custm-input form-control custm-inputDate'
+														}
 														name='fechaDeInicio'
 														value={fechaDeInicio}
 														onChange={handleInputChange}
@@ -145,7 +274,12 @@ const ModalNuevoContrato = () => {
 												Puesto
 											</label>
 											<select
-												className='form-select custm-input form-control mb-0'
+												// className='form-select custm-input form-control mb-0'
+												className={
+													error.errors.includes('puesto')
+														? 'form-select custm-input form-control mb-0  is-invalid'
+														: 'form-select custm-input form-control mb-0'
+												}
 												name='puesto'
 												value={puesto}
 												onChange={handleInputChange}
@@ -210,7 +344,11 @@ const ModalNuevoContrato = () => {
 													</label>
 													<input
 														type='number'
-														className='custm-input form-control mb-0'
+														className={
+															error.errors.includes('horasLaborales')
+																? 'custm-input form-control mb-0  is-invalid'
+																: 'custm-input form-control mb-0'
+														}
 														placeholder='Horas'
 														name='horasLaborales'
 														value={horasLaborales}
@@ -222,7 +360,11 @@ const ModalNuevoContrato = () => {
 														Tipo
 													</label>
 													<select
-														className='form-select custm-input form-control mb-0'
+														className={
+															error.errors.includes('unidadLaborales')
+																? 'form-select custm-input form-control mb-0  is-invalid'
+																: 'form-select custm-input form-control mb-0'
+														}
 														name='unidadLaborales'
 														value={unidadLaborales}
 														onChange={handleInputChange}
@@ -351,15 +493,19 @@ const ModalNuevoContrato = () => {
 													}}
 												>
 													<label htmlFor='recipient-name' className='pt-2'>
-														Salario bruto <span className='textColorLight'>(MXN)</span>
+														Salario bruto
 													</label>
 													<input
 														type='number'
-														className='custm-input form-control mb-0'
+														className={
+															error.errors.includes('cantidadSalario')
+																? 'custm-input form-control mb-0  is-invalid'
+																: 'custm-input form-control mb-0'
+														}
 														id='recipient-name'
 														name='cantidadSalario'
 														value={cantidadSalario}
-														placeholder='Cantidad'
+														placeholder='Cantidad MXN'
 														onChange={handleInputChange}
 													/>
 												</div>
@@ -368,7 +514,11 @@ const ModalNuevoContrato = () => {
 														Tipo
 													</label>
 													<select
-														className='form-select custm-input form-control mb-0'
+														className={
+															error.errors.includes('tipoSalario')
+																? 'form-select custm-input form-control mb-0  is-invalid'
+																: 'form-select custm-input form-control mb-0'
+														}
 														name='tipoSalario'
 														value={tipoSalario}
 														onChange={handleInputChange}
@@ -381,16 +531,16 @@ const ModalNuevoContrato = () => {
 													</select>
 												</div>
 											</div>
-											{/* {error && (
+											{error.msgError && (
 												<div className='form-text textColorError'>
 													<i className='bi bi-exclamation-circle'>{` `}</i>
-													{error}.
+													{error.msgError}.
 												</div>
-											)} */}
+											)}
 											<div className='d-flex justify-content-end'>
-												{/* {!registerState.loading ? (
-													<button className='custm-btnFormSubmit inputSubmit'>
-														Guardar empleado
+												{!registerState.loading ? (
+													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
+														Crear contrato
 													</button>
 												) : (
 													<button
@@ -405,10 +555,10 @@ const ModalNuevoContrato = () => {
 														></span>
 														Cargando tabla...
 													</button>
-												)} */}
-												<button className=' custm-btnFormSubmit inputSubmit'>
+												)}
+												{/* <button className=' custm-btnFormSubmit inputSubmit'>
 													Crear contrato
-												</button>
+												</button> */}
 											</div>
 										</form>
 									</div>
