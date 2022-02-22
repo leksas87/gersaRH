@@ -1,0 +1,215 @@
+openapi: 3.0.0
+servers:
+  - description: server
+    url: http://localhost:4000/api
+info: 
+  title: API GERSA
+  version: 1.0.0
+tags:
+- name: users
+  description: Access, update users information
+- name: employees
+  description: Access, update employee information
+- name: contracts
+  description: Access, update contracts information
+- name: check
+  description: Get the status of code and check
+- name: logbooks
+  description: Save users logs activity 
+paths: 
+  /users/{id}:
+    get:
+      tags:
+      - users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+    patch: 
+      tags:
+      - users
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        description: name that need to be updated
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: successful operation
+        '400':
+          description: Invalid user supplied
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /users/authenticate:
+    post:
+      tags: 
+      - users
+      summary: Logs user into the system
+      responses:
+        '200':
+          description: User finded 
+        '400':
+          description: Usuario o contraseña incorrecta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLog"
+  /users:
+    post:
+      tags:
+      - users
+      summary: Create user
+      responses:
+        '200':
+          description: User finded 
+        '400':
+          description: Usuario o contraseña incorrecta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        
+  /contracts/{id}:
+    get:
+      tags:
+      - contracts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User finded
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+  
+  /check:
+    get:
+      tags:
+      - check
+      parameters:
+        - name: accessCode
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User finded
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /logbook/{userId}:
+    get:
+      tags:
+      - logbooks
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Logbook of user
+      security:
+        - bearerAuth: []
+  /logbook:
+    post:
+      tags:
+      - logbooks
+      parameters:
+        - name: operation
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Log Creado
+  
+components: 
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+    NotFound:
+      description: Not Found
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
+  schemas:
+    UserLog:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "prueba@prueba.com"
+        password:
+          type: string
+          example: "prueba"
+      xml:
+        name: UserLog
+    User:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+        sendInvitation: 
+          type: boolean
+    Logbook:
+      type: object
+      properties:
+        userid:
+          type: string
+        username:
+          type: string
+      
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
