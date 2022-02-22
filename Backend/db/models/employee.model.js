@@ -31,6 +31,7 @@ const EmployeeSchema = {
   numeroImms:{type:DataTypes.STRING,allowNull:true, defaultValue:''},
   curp:{type:DataTypes.STRING,allowNull:true, defaultValue:''},
   fechaAltaImss:{type:DataTypes.DATE,allowNull:true, defaultValue: DataTypes.NOW},
+  accessCode: {type: DataTypes.INTEGER,allowNull:false,defaultValue: 0}
 }
 
 class Employee extends Model {

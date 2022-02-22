@@ -6,7 +6,7 @@ const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
 
 // routes
-router.post('/register',registerSchema, register);
+router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 

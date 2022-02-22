@@ -5,7 +5,7 @@ const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const logbookService = require('../services/logbook.service');
 
-router.post('/',registerSchema, register);
+router.post('/:operacion',registerSchema, register);
 
 module.exports = router;
 
