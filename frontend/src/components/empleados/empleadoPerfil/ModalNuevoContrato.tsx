@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewContract } from '../../../actions/contractsActions/contractsActions';
 import { useForm } from '../../../hooks/useForm';
+import { RootSote } from '../../../store/Store';
 
 const ModalNuevoContrato = () => {
+	//dispatch para ejecutar las contractsActions
+	const dispatch = useDispatch();
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+
 	//objeto user para formulario Registro
 	const newContract = {
 		tipoDeContrato: '',
@@ -46,7 +54,26 @@ const ModalNuevoContrato = () => {
 	//Submit del modal
 	const handeNewContract = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
-		console.log('creando contrato');
+		dispatch(
+			registerNewContract({
+				userId: perfilUsuario.id,
+				puesto: puesto,
+				fechaDeInicio: fechaDeInicio,
+				fechaDeFinalizacion: fechaDeFinalizacion,
+				horasLaborales: horasLaborales,
+				unidadLaborales: unidadLaborales,
+				lunes: lunes,
+				martes: martes,
+				miercoles: miercoles,
+				jueves: jueves,
+				viernes: viernes,
+				sabado: sabado,
+				domingo: domingo,
+				tipoSalario: tipoSalario,
+				cantidadSalario: cantidadSalario,
+				tipoDeContrato: tipoDeContrato,
+			})
+		);
 	};
 	return (
 		<>
