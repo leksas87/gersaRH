@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.0.
 servers:
   - description: server
     url: http://localhost:4000/api
@@ -21,12 +21,14 @@ paths:
     get:
       tags:
       - users
+      summary: Obtiene los usuarios por rl numero de id.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
+        
       responses:
         '200':
           
@@ -42,7 +44,7 @@ paths:
     patch: 
       tags:
       - users
-      summary: Updated user
+      summary: Actualiza la información del usuario con el id.
       description: This can only be done by the logged in user.
       operationId: updateUser
       parameters:
@@ -67,12 +69,18 @@ paths:
     post:
       tags: 
       - users
-      summary: Logs user into the system
+      summary: Login del usuario.
       responses:
         '200':
           description: User finded 
-        '400':
-          description: Usuario o contraseña incorrecta
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
       requestBody:
         content:
           application/json:
@@ -82,10 +90,10 @@ paths:
     post:
       tags:
       - users
-      summary: Create user
+      summary: Inserta la información de un nuevo usuario.
       responses:
         '200':
-          description: User finded 
+          description: Creado correctamente.
         '400':
           description: Usuario o contraseña incorrecta
       requestBody:
@@ -135,8 +143,6 @@ paths:
         required: true
         schema:
           type: integer
-      
-      
       responses:
         200:
           description: (OK) La informacion de los contratos se obtuvo de forma exitosa
@@ -154,24 +160,166 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
+  /contracts/{idContract}:
+    patch:
+      tags:
+      - contracts
+      summary: Modifica datos en especifico del contrato 
+      description: "El EndPoint recibe via url el id del contrato que se desea modificar, en caso de ser exitoso se regresan los datos modificados del contrato . Para realizar la petición se necesita mandar token por headers"
+      parameters:
+      - name: idContract
+        in: path
+        description: Identificador del contrato a modificar
+        required: true
+        schema:
+          type: integer
+      requestBody: 
+        description: "Para realizar un patch no es necesario enviar todo el schema, solo el atributo a modificar."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyContratosPut'
+        required: false
+      responses:
+        200:
+          description: (OK), modificación exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoContratosGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+      - contracts
+      summary: Modifica los datos del contrato
+      description: "El EndPoint recibe via url el id del contrato que se desea modificar, en caso de ser exitoso se regresan los datos modificados del contrato . Para realizar la petición se necesita mandar token por headers"
+      parameters:
+      - name: idContract
+        in: path
+        description: Es el id del contrato a modificar
+        required: true
+        schema:
+          type: integer
+      requestBody: 
+        description: "Para realizar un put es necesario enviar todos los atributos del schema."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyContratosPut'
+        required: true
+      responses:
+        200:
+          description: (OK), modificación exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoContratosGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+      - contracts
+      summary: Elimina el contrato 
+      parameters:
+      - name: idContract
+        in: path
+        description: Identificador del contrato a modificar
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: (OK), modificación exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoContratosDelete'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      security:
+        - bearerAuth: []
   
   /check:
     get:
       tags:
       - check
+      summary: "Metodo usado para validar el coódigo de acceso."
+      description: "El EndPoint recibe via url el código de acceso del empleato y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
       parameters:
         - name: accessCode
           in: query
+          description: "Código de acceso al sistema "
           required: true
           schema:
             type: integer
+        - name: isCheckInEntry
+          in: query
+          required: true
+          schema:
+            type: boolean
       responses:
         '200':
-          description: User finded
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+          description: "Completado con exito"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoCheckOk'
+        '400':
+          description: "Ya existe una entrada registrada"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/AlreadyRegisterAccess'
         '404':
+          $ref: '#/components/responses/NotFoundEmployee'
+    post:
+      tags:
+      - check
+      summary: Ingreso de un registro de fecha,hora y acción en el check
+      description: "El EndPoint recibe via post el código de acceso del empleato,empeadoid y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
+      responses:
+        200:
+          $ref: '#/components/responses/Create'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Exito'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
           $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Check"
   /logbook/{userId}:
     get:
       tags:
@@ -187,25 +335,7 @@ paths:
           description: Logbook of user
       security:
         - bearerAuth: []
-  /logbook:
-    post:
-      tags:
-      - logbooks
-      parameters:
-        - name: operation
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: code
-          in: query
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Log Creado
-  
+
 components: 
   responses:
     UnauthorizedError:
@@ -220,6 +350,11 @@ components:
     ServerError:
       description: Error en el servidor
       
+    NotFoundEmployee:
+      description: Código de acceso no encontrado
+
+    Create:
+      description: Creado correctamente.
   parameters:
     token: 
           name: token
@@ -236,6 +371,73 @@ components:
       bearerFormat: JWT # optional, arbitrary value for documentation purposes
 
   schemas:
+    Exito:
+      type: object
+      properties:
+        message:
+         type: string
+         description: Registro exitoso
+        ok:
+         type: boolean
+         example: true
+         description: (True) Salio bien, (False) Algo salio mal
+    AlreadyRegisterAccess:
+      type: object
+      properties:
+        message:
+         type: string
+         example: Ya registraste tu entrada el día de hoy
+         description: Ya registraste tu entrada el día de hoy
+        ok:
+         type: boolean
+         example: false
+         description: (True) Salio bien, (False) Algo salio mal
+      
+    NotRegisterAccessYet:
+      description: Aún no registras una entrada el día de hoy
+      
+    AlreadyCheckedOut:
+      description: Ya registraste tu salida el día de hoy
+    
+    Check:
+      type: object
+      properties:
+        userid:
+          type: integer
+          description: Id del usuario
+        username:
+          type: string
+          description: Nombre del usuario
+        isCheckInEntry:
+          type: boolean
+          description: true=Entrada , false=Salida
+        latitude:
+          type: string
+          description: Valor de la latitud en tiempo real
+        longitude:
+          type: string
+          description: Valor de la longitud en tiempo real
+      xml:
+        name: Check
+
+    ExitoCheckOk:
+      type: object
+      properties:
+        message:
+         type: string
+         description: Completado con exito
+        ok:
+         type: boolean
+         description: (True) Salio bien, (False) Algo salio mal
+        data: 
+          type: object
+          properties:
+            userId:
+              type: integer
+            username:
+              type: string
+            accessCode:
+              type: integer
     UserLog:
       type: object
       properties:
@@ -318,26 +520,10 @@ components:
         cantidadSalario:
          type: integer
          description: Salario definido en el contrato
-         
-    BodyContratosResponse:
-      type: object
-      properties:
-        message:
-         type: string
-         description: Usuario no autorizado
-        ok:
-         type: boolean
-         description: (True) Salio bien, (False) Algo salio mal
     
-    ExitoContratosGet:
+    BodyContratosPut:
       type: object
       properties:
-        id:
-         type: integer
-         description: Id del contrato
-        userId:
-         type: integer
-         description: Id del usuario
         tipoDeContrato:
          type: string
          description: Tipo de contrato
@@ -382,10 +568,89 @@ components:
          description: tipo de unidad para laborales(semana, quinciena, mes)
         cantidadSalario:
          type: integer
-         description: Salario definido en el contrato
-        isContractActivide:
+         description: Salario definido en el contrato     
+    BodyContratosResponse:
+      type: object
+      properties:
+        message:
+         type: string
+         description: Usuario no autorizado
+        ok:
          type: boolean
-         description: Bandera para definir si el contrato esta activo
+         description: (True) Salio bien, (False) Algo salio mal
+    ExitoContratosDelete:
+      type: object
+      properties:
+        message:
+          type: string
+        ok:
+          type: boolean
+    ExitoContratosGet:
+      type: object
+      properties:
+        message:
+          type: string
+        ok:
+          type: boolean
+        data: 
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Id del contrato
+            userId:
+              type: integer
+              description: Id del usuario
+            tipoDeContrato:
+              type: string
+              description: Tipo de contrato
+            puesto:
+              type: string
+              description: Nombre del puesto
+            fechaDeInicio:
+              type: string
+              format: date
+              description: Fecha de inicio de contrato
+            fechaDeFinalizacion:
+              type: string
+              format: date
+              description: Fecha de finalizacion de contrato
+            horasLaborales:
+              type: integer
+              description: Horas laborales del contrato
+            unidadLaborales:
+              type: string
+              description: tipo de unidad para laborales(semana, quinciena, mes)
+            lunes:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Lunes
+            martes:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Martes
+            miercoles:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Miercoles
+            jueves:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Jueves
+            viernes:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Viernes
+            sabado:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Sabado
+            domingo:
+              type: boolean
+              description: Bandera para definir si se trabaja el dia Domingo
+            tipoSalario:
+              type: string
+              description: tipo de unidad para laborales(semana, quinciena, mes)
+            cantidadSalario:
+              type: integer
+              description: Salario definido en el contrato
+            isContractActivide:
+              type: boolean
+              description: Bandera para definir si el contrato esta activo
       
 externalDocs:
   description: Find out more about Swagger

@@ -4,7 +4,8 @@ const {models} = require('./../libs/sequelize');
 module.exports = {
     getByEmployee,
     create,
-    update
+    update,
+    delete: _delete,
 };
 
 async function getByEmployee(id) {
@@ -49,4 +50,9 @@ async function create(params) {
      });
 
      await models.Contract.create(params);
+}
+
+async function _delete(id) {
+    const contract = await getContract(id);
+    await contract.destroy();
 }
