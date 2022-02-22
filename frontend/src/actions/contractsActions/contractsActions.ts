@@ -24,6 +24,7 @@ export const registerNewContract = (data: iNewContract) => {
 
 		//Mensajes de Confirmación o Error
 		if (body.ok) {
+			//dispatch para cambiar loading a true
 			dispatch({
 				type: REGISTER_NEW_COONTRACT_LOADING_END,
 			});

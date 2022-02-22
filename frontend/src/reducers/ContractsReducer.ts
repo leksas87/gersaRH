@@ -1,6 +1,7 @@
 import {
 	ContractsDispatchTypes,
 	iContractsReducer,
+	REGISTER_NEW_CONTRACT_START_LOADING,
 	REGISTER_NEW_COONTRACT_LOADING_END,
 } from '../actions/contractsActions/contractsActionTypes';
 
@@ -11,12 +12,12 @@ const INITIAL_STATE: iContractsReducer = {
 	},
 };
 //Reducer
-export const UsersReducer = (
+export const ContractsReducer = (
 	state: iContractsReducer = INITIAL_STATE,
 	action: ContractsDispatchTypes
 ): iContractsReducer => {
 	switch (action.type) {
-		case REGISTER_NEW_COONTRACT_LOADING_END:
+		case REGISTER_NEW_CONTRACT_START_LOADING:
 			return {
 				...state,
 				registerState: { loading: true },

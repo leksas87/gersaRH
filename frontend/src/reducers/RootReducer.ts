@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { ContractsReducer } from './ContractsReducer';
 import { LogInReducer } from './LogInReducer';
 import { PassReducer } from './PassReducer';
 import { UsersReducer } from './UsersReducer';
@@ -8,4 +9,5 @@ export const rootReducer = combineReducers({
 	auth: LogInReducer,
 	users: UsersReducer,
 	pass: PassReducer,
+	contracts: ContractsReducer,
 });

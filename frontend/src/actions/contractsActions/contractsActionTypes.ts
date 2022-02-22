@@ -15,7 +15,7 @@ export interface iNewContract {
 	userId: number;
 	puesto: string;
 	fechaDeInicio: string;
-	fechaDeFinalizacion: string;
+	fechaDeFinalizacion?: string;
 	horasLaborales: number;
 	unidadLaborales: string;
 	lunes: boolean;
