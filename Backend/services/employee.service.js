@@ -24,7 +24,22 @@ async function update(id, params) {
 }
 
 async function create(params) {
-     await models.Employee.create(params);
+    const maximo=9999;
+    const minimo=1000
+    var num =  Math.floor(Math.random() * ((maximo+1) - minimo) + minimo);
+    console.log(num);
+    const accessCode=await models.Employee.findOne({where:{accessCode:num}});
+    if (! accessCode) {
+        console.log('no se encontro');
+        params.accessCode=num;
+        await models.Employee.create(params);
+    }
+    else{
+        console.log('se encontro el mismo numero');
+    }
+    
+     //await models.Employee.create(params);
+     ///numero 4 digitos para el checkin
 }
 
 async function getEmployeeById(id) {
