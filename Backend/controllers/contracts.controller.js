@@ -10,6 +10,7 @@ router.post('/', authorize() ,registerSchema, register);
 router.patch('/:id', authorize(), updateSchema, update);
 router.put('/:id', authorize(), updateSchemaPut, update);
 router.get('/:id', authorize(), getByEmployee);
+router.delete('/:id', authorize(), deleteById);
 
 module.exports = router;
 
@@ -95,5 +96,11 @@ function registerSchema(req, res, next) {
 function register(req, res, next) {
     contractService.create(req.body)
         .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
+        .catch(next);
+}
+
+function deleteById(req, res, next) {
+    contractService.delete(req.params.id)
+        .then(() => res.json({ message: 'Usuario eliminado exitosamente' ,ok:true}))
         .catch(next);
 }
