@@ -94,23 +94,64 @@ paths:
             schema:
               $ref: "#/components/schemas/User"
         
-  /contracts/{id}:
+  /contracts/:
+    post:
+      tags:
+      - contracts
+      summary: Inserta la informacion de un nuevo contrato
+      
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyContratosPost'
+        required: true
+      responses:
+        200:
+          description: (OK) Registro exitoso
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/BodyContratosResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      security:
+        - bearerAuth: []
+  /contracts/{idUsuario}:
     get:
       tags:
       - contracts
+      summary: Obtiene la informacion de la base de datos de los contratos de un empleado
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
+      - name: idUsuario
+        in: path
+        description: Identificador de los contratos a obtener
+        required: true
+        schema:
+          type: integer
+      
+      
       responses:
-        '200':
-          description: User finded
-        '401':
+        200:
+          description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoContratosGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
           $ref: '#/components/responses/UnauthorizedError'
-        '404':
-          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
   
@@ -168,9 +209,26 @@ paths:
 components: 
   responses:
     UnauthorizedError:
-      description: Access token is missing or invalid
+      description: (Unauthorized) Usuario no autorizado
+      
     NotFound:
-      description: Not Found
+      description: (Not Found) No se encontro la informacion
+      
+    BadRequest:
+      description: (Bad Request) No se encontro la informacion
+    
+    ServerError:
+      description: Error en el servidor
+      
+  parameters:
+    token: 
+          name: token
+          in: header
+          description: Token de auntentificacion
+          required: true
+          schema:
+            type: integer    
+            
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
       type: http
@@ -209,6 +267,125 @@ components:
           type: string
         username:
           type: string
+    BodyContratosPost:
+      type: object
+      properties:
+        userId:
+         type: integer
+         description: Id del usuario
+        tipoDeContrato:
+         type: string
+         description: Tipo de contrato
+        puesto:
+         type: string
+         description: Nombre del puesto
+        fechaDeInicio:
+         type: string
+         description: Fecha de inicio de contrato
+        fechaDeFinalizacion:
+         type: string
+         description: Fecha de finalizacion de contrato
+        horasLaborales:
+         type: integer
+         description: Horas laborales del contrato
+        unidadLaborales:
+         type: string
+         description: tipo de unidad para laborales(semana, quinciena, mes)
+        lunes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Lunes
+        martes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Martes
+        miercoles:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Miercoles
+        jueves:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Jueves
+        viernes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Viernes
+        sabado:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Sabado
+        domingo:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Domingo
+        tipoSalario:
+         type: string
+         description: tipo de unidad para laborales(semana, quinciena, mes)
+        cantidadSalario:
+         type: integer
+         description: Salario definido en el contrato
+         
+    BodyContratosResponse:
+      type: object
+      properties:
+        message:
+         type: string
+         description: Usuario no autorizado
+        ok:
+         type: boolean
+         description: (True) Salio bien, (False) Algo salio mal
+    
+    ExitoContratosGet:
+      type: object
+      properties:
+        id:
+         type: integer
+         description: Id del contrato
+        userId:
+         type: integer
+         description: Id del usuario
+        tipoDeContrato:
+         type: string
+         description: Tipo de contrato
+        puesto:
+         type: string
+         description: Nombre del puesto
+        fechaDeInicio:
+         type: string
+         description: Fecha de inicio de contrato
+        fechaDeFinalizacion:
+         type: string
+         description: Fecha de finalizacion de contrato
+        horasLaborales:
+         type: integer
+         description: Horas laborales del contrato
+        unidadLaborales:
+         type: string
+         description: tipo de unidad para laborales(semana, quinciena, mes)
+        lunes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Lunes
+        martes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Martes
+        miercoles:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Miercoles
+        jueves:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Jueves
+        viernes:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Viernes
+        sabado:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Sabado
+        domingo:
+         type: boolean
+         description: Bandera para definir si se trabaja el dia Domingo
+        tipoSalario:
+         type: string
+         description: tipo de unidad para laborales(semana, quinciena, mes)
+        cantidadSalario:
+         type: integer
+         description: Salario definido en el contrato
+        isContractActivide:
+         type: boolean
+         description: Bandera para definir si el contrato esta activo
       
 externalDocs:
   description: Find out more about Swagger
