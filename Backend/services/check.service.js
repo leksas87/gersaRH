@@ -28,7 +28,6 @@ async function review(params) {
         if (registroEntradaEmpleado) {
             throw 'Ya existe una entrada registrada';
         } 
-
     }
     else
     {
