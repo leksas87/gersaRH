@@ -19,9 +19,6 @@ function registerSchemaCheck(req,res,next) {
 }
 
 function check(req,res,next) {
-    console.log(req.query);
-    const accessCode = req.query.accessCode;
-    const isCheckInEntry = req.query.isCheckInEntry;
     checkService.review(req.query)
         .then(()=>res.json({message:'Completado con exito',ok:true}))
         .catch(next);
