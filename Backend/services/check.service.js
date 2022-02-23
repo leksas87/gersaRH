@@ -22,12 +22,26 @@ async function review(params) {
     if (!employee) {
         throw 'Empleado no localizado';
     } 
-
+    
     if(params.isCheckInEntry=='true'){
-        registroEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`}})
-        if (registroEmpleado) {
+        registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:{[Op.ne]: `00:00:00`}}});
+        if (registroEntradaEmpleado) {
             throw 'Ya existe una entrada registrada';
         } 
+
+    }
+    else
+    {
+        registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
+        if (registroEntradaEmpleado)
+        {
+            throw 'Aún no registras una entrada el día de hoy';
+        }
+        registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
+
+        if (!registroSalidaEmpleado) {
+            throw 'Ya registraste tu salida el día de hoy'
+        }
     }
 
 }
