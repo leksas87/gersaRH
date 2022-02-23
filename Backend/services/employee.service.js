@@ -7,7 +7,8 @@ module.exports = {
    
     create,
     getEmployeeById,
-    update
+    update,
+    validacionNumeroAleatorio
 };
 
 async function update(id, params) {

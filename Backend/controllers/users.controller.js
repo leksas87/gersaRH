@@ -4,6 +4,7 @@ const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
+const employeeService = require('../services/employee.service');
 const upload = require("../middleware/upload");
 const readXlsxFile = require('read-excel-file/node');
 const {models} = require('./../libs/sequelize');
@@ -131,9 +132,43 @@ async function registerFile(req, res) {
 
     try {
 
-        for (const user of usersNames) {
-            if (await models.User.findOne({ where: { username: user.username } })) {
-                throw `Error , usuario ${user.username} ya existe en la base de datos .`;
+        for (const userF of usersNames) {
+            if (await models.User.findOne({ where: { username: userF.username } })) {
+                let user = await models.User.findOne({ where: { username: userF.username } });
+                user.firstName = userF.firstName;
+                user.lastName = userF.lastName;
+                user.phone = userF.phone;
+
+                let employee = await models.Employee.findOne({where:{userId:user.id}});
+                employee.tipoIdentificacion = userF.tipoIdentificacion;
+                employee.documentoIdentidad = userF.documentoIdentidad;
+                employee.fechaNacimiento = userF.fechaNacimiento;
+                employee.genero = userF.genero;
+                employee.nacionalidad = userF.nacionalidad;
+                employee.lugarDeTrabajo = userF.lugarDeTrabajo;
+                employee.supervisor = userF.supervisor;
+                employee.numeroCuentaBancaria = userF.numeroCuentaBancaria;
+                employee.swiftBic = userF.swiftBic;
+                employee.frecuenciaPago = userF.frecuenciaPago;
+                employee.direccion1 = userF.direccion1;
+                employee.direccion2 = userF.direccion2;
+                employee.ciudad = userF.ciudad;
+                employee.codigoPostal = userF.codigoPostal;
+                employee.estadoProvincia = userF.estadoProvincia;
+                employee.pais = userF.pais;
+                employee.emergenciaNombre = userF.emergenciaNombre;
+                employee.empergenciaTelefono = userF.empergenciaTelefono;
+                employee.rfc = userF.rfc;
+                employee.numeroImms = userF.numeroImms;
+                employee.curp = userF.curp;
+                employee.fechaAltaImss = userF.fechaAltaImss;
+                //throw `Error , usuario ${user.username} ya existe en la base de datos .`;
+
+                console.log(user);
+                console.log(employee);
+                console.log(userF);
+                user.save();
+                employee.save();
             }
             
         }
@@ -156,6 +191,7 @@ async function registerFile(req, res) {
                 console.log(sendInvitation,'no se mandaran las invitaciones');
             }
             // await models.User.create(user);
+            let num = await employeeService.validacionNumeroAleatorio();
             const employee = await models.User.create(user);
             await models.Employee.create({
                 userId: employee.id,
@@ -181,6 +217,7 @@ async function registerFile(req, res) {
                 numeroImms:user.numeroImms,
                 curp:user.curp,
                 fechaAltaImss:user.fechaAltaImss,
+                accessCode: num
             })
             console.log('guardando al usuario',user.username);
             
