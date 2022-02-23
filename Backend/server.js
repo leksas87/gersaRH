@@ -14,7 +14,7 @@ global.__basedir = __dirname ;
 app.use('/api/users', require('./controllers/users.controller'));
 app.use('/api/employees', require('./controllers/employees.controller'));
 app.use('/api/contracts', require('./controllers/contracts.controller'));
-app.use('/api/logbook', require('./controllers/logbook.controller'));
+app.use('/api/check', require('./controllers/checks.controller'));
 
 // global error handler
 app.use(errorHandler);

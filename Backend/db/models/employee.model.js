@@ -1,6 +1,6 @@
 
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { Logbook } = require('./logbook.model');
+const { Check } = require('./check.model');
 
 const {USER_TABLE} = require('./user.model');
 
@@ -37,7 +37,7 @@ const EmployeeSchema = {
 class Employee extends Model {
   static associate(models) {
     this.belongsTo(models.User,{as:'user'});
-    this.hasMany(models.Logbook,{as:'logbook',foreignKey:'employeeId'});
+    this.hasMany(models.Check,{as:'check',foreignKey:'employeeId'});
   }
 
   static config(sequelize) {

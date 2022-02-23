@@ -2,9 +2,9 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const {EMPLOYEE_TABLE} = require('./employee.model');
 
-const LOGBOOK_TABLE = 'Logbook';
+const CHECK_TABLE = 'Check';
 
-const LogbookSchema = {
+const CheckSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
   employeeId:{ type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   longitude: { type: DataTypes.STRING,allowNull: true,defaultValue:''},
@@ -15,7 +15,7 @@ const LogbookSchema = {
 }
 
 
-class Logbook extends Model {
+class Check extends Model {
 
   static associate(models) {
     this.belongsTo(models.Employee, { as: 'employee' });
@@ -24,11 +24,11 @@ class Logbook extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: LOGBOOK_TABLE,
-      modelName: 'Logbook',
+      tableName: CHECK_TABLE,
+      modelName: 'Check',
       timestamps: false
     }
   }
 }
 
-module.exports = { Logbook, LogbookSchema, LOGBOOK_TABLE };
+module.exports = { Check, CheckSchema, CHECK_TABLE };
