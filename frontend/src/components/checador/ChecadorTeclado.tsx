@@ -24,9 +24,9 @@ const ChecadorTeclado = () => {
 	//Effecto para ingresar codigo de acceso a travez del teclado de la computadora
 	useEffect(() => {
 		function key(e: any) {
-			if (code.length < 4) {
-				setCode(code.concat(e.key));
-			}
+			if (e.key === 'Enter') return;
+			if (e.key === ' ') return;
+			if (code.length < 4) setCode(code.concat(e.key));
 		}
 		window.addEventListener('keypress', key);
 
