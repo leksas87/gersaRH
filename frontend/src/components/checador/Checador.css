@@ -5,6 +5,9 @@
 	border-radius: 50%;
 	border: 5px solid var(--colorSecondary);
 }
+.custm-btnCheckMargin {
+	margin: 0px 15px 0px 15px;
+}
 .custm-btnCheckIn {
 	background-color: hsla(198, 65%, 45%, 0.15);
 }
@@ -23,4 +26,129 @@
 .custm-checkArrow {
 	color: var(--colorSecondary);
 	font-size: 4rem;
+}
+.custm-imgCheck {
+	width: 290px;
+}
+.custm-digitCheck {
+	width: 75px;
+	height: 60px;
+	margin: 10px;
+	border-bottom: 2px solid var(--colorSecondary);
+	color: var(--colorSecondary);
+	font-size: 3rem;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.custm-digitCheckActive {
+	border-bottom: 5px solid var(--textColorLink);
+}
+.custm-btnTableCheckContainer {
+	background-color: var(--colorSecondary);
+	border-radius: 15px;
+}
+.custm-btnTableCheck {
+	background-color: var(--colorSecondary);
+	width: 105px;
+	height: 70px;
+	margin: 1rem;
+	color: var(--colorPrimary);
+	border: 1px solid #124e68;
+	border-radius: 15px;
+	font-weight: bold;
+	font-size: 2rem;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	transition: 0.1s ease-in-out;
+}
+.custm-btnTableCheck:hover {
+	color: var(--colorPrimary);
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);
+	transform: scale(0.95);
+}
+.custm-btnCheckSubmit {
+	background-color: #6eea5a;
+	border-radius: 15px;
+	color: var(--colorPrimary);
+	padding: 15px;
+	font-size: 1.3rem;
+	font-weight: bold;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	transition: 0.1s ease-in-out;
+}
+.custm-btnCheckSubmit:hover {
+	background-color: #64dd51;
+	color: var(--colorPrimary);
+	transform: scale(0.97);
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);
+}
+/* +++++Mobile++++ */
+@media (max-width: 782px) {
+	.custm-imgCheck {
+		width: 50vw;
+	}
+	.custm-btnTableCheck {
+		width: 17vw;
+		height: 50px;
+		margin: 1rem;
+	}
+	.custm-btnCheck {
+		width: 32vw;
+		height: 32vw;
+		margin: 20px;
+		border-radius: 50%;
+		border: 5px solid var(--colorSecondary);
+	}
+	.custm-btnCheckMargin {
+		margin: 0px 5px 0px 5px;
+	}
+	.custm-checkDoor {
+		color: var(--colorSecondary);
+		font-size: 4rem;
+	}
+	.custm-checkArrow {
+		color: var(--colorSecondary);
+		font-size: 3rem;
+	}
+	.custm-btnCheckTittle {
+		font-size: 2rem;
+	}
+}
+@media (max-width: 380px) {
+	.custm-digitCheck {
+		width: 50px;
+	}
+	.custm-imgCheck {
+		width: 80vw;
+	}
+	.custm-btnCheckMargin {
+		margin: 0px 0px 0px 0px;
+	}
+	.custm-checkDoor {
+		font-size: 3rem;
+	}
+	.custm-checkArrow {
+		font-size: 2rem;
+	}
+	.custm-btnCheckTittle {
+		font-size: 1.7rem;
+	}
+}
+@media (max-width: 311px) {
+	.custm-digitCheck {
+		width: 40px;
+	}
+	.custm-btnCheck {
+		border: 3px solid var(--colorSecondary);
+	}
+	.custm-checkDoor {
+		font-size: 2rem;
+	}
+	.custm-checkArrow {
+		font-size: 1.8rem;
+	}
+	.custm-btnCheckTittle {
+		font-size: 1.5rem;
+	}
 }

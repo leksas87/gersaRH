@@ -7,6 +7,7 @@ import {
 	getUserById,
 } from '../actions/usersActions/usersActions';
 import ChecadorPage from '../components/checador/ChecadorPage';
+import ChecadorTeclado from '../components/checador/ChecadorTeclado';
 import ConfirmarContraseñaPage from '../components/confirmarContraseña/ConfirmarContraseñaPage';
 import RecuperacionContrasenaPage from '../components/confirmarContraseña/RecuperacionContrasenaPage';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
@@ -116,7 +117,8 @@ const AppRouter = () => {
 							element={<RecuperarContraseñaPage />}
 						/>
 						{/* Check */}
-						<Route path='/checador' element={<ChecadorPage />} />
+						{/* <Route path='/checador' element={<ChecadorPage />} /> */}
+						<Route path='/checador' element={<ChecadorTeclado />} />
 					</Routes>
 				</BrowserRouter>
 			</Suspense>
