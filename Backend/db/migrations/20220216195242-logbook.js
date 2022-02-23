@@ -1,6 +1,6 @@
 'use strict';
 
-const {LOGBOOK_TABLE,LogbookSchema}=require('../models/logbook.model');
+const {LOGBOOK_TABLE,LogbookSchema}=require('../models/check.model');
 
 module.exports = {
   up: async (queryInterface) => {
