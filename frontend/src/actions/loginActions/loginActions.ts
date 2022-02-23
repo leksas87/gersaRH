@@ -33,6 +33,7 @@ export const startLogin = (email: string, password: string) => {
 				//Se guarda el token en localStorage como gersa-tkn
 				localStorage.setItem('gersa-tkn', body.data.token);
 				const time = new Date().getTime();
+
 				//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
 				localStorage.setItem('gersa-tkn-init-date', time.toString());
 				localStorage.setItem('gersaUserName', body.data.username);

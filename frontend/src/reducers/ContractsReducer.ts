@@ -1,5 +1,7 @@
 import {
+	CLEAN_CONTRACTS,
 	ContractsDispatchTypes,
+	GET_CONTRACTS,
 	iContractsReducer,
 	REGISTER_NEW_CONTRACT_START_LOADING,
 	REGISTER_NEW_COONTRACT_LOADING_END,
@@ -10,6 +12,7 @@ const INITIAL_STATE: iContractsReducer = {
 	registerState: {
 		loading: false,
 	},
+	contratosEmpleado: [],
 };
 //Reducer
 export const ContractsReducer = (
@@ -26,6 +29,16 @@ export const ContractsReducer = (
 			return {
 				...state,
 				registerState: { loading: false },
+			};
+		case GET_CONTRACTS:
+			return {
+				...state,
+				contratosEmpleado: [...action.payload.contratos],
+			};
+		case CLEAN_CONTRACTS:
+			return {
+				...state,
+				contratosEmpleado: [],
 			};
 
 		default:

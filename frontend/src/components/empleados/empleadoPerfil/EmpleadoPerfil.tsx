@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
+import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
 	getEmployeeById,
 	getUserById,
@@ -36,6 +37,8 @@ const EmpleadoPerfil = () => {
 	useEffect(() => {
 		if (empleadoId) dispatch(getUserById(empleadoId));
 		if (empleadoId) dispatch(getEmployeeById(empleadoId));
+
+		if (empleadoId) dispatch(getContracts(empleadoId));
 	}, [dispatch, empleadoId]);
 
 	//metodo para remover Permisos de Administrador
