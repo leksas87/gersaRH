@@ -1,5 +1,10 @@
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { contractToShow } from '../../../actions/contractsActions/contractsActions';
+import {
+	getContracts,
+	getContractToShow,
+	updateContractById,
+} from '../../../actions/contractsActions/contractsActions';
 import { iContract } from '../../../actions/contractsActions/contractsActionTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
@@ -11,16 +16,115 @@ const PageEmpleadoInfoContrato = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
-	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { contratosEmpleado } = useSelector(
+	const { contratosEmpleado, contractToShow } = useSelector(
 		(state: RootSote) => state.contracts
 	);
+
+	//Tomar solo la fecha Inicio
+	const indiceFechaInicio = contractToShow.fechaDeInicio.indexOf('T');
+	const fechaInicio = contractToShow.fechaDeInicio.substring(
+		0,
+		indiceFechaInicio
+	);
+	let fechaFin = '';
+	//Tomar solo la fecha Fin
+	if (contractToShow.fechaDeFinalizacion) {
+		const indiceFechaFin = contractToShow.fechaDeFinalizacion.indexOf('T');
+		fechaFin = contractToShow.fechaDeFinalizacion.substring(0, indiceFechaFin);
+	}
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [infoBasicavalue, toggleInfoBasic] = useToggle(false); //Recibe el valor inicial
 	const [horasLabValue, toggleHorasLab] = useToggle(false); //Recibe el valor inicial
 	const [salarioBruValue, toggleSalarioBru] = useToggle(false); //Recibe el valor inicial
+
+	//objeto para formulario InfoBasic
+	const formInfoBasic = {
+		tipoDeContrato: '',
+		puesto: '',
+		fechaDeInicio: '',
+		fechaDeFinalizacion: '',
+	};
+	//objeto para formulario SalarioBruto
+	const formSalarioBruto = {
+		tipoSalario: '',
+		cantidadSalario: 0,
+	};
+
+	//states de formularios
+	const [infoBasicValues, setInfoBasicValues] = useState(formInfoBasic);
+	const [salarioBrutoValues, setSalarioBrutoValues] = useState(formSalarioBruto);
+
+	//Desestructuracion de elemntos del useState
+	const { tipoDeContrato, puesto, fechaDeInicio, fechaDeFinalizacion } =
+		infoBasicValues;
+	const { cantidadSalario, tipoSalario } = salarioBrutoValues;
+
+	useEffect(() => {
+		setInfoBasicValues({
+			tipoDeContrato: contractToShow.tipoDeContrato,
+			puesto: contractToShow.puesto,
+			fechaDeInicio: fechaInicio,
+			fechaDeFinalizacion: fechaFin,
+		});
+		setSalarioBrutoValues({
+			tipoSalario: contractToShow.tipoSalario,
+			cantidadSalario: contractToShow.cantidadSalario,
+		});
+	}, [contractToShow]);
+
+	//handleInputChange
+	const handleInputChangeInfoBasic = (event: any) => {
+		setInfoBasicValues({
+			...infoBasicValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChangeSalarioBruto = (event: any) => {
+		setSalarioBrutoValues({
+			...salarioBrutoValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	//Submit del formulario InfoGral
+	const handlesubmitInfoBasic = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		if (fechaDeFinalizacion) {
+			dispatch(
+				updateContractById(contractToShow.id, {
+					tipoDeContrato: tipoDeContrato,
+					puesto: puesto,
+					fechaDeInicio: fechaDeInicio,
+					fechaDeFinalizacion: fechaDeFinalizacion,
+				})
+			);
+		} else {
+			dispatch(
+				updateContractById(contractToShow.id, {
+					tipoDeContrato: tipoDeContrato,
+					puesto: puesto,
+					fechaDeInicio: fechaDeInicio,
+				})
+			);
+		}
+
+		toggleInfoBasic(false);
+	};
+	//Submit del formulario InfoGral
+	const handlesubmitSalarioBruto = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		dispatch(
+			updateContractById(contractToShow.id, {
+				tipoSalario: tipoSalario,
+				cantidadSalario: cantidadSalario,
+			})
+		);
+
+		toggleSalarioBru(false);
+	};
 
 	//Submit del formulario
 	const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +134,7 @@ const PageEmpleadoInfoContrato = () => {
 	};
 
 	const showInfo = (contractData: iContract) => {
-		dispatch(contractToShow(contractData));
+		dispatch(getContractToShow(contractData));
 	};
 
 	return (
@@ -115,14 +219,14 @@ const PageEmpleadoInfoContrato = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitInfoBasic}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Tipo de contrato</label>
 									<select
-										className='form-control custm-Width100 custm-empleadoFormIntput'
+										className=' form-select form-control custm-Width100 custm-empleadoFormIntput'
 										name='tipoDeContrato'
-										// value={tipoDeContrato}
-										// onChange={handleInputChange}
+										value={tipoDeContrato}
+										onChange={handleInputChangeInfoBasic}
 										disabled={!infoBasicavalue}
 									>
 										<option>--Selecciona uno--</option>
@@ -132,30 +236,78 @@ const PageEmpleadoInfoContrato = () => {
 									</select>
 								</div>
 								<div className='mb-4'>
-									<label className='custm-Width100'>Cargo</label>
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder={'Cargo'}
+									<label className='custm-Width100'>Puesto</label>
+									<select
+										className='form-select form-control custm-Width100 custm-empleadoFormIntput'
+										name='puesto'
+										value={puesto}
+										onChange={handleInputChangeInfoBasic}
 										disabled={!infoBasicavalue}
-									/>
+									>
+										<option>--Selecciona uno--</option>
+										<option value='ADMINISTRADOR FINANCIERO'>
+											ADMINISTRADOR FINANCIERO
+										</option>
+										<option value='ANALISTA DE IMPORTACIONES'>
+											ANALISTA DE IMPORTACIONES
+										</option>
+										<option value='ANALISTA DE SISTEMAS'>ANALISTA DE SISTEMAS</option>
+										<option value='ASISTENTE DE DIRECCION'>ASISTENTE DE DIRECCION</option>
+										<option value='AUXILIAR OPERATIVO A'>AUXILIAR OPERATIVO A</option>
+										<option value='AUXILIAR OPERATIVO B'>AUXILIAR OPERATIVO B</option>
+										<option value='BECARIA DE MARKETING'>BECARIA DE MARKETING</option>
+										<option value='BECARIA DE RECURSOS'>BECARIA DE RECURSOS</option>
+										<option value='BECARIO DE DISEÑO'>BECARIO DE DISEÑO</option>
+										<option value='CAPACITADOR'>CAPACITADOR</option>
+										<option value='CAPTURISTA'>CAPTURISTA</option>
+										<option value='COORDINADOR DE NOMINA'>COORDINADOR DE NOMINA</option>
+										<option value='COORDINADOR DE RECLUTAMIENTO'>
+											COORDINADOR DE RECLUTAMIENTO
+										</option>
+										<option value='COSTURERA'>COSTURERA</option>
+										<option value='EJECUTIVO DE COMPRAS'>EJECUTIVO DE COMPRAS</option>
+										<option value='GERENTE DE OPERACIONES'>GERENTE DE OPERACIONES</option>
+										<option value='GUARDIA'>GUARDIA</option>
+										<option value='JEFA DE RECURSOS'>JEFA DE RECURSOS</option>
+										<option value='JEFE DE CUADRILLA'>JEFE DE CUADRILLA</option>
+										<option value='JEFE DE MANTENIMIENTO'>JEFE DE MANTENIMIENTO</option>
+										<option value='MANIOBRISTA'>MANIOBRISTA</option>
+										<option value='MONTACARGUISTA'>MONTACARGUISTA</option>
+										<option value='OPERADOR'>OPERADOR</option>
+										<option value='RECLUTADOR DE CAMPO'>RECLUTADOR DE CAMPO</option>
+										<option value='REINGENIERIA DE PROCESOS'>
+											REINGENIERIA DE PROCESOS
+										</option>
+										<option value='SUPERVISOR A'>SUPERVISOR A</option>
+										<option value='SUPERVISOR B'>SUPERVISOR B</option>
+										<option value='SUPERVISOR DE SEGURIDAD'>
+											SUPERVISOR DE SEGURIDAD
+										</option>
+										<option value='SUPERVISOR FISCAL'>SUPERVISOR FISCAL</option>
+										<option value='SUPERVISOR FISCAL JR'>SUPERVISOR FISCAL JR</option>
+										<option value='SURTIDOR'>SURTIDOR</option>
+										<option value='VERIFICADOR'>VERIFICADOR</option>
+									</select>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Fecha de inicio</label>
-
 									<input
+										type='date'
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Fecha de inicio'
+										name='fechaDeInicio'
+										value={fechaDeInicio}
+										onChange={handleInputChangeInfoBasic}
 										disabled={!infoBasicavalue}
 									/>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Fecha de finalización</label>
 									<input
+										type='date'
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder='Fecha de finalización'
+										name='fechaDeFinalizacion'
+										value={fechaDeFinalizacion}
+										onChange={handleInputChangeInfoBasic}
 										disabled={!infoBasicavalue}
 									/>
 								</div>
@@ -205,20 +357,30 @@ const PageEmpleadoInfoContrato = () => {
 									<div className='me-1'>
 										<label className='custm-Width100'>Horas</label>
 										<input
+											type='number'
 											className='form-control custm-Width100 custm-empleadoFormIntput'
-											type='text'
-											placeholder='Horas'
+											placeholder='Horas laborales'
+											name='horasLaborales'
 											disabled={!horasLabValue}
+											// value={horasLaborales}
+											// onChange={handleInputChange}
 										/>
 									</div>
 									<div className='ms-1'>
 										<label className='custm-Width100'>Unidad</label>
-										<input
-											className='form-control custm-empleadoFormIntput'
-											type='text'
-											placeholder='Unidad'
+
+										<select
+											className='form-select form-control custm-Width100  custm-empleadoFormIntput'
+											name='unidadLaborales'
 											disabled={!horasLabValue}
-										/>
+											// value={unidadLaborales}
+											// onChange={handleInputChange}
+										>
+											<option>--Selecciona uno--</option>
+											<option value='Semanal'>Semanal</option>
+											<option value='Quincenal'>Quincenal</option>
+											<option value='Mensual'>Mensual</option>
+										</select>
 									</div>
 								</div>
 
@@ -233,16 +395,18 @@ const PageEmpleadoInfoContrato = () => {
 									// style={{ backgroundColor: 'turquoise' }}
 								>
 									<div
-										className='btn-group mb-4 custm-Width100'
+										className='btn-group mb-2 custm-Width100'
 										role='group'
 										aria-label='Basic checkbox toggle button group'
 									>
 										<input
 											type='checkbox'
-											className='btn-check '
+											className='btn-check custm-checkWeek '
 											id='btncheckLunes'
-											autoComplete='off'
+											name='lunes'
 											disabled={!horasLabValue}
+											// defaultChecked={lunes}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -253,10 +417,12 @@ const PageEmpleadoInfoContrato = () => {
 
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckMartes'
-											autoComplete='off'
+											name='martes'
 											disabled={!horasLabValue}
+											// defaultChecked={martes}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -267,10 +433,12 @@ const PageEmpleadoInfoContrato = () => {
 
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckMiercoles'
-											autoComplete='off'
+											name='miercoles'
 											disabled={!horasLabValue}
+											// defaultChecked={miercoles}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -280,10 +448,12 @@ const PageEmpleadoInfoContrato = () => {
 										</label>
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckJueves'
-											autoComplete='off'
+											name='jueves'
 											disabled={!horasLabValue}
+											// defaultChecked={jueves}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -293,10 +463,12 @@ const PageEmpleadoInfoContrato = () => {
 										</label>
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckViernes'
-											autoComplete='off'
+											name='viernes'
 											disabled={!horasLabValue}
+											// defaultChecked={viernes}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -306,10 +478,12 @@ const PageEmpleadoInfoContrato = () => {
 										</label>
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckSabado'
-											autoComplete='off'
+											name='sabado'
 											disabled={!horasLabValue}
+											// defaultChecked={sabado}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -319,10 +493,12 @@ const PageEmpleadoInfoContrato = () => {
 										</label>
 										<input
 											type='checkbox'
-											className='btn-check'
+											className='btn-check custm-checkWeek'
 											id='btncheckDomingo'
-											autoComplete='off'
+											name='domingo'
 											disabled={!horasLabValue}
+											// defaultChecked={domingo}
+											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
@@ -372,23 +548,33 @@ const PageEmpleadoInfoContrato = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitSalarioBruto}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Tipo</label>
-									<input
-										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
-										placeholder={perfilEmpleado.frecuenciaPago}
+
+									<select
+										className='form-select form-control custm-Width100 custm-empleadoFormIntput'
+										name='tipoSalario'
+										value={tipoSalario}
+										onChange={handleInputChangeSalarioBruto}
 										disabled={!salarioBruValue}
-									/>
+									>
+										<option>--Selecciona uno--</option>
+										<option value='Semanal'>Semanal</option>
+										<option value='Quincenal'>Quincenal</option>
+										<option value='Mensual'>Mensual</option>
+									</select>
 								</div>
 								<div className='mb-4'>
-									<label className='custm-Width100'>Cantidad</label>
-
+									<label className='custm-Width100'>Cantidad MXN</label>
 									<input
+										type='number'
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
+										id='recipient-name'
+										name='cantidadSalario'
 										placeholder='Cantidad MXN'
+										value={cantidadSalario}
+										onChange={handleInputChangeSalarioBruto}
 										disabled={!salarioBruValue}
 									/>
 								</div>

@@ -36,7 +36,7 @@ export const getContracts = (userId: string) => {
 			);
 			console.log(found);
 			// Guardar contrato activo
-			dispatch<any>(contractToShow(found));
+			dispatch<any>(getContractToShow(found));
 		} else {
 			console.log(body.message);
 		}
@@ -55,7 +55,7 @@ const cleanContractToshow = () => {
 	};
 };
 
-export const contractToShow = (contract: iContract) => {
+export const getContractToShow = (contract: iContract) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//Se limpia el array de contracts
 		dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: contract } });
@@ -103,6 +103,41 @@ export const registerNewContract = (data: iNewContract) => {
 			dispatch({
 				type: REGISTER_NEW_COONTRACT_LOADING_END,
 			});
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: body.message,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	};
+};
+
+//(PATCH -users ) Modificar datos del contrato
+export const updateContractById = (contractId: number, formData: {}) => {
+	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		//Peticion Fetch a la API para modificar el accesso
+		const respuesta = await fetchConToken(
+			`contracts/${contractId}`,
+			formData,
+			'PATCH'
+		);
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se hace la modificacion del contrato en el Reducer
+			dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: body.data } });
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: '¡Actualización exitosa!',
+				showConfirmButton: false,
+				timer: 2000,
+			});
+		} else {
+			console.log(body.message);
 			Swal.fire({
 				position: 'top-end',
 				icon: 'error',
