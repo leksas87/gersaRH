@@ -22,7 +22,7 @@ function check(req,res,next) {
 
 function checkOut(req,res,next) {
     employeeService.reviewOut(req.headers)
-    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
+    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito ',ok:true}))
     .catch(next);
 }
 
