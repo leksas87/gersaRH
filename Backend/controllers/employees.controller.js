@@ -6,8 +6,9 @@ const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
 
 // routes
+router.get('/checkIn',check);
+router.get('/checkOut',checkOut);
 router.post('/',authorize(),registerSchema, register);
-router.get('/checkIn',check)
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 
@@ -15,6 +16,12 @@ module.exports = router;
 
 function check(req,res,next) {
     employeeService.review(req.headers)
+    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
+    .catch(next);
+}
+
+function checkOut(req,res,next) {
+    employeeService.reviewOut(req.headers)
     .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
     .catch(next);
 }
