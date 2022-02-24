@@ -10,6 +10,7 @@ module.exports = {
     getEmployeeById,
     update,
     review,
+    reviewOut,
     validacionNumeroAleatorio
 };
 
@@ -79,6 +80,56 @@ async function review(params) {
     if (registroEntradaEmpleado) {
         throw 'Ya existe una entrada registrada';
     } 
+    const atribute=['firstName','lastName','phone','active','hash','roll','confirmationCode','isEmployeeActive']
+    const usuario=await models.User.findOne({where: {
+        id:employee.userId
+      },
+      attributes: {
+        exclude: atribute
+      }});
+
+    return usuario;
+    // }
+    // else
+    // {
+    //     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
+    //     if (registroEntradaEmpleado)
+    //     {
+    //         throw 'Aún no registras una entrada el día de hoy';
+    //     }
+    //     registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
+
+    //     if (!registroSalidaEmpleado) {
+    //         throw 'Ya registraste tu salida el día de hoy'
+    //     }
+    // }
+
+}
+
+async function reviewOut(params) {
+    var moment = require('moment-timezone');
+
+    const employee=await models.Employee.findOne({ where: { accessCode: params.accesscode } })
+
+    if (!employee) {
+        throw 'Empleado no localizado';
+    } 
+
+    const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
+
+    registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+
+    if (!registroEntradaEmpleado) {
+        throw 'Aún no registras una entrada el día de hoy';
+    } 
+
+    registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckOut: {[Op.between]: [fechaInicio,fechaFin]}}});
+
+    if (registroSalidaEmpleado) {
+        throw 'Ya registraste tu salida el día de hoy'
+    }
+
     const atribute=['firstName','lastName','phone','active','hash','roll','confirmationCode','isEmployeeActive']
     const usuario=await models.User.findOne({where: {
         id:employee.userId

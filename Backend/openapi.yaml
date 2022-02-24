@@ -12,10 +12,6 @@ tags:
   description: Access, update employee information
 - name: contracts
   description: Access, update contracts information
-- name: check
-  description: Get the status of code and check
-- name: logbooks
-  description: Save users logs activity 
 paths: 
   /users/{id}:
     get:
@@ -101,7 +97,90 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
-        
+  /employees/checkIn:
+    get: 
+      tags:
+      - employees  
+      summary: "Metodo usado para validar el coódigo de acceso."
+      description: "El EndPoint recibe via header el código de acceso del empleato (accessCode) , en caso de ser exitoso se regresan los datos del empleado."
+      parameters:
+        - name: accessCode
+          in: header
+          description: "Código de acceso al sistema "
+          required: true
+          schema:
+            type: integer     
+      responses:
+        '200':
+          description: "Completado con exito"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoCheckOk'
+        '400':
+          description: "Ya existe una entrada registrada"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/AlreadyRegisterAccess'
+        '404':
+          $ref: '#/components/responses/NotFoundEmployee'
+    /employees/checkIn:
+    post:
+      tags:
+      - employees
+      summary: Ingreso de un registro de fecha,hora y acción en el check
+      description: "El EndPoint recibe via post el código de acceso del empleato,empeadoid y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
+      responses:
+        200:
+          $ref: '#/components/responses/Create'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Exito'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Check"
+  /employees/checkOut:
+    get: 
+      tags:
+      - employees  
+      summary: "Metodo usado para validar el coódigo de acceso y validación de fecha entrada y salida."
+      description: "El EndPoint recibe via header el código de acceso del empleato (accessCode) , en caso de ser exitoso se regresan los datos del empleado."
+      parameters:
+        - name: accessCode
+          in: header
+          description: "Código de acceso al sistema "
+          required: true
+          schema:
+            type: integer     
+      responses:
+        '200':
+          description: "Completado con exito"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoCheckOk'
+        '400':
+          description: "Ya existe una entrada registrada"
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/AlreadyRegisterAccess'
+        '404':
+          $ref: '#/components/responses/NotFoundEmployee'
+    /employees/checkOut:
+
   /contracts/:
     post:
       tags:
@@ -262,64 +341,7 @@ paths:
       security:
         - bearerAuth: []
   
-  /check:
-    get:
-      tags:
-      - check
-      summary: "Metodo usado para validar el coódigo de acceso."
-      description: "El EndPoint recibe via url el código de acceso del empleato y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
-      parameters:
-        - name: accessCode
-          in: query
-          description: "Código de acceso al sistema "
-          required: true
-          schema:
-            type: integer
-        - name: isCheckInEntry
-          in: query
-          required: true
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: "Completado con exito"
-          content:
-            application/json:
-              schema:
-               $ref: '#/components/schemas/ExitoCheckOk'
-        '400':
-          description: "Ya existe una entrada registrada"
-          content:
-            application/json:
-              schema:
-               $ref: '#/components/schemas/AlreadyRegisterAccess'
-        '404':
-          $ref: '#/components/responses/NotFoundEmployee'
-    post:
-      tags:
-      - check
-      summary: Ingreso de un registro de fecha,hora y acción en el check
-      description: "El EndPoint recibe via post el código de acceso del empleato,empeadoid y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
-      responses:
-        200:
-          $ref: '#/components/responses/Create'
-          content:
-            application/json:
-              schema:
-               $ref: '#/components/schemas/Exito'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Check"
+  
   /logbook/{userId}:
     get:
       tags:
