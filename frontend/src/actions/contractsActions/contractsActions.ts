@@ -3,8 +3,11 @@ import Swal from 'sweetalert2';
 import { fetchConToken } from '../../helpers/fetch';
 import {
 	CLEAN_CONTRACTS,
+	CLEAN_CONTRACT_TO_SHOW,
 	ContractsDispatchTypes,
 	GET_CONTRACTS,
+	GET_CONTRACTS_TO_SHOW,
+	iContract,
 	iNewContract,
 	REGISTER_NEW_CONTRACT_START_LOADING,
 	REGISTER_NEW_COONTRACT_LOADING_END,
@@ -17,6 +20,7 @@ export const getContracts = (userId: string) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//se limpia el array de contratos.
 		dispatch<any>(cleanContracts());
+		dispatch<any>(cleanContractToshow());
 		//Peticion Fetch a la API para hacer obtener los contratos
 		const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
 		//.json() a la respuesta
@@ -25,20 +29,40 @@ export const getContracts = (userId: string) => {
 		if (body.ok) {
 			//Se guarda los contratos obtenidos en el Reducer
 			dispatch({ type: GET_CONTRACTS, payload: { contratos: body.data } });
+
+			//Buscar contrato activo
+			const found = body.data.find(
+				(elemento: iContract) => elemento.isContractActivide === true
+			);
+			console.log(found);
+			// Guardar contrato activo
+			dispatch<any>(contractToShow(found));
 		} else {
 			console.log(body.message);
 		}
 	};
 };
-
 const cleanContracts = () => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//Se limpia el array de contracts
 		dispatch({ type: CLEAN_CONTRACTS });
 	};
 };
+const cleanContractToshow = () => {
+	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		//Se limpia el array de contracts
+		dispatch({ type: CLEAN_CONTRACT_TO_SHOW });
+	};
+};
 
-//(POST) Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
+export const contractToShow = (contract: iContract) => {
+	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		//Se limpia el array de contracts
+		dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: contract } });
+	};
+};
+
+//(POST) Registro de nuevo contrato
 export const registerNewContract = (data: iNewContract) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//dispatch para cambiar loading a true
@@ -53,7 +77,7 @@ export const registerNewContract = (data: iNewContract) => {
 
 		//Mensajes de Confirmación o Error
 		if (body.ok) {
-			//se limpia el array de contratos.
+			//se obtienen los nuevos contratos
 			dispatch<any>(getContracts(data.userId.toString()));
 			//dispatch para cambiar loading a true
 			dispatch({
@@ -66,8 +90,6 @@ export const registerNewContract = (data: iNewContract) => {
 				showConfirmButton: false,
 				timer: 2000,
 			});
-			//obtiene nuevamente los Contratos.
-			// dispatch<any>(getContracts());
 
 			//Cerrar modal
 			const newContractModal = document.getElementById('newContractModal');

@@ -161,6 +161,19 @@
 	color: #ffffff;
 	font-size: 10px;
 }
+.custm-contractActual {
+	position: absolute;
+	background-color: var(--colorSecondary);
+	bottom: -15px;
+	font-weight: bold;
+	width: 85px;
+	height: 25px;
+	left: 50%;
+	transform: translatex(-50%);
+	border-radius: 10px;
+	color: #ffffff;
+	font-size: 10px;
+}
 .custm-contractLine {
 	position: relative;
 	width: 60px;

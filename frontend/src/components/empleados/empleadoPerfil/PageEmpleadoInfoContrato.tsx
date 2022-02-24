@@ -1,9 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { contractToShow } from '../../../actions/contractsActions/contractsActions';
+import { iContract } from '../../../actions/contractsActions/contractsActionTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
 import ModalNuevoContrato from './ModalNuevoContrato';
 
 const PageEmpleadoInfoContrato = () => {
+	const dispatch = useDispatch();
+
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
@@ -24,6 +28,11 @@ const PageEmpleadoInfoContrato = () => {
 		console.log('submit');
 		toggleInfoBasic(false);
 	};
+
+	const showInfo = (contractData: iContract) => {
+		dispatch(contractToShow(contractData));
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -42,12 +51,17 @@ const PageEmpleadoInfoContrato = () => {
 						);
 
 						return (
-							<button key={contrato.id} type='button' className='custm-contract btn'>
+							<button
+								key={contrato.id}
+								type='button'
+								className='custm-contract btn '
+								onClick={() => showInfo(contrato)}
+							>
 								<div className='custm-contractDate d-flex justify-content-center align-items-center'>
 									{fechaInicio}
 								</div>
 								<div
-									className='d-flex flex-column justify-content-evenly'
+									className='d-flex flex-column justify-content-evenly '
 									style={{ height: '100%' }}
 								>
 									<div className='custm-contractLine' />
@@ -56,6 +70,11 @@ const PageEmpleadoInfoContrato = () => {
 									<div className='custm-contractLine2' />
 									<div className='custm-contractLine' />
 								</div>
+								{contrato.isContractActivide && (
+									<div className='custm-contractActual d-flex justify-content-center align-items-center'>
+										ACTUAL
+									</div>
+								)}
 							</button>
 						);
 					})}
