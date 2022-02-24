@@ -1,5 +1,9 @@
 import {
+	CLEAN_CONTRACTS,
+	CLEAN_CONTRACT_TO_SHOW,
 	ContractsDispatchTypes,
+	GET_CONTRACTS,
+	GET_CONTRACTS_TO_SHOW,
 	iContractsReducer,
 	REGISTER_NEW_CONTRACT_START_LOADING,
 	REGISTER_NEW_COONTRACT_LOADING_END,
@@ -9,6 +13,27 @@ import {
 const INITIAL_STATE: iContractsReducer = {
 	registerState: {
 		loading: false,
+	},
+	contratosEmpleado: [],
+	contractToShow: {
+		id: 0,
+		userId: 0,
+		tipoDeContrato: '',
+		puesto: '',
+		fechaDeInicio: '',
+		fechaDeFinalizacion: '',
+		horasLaborales: 0,
+		unidadLaborales: '',
+		lunes: false,
+		martes: false,
+		miercoles: false,
+		jueves: false,
+		viernes: false,
+		sabado: false,
+		domingo: false,
+		tipoSalario: '',
+		cantidadSalario: 0,
+		isContractActivide: false,
 	},
 };
 //Reducer
@@ -26,6 +51,26 @@ export const ContractsReducer = (
 			return {
 				...state,
 				registerState: { loading: false },
+			};
+		case GET_CONTRACTS:
+			return {
+				...state,
+				contratosEmpleado: [...action.payload.contratos],
+			};
+		case GET_CONTRACTS_TO_SHOW:
+			return {
+				...state,
+				contractToShow: { ...action.payload.contrato },
+			};
+		case CLEAN_CONTRACTS:
+			return {
+				...state,
+				contratosEmpleado: [],
+			};
+		case CLEAN_CONTRACT_TO_SHOW:
+			return {
+				...state,
+				contractToShow: INITIAL_STATE.contractToShow,
 			};
 
 		default:

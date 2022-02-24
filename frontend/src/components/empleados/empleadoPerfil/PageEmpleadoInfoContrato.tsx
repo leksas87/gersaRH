@@ -1,15 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { contractToShow } from '../../../actions/contractsActions/contractsActions';
+import { iContract } from '../../../actions/contractsActions/contractsActionTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
 import ModalNuevoContrato from './ModalNuevoContrato';
 
 const PageEmpleadoInfoContrato = () => {
+	const dispatch = useDispatch();
+
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
-
-	const array = [1, 2];
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { contratosEmpleado } = useSelector(
+		(state: RootSote) => state.contracts
+	);
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [infoBasicavalue, toggleInfoBasic] = useToggle(false); //Recibe el valor inicial
@@ -22,46 +28,56 @@ const PageEmpleadoInfoContrato = () => {
 		console.log('submit');
 		toggleInfoBasic(false);
 	};
+
+	const showInfo = (contractData: iContract) => {
+		dispatch(contractToShow(contractData));
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
 				<div
 					className={
-						array.length > 2
+						contratosEmpleado.length > 2
 							? 'custm-contractContainer p-5'
 							: 'custm-contractContainerCenter p-5'
 					}
 				>
-					<button type='button' className='custm-contract btn'>
-						<div className='custm-contractDate d-flex justify-content-center align-items-center'>
-							ENE 25,2022
-						</div>
-						<div
-							className='d-flex flex-column justify-content-evenly'
-							style={{ height: '100%' }}
-						>
-							<div className='custm-contractLine' />
-							<div className='custm-contractLine2' />
-							<div className='custm-contractLine' />
-							<div className='custm-contractLine2' />
-							<div className='custm-contractLine' />
-						</div>
-					</button>
-					<button type='button' className='custm-contract btn'>
-						<div className='custm-contractDate d-flex justify-content-center align-items-center'>
-							ENE 25,2022
-						</div>
-						<div
-							className='d-flex flex-column justify-content-evenly'
-							style={{ height: '100%' }}
-						>
-							<div className='custm-contractLine' />
-							<div className='custm-contractLine2' />
-							<div className='custm-contractLine' />
-							<div className='custm-contractLine2' />
-							<div className='custm-contractLine' />
-						</div>
-					</button>
+					{contratosEmpleado.map((contrato) => {
+						const indiceFechaInicio = contrato.fechaDeInicio.indexOf('T');
+						const fechaInicio = contrato.fechaDeInicio.substring(
+							0,
+							indiceFechaInicio
+						);
+
+						return (
+							<button
+								key={contrato.id}
+								type='button'
+								className='custm-contract btn '
+								onClick={() => showInfo(contrato)}
+							>
+								<div className='custm-contractDate d-flex justify-content-center align-items-center'>
+									{fechaInicio}
+								</div>
+								<div
+									className='d-flex flex-column justify-content-evenly '
+									style={{ height: '100%' }}
+								>
+									<div className='custm-contractLine' />
+									<div className='custm-contractLine2' />
+									<div className='custm-contractLine' />
+									<div className='custm-contractLine2' />
+									<div className='custm-contractLine' />
+								</div>
+								{contrato.isContractActivide && (
+									<div className='custm-contractActual d-flex justify-content-center align-items-center'>
+										ACTUAL
+									</div>
+								)}
+							</button>
+						);
+					})}
 
 					<button
 						className='btn custm-contractBtnPlus '

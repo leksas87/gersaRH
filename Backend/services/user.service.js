@@ -1,6 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const employeeService = require('../services/employee.service');
 const {models} = require('./../libs/sequelize');
 const { func } = require('joi');
 
@@ -116,9 +117,11 @@ async function create(params) {
         
     try {
         // save user
+        let num = await employeeService.validacionNumeroAleatorio();
         const user = await models.User.create(params);
         await models.Employee.create({
-            userId: user.id
+            userId: user.id,
+            accessCode: num
         })
     } catch (error) {
         console.log(error.message);
