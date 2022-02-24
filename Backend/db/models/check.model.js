@@ -9,12 +9,9 @@ const CheckSchema = {
   employeeId:{ type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   longitude: { type: DataTypes.STRING,allowNull: true,defaultValue:''},
   latitude: {type: DataTypes.STRING,allowNull: true,defaultValue:''},
-  dateCheck: {type:DataTypes.DATEONLY,allowNull:true,defaultValue: DataTypes.NOW('yyyy-mm-dd'),},
-  initHour: {type: DataTypes.TIME,allowNull: true,defaultValue:DataTypes.NOW},
-  endHour: {type: DataTypes.TIME,allowNull: true,defaultValue:'00:00:00'},
+  dateCheckIn: {type:DataTypes.DATE,allowNull:false},
+  dateCheckOut: {type: DataTypes.DATE,allowNull: true},
 }
-
-
 class Check extends Model {
 
   static associate(models) {

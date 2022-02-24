@@ -7,10 +7,17 @@ const employeeService = require('../services/employee.service');
 
 // routes
 router.post('/',authorize(),registerSchema, register);
+router.get('/checkIn',check)
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 
 module.exports = router;
+
+function check(req,res,next) {
+    employeeService.review(req.headers)
+    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
+    .catch(next);
+}
 
 function update(req, res, next) {
     employeeService.update(req.params.id, req.body)
