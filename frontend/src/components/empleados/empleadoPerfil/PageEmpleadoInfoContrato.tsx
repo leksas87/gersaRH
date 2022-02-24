@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	getContracts,
 	getContractToShow,
 	updateContractById,
 } from '../../../actions/contractsActions/contractsActions';
 import { iContract } from '../../../actions/contractsActions/contractsActionTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
-import ModalNuevoContrato from './ModalNuevoContrato';
 
 const PageEmpleadoInfoContrato = () => {
 	const dispatch = useDispatch();
@@ -26,11 +24,18 @@ const PageEmpleadoInfoContrato = () => {
 		0,
 		indiceFechaInicio
 	);
+
 	let fechaFin = '';
+	let fechaFinValue = '';
 	//Tomar solo la fecha Fin
 	if (contractToShow.fechaDeFinalizacion) {
 		const indiceFechaFin = contractToShow.fechaDeFinalizacion.indexOf('T');
-		fechaFin = contractToShow.fechaDeFinalizacion.substring(0, indiceFechaFin);
+		fechaFinValue = contractToShow.fechaDeFinalizacion.substring(
+			0,
+			indiceFechaFin
+		);
+		if (fechaFinValue === '1000-10-10') fechaFin = '';
+		else fechaFin = fechaFinValue;
 	}
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
@@ -50,15 +55,39 @@ const PageEmpleadoInfoContrato = () => {
 		tipoSalario: '',
 		cantidadSalario: 0,
 	};
+	//objeto para formulario SalarioBruto
+	const formHorasLaborales = {
+		horasLaborales: 0,
+		unidadLaborales: '',
+	};
+	// Objeto para el manejo de los dias trabajados
+	const days = {
+		lunes: false,
+		martes: false,
+		miercoles: false,
+		jueves: false,
+		viernes: false,
+		sabado: false,
+		domingo: false,
+	};
 
 	//states de formularios
 	const [infoBasicValues, setInfoBasicValues] = useState(formInfoBasic);
 	const [salarioBrutoValues, setSalarioBrutoValues] = useState(formSalarioBruto);
+	const [horasLaboralesValues, setHorasLaboralesValues] =
+		useState(formHorasLaborales);
+	//useState para manejo del checkbox
+	const [checked, setChecked] = useState(days);
 
 	//Desestructuracion de elemntos del useState
 	const { tipoDeContrato, puesto, fechaDeInicio, fechaDeFinalizacion } =
 		infoBasicValues;
+	//Desestructuracion de elemntos del useState
 	const { cantidadSalario, tipoSalario } = salarioBrutoValues;
+	//Desestructuracion de propiedades
+	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
+	//Desestructuracion de propiedades
+	const { horasLaborales, unidadLaborales } = horasLaboralesValues;
 
 	useEffect(() => {
 		setInfoBasicValues({
@@ -71,7 +100,20 @@ const PageEmpleadoInfoContrato = () => {
 			tipoSalario: contractToShow.tipoSalario,
 			cantidadSalario: contractToShow.cantidadSalario,
 		});
-	}, [contractToShow]);
+		setHorasLaboralesValues({
+			horasLaborales: contractToShow.horasLaborales,
+			unidadLaborales: contractToShow.unidadLaborales,
+		});
+		setChecked({
+			lunes: contractToShow.lunes,
+			martes: contractToShow.martes,
+			miercoles: contractToShow.miercoles,
+			jueves: contractToShow.jueves,
+			viernes: contractToShow.viernes,
+			sabado: contractToShow.sabado,
+			domingo: contractToShow.domingo,
+		});
+	}, [contractToShow, fechaInicio, fechaFin]);
 
 	//handleInputChange
 	const handleInputChangeInfoBasic = (event: any) => {
@@ -85,6 +127,15 @@ const PageEmpleadoInfoContrato = () => {
 			...salarioBrutoValues,
 			[event.target.name]: event.target.value,
 		});
+	};
+	const handleInputChangeHorasLaborales = (event: any) => {
+		setHorasLaboralesValues({
+			...horasLaboralesValues,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleClick = (e: any): void => {
+		setChecked({ ...checked, [e.target.name]: e.target.checked });
 	};
 
 	//Submit del formulario InfoGral
@@ -106,11 +157,32 @@ const PageEmpleadoInfoContrato = () => {
 					tipoDeContrato: tipoDeContrato,
 					puesto: puesto,
 					fechaDeInicio: fechaDeInicio,
+					fechaDeFinalizacion: '10/10/1000',
 				})
 			);
 		}
 
 		toggleInfoBasic(false);
+	};
+	//Submit del formularioHoraLaboral
+	const handlesubmitHoraLaboral = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		dispatch(
+			updateContractById(contractToShow.id, {
+				horasLaborales: horasLaborales,
+				unidadLaborales: unidadLaborales,
+				lunes: lunes,
+				martes: martes,
+				miercoles: miercoles,
+				jueves: jueves,
+				viernes: viernes,
+				sabado: sabado,
+				domingo: domingo,
+			})
+		);
+
+		toggleHorasLab(false);
 	};
 	//Submit del formulario InfoGral
 	const handlesubmitSalarioBruto = (e: React.FormEvent<HTMLFormElement>) => {
@@ -124,13 +196,6 @@ const PageEmpleadoInfoContrato = () => {
 		);
 
 		toggleSalarioBru(false);
-	};
-
-	//Submit del formulario
-	const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log('submit');
-		toggleInfoBasic(false);
 	};
 
 	const showInfo = (contractData: iContract) => {
@@ -352,7 +417,7 @@ const PageEmpleadoInfoContrato = () => {
 								</button>
 							</div>
 							{/* Inicia formulario */}
-							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
+							<form style={{ width: '90%' }} onSubmit={handlesubmitHoraLaboral}>
 								<div className='d-flex mb-4'>
 									<div className='me-1'>
 										<label className='custm-Width100'>Horas</label>
@@ -361,9 +426,9 @@ const PageEmpleadoInfoContrato = () => {
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											placeholder='Horas laborales'
 											name='horasLaborales'
+											value={horasLaborales}
+											onChange={handleInputChangeHorasLaborales}
 											disabled={!horasLabValue}
-											// value={horasLaborales}
-											// onChange={handleInputChange}
 										/>
 									</div>
 									<div className='ms-1'>
@@ -372,9 +437,9 @@ const PageEmpleadoInfoContrato = () => {
 										<select
 											className='form-select form-control custm-Width100  custm-empleadoFormIntput'
 											name='unidadLaborales'
+											value={unidadLaborales}
+											onChange={handleInputChangeHorasLaborales}
 											disabled={!horasLabValue}
-											// value={unidadLaborales}
-											// onChange={handleInputChange}
 										>
 											<option>--Selecciona uno--</option>
 											<option value='Semanal'>Semanal</option>
@@ -390,10 +455,7 @@ const PageEmpleadoInfoContrato = () => {
 										trabaja a la semana los días:
 									</label>
 								</div>
-								<div
-									className='d-flex justify-content-center'
-									// style={{ backgroundColor: 'turquoise' }}
-								>
+								<div className='d-flex justify-content-center'>
 									<div
 										className='btn-group mb-2 custm-Width100'
 										role='group'
@@ -402,15 +464,15 @@ const PageEmpleadoInfoContrato = () => {
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek '
-											id='btncheckLunes'
+											id='btncheckLunesComponent'
 											name='lunes'
+											checked={lunes}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={lunes}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckLunes'
+											htmlFor='btncheckLunesComponent'
 										>
 											L
 										</label>
@@ -418,15 +480,15 @@ const PageEmpleadoInfoContrato = () => {
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckMartes'
+											id='btncheckMartesComponent'
 											name='martes'
+											checked={martes}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={martes}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckMartes'
+											htmlFor='btncheckMartesComponent'
 										>
 											M
 										</label>
@@ -434,75 +496,75 @@ const PageEmpleadoInfoContrato = () => {
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckMiercoles'
+											id='btncheckMiercolesComponent'
 											name='miercoles'
+											checked={miercoles}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={miercoles}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckMiercoles'
+											htmlFor='btncheckMiercolesComponent'
 										>
 											M
 										</label>
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckJueves'
+											id='btncheckJuevesComponent'
 											name='jueves'
+											checked={jueves}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={jueves}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckJueves'
+											htmlFor='btncheckJuevesComponent'
 										>
 											J
 										</label>
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckViernes'
+											id='btncheckViernesComponent'
 											name='viernes'
+											checked={viernes}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={viernes}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckViernes'
+											htmlFor='btncheckViernesComponent'
 										>
 											V
 										</label>
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckSabado'
+											id='btncheckSabadoComponent'
 											name='sabado'
+											checked={sabado}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={sabado}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckSabado'
+											htmlFor='btncheckSabadoComponent'
 										>
 											S
 										</label>
 										<input
 											type='checkbox'
 											className='btn-check custm-checkWeek'
-											id='btncheckDomingo'
+											id='btncheckDomingoComponent'
 											name='domingo'
+											checked={domingo}
+											onChange={handleClick}
 											disabled={!horasLabValue}
-											// defaultChecked={domingo}
-											// onClick={handleClick}
 										/>
 										<label
 											className='btn btn-outline-primary custm-btnWeek'
-											htmlFor='btncheckDomingo'
+											htmlFor='btncheckDomingoComponent'
 										>
 											D
 										</label>

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './Checador.css';
 const ChecadorTeclado = () => {
 	const [code, setCode] = useState('');
-	const [code2, setCode2] = useState(['1']);
 
 	const uno = code.slice(0, 1);
 	const dos = code.slice(1, 2);

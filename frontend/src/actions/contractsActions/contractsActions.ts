@@ -34,7 +34,6 @@ export const getContracts = (userId: string) => {
 			const found = body.data.find(
 				(elemento: iContract) => elemento.isContractActivide === true
 			);
-			console.log(found);
 			// Guardar contrato activo
 			dispatch<any>(getContractToShow(found));
 		} else {
@@ -57,7 +56,6 @@ const cleanContractToshow = () => {
 
 export const getContractToShow = (contract: iContract) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
-		//Se limpia el array de contracts
 		dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: contract } });
 	};
 };
@@ -127,6 +125,7 @@ export const updateContractById = (contractId: number, formData: {}) => {
 		const body = await respuesta?.json();
 
 		if (body.ok) {
+			dispatch<any>(getContractsWithoutContractToshow(body.data.userId));
 			//Se hace la modificacion del contrato en el Reducer
 			dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: body.data } });
 			Swal.fire({
@@ -145,6 +144,26 @@ export const updateContractById = (contractId: number, formData: {}) => {
 				showConfirmButton: false,
 				timer: 1500,
 			});
+		}
+	};
+};
+
+//(GET) Obtener lsita de contratos by userID
+export const getContractsWithoutContractToshow = (userId: string) => {
+	// console.log('Ejecutando getUsers');
+	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		//se limpia el array de contratos.
+		dispatch<any>(cleanContracts());
+		//Peticion Fetch a la API para hacer obtener los contratos
+		const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
+		//.json() a la respuesta
+		const body = await respuesta?.json();
+
+		if (body.ok) {
+			//Se guarda los contratos obtenidos en el Reducer
+			dispatch({ type: GET_CONTRACTS, payload: { contratos: body.data } });
+		} else {
+			console.log(body.message);
 		}
 	};
 };
