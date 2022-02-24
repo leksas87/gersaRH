@@ -130,7 +130,14 @@ paths:
       tags:
       - employees
       summary: Ingreso de un registro de fecha,hora y acción en el check
-      description: "El EndPoint recibe via post el código de acceso del empleato,empeadoid y la acción a realizar(isCheckInEntry:true=Entrada ,isCheckInEntry:false = Salida), en caso de ser exitoso se regresan los datos del empleado."
+      description: "El EndPoint recibe via header el código de acceso del empleado y por post empeadoid,coordenadas , en caso de ser exitoso se regresan los datos del empleado."
+      parameters:
+        - name: accessCode
+          in: header
+          description: "Código de acceso al sistema "
+          required: true
+          schema:
+            type: integer  
       responses:
         200:
           $ref: '#/components/responses/Create'
@@ -150,7 +157,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Check"
+              $ref: "#/components/schemas/CheckIn"
   /employees/checkOut:
     get: 
       tags:
@@ -179,6 +186,38 @@ paths:
                $ref: '#/components/schemas/AlreadyRegisterAccess'
         '404':
           $ref: '#/components/responses/NotFoundEmployee'
+    post:
+      tags:
+      - employees
+      summary: Ingreso de un registro de fecha,hora y acción en el Check Out
+      description: "El EndPoint recibe via header el código de acceso del empleado y por post empeadoid,coordenadas , en caso de ser exitoso se regresan los datos del empleado."
+      parameters:
+        - name: accessCode
+          in: header
+          description: "Código de acceso al sistema "
+          required: true
+          schema:
+            type: integer  
+      responses:
+        200:
+          $ref: '#/components/responses/Create'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Exito'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckIn"
     /employees/checkOut:
 
   /contracts/:
@@ -393,6 +432,17 @@ components:
       bearerFormat: JWT # optional, arbitrary value for documentation purposes
 
   schemas:
+    CheckIn:
+      type: object
+      properties:
+        userid:
+          type: integer
+        username:
+          type: string
+        latitude:
+          type: string
+        longitude:  
+          type: string
     Exito:
       type: object
       properties:
