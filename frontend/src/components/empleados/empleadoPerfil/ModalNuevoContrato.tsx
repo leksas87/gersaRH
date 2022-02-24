@@ -522,7 +522,6 @@ const ModalNuevoContrato = () => {
 														name='tipoSalario'
 														value={tipoSalario}
 														onChange={handleInputChange}
-														// disabled={!value}
 													>
 														<option>--Selecciona uno--</option>
 														<option value='Semanal'>Semanal</option>
