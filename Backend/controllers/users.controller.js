@@ -222,6 +222,11 @@ async function registerFile(req, res) {
                 user.save();
                 employee.save();
             }else{
+
+                userF.accessCode = await employeeService.validacionNumeroAleatorio();
+
+                console.log(userF.accessCode);
+                console.log(sendInvitation);
                     ///inicia proceso de guardado,verificamos si se mandara la invitacion
                 if (sendInvitation==='send') {
                     console.log(sendInvitation,'se mandaran las invitaciones');
@@ -230,7 +235,6 @@ async function registerFile(req, res) {
                     console.log(sendInvitation,'no se mandaran las invitaciones');
                 }
                 // await models.User.create(user);
-                let num = await employeeService.validacionNumeroAleatorio();
                 const employee = await models.User.create(userF);
                 await models.Employee.create({
                     userId: employee.id,
@@ -256,7 +260,7 @@ async function registerFile(req, res) {
                     numeroImms:userF.numeroImms,
                     curp:userF.curp,
                     fechaAltaImss:userF.fechaAltaImss,
-                    accessCode: num
+                    accessCode: userF.accessCode
                 });
                 await contractService.create({
                     userId: employee.id,

@@ -109,22 +109,24 @@ async function create(params) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
-    if(params.sendInvitation) {
-            try {
-                await sendInvitation(params)
-            } catch (error) {
-                console.log(error.message);
-            }
-    }
-        
     try {
-        // save user
-        let num = await employeeService.validacionNumeroAleatorio();
+        
+        params.accessCode = await employeeService.validacionNumeroAleatorio();
         let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
+        
+        if(params.sendInvitation){
+                try {
+                    await sendInvitation(params)
+                } catch (error) {
+                    console.log(error.message);
+                }
+        }
+
+        // save user
         const user = await models.User.create(params);
         await models.Employee.create({
             userId: user.id,
-            accessCode: num
+            accessCode: params.accessCode
         })
         await contractService.create({
             userId: user.id,
@@ -161,6 +163,21 @@ async function sendInvitation(params) {
 
     };
     await sgMail.send(msg);
+
+    if(params.accessCode){
+        const msg2 = {
+            to: params.username,
+            from: {email:process.env.EMAIL,name:process.env.NAME,},
+            subject:'Código de asistencia',
+            templateId: process.env.TEMPLETEACCESSCODE,
+            dynamic_template_data: {
+                codigo: params.accessCode,
+            },
+        };  
+        await sgMail.send(msg2)
+    }
+
+
 }
 
 async function createMaster(params) {
