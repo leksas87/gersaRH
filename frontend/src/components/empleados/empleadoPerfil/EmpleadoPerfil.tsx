@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
 	getEmployeeById,
@@ -189,10 +189,7 @@ const EmpleadoPerfil = () => {
 					</div>
 				</div>
 				{/* Navbar */}
-				<nav
-					className='d-flex justify-content-center align-items-center p-3'
-					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
-				>
+				<nav className='custm-navbarPerrfil p-3'>
 					<NavLink
 						to={`${tablePath}/${params.empleadoId}/perfil`}
 						// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
@@ -223,6 +220,16 @@ const EmpleadoPerfil = () => {
 						}
 					>
 						Información de Contrato
+					</NavLink>
+					<NavLink
+						to={`${tablePath}/${params.empleadoId}/controlhorario`}
+						className={({ isActive }) =>
+							isActive
+								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+						}
+					>
+						Control horario
 					</NavLink>
 				</nav>
 				{/* Contenido */}

@@ -1,3 +1,10 @@
+.custm-navbarPerrfil {
+	border-bottom: 1px solid var(--textColorDisable);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow-x: auto;
+}
 .custm-empleadoNavLink {
 	text-decoration: none;
 	color: var(--textColorSecondary);
@@ -204,12 +211,34 @@
 	justify-content: center;
 	align-items: center;
 }
+/* Page Control Horario */
+.custm-hrsEntry {
+	background-color: hsla(338, 100%, 42%, 0.15);
+	padding: 5px 8px 5px 8px;
+	margin: 0px 3px 0px 3px;
+	border-radius: 10px;
+}
+.custm-hrsExit {
+	background-color: rgba(40, 144, 189, 0.15);
+	padding: 5px 8px 5px 8px;
+	margin: 0px 3px 0px 3px;
+	border-radius: 10px;
+}
 
 @media (max-width: 991px) {
 	.custm-empleadoContainerContent {
 		padding: 0rem;
 		min-width: 200px;
 		width: 100%;
+	}
+}
+@media (max-width: 761px) {
+	.custm-navbarPerrfil {
+		border-bottom: 1px solid var(--textColorDisable);
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		overflow-x: auto;
 	}
 }
 

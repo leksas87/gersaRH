@@ -8,6 +8,7 @@ import ConfirmarContraseñaPage from '../components/confirmarContraseña/Confirm
 import RecuperacionContrasenaPage from '../components/confirmarContraseña/RecuperacionContrasenaPage';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/empleadoPerfil/EmpleadoPerfil';
+import PageControlHorario from '../components/empleados/empleadoPerfil/PageControlHorario';
 import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/PageEmpleadoInfoContrato';
 import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
 import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
@@ -79,6 +80,7 @@ const AppRouter = () => {
 										<Route path='perfil' element={<PageEmpleadoPerfil />} />
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
 										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+										<Route path='controlhorario' element={<PageControlHorario />} />
 										<Route path='*' element={<NotFound />} />
 									</Route>
 									<Route path='empresa/' element={<EmpresaPage />}>
@@ -88,6 +90,7 @@ const AppRouter = () => {
 											<Route path='perfil' element={<PageEmpleadoPerfil />} />
 											<Route path='personal' element={<PageEmpleadoPersonal />} />
 											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+											<Route path='controlhorario' element={<PageControlHorario />} />
 											<Route path='*' element={<NotFound />} />
 										</Route>
 									</Route>
