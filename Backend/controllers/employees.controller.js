@@ -27,6 +27,7 @@ function registerCheckInSchema(req,res,next){
         username: Joi.string().required(),
         latitude: Joi.string().required(),
         longitude: Joi.string().required()
+        
     });
     validateRequest(req, next, schema);
 }
