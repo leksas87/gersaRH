@@ -249,13 +249,13 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
-  /contracts/{idUsuario}:
+  /contracts/{userId}:
     get:
       tags:
       - contracts
       summary: Obtiene la informacion de la base de datos de los contratos de un empleado
       parameters:
-      - name: idUsuario
+      - name: userId
         in: path
         description: Identificador de los contratos a obtener
         required: true
@@ -381,19 +381,49 @@ paths:
         - bearerAuth: []
   
   
-  /logbook/{userId}:
+  employees/{userId}/logbook:
     get:
       tags:
-      - logbooks
+      - employees
       parameters:
         - name: userId
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: Logbook of user
+      security:
+        - bearerAuth: []
+        
+  employess/{userId}/accessCode:
+    get:
+      tags:
+      - employees
+      summary: Recupera el código de acceso
+      description: "El EndPoint recibe via url el id del usuario"
+      parameters:
+        - name: userId
+          in: path
+          requierd: true
+          schema:
+            type: number
+      responses:
+        '200':
+          $ref: '#/components/responses/Exito'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExitoContratosDelete'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
 
@@ -416,6 +446,18 @@ components:
 
     Create:
       description: Creado correctamente.
+      
+    Exito:
+      description: Registro exitoso
+      type: object
+      properties:
+        message:
+         type: string
+         description: Registro exitoso
+        ok:
+         type: boolean
+         example: true
+         description: (True) Salio bien, (False) Algo salio mal
   parameters:
     token: 
           name: token

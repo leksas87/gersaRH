@@ -2,12 +2,15 @@
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateRequestHeader = require('middleware/validate-request-header');
 const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
-
+const checkAccessCode=employeeService.checkAccessCode();
 // routes
-router.get('/checkIn',check);
-router.get('/checkOut',checkOut);
+router.post('/checkIn',registerAccessCodeSchema,checkAccessCode,registerCheckIn);
+router.post('/checkOut',registerAccessCodeSchema,checkAccessCode,registerCheckOut);
+router.get('/checkIn',registerAccessCodeSchema,checkAccessCode,check);
+router.get('/checkOut',registerAccessCodeSchema,checkAccessCode,checkOut);
 router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
@@ -20,9 +23,28 @@ function  sendAccessCodeById(req, res, next) {
         .catch(next);
 }
 
+function registerAccessCodeSchema(req,res,next){
+    const schema = Joi.object({
+        accesscode: Joi.number().integer().min(1000).max(9999).required()
+    });
+    validateRequestHeader(req, next, schema);
+}
+
+function registerCheckIn(req,res,next) {
+    employeeService.registerCheckIn(req.body)
+        .then(res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function registerCheckOut(req,res,next) {
+    employeeService.registerCheckOut(req.body)
+        .then(res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
+
 function check(req,res,next) {
-    employeeService.review(req.headers)
-    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
+    employeeService.reviewUser(req.headers)
+    .then(user => res.json({data:user ,message:'Completado con exito',ok:true}))
     .catch(next);
 }
 

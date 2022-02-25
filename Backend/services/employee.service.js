@@ -3,16 +3,19 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const {models} = require('./../libs/sequelize');
 const {Op,DataTypes}=require('sequelize');
+const moment = require('moment-timezone');
 
 module.exports = {
    
     create,
     getEmployeeById,
     update,
-    review,
+    reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
-    sendAccessCode
+    checkAccessCode,
+    registerCheckIn,
+    registerCheckOut
 };
 
 async function sendAccessCode(id) {
@@ -86,27 +89,70 @@ async function getEmployeeById(id) {
     return employee;
 }
 
-async function review(params) {
-    var moment = require('moment-timezone');
+function checkAccessCode() {
+    return[
+        async (req,res,next)=>{
+            const employee=await models.Employee.findOne({ where: { accessCode: req.headers['accesscode'] } })
 
-    const employee=await models.Employee.findOne({ where: { accessCode: params.accesscode } })
+            if(!employee)
+                return res.status(404).json({ message: 'Código de acceso no encontrado',ok:false});
 
-    if (!employee) {
-        throw 'Empleado no localizado';
-    } 
+            req.headers=employee;
+            next();
+        }
+    ];
+}
 
-    const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
+async function registerCheckIn(params){
+    const employee=await models.Employee.findOne({ where: { userId: params.userId} })
+    const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
-    console.log(fechaInicio);
-    console.log(fechaFin);
+    // const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+
+    // if (registroEntradaEmpleado) {
+    //     throw 'Ya existe una entrada registrada';
+    // } 
+
+    await models.Check.create({employeeId: employee.id,dateCheckIn: fechaCheck,longitudeCheckIn: params.longitude,latitudeCheckIn: params.latitude});
+
+    
+}
+
+async function registerCheckOut(params){
+    const employee=await models.Employee.findOne({ where: { userId: params.userId} })
+    const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
+
+    const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+
+    console.log(registroEntradaEmpleado);
+    // if (registroEntradaEmpleado) {
+    //     throw 'Ya existe una entrada registrada';
+    // } 
+    registroEntradaEmpleado.dateCheckOut=fechaCheck;
+    registroEntradaEmpleado.longitudeCheckOut=params.longitude;
+    registroEntradaEmpleado.latitudeCheckOut=params.latitude;
+    await registroEntradaEmpleado.save();
+
+    
+}
+
+async function reviewUser(employee) {
+    
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
     if (registroEntradaEmpleado) {
         throw 'Ya existe una entrada registrada';
     } 
+    
     const atribute=['firstName','lastName','phone','active','hash','roll','confirmationCode','isEmployeeActive']
+
     const usuario=await models.User.findOne({where: {
         id:employee.userId
       },
@@ -114,35 +160,15 @@ async function review(params) {
         exclude: atribute
       }});
 
-    return usuario;
-    // }
-    // else
-    // {
-    //     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
-    //     if (registroEntradaEmpleado)
-    //     {
-    //         throw 'Aún no registras una entrada el día de hoy';
-    //     }
-    //     registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
+      usuario.setDataValue("accessCode",employee.accessCode);
 
-    //     if (!registroSalidaEmpleado) {
-    //         throw 'Ya registraste tu salida el día de hoy'
-    //     }
-    // }
-
+      return usuario;
 }
 
-async function reviewOut(params) {
-    var moment = require('moment-timezone');
+async function reviewOut(employee) {
 
-    const employee=await models.Employee.findOne({ where: { accessCode: params.accesscode } })
-
-    if (!employee) {
-        throw 'Empleado no localizado';
-    } 
-
-    const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
@@ -163,21 +189,9 @@ async function reviewOut(params) {
       attributes: {
         exclude: atribute
       }});
-
+    
+    usuario.setDataValue("accessCode",employee.accessCode);
+    
     return usuario;
-    // }
-    // else
-    // {
-    //     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
-    //     if (registroEntradaEmpleado)
-    //     {
-    //         throw 'Aún no registras una entrada el día de hoy';
-    //     }
-    //     registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
-
-    //     if (!registroSalidaEmpleado) {
-    //         throw 'Ya registraste tu salida el día de hoy'
-    //     }
-    // }
 
 }

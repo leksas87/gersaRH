@@ -7,10 +7,12 @@ const CHECK_TABLE = 'Check';
 const CheckSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
   employeeId:{ type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
-  longitude: { type: DataTypes.STRING,allowNull: true,defaultValue:''},
-  latitude: {type: DataTypes.STRING,allowNull: true,defaultValue:''},
-  dateCheckIn: {type:DataTypes.DATE,allowNull:false},
+  dateCheckIn: {type:DataTypes.DATE,allowNull:true},
   dateCheckOut: {type: DataTypes.DATE,allowNull: true},
+  longitudeCheckIn:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  latitudeCheckIn:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  longitudeCheckOut:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  latitudeCheckOut:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
 }
 class Check extends Model {
 
