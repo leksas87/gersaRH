@@ -11,7 +11,7 @@ function validateRequestHeader(req, next, schema) {
     if (error) {
         next(`Validation error: ${error.details.map(x => x.message).join(', ')}`);
     } else {
-        req.body = value;
+        req.headers = value;
         next();
     }
 }

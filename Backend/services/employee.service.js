@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const {models} = require('./../libs/sequelize');
 const {Op,DataTypes}=require('sequelize');
+const moment = require('moment-timezone');
 
 module.exports = {
    
@@ -12,7 +13,8 @@ module.exports = {
     reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
-    checkAccessCode
+    checkAccessCode,
+    registerCheckIn
 };
 
 async function update(id, params) {
@@ -69,15 +71,31 @@ function checkAccessCode() {
             if(!employee)
                 return res.status(404).json({ message: 'Código de acceso no encontrado',ok:false});
 
-            req.body=employee;
+            req.headers=employee;
             next();
         }
     ];
 }
 
-async function reviewUser(employee) {
-    var moment = require('moment-timezone');
+async function registerCheckIn(params){
+    const employee=await models.Employee.findOne({ where: { userId: params.userId} })
+    const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
+    // const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+
+    // if (registroEntradaEmpleado) {
+    //     throw 'Ya existe una entrada registrada';
+    // } 
+
+    await models.Check.create({employeeId: employee.id,dateCheckIn: fechaCheck,longitudeCheckIn: params.longitude,latitudeCheckIn: params.latitude});
+
+    
+}
+
+async function reviewUser(employee) {
+    
     const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
     const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
@@ -103,8 +121,6 @@ async function reviewUser(employee) {
 
 async function reviewOut(employee) {
 
-    var moment = require('moment-timezone');
-
     const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
     const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
@@ -127,7 +143,9 @@ async function reviewOut(employee) {
       attributes: {
         exclude: atribute
       }});
-
+    
+    usuario.setDataValue("accessCode",employee.accessCode);
+    
     return usuario;
 
 }

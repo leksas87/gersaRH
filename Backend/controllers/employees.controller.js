@@ -25,18 +25,18 @@ function registerAccessCodeSchema(req,res,next){
 
 function registerCheckIn(req,res,next) {
     employeeService.registerCheckIn(req.body)
-        .then(user => res.json({ message:'Succesful',ok:true}))
+        .then(res.json({ message:'Succesful',ok:true}))
         .catch(next);
 }
 
 function check(req,res,next) {
-    employeeService.reviewUser(req.body)
+    employeeService.reviewUser(req.headers)
     .then(user => res.json({data:user ,message:'Completado con exito',ok:true}))
     .catch(next);
 }
 
 function checkOut(req,res,next) {
-    employeeService.reviewOut(req.body)
+    employeeService.reviewOut(req.headers)
     .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito ',ok:true}))
     .catch(next);
 }
