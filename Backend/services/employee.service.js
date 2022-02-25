@@ -11,8 +11,34 @@ module.exports = {
     update,
     review,
     reviewOut,
-    validacionNumeroAleatorio
+    validacionNumeroAleatorio,
+    sendAccessCode
 };
+
+async function sendAccessCode(id) {
+    const employee = await models.Employee.findOne({where:{userId:id}});
+    const user = await models.User.findByPk(id)
+
+    if ( !employee)  throw 'Empleado no encontrado';
+    if ( !user)  throw 'Usuario no encontrado';
+
+    const sgMail = require('@sendgrid/mail');
+
+    const API_KEY=process.env.SENDGRID_API_KEY;
+
+    sgMail.setApiKey(API_KEY)
+
+    const msg2 = {
+        to: user.username,
+        from: {email:process.env.EMAIL,name:process.env.NAME,},
+        subject:'Código de asistencia',
+        templateId: process.env.TEMPLETEACCESSCODE,
+        dynamic_template_data: {
+            codigo: employee.accessCode,
+        },
+    };  
+    await sgMail.send(msg2)
+}
 
 async function update(id, params) {
     const employee = await getEmployeeById(id);
