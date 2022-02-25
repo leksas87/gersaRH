@@ -6,6 +6,7 @@ const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
 
 // routes
+router.post('/checkIn',registerCheckInSchema,registerCheckIn);
 router.get('/checkIn',check);
 router.get('/checkOut',checkOut);
 router.post('/',authorize(),registerSchema, register);
@@ -13,6 +14,22 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 
 module.exports = router;
+
+function registerCheckIn(req,res,next) {
+    employeeService.registerCheckIn(req.body)
+        .then(user => res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function registerCheckInSchema(req,res,next){
+    const schema = Joi.object({
+        userId: Joi.number().required(),
+        username: Joi.string().required(),
+        latitude: Joi.string().required(),
+        longitude: Joi.string().required()
+    });
+    validateRequest(req, next, schema);
+}
 
 function check(req,res,next) {
     employeeService.review(req.headers)
