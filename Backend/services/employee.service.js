@@ -86,7 +86,9 @@ async function reviewUser(employee) {
     if (registroEntradaEmpleado) {
         throw 'Ya existe una entrada registrada';
     } 
+    
     const atribute=['firstName','lastName','phone','active','hash','roll','confirmationCode','isEmployeeActive']
+
     const usuario=await models.User.findOne({where: {
         id:employee.userId
       },
@@ -99,17 +101,12 @@ async function reviewUser(employee) {
       return usuario;
 }
 
-async function reviewOut(params) {
+async function reviewOut(employee) {
+
     var moment = require('moment-timezone');
 
-    const employee=await models.Employee.findOne({ where: { accessCode: params.accesscode } })
-
-    if (!employee) {
-        throw 'Empleado no localizado';
-    } 
-
-    const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
