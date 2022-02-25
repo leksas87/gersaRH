@@ -26,7 +26,7 @@ function updateSchemaPut(req, res, next) {
         tipoDeContrato: Joi.string(),
         puesto: Joi.string().required(),
         fechaDeInicio: Joi.date().required(),
-        fechaDeFinalizacion: Joi.date().required(),
+        fechaDeFinalizacion: Joi.date(),
         horasLaborales: Joi.number().integer().required(),
         unidadLaborales: Joi.string().required(),
         lunes: Joi.boolean().required(),
