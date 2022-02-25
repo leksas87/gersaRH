@@ -2,18 +2,26 @@
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateRequestHeader = require('middleware/validate-request-header');
 const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
-
+const checkAccessCode=employeeService.checkAccessCode();
 // routes
-router.post('/checkIn',registerCheckInSchema,registerCheckIn);
-router.get('/checkIn',employeeService.checkAccessCode(),check);
-router.get('/checkOut',checkOut);
+router.post('/checkIn',registerCheckInSchema,checkAccessCode,registerCheckIn);
+router.get('/checkIn',registerAccessCodeSchema,checkAccessCode,check);
+router.get('/checkOut',registerAccessCodeSchema,checkAccessCode,checkOut);
 router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 
 module.exports = router;
+
+function registerAccessCodeSchema(req,res,next){
+    const schema = Joi.object({
+        accesscode: Joi.number().integer().min(1000).max(9999).required()
+    });
+    validateRequestHeader(req, next, schema);
+}
 
 function registerCheckIn(req,res,next) {
     employeeService.registerCheckIn(req.body)
@@ -27,13 +35,12 @@ function registerCheckInSchema(req,res,next){
         username: Joi.string().required(),
         latitude: Joi.string().required(),
         longitude: Joi.string().required()
-
     });
     validateRequest(req, next, schema);
 }
 
 function check(req,res,next) {
-    employeeService.review(req.headers)
+    employeeService.review(req.body)
     .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
     .catch(next);
 }

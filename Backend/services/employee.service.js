@@ -61,7 +61,6 @@ async function getEmployeeById(id) {
     return employee;
 }
 
-
 function checkAccessCode() {
     return[
         async (req,res,next)=>{
@@ -69,18 +68,15 @@ function checkAccessCode() {
 
             if(!employee)
                 return res.status(404).json({ message: 'Código de acceso no encontrado',ok:false});
+
+            req.body=employee;
+            next();
         }
     ];
 }
 
-async function review(params) {
+async function review(employee) {
     var moment = require('moment-timezone');
-
-    const employee=await models.Employee.findOne({ where: { accessCode: params.accesscode } })
-
-    if (!employee) {
-        throw 'Empleado no localizado';
-    } 
 
     const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
     const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
@@ -102,21 +98,6 @@ async function review(params) {
       }});
 
     return usuario;
-    // }
-    // else
-    // {
-    //     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
-    //     if (registroEntradaEmpleado)
-    //     {
-    //         throw 'Aún no registras una entrada el día de hoy';
-    //     }
-    //     registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
-
-    //     if (!registroSalidaEmpleado) {
-    //         throw 'Ya registraste tu salida el día de hoy'
-    //     }
-    // }
-
 }
 
 async function reviewOut(params) {
@@ -152,19 +133,5 @@ async function reviewOut(params) {
       }});
 
     return usuario;
-    // }
-    // else
-    // {
-    //     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,initHour:`00:00:00`}});
-    //     if (registroEntradaEmpleado)
-    //     {
-    //         throw 'Aún no registras una entrada el día de hoy';
-    //     }
-    //     registroSalidaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheck:`${fechaActual}`,endHour:`00:00:00`}});
-
-    //     if (!registroSalidaEmpleado) {
-    //         throw 'Ya registraste tu salida el día de hoy'
-    //     }
-    // }
 
 }
