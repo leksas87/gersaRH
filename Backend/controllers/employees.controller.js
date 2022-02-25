@@ -8,6 +8,7 @@ const employeeService = require('../services/employee.service');
 const checkAccessCode=employeeService.checkAccessCode();
 // routes
 router.post('/checkIn',registerAccessCodeSchema,checkAccessCode,registerCheckIn);
+router.post('/checkOut',registerAccessCodeSchema,checkAccessCode,registerCheckOut);
 router.get('/checkIn',registerAccessCodeSchema,checkAccessCode,check);
 router.get('/checkOut',registerAccessCodeSchema,checkAccessCode,checkOut);
 router.post('/',authorize(),registerSchema, register);
@@ -25,6 +26,12 @@ function registerAccessCodeSchema(req,res,next){
 
 function registerCheckIn(req,res,next) {
     employeeService.registerCheckIn(req.body)
+        .then(res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function registerCheckOut(req,res,next) {
+    employeeService.registerCheckOut(req.body)
         .then(res.json({ message:'Succesful',ok:true}))
         .catch(next);
 }
