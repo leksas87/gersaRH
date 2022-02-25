@@ -14,8 +14,14 @@ router.get('/checkOut',registerAccessCodeSchema,checkAccessCode,checkOut);
 router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
+router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 
 module.exports = router;
+function  sendAccessCodeById(req, res, next) {
+    employeeService.sendAccessCode(req.params.id)
+        .then(() => res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function registerAccessCodeSchema(req,res,next){
     const schema = Joi.object({

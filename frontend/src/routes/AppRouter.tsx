@@ -2,17 +2,13 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
-import {
-	getEmployeeById,
-	getUserById,
-} from '../actions/usersActions/usersActions';
-import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
-import ChecadorPage from '../components/checador/ChecadorPage';
+
 import ChecadorTeclado from '../components/checador/ChecadorTeclado';
 import ConfirmarContraseñaPage from '../components/confirmarContraseña/ConfirmarContraseñaPage';
 import RecuperacionContrasenaPage from '../components/confirmarContraseña/RecuperacionContrasenaPage';
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/empleadoPerfil/EmpleadoPerfil';
+import PageControlHorario from '../components/empleados/empleadoPerfil/PageControlHorario';
 import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/PageEmpleadoInfoContrato';
 import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
 import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
@@ -84,6 +80,7 @@ const AppRouter = () => {
 										<Route path='perfil' element={<PageEmpleadoPerfil />} />
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
 										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+										<Route path='controlhorario' element={<PageControlHorario />} />
 										<Route path='*' element={<NotFound />} />
 									</Route>
 									<Route path='empresa/' element={<EmpresaPage />}>
@@ -93,6 +90,7 @@ const AppRouter = () => {
 											<Route path='perfil' element={<PageEmpleadoPerfil />} />
 											<Route path='personal' element={<PageEmpleadoPersonal />} />
 											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+											<Route path='controlhorario' element={<PageControlHorario />} />
 											<Route path='*' element={<NotFound />} />
 										</Route>
 									</Route>
@@ -119,8 +117,8 @@ const AppRouter = () => {
 						/>
 						{/* Check */}
 						{/* <Route path='/checador' element={<ChecadorPage />} /> */}
-						{/* <Route path='/checador' element={<ChecadorTeclado />} /> */}
-						<Route path='/checador' element={<ChecadorConfirmacion />} />
+						<Route path='/checador' element={<ChecadorTeclado />} />
+						{/* <Route path='/checador' element={<ChecadorConfirmacion />} /> */}
 					</Routes>
 				</BrowserRouter>
 			</Suspense>

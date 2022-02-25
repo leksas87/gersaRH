@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const employeeService = require('../services/employee.service');
 const {models} = require('./../libs/sequelize');
 const { func } = require('joi');
+const contractService = require('../services/contract.service');
+const moment = require('moment-timezone');
 
 module.exports = {
     authenticate,
@@ -107,21 +109,28 @@ async function create(params) {
         throw 'El Usuario "' + params.username + '" ya existe en el sistema';
     }
 
-    if(params.sendInvitation) {
-            try {
-                await sendInvitation(params)
-            } catch (error) {
-                console.log(error.message);
-            }
-    }
-        
     try {
+        
+        params.accessCode = await employeeService.validacionNumeroAleatorio();
+        let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
+        
+        if(params.sendInvitation){
+                try {
+                    await sendInvitation(params)
+                } catch (error) {
+                    console.log(error.message);
+                }
+        }
+
         // save user
-        let num = await employeeService.validacionNumeroAleatorio();
         const user = await models.User.create(params);
         await models.Employee.create({
             userId: user.id,
-            accessCode: num
+            accessCode: params.accessCode
+        })
+        await contractService.create({
+            userId: user.id,
+            fechaDeInicio: fechaNow
         })
     } catch (error) {
         console.log(error.message);
@@ -154,6 +163,21 @@ async function sendInvitation(params) {
 
     };
     await sgMail.send(msg);
+
+    if(params.accessCode){
+        const msg2 = {
+            to: params.username,
+            from: {email:process.env.EMAIL,name:process.env.NAME,},
+            subject:'Código de asistencia',
+            templateId: process.env.TEMPLETEACCESSCODE,
+            dynamic_template_data: {
+                codigo: params.accessCode,
+            },
+        };  
+        await sgMail.send(msg2)
+    }
+
+
 }
 
 async function createMaster(params) {
