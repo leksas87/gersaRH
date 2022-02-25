@@ -7,7 +7,7 @@ const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
 const checkAccessCode=employeeService.checkAccessCode();
 // routes
-router.post('/checkIn',registerCheckInSchema,checkAccessCode,registerCheckIn);
+router.post('/checkIn',registerAccessCodeSchema,checkAccessCode,registerCheckIn);
 router.get('/checkIn',registerAccessCodeSchema,checkAccessCode,check);
 router.get('/checkOut',registerAccessCodeSchema,checkAccessCode,checkOut);
 router.post('/',authorize(),registerSchema, register);
@@ -29,19 +29,9 @@ function registerCheckIn(req,res,next) {
         .catch(next);
 }
 
-function registerCheckInSchema(req,res,next){
-    const schema = Joi.object({
-        userId: Joi.number().required(),
-        username: Joi.string().required(),
-        latitude: Joi.string().required(),
-        longitude: Joi.string().required()
-    });
-    validateRequest(req, next, schema);
-}
-
 function check(req,res,next) {
-    employeeService.review(req.body)
-    .then(user => res.json({data:user ,accessCode:req.headers['accesscode'],message:'Completado con exito',ok:true}))
+    employeeService.reviewUser(req.body)
+    .then(user => res.json({data:user ,message:'Completado con exito',ok:true}))
     .catch(next);
 }
 

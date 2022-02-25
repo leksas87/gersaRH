@@ -9,7 +9,7 @@ module.exports = {
     create,
     getEmployeeById,
     update,
-    review,
+    reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
     checkAccessCode
@@ -75,14 +75,11 @@ function checkAccessCode() {
     ];
 }
 
-async function review(employee) {
+async function reviewUser(employee) {
     var moment = require('moment-timezone');
 
-    const fechaInicio = moment().tz("America/Mexico_City").format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz("America/Mexico_City").format('YYYY-MM-DD 23:59:59');
-
-    console.log(fechaInicio);
-    console.log(fechaFin);
+    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
     registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
@@ -97,7 +94,9 @@ async function review(employee) {
         exclude: atribute
       }});
 
-    return usuario;
+      usuario.setDataValue("accessCode",employee.accessCode);
+
+      return usuario;
 }
 
 async function reviewOut(params) {
