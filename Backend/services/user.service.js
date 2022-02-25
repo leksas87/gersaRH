@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const employeeService = require('../services/employee.service');
 const {models} = require('./../libs/sequelize');
 const { func } = require('joi');
+const contractService = require('../services/contract.service');
+const moment = require('moment-timezone');
 
 module.exports = {
     authenticate,
@@ -118,10 +120,15 @@ async function create(params) {
     try {
         // save user
         let num = await employeeService.validacionNumeroAleatorio();
+        let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
         const user = await models.User.create(params);
         await models.Employee.create({
             userId: user.id,
             accessCode: num
+        })
+        await contractService.create({
+            userId: user.id,
+            fechaDeInicio: fechaNow
         })
     } catch (error) {
         console.log(error.message);

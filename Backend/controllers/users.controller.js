@@ -5,6 +5,8 @@ const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
 const userService = require('../services/user.service');
 const employeeService = require('../services/employee.service');
+const contractService = require('../services/contract.service');
+const moment = require('moment-timezone');
 const upload = require("../middleware/upload");
 const readXlsxFile = require('read-excel-file/node');
 const {models} = require('./../libs/sequelize');
@@ -85,7 +87,22 @@ async function registerFile(req, res) {
                         rfc:row[22],
                         numeroImms:row[23],
                         curp:row[24],
-                        fechaAltaImss:row[25]
+                        fechaAltaImss:row[25],
+                        tipoDeContrato:row[26],
+                        puesto:row[27],
+                        fechaDeInicio:row[28],
+                        fechaDeFinalizacion:row[29],
+                        horasLaborales:row[30],
+                        unidadLaborales:row[31],
+                        lunes:row[32],
+                        martes:row[33],
+                        miercoles:row[34],
+                        jueves:row[35],
+                        viernes:row[36],
+                        sabado:row[37],
+                        domingo:row[38],
+                        tipoSalario:row[39],
+                        cantidadSalario:row[40]
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
                     
@@ -93,9 +110,10 @@ async function registerFile(req, res) {
                         
                     }
 
+                    let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
                     if( user.tipoIdentificacion === null ) { user.tipoIdentificacion = ""; } 
                     if( user.documentoIdentidad === null ) { user.documentoIdentidad = ""; }
-                    if( user.fechaNacimiento === null ) { user.fechaNacimiento = '2000-01/01'; }
+                    if( user.fechaNacimiento === null ) { user.fechaNacimiento = fechaNow; }
                     if( user.genero === null ) { user.genero = ""; }
                     if( user.nacionalidad === null ) { user.nacionalidad = ""; }             
                     if( user.lugarDeTrabajo === null ) { user.lugarDeTrabajo = ""; }
@@ -114,7 +132,21 @@ async function registerFile(req, res) {
                     if( user.rfc === null ) { user.rfc = ""; }
                     if( user.numeroImms === null ) { user.numeroImms = ""; }
                     if( user.curp === null ) { user.curp = ""; }
-                    if( user.fechaAltaImss === null ) { user.fechaAltaImss = '2000-01/01'; }  
+                    if( user.fechaAltaImss === null ) { user.fechaAltaImss = fechaNow; }  
+                    if( user.tipoDeContrato === null ) { user.tipoDeContrato = ''; } 
+                    if( user.puesto === null ) { user.puesto = ''; } 
+                    if( user.fechaDeInicio === null ) { user.fechaDeInicio = fechaNow; } 
+                    if( user.horasLaborales === null ) { user.horasLaborales = 0; }
+                    if( user.unidadLaborales === null ) { user.unidadLaborales = ""; }
+                    if( user.lunes === null ) { user.lunes = false; }
+                    if( user.martes === null ) { user.martes = false; }
+                    if( user.miercoles === null ) { user.miercoles = false; }
+                    if( user.jueves === null ) { user.jueves = false; }
+                    if( user.viernes === null ) { user.viernes = false; }
+                    if( user.sabado === null ) { user.sabado = false; }
+                    if( user.domingo === null ) { user.domingo = false; }
+                    if( user.tipoSalario === null ) { user.tipoSalario = ""; }
+                    if( user.cantidadSalario === null ) { user.cantidadSalario = 0; }
                                   
                     usersNames.push(user);
                 }
@@ -162,13 +194,89 @@ async function registerFile(req, res) {
                 employee.numeroImms = userF.numeroImms;
                 employee.curp = userF.curp;
                 employee.fechaAltaImss = userF.fechaAltaImss;
-                //throw `Error , usuario ${user.username} ya existe en la base de datos .`;
 
-                console.log(user);
-                console.log(employee);
-                console.log(userF);
+                const contracts = await models.Contract.findAll();
+                contracts.forEach(async contract => {
+                    if(contract.userId === user.id && contract.isContractActivide ){
+                        contract.tipoDeContrato = userF.tipoDeContrato;
+                        contract.puesto = userF.puesto;
+                        contract.fechaDeInicio = userF.fechaDeInicio;
+                        contract.fechaDeFinalizacion = userF.fechaDeFinalizacion;
+                        contract.horasLaborales = userF.horasLaborales;
+                        contract.unidadLaborales = userF.unidadLaborales;
+                        contract.lunes = userF.lunes;
+                        contract.martes = userF.martes;
+                        contract.miercoles = userF.miercoles;
+                        contract.jueves = userF.jueves;
+                        contract.viernes = userF.viernes;
+                        contract.sabado = userF.sabado;
+                        contract.domingo = userF.domingo;
+                        contract.tipoSalario = userF.tipoSalario;
+                        contract.cantidadSalario = userF.cantidadSalario;
+                        await contract.save();
+                    }
+                 });
+
+                 
+
                 user.save();
                 employee.save();
+            }else{
+                    ///inicia proceso de guardado,verificamos si se mandara la invitacion
+                if (sendInvitation==='send') {
+                    console.log(sendInvitation,'se mandaran las invitaciones');
+                    await userService.sendInvitation(userF);
+                } else if(sendInvitation==='donotsend'){
+                    console.log(sendInvitation,'no se mandaran las invitaciones');
+                }
+                // await models.User.create(user);
+                let num = await employeeService.validacionNumeroAleatorio();
+                const employee = await models.User.create(userF);
+                await models.Employee.create({
+                    userId: employee.id,
+                    tipoIdentificacion:userF.tipoIdentificacion,
+                    documentoIdentidad:userF.documentoIdentidad,
+                    fechaNacimiento:userF.fechaNacimiento,
+                    genero:userF.genero,
+                    nacionalidad:userF.nacionalidad,
+                    lugarDeTrabajo:userF.lugarDeTrabajo,
+                    supervisor:userF.supervisor,
+                    numeroCuentaBancaria:userF.numeroCuentaBancaria,
+                    swiftBic:userF.swiftBic,
+                    frecuenciaPago:userF.frecuenciaPago,
+                    direccion1:userF.direccion1,
+                    direccion2:userF.direccion2,
+                    ciudad:userF.ciudad,
+                    codigoPostal:userF.codigoPostal,
+                    estadoProvincia:userF.estadoProvincia,
+                    pais:userF.pais,
+                    emergenciaNombre:userF.emergenciaNombre,
+                    empergenciaTelefono:userF.empergenciaTelefono,
+                    rfc:userF.rfc,
+                    numeroImms:userF.numeroImms,
+                    curp:userF.curp,
+                    fechaAltaImss:userF.fechaAltaImss,
+                    accessCode: num
+                });
+                await contractService.create({
+                    userId: employee.id,
+                    tipoDeContrato:userF.tipoDeContrato,
+                    puesto:userF.puesto,
+                    fechaDeInicio:userF.fechaDeInicio,
+                    fechaDeFinalizacion:userF.fechaDeFinalizacion,
+                    horasLaborales:userF.horasLaborales,
+                    unidadLaborales:userF.unidadLaborales,
+                    lunes:userF.lunes,
+                    martes:userF.martes,
+                    miercoles:userF.miercoles,
+                    jueves:userF.jueves,
+                    viernes:userF.viernes,
+                    sabado:userF.sabado,
+                    domingo:userF.domingo,
+                    tipoSalario:userF.tipoSalario,
+                    cantidadSalario:userF.cantidadSalario
+                })
+                console.log('guardando al usuario',userF.username);
             }
             
         }
@@ -180,51 +288,6 @@ async function registerFile(req, res) {
         console.log(error);
         return res.status(400).json({ message:error,ok:false})
         
-    }
-    try {
-        for (const user of usersNames) {
-            ///inicia proceso de guardado,verificamos si se mandara la invitacion
-            if (sendInvitation==='send') {
-                console.log(sendInvitation,'se mandaran las invitaciones');
-                await userService.sendInvitation(user);
-            } else if(sendInvitation==='donotsend'){
-                console.log(sendInvitation,'no se mandaran las invitaciones');
-            }
-            // await models.User.create(user);
-            let num = await employeeService.validacionNumeroAleatorio();
-            const employee = await models.User.create(user);
-            await models.Employee.create({
-                userId: employee.id,
-                tipoIdentificacion:user.tipoIdentificacion,
-                documentoIdentidad:user.documentoIdentidad,
-                fechaNacimiento:user.fechaNacimiento,
-                genero:user.genero,
-                nacionalidad:user.nacionalidad,
-                lugarDeTrabajo:user.lugarDeTrabajo,
-                supervisor:user.supervisor,
-                numeroCuentaBancaria:user.numeroCuentaBancaria,
-                swiftBic:user.swiftBic,
-                frecuenciaPago:user.frecuenciaPago,
-                direccion1:user.direccion1,
-                direccion2:user.direccion2,
-                ciudad:user.ciudad,
-                codigoPostal:user.codigoPostal,
-                estadoProvincia:user.estadoProvincia,
-                pais:user.pais,
-                emergenciaNombre:user.emergenciaNombre,
-                empergenciaTelefono:user.empergenciaTelefono,
-                rfc:user.rfc,
-                numeroImms:user.numeroImms,
-                curp:user.curp,
-                fechaAltaImss:user.fechaAltaImss,
-                accessCode: num
-            })
-            console.log('guardando al usuario',user.username);
-            
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ message:error,ok:false})
     }
     return res.status(200).json({ message:'Usuarios almacenados correctamente en la base de datos',ok:true})
 
