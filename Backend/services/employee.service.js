@@ -11,7 +11,8 @@ module.exports = {
     update,
     review,
     reviewOut,
-    validacionNumeroAleatorio
+    validacionNumeroAleatorio,
+    checkAccessCode
 };
 
 async function update(id, params) {
@@ -58,6 +59,18 @@ async function getEmployeeById(id) {
     if ( !employee)  throw 'Empleado no encontrado';
 
     return employee;
+}
+
+
+function checkAccessCode() {
+    return[
+        async (req,res,next)=>{
+            const employee=await models.Employee.findOne({ where: { accessCode: req.headers['accesscode'] } })
+
+            if(!employee)
+                return res.status(404).json({ message: 'Código de acceso no encontrado',ok:false});
+        }
+    ];
 }
 
 async function review(params) {

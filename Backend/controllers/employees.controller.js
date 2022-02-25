@@ -7,7 +7,7 @@ const employeeService = require('../services/employee.service');
 
 // routes
 router.post('/checkIn',registerCheckInSchema,registerCheckIn);
-router.get('/checkIn',check);
+router.get('/checkIn',employeeService.checkAccessCode(),check);
 router.get('/checkOut',checkOut);
 router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
@@ -27,7 +27,7 @@ function registerCheckInSchema(req,res,next){
         username: Joi.string().required(),
         latitude: Joi.string().required(),
         longitude: Joi.string().required()
-        
+
     });
     validateRequest(req, next, schema);
 }
