@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Checador.css';
 
 const ChecadorPage = () => {
@@ -12,7 +13,8 @@ const ChecadorPage = () => {
 				<div className='fs-4 fw-light textColorLight'>Por favor regístrese</div>
 			</div>
 			<div className='d-flex mt-4 mb-5'>
-				<button
+				<Link
+					to='/checador/entry'
 					type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 				>
@@ -21,8 +23,9 @@ const ChecadorPage = () => {
 						<i className='custm-checkArrow bi bi-box-arrow-in-left' />
 					</div>
 					<div className='custm-btnCheckTittle'>ENTRADA.</div>
-				</button>
-				<button
+				</Link>
+				<Link
+					to='/checador/exit'
 					type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 				>
@@ -31,7 +34,7 @@ const ChecadorPage = () => {
 						<i className='custm-checkArrow bi bi-box-arrow-right' />
 					</div>
 					<div className='custm-btnCheckTittle'>SALIDA.</div>
-				</button>
+				</Link>
 			</div>
 		</div>
 	);

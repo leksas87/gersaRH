@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { sendAccessCodeCheckIn } from '../../actions/checkActions/checkActions';
 import './Checador.css';
 const ChecadorTeclado = () => {
+	//useLocation para conocer el path
+	const { pathname } = useLocation();
+	const dispatch = useDispatch();
+
 	const [code, setCode] = useState('');
 
 	const uno = code.slice(0, 1);
@@ -33,6 +40,12 @@ const ChecadorTeclado = () => {
 			window.removeEventListener('keypress', key);
 		};
 	}, [code, setCode]);
+
+	const sendAccessCode = () => {
+		if (pathname === '/checador/entry') {
+			dispatch(sendAccessCodeCheckIn(parseInt(code)));
+		} else if (pathname === '/checador/exit') console.log('salida');
+	};
 
 	return (
 		<>
@@ -186,7 +199,9 @@ const ChecadorTeclado = () => {
 					</div>
 					<button
 						className='btn custm-Width100 custm-btnCheckSubmit mt-4'
-						type='submit'
+						type='button'
+						onClick={sendAccessCode}
+						disabled={code.length < 4 ? true : false}
 					>
 						CONTINUAR
 					</button>

@@ -84,3 +84,26 @@ export const fetchMultipartFormDataConToken = (
 		console.log(error.message);
 	});
 };
+//Metodo para hacer CheckIn AccessCode con Token
+export const fetchConTokenCheck = (
+	endpoint: string,
+	accesCode: number,
+	method: string = 'GET'
+) => {
+	//Se une el endpoint con la baseURL
+	const url = `${baseUrl}/${endpoint}`;
+	//Se recupera el token guardado el localStorage
+	// const token = localStorage.getItem('gersa-tkn') || '';
+
+	//Se hace la peticion
+	return fetch(url, {
+		method,
+		headers: {
+			// Authorization: `Bearer ${token}`,
+			accessCode: JSON.stringify(accesCode),
+			// uploadfile: `multipart/form-data ${data}`,
+		},
+	}).catch((error) => {
+		console.log(error.message);
+	});
+};
