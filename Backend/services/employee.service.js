@@ -15,7 +15,8 @@ module.exports = {
     validacionNumeroAleatorio,
     checkAccessCode,
     registerCheckIn,
-    registerCheckOut
+    registerCheckOut,
+    sendAccessCode
 };
 
 async function sendAccessCode(id) {
