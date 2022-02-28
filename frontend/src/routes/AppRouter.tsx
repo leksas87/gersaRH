@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
 import Checador from '../components/checador/Checador';
+import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
 import ChecadorPage from '../components/checador/ChecadorPage';
 
 import ChecadorTeclado from '../components/checador/ChecadorTeclado';
@@ -31,6 +32,7 @@ import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
+import { RequireCheckState } from './RequireCheckState';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -123,6 +125,10 @@ const AppRouter = () => {
 							<Route index element={<ChecadorPage />} />
 							<Route path='entry' element={<ChecadorTeclado />} />
 							<Route path='exit' element={<ChecadorTeclado />} />
+							<Route element={<RequireCheckState />}>
+								<Route path='confirm' element={<ChecadorConfirmacion />} />
+							</Route>
+							{/* <Route path='*' element={<NotFound />} /> */}
 						</Route>
 
 						{/* <Route path='output/' element={<h1>salida</h1>}> */}

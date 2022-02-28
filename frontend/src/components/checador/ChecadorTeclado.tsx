@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { sendAccessCodeCheckIn } from '../../actions/checkActions/checkActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+	changeCheckValue,
+	sendAccessCodeCheck,
+} from '../../actions/checkActions/checkActions';
+import { RootSote } from '../../store/Store';
 import './Checador.css';
 const ChecadorTeclado = () => {
+	//Senecesita el state que indica  el checkState
+	const { checkState } = useSelector((state: RootSote) => state.check);
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
 	const dispatch = useDispatch();
+	//useNavigate oara redeireciconar a otra pagina
+	const navigate = useNavigate();
 
 	const [code, setCode] = useState('');
 
@@ -43,13 +51,27 @@ const ChecadorTeclado = () => {
 
 	const sendAccessCode = () => {
 		if (pathname === '/checador/entry') {
-			dispatch(sendAccessCodeCheckIn(parseInt(code)));
-		} else if (pathname === '/checador/exit') console.log('salida');
+			dispatch(sendAccessCodeCheck(parseInt(code), 'checkIn'));
+			dispatch(changeCheckValue('entry'));
+		} else if (pathname === '/checador/exit') {
+			dispatch(sendAccessCodeCheck(parseInt(code), 'checkOut'));
+			dispatch(changeCheckValue('exit'));
+		}
 	};
+
+	//useEffect para redireccionar al login una vez se actualizo el password
+	useEffect(() => {
+		if (checkState.checkIsUserConfirm) {
+			navigate('/checador/confirm');
+		}
+	}, [checkState, navigate]);
 
 	return (
 		<>
 			<div className='container containerProject d-flex flex-column justify-content-center align-items-center'>
+				<Link to='/checador' className='custm-arrowLeft'>
+					<i className='bi bi-arrow-left' />
+				</Link>
 				<div className='d-flex mb-4'>
 					<img
 						className='custm-imgCheck'
@@ -197,14 +219,29 @@ const ChecadorTeclado = () => {
 							</button>
 						</div>
 					</div>
-					<button
-						className='btn custm-Width100 custm-btnCheckSubmit mt-4'
-						type='button'
-						onClick={sendAccessCode}
-						disabled={code.length < 4 ? true : false}
-					>
-						CONTINUAR
-					</button>
+					{!checkState.loading ? (
+						<button
+							className='btn custm-Width100 custm-btnCheckSubmit mt-4'
+							type='button'
+							onClick={sendAccessCode}
+							disabled={code.length < 4 ? true : false}
+						>
+							CONTINUAR
+						</button>
+					) : (
+						<button
+							className='btn  custm-Width100 custm-btnCheckSubmit mt-4'
+							type='button'
+							disabled
+						>
+							<span
+								className='spinner-border spinner-border-sm me-2'
+								role='status'
+								aria-hidden='true'
+							></span>
+							Espere...
+						</button>
+					)}
 				</div>
 			</div>
 		</>
