@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
 	changeCheckValue,
+	sendAccessCodeDataCheck,
 } from '../../actions/checkActions/checkActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
@@ -12,28 +14,44 @@ const ChecadorConfirmacion = () => {
 	const { userConfirmation, checkState } = useSelector(
 		(state: RootSote) => state.check
 	);
+
 	//useDispatch para ejecutar las Actions
 	const dispatch = useDispatch();
+
+	//useState para almacenar las cordenas
+	const [cordenadas, setCordenadas] = useState({
+		latitude: 0,
+		longitude: 0,
+	});
+
 	//useNaviagate para navegar a la ruta indicada
 	// const navigate = useNavigate();
-
-	//Aquí metodo para obtener coordenadas
-	const componentDidMount = () => {
-		navigator.geolocation.getCurrentPosition(function (position) {
-			console.log('Latitude is :', position.coords.latitude);
-			console.log('Longitude is :', position.coords.longitude);
-		});
-	};
-	componentDidMount();
 
 	//Metodo que envia lso datos de confirmacion
 	const confirmationCheck = () => {
 		if (checkState.checkOption === 'entry') {
-			console.log('cordenadass', checkState.checkOption);
+			console.log('cordenadsas ', cordenadas.longitude.toString());
+			dispatch(
+				sendAccessCodeDataCheck('checkIn', userConfirmation.accessCode, {
+					userid: userConfirmation.userId,
+					username: userConfirmation.username,
+					latitude: cordenadas.latitude.toString(),
+					longitude: cordenadas.longitude.toString(),
+				})
+			);
 		} else if (checkState.checkOption === 'exit') {
-			console.log('exit');
+			// console.log(cordenadas, checkState.checkOption);
+			dispatch(
+				sendAccessCodeDataCheck('checkOut', userConfirmation.accessCode, {
+					userid: userConfirmation.userId,
+					username: userConfirmation.username,
+					latitude: cordenadas.latitude.toString(),
+					longitude: cordenadas.longitude.toString(),
+				})
+			);
 		}
 	};
+
 	//Metodo para enviar al inicio
 	const navigateCheck = () => {
 		// console.log('cordenadas', checkState.checkOption);
@@ -41,6 +59,21 @@ const ChecadorConfirmacion = () => {
 		dispatch(changecheckIsUserActiveFalse());
 		// navigate('/checador');
 	};
+
+	useEffect(() => {
+		//Aquí metodo para obtener coordenadas
+		const componentDidMount = () => {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				// console.log('Latitude is :', position.coords.latitude);
+				// console.log('Longitude is :', position.coords.longitude);
+				setCordenadas({
+					latitude: position.coords.latitude,
+					longitude: position.coords.longitude,
+				});
+			});
+		};
+		componentDidMount();
+	}, []);
 
 	return (
 		<>
@@ -65,7 +98,7 @@ const ChecadorConfirmacion = () => {
 						{userConfirmation.accessCode}
 					</div>
 					<div className='fs-5 textColorLight text-center'>
-						Cordenadas: 17.5548193, -99.4877102,19z
+						Cordenadas: {cordenadas.latitude}, {cordenadas.longitude}
 					</div>
 				</div>
 				<div className='mt-4 pb-5 d-flex flex-wrap justify-content-center'>

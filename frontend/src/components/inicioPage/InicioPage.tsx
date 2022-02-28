@@ -1,24 +1,80 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getEmployeeById,
+	getUserById,
+} from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
 import './InicioPage.css';
 
 const InicioPage = () => {
 	//Se necesita el state que indica el nombre del usuario
-	const { firstName } = useSelector((state: RootSote) => state.auth);
+	const { firstName, id } = useSelector((state: RootSote) => state.auth);
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+
+	const [isBirthday, setIsBirthday] = useState(false);
+
+	//dispatch para ejecutarActions
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		//metodo si hoy es cumpleaños
+		const isToday = () => {
+			const today = new Date();
+			const fecha = new Date(perfilEmpleado.fechaNacimiento);
+			console.log(today);
+			console.log(fecha);
+			return (
+				fecha.getDate() == today.getDate() && fecha.getMonth() == today.getMonth()
+			);
+		};
+
+		// isToday();
+		setIsBirthday(isToday());
+	}, [perfilEmpleado]);
+
+	//useEfect para ejecutar...
+	useEffect(() => {
+		dispatch(getUserById(id));
+		dispatch(getEmployeeById(id));
+	}, [id]);
+
 	return (
 		<>
 			<div className='custm-inicioContainer'>
 				<div className=' custm-ContainerListGrid'>
-					<div className='custm-grid-area grid-area-post1'>
-						<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
-							<div className='fs-1 fw-bold'>¡Hola {firstName}!</div>
-							<div className='fs-3' style={{ height: '28px' }}>
-								Bienvenido de vuelta
+					{isBirthday ? (
+						<div className='custm-grid-area grid-area-post1'>
+							<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
+								<div className='fs-4 fw-bold'>
+									<span className='fs-1'>🎊</span>¡Hola {firstName}!
+									<span className='fs-1'>🎊</span>
+								</div>
+								<div className='fs-2' style={{ height: '28px' }}>
+									<span className='fs-1'>🎉</span>
+									¡FELIZ CUMPLEAÑOS!<span className='fs-1'>🎉</span>
+								</div>
+								<div
+									className='fs-3 text-center mt-5 textColorLight lh-1'
+									style={{ width: '80%' }}
+								>
+									Nuestros mejores deseos para tí te desean tus amigos de GERSA
+								</div>
+								<div className='custm-underLine'></div>
 							</div>
-							<div className='fs-3 '>esto es lo nuevo por aqui...</div>
-							<div className='custm-underLine'></div>
 						</div>
-					</div>
+					) : (
+						<div className='custm-grid-area grid-area-post1'>
+							<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
+								<div className='fs-1 fw-bold'>¡Hola {firstName}!</div>
+								<div className='fs-3' style={{ height: '28px' }}>
+									Bienvenido de vuelta
+								</div>
+								<div className='fs-3 '>esto es lo nuevo por aqui...</div>
+								<div className='custm-underLine'></div>
+							</div>
+						</div>
+					)}
 					<div className='custm-grid-area grid-area-post2'>
 						<div className='custm-iPost2 custm-postShadow d-flex flex-column align-items-center'>
 							<div className='custm-PostTittle'>TAREAS PENDIENTES</div>

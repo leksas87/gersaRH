@@ -107,3 +107,28 @@ export const fetchConTokenCheck = (
 		console.log(error.message);
 	});
 };
+//Metodo para hacer CheckIn AccessCode con Token y DATA
+export const fetchConTokenCheckconData = (
+	endpoint: string,
+	accesCode: number,
+	data: {},
+	method: string
+) => {
+	//Se une el endpoint con la baseURL
+	const url = `${baseUrl}/${endpoint}`;
+	//Se recupera el token guardado el localStorage
+	// const token = localStorage.getItem('gersa-tkn') || '';
+
+	//Se hace la peticion
+	return fetch(url, {
+		method,
+		headers: {
+			// Authorization: `Bearer ${token}`,
+			accessCode: JSON.stringify(accesCode),
+			// uploadfile: `multipart/form-data ${data}`,
+		},
+		body: JSON.stringify(data),
+	}).catch((error) => {
+		console.log(error.message);
+	});
+};

@@ -1,4 +1,5 @@
 export const SEND_ACCESS_CODE = 'send_access_code';
+export const RESEND_ACCESS_CODE = 'resend_access_code';
 export const CHECK_START_LOADING = 'check_start_loading';
 export const CHECK_LOADING_END = 'check_loading_end';
 export const CHECK_IS_USER_ACTIVE = 'check_Is_User_Active';
@@ -51,6 +52,10 @@ export interface Check_start_loading {
 export interface Check_loading_end {
 	type: typeof CHECK_LOADING_END;
 }
+//Reenviar el codigo de acceso al empleado
+export interface Resend_access_code {
+	type: typeof RESEND_ACCESS_CODE;
+}
 
 //Types para el dispatch
 export type CheckDispatchTypes =
@@ -59,4 +64,5 @@ export type CheckDispatchTypes =
 	| Check_Is_User_Active
 	| Check_Is_User_Active_False
 	| Check_start_loading
+	| Resend_access_code
 	| Check_loading_end;
