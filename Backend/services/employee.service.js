@@ -110,11 +110,11 @@ async function registerCheckIn(params){
     const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
     const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
-    // const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+    const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
-    // if (registroEntradaEmpleado) {
-    //     throw 'Ya existe una entrada registrada';
-    // } 
+    if (registroEntradaEmpleado) {
+        throw 'Ya existe una entrada registrada';
+    } 
 
     await models.Check.create({employeeId: employee.id,dateCheckIn: fechaCheck,longitudeCheckIn: params.longitude,latitudeCheckIn: params.latitude});
 
@@ -152,7 +152,7 @@ async function reviewUser(employee) {
         throw 'Ya existe una entrada registrada';
     } 
     
-    const atribute=['firstName','lastName','phone','active','hash','roll','confirmationCode','isEmployeeActive']
+    const atribute=['phone','active','hash','roll','confirmationCode','isEmployeeActive']
 
     const usuario=await models.User.findOne({where: {
         id:employee.userId
