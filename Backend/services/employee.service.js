@@ -106,18 +106,23 @@ function checkAccessCode() {
 
 async function registerCheckIn(params){
     const employee=await models.Employee.findOne({ where: { userId: params.userId} })
+
+    if (!employee) throw "Empleado sin registro";
+
     const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
     const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
     const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
     const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
+    console.log(registroEntradaEmpleado);
     if (registroEntradaEmpleado) {
         throw 'Ya existe una entrada registrada';
     } 
 
     await models.Check.create({employeeId: employee.id,dateCheckIn: fechaCheck,longitudeCheckIn: params.longitude,latitudeCheckIn: params.latitude});
 
+    
     
 }
 
@@ -130,9 +135,8 @@ async function registerCheckOut(params){
     const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
 
     console.log(registroEntradaEmpleado);
-    // if (registroEntradaEmpleado) {
-    //     throw 'Ya existe una entrada registrada';
-    // } 
+    if (registroEntradaEmpleado) throw 'Ya existe una entrada registrada';
+    
     registroEntradaEmpleado.dateCheckOut=fechaCheck;
     registroEntradaEmpleado.longitudeCheckOut=params.longitude;
     registroEntradaEmpleado.latitudeCheckOut=params.latitude;
