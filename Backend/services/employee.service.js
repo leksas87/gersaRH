@@ -14,8 +14,7 @@ module.exports = {
     reviewOut,
     validacionNumeroAleatorio,
     checkAccessCode,
-    registerCheckIn,
-    registerCheckOut,
+    registerCheck,
     sendAccessCode
 };
 
@@ -98,64 +97,37 @@ function checkAccessCode() {
             if(!employee)
                 return res.status(404).json({ message: 'Código de acceso no encontrado',ok:false});
 
-            req.headers=employee;
+            // req.headers=employee.id;
             next();
         }
     ];
 }
 
-async function registerCheckIn(params){
-    const employee=await models.Employee.findOne({ where: { userId: params.userId} })
+async function registerCheck(params){
+    try {
+        const employee = await getEmployeeById(params.userId);
+        
+        const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
 
-    if (!employee) throw "Empleado sin registro";
+        
+        
 
-    const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
-    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
-
-    const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
-
-    console.log(registroEntradaEmpleado);
-    if (registroEntradaEmpleado) {
-        throw 'Ya existe una entrada registrada';
-    } 
-
-    await models.Check.create({employeeId: employee.id,dateCheckIn: fechaCheck,longitudeCheckIn: params.longitude,latitudeCheckIn: params.latitude});
-
-    
-    
+        await models.Check.create({employeeId: employee.id,DateCheck: fechaCheck,longitudeCheck: params.longitudeCheck,latitudeCheck: params.latitudeCheck,tipoCheck: params.tipoCheck});
+        
+        
+    } catch (error) {
+        return res.status(404).json({ message: 'Ya se tiene registro de la hora de entrada',ok:false});
+    }
+        
 }
 
-async function registerCheckOut(params){
-    const employee=await models.Employee.findOne({ where: { userId: params.userId} })
-    const fechaCheck = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
-    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
+async function reviewUser(params) {
 
-    const registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
+    const employee=await models.Employee.findOne({where:{accessCode:params.headers['accesscode']}});
 
-    console.log(registroEntradaEmpleado);
-    if (registroEntradaEmpleado) throw 'Ya existe una entrada registrada';
-    
-    registroEntradaEmpleado.dateCheckOut=fechaCheck;
-    registroEntradaEmpleado.longitudeCheckOut=params.longitude;
-    registroEntradaEmpleado.latitudeCheckOut=params.latitude;
-    await registroEntradaEmpleado.save();
-
-    
-}
-
-async function reviewUser(employee) {
-    
-    const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
-    const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
-
-    registroEntradaEmpleado=await models.Check.findOne({ where: {employeeid:employee.id,dateCheckIn: {[Op.between]: [fechaInicio,fechaFin]}}});
-
-    if (registroEntradaEmpleado) {
-        throw 'Ya existe una entrada registrada';
-    } 
-    
+    if (!employee) {
+        throw 'Empleado no encontrado';
+    }
     const atribute=['phone','active','hash','roll','confirmationCode','isEmployeeActive']
 
     const usuario=await models.User.findOne({where: {
