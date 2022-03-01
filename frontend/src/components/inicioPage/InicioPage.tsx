@@ -21,9 +21,10 @@ const InicioPage = () => {
 		//metodo si hoy es cumpleaños
 		const isToday = () => {
 			const today = new Date();
+			console.log('fechaHoy', today);
+			console.log(perfilEmpleado.fechaNacimiento);
 			const fecha = new Date(perfilEmpleado.fechaNacimiento);
-			console.log(today);
-			console.log(fecha);
+			console.log('fechaCumple', fecha);
 			return (
 				fecha.getDate() == today.getDate() && fecha.getMonth() == today.getMonth()
 			);
