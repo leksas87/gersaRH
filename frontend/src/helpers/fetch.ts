@@ -84,7 +84,7 @@ export const fetchMultipartFormDataConToken = (
 		console.log(error.message);
 	});
 };
-//Metodo para hacer CheckIn AccessCode con Token
+//Metodo para mandar el AccesCode (GET)
 export const fetchConTokenCheck = (
 	endpoint: string,
 	accesCode: number,
@@ -92,16 +92,12 @@ export const fetchConTokenCheck = (
 ) => {
 	//Se une el endpoint con la baseURL
 	const url = `${baseUrl}/${endpoint}`;
-	//Se recupera el token guardado el localStorage
-	// const token = localStorage.getItem('gersa-tkn') || '';
 
 	//Se hace la peticion
 	return fetch(url, {
 		method,
 		headers: {
-			// Authorization: `Bearer ${token}`,
 			accessCode: JSON.stringify(accesCode),
-			// uploadfile: `multipart/form-data ${data}`,
 		},
 	}).catch((error) => {
 		console.log(error.message);
@@ -111,22 +107,19 @@ export const fetchConTokenCheck = (
 export const fetchCheckconData = (
 	endpoint: string,
 	accesCode: number,
-	data: {},
+	data: object,
 	method: string
 ) => {
 	//Se une el endpoint con la baseURL
 	const url = `${baseUrl}/${endpoint}`;
-	//Se recupera el token guardado el localStorage
-	// const token = localStorage.getItem('gersa-tkn') || '';
 
-	console.log('from HelperJSON', JSON.stringify(data));
+	console.log('desde fetch2', data, url, accesCode, method);
 	//Se hace la peticion
 	return fetch(url, {
 		method,
 		headers: {
-			// Authorization: `Bearer ${token}`,
 			accessCode: JSON.stringify(accesCode),
-			// uploadfile: `multipart/form-data ${data}`,
+			'Content-type': 'application/json',
 		},
 		body: JSON.stringify(data),
 	}).catch((error) => {
