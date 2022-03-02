@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { reSendAccessCode } from '../../../actions/checkActions/checkActions';
 import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
 	getEmployeeById,
@@ -48,6 +49,10 @@ const EmpleadoPerfil = () => {
 	//metodo para asignar Permisos de Administrador
 	const nombrarAdmin = () => {
 		dispatch(makeAdminToUserById(perfilEmpleado.id));
+	};
+	//Metodo para reenviar codifo de acceso al empleado
+	const resendAccessCode = () => {
+		dispatch(reSendAccessCode(perfilEmpleado.id));
 	};
 	return (
 		<>
@@ -160,6 +165,20 @@ const EmpleadoPerfil = () => {
 												</div>
 											</button>
 										)}
+									</li>
+									<li>
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											onClick={resendAccessCode}
+										>
+											<div className='fs-4'>Reenviar Codigo</div>
+											<div className='fs-4'>de Acceso </div>
+											<div className='custm-dropItemText'>
+												Reenvia al empleado su código de
+											</div>
+											<div className='custm-dropItemText'>acceso.</div>
+										</button>
 									</li>
 									<li>
 										<button

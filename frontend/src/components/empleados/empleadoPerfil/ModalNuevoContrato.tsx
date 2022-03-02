@@ -552,7 +552,7 @@ const ModalNuevoContrato = () => {
 															role='status'
 															aria-hidden='true'
 														></span>
-														Cargando tabla...
+														Creando empleado...
 													</button>
 												)}
 												{/* <button className=' custm-btnFormSubmit inputSubmit'>

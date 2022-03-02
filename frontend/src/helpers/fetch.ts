@@ -84,3 +84,45 @@ export const fetchMultipartFormDataConToken = (
 		console.log(error.message);
 	});
 };
+//Metodo para mandar el AccesCode (GET)
+export const fetchConTokenCheck = (
+	endpoint: string,
+	accesCode: number,
+	method: string = 'GET'
+) => {
+	//Se une el endpoint con la baseURL
+	const url = `${baseUrl}/${endpoint}`;
+
+	//Se hace la peticion
+	return fetch(url, {
+		method,
+		headers: {
+			accessCode: JSON.stringify(accesCode),
+		},
+	}).catch((error) => {
+		console.log(error.message);
+	});
+};
+//Metodo para hacer CheckIn AccessCode con Token y DATA
+export const fetchCheckconData = (
+	endpoint: string,
+	accesCode: number,
+	data: object,
+	method: string
+) => {
+	//Se une el endpoint con la baseURL
+	const url = `${baseUrl}/${endpoint}`;
+
+	console.log('desde fetch2', data, url, accesCode, method);
+	//Se hace la peticion
+	return fetch(url, {
+		method,
+		headers: {
+			accessCode: JSON.stringify(accesCode),
+			'Content-type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	}).catch((error) => {
+		console.log(error.message);
+	});
+};

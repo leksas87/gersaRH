@@ -2,6 +2,9 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
+import Checador from '../components/checador/Checador';
+import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
+import ChecadorPage from '../components/checador/ChecadorPage';
 
 import ChecadorTeclado from '../components/checador/ChecadorTeclado';
 import ConfirmarContraseñaPage from '../components/confirmarContraseña/ConfirmarContraseñaPage';
@@ -29,6 +32,7 @@ import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
+import { RequireCheckState } from './RequireCheckState';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -68,6 +72,7 @@ const AppRouter = () => {
 						<Route element={<RequireAuth />}>
 							<Route path='/' element={<DashboardPage />}>
 								<Route index element={<InicioPage />} />
+
 								<Route path='miperfil/' element={<MiPerfil />}>
 									<Route index element={<PagePerfil />} />
 									<Route path='personal' element={<PageInfoPersonal />} />
@@ -116,8 +121,17 @@ const AppRouter = () => {
 							element={<RecuperarContraseñaPage />}
 						/>
 						{/* Check */}
-						{/* <Route path='/checador' element={<ChecadorPage />} /> */}
-						<Route path='/checador' element={<ChecadorTeclado />} />
+						<Route path='checador/' element={<Checador />}>
+							<Route index element={<ChecadorPage />} />
+							<Route path='entry' element={<ChecadorTeclado />} />
+							<Route path='exit' element={<ChecadorTeclado />} />
+							<Route element={<RequireCheckState />}>
+								<Route path='confirm' element={<ChecadorConfirmacion />} />
+							</Route>
+							{/* <Route path='*' element={<NotFound />} /> */}
+						</Route>
+
+						{/* <Route path='output/' element={<h1>salida</h1>}> */}
 						{/* <Route path='/checador' element={<ChecadorConfirmacion />} /> */}
 					</Routes>
 				</BrowserRouter>
