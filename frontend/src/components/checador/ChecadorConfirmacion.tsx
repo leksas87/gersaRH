@@ -30,23 +30,23 @@ const ChecadorConfirmacion = () => {
 	//Metodo que envia lso datos de confirmacion
 	const confirmationCheck = () => {
 		if (checkState.checkOption === 'entry') {
-			console.log('cordenadsas ', cordenadas.longitude.toString());
 			dispatch(
-				sendAccessCodeDataCheck('checkIn', userConfirmation.accessCode, {
-					userid: userConfirmation.userId,
+				sendAccessCodeDataCheck(userConfirmation.accessCode, {
+					userId: userConfirmation.id,
 					username: userConfirmation.username,
-					latitude: cordenadas.latitude.toString(),
-					longitude: cordenadas.longitude.toString(),
+					latitudeCheck: cordenadas.latitude.toString(),
+					longitudeCheck: cordenadas.longitude.toString(),
+					tipoCheck: 'Entrada',
 				})
 			);
 		} else if (checkState.checkOption === 'exit') {
-			// console.log(cordenadas, checkState.checkOption);
 			dispatch(
-				sendAccessCodeDataCheck('checkOut', userConfirmation.accessCode, {
-					userid: userConfirmation.userId,
+				sendAccessCodeDataCheck(userConfirmation.accessCode, {
+					userId: userConfirmation.id,
 					username: userConfirmation.username,
-					latitude: cordenadas.latitude.toString(),
-					longitude: cordenadas.longitude.toString(),
+					latitudeCheck: cordenadas.latitude.toString(),
+					longitudeCheck: cordenadas.longitude.toString(),
+					tipoCheck: 'Salida',
 				})
 			);
 		}
@@ -86,18 +86,15 @@ const ChecadorConfirmacion = () => {
 					/>
 				</div>
 				<div className='d-flex flex-column align-items-center lh-sm'>
-					<div className='fs-2 fw-bold textColorSecondary text-center'>
+					<div className='fs-2  textColorSecondary text-center'>
 						Confírmanos que eres tú
 					</div>
 				</div>
-				<div className='d-flex flex-column align-items-center mt-5'>
-					<div className='fs-2  textColorSecondary text-center'>
-						{userConfirmation.username}
+				<div className='d-flex flex-column align-items-center mt-3'>
+					<div className='fs-1 fw-bold textColorSecondary text-center'>
+						{userConfirmation.firstName} {userConfirmation.lastName}
 					</div>
-					<div className='fs-2  textColorSecondary'>
-						{userConfirmation.accessCode}
-					</div>
-					<div className='fs-5 textColorLight text-center'>
+					<div className='fs-5 textColorLight text-center mt-3'>
 						Cordenadas: {cordenadas.latitude}, {cordenadas.longitude}
 					</div>
 				</div>

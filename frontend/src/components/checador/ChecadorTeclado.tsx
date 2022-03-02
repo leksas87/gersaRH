@@ -49,12 +49,13 @@ const ChecadorTeclado = () => {
 		};
 	}, [code, setCode]);
 
+	//Envio data al backend
 	const sendAccessCode = () => {
 		if (pathname === '/checador/entry') {
-			dispatch(sendAccessCodeCheck(parseInt(code), 'checkIn'));
+			dispatch(sendAccessCodeCheck(parseInt(code)));
 			dispatch(changeCheckValue('entry'));
 		} else if (pathname === '/checador/exit') {
-			dispatch(sendAccessCodeCheck(parseInt(code), 'checkOut'));
+			dispatch(sendAccessCodeCheck(parseInt(code)));
 			dispatch(changeCheckValue('exit'));
 		}
 	};

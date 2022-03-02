@@ -108,7 +108,7 @@ export const fetchConTokenCheck = (
 	});
 };
 //Metodo para hacer CheckIn AccessCode con Token y DATA
-export const fetchConTokenCheckconData = (
+export const fetchCheckconData = (
 	endpoint: string,
 	accesCode: number,
 	data: {},
@@ -119,6 +119,7 @@ export const fetchConTokenCheckconData = (
 	//Se recupera el token guardado el localStorage
 	// const token = localStorage.getItem('gersa-tkn') || '';
 
+	console.log('from HelperJSON', JSON.stringify(data));
 	//Se hace la peticion
 	return fetch(url, {
 		method,

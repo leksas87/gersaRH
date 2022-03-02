@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import {
 	fetchConToken,
 	fetchConTokenCheck,
-	fetchConTokenCheckconData,
+	fetchCheckconData,
 } from '../../helpers/fetch';
 import { Toast } from '../../helpers/swalAlert';
 import {
@@ -17,7 +17,8 @@ import {
 	SEND_ACCESS_CODE,
 } from './checkActionTypes';
 
-export const sendAccessCodeCheck = (accessCode: number, checkValue: string) => {
+// (GET) Check
+export const sendAccessCodeCheck = (accessCode: number) => {
 	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
 		try {
@@ -26,7 +27,7 @@ export const sendAccessCodeCheck = (accessCode: number, checkValue: string) => {
 			});
 
 			const respuesta = await fetchConTokenCheck(
-				`employees/${checkValue}`,
+				'employees/check',
 				accessCode,
 				'GET'
 			);
@@ -109,20 +110,17 @@ export const changecheckIsUserActiveFalse = () => {
 };
 
 //(POST) Guardar informacion del check
-export const sendAccessCodeDataCheck = (
-	checkValue: string,
-	accessCode: number,
-	data: {}
-) => {
+export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
 	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
+
 		try {
 			dispatch({
 				type: CHECK_START_LOADING,
 			});
 
-			const respuesta = await fetchConTokenCheckconData(
-				`employees/${checkValue}`,
+			const respuesta = await fetchCheckconData(
+				'employees/check',
 				accessCode,
 				data,
 				'POST'

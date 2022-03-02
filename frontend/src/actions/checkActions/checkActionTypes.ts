@@ -17,9 +17,11 @@ export interface iCheckReducerState {
 }
 //Interfaz para confirmacion de usuario.
 export interface iUserConfirmation {
-	userId: number | null;
-	username: string;
 	accessCode: number;
+	firstName: string;
+	id: number | null;
+	lastName: string;
+	username: string;
 }
 
 //Obtener contrato para mostrar

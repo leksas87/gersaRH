@@ -26,7 +26,7 @@ const InicioPage = () => {
 			const fecha = new Date(perfilEmpleado.fechaNacimiento);
 			console.log('fechaCumple', fecha);
 			return (
-				fecha.getDate() == today.getDate() && fecha.getMonth() == today.getMonth()
+				fecha.getDate() === today.getDate() && fecha.getMonth() === today.getMonth()
 			);
 		};
 
@@ -38,7 +38,7 @@ const InicioPage = () => {
 	useEffect(() => {
 		dispatch(getUserById(id));
 		dispatch(getEmployeeById(id));
-	}, [id]);
+	}, [id, dispatch]);
 
 	return (
 		<>

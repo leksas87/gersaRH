@@ -12,9 +12,11 @@ import {
 //Estado inicial
 const INITIAL_STATE: iCheckReducerState = {
 	userConfirmation: {
-		userId: null,
+		id: null,
 		accessCode: 0,
 		username: '',
+		firstName: '',
+		lastName: '',
 	},
 	checkState: {
 		loading: false,
