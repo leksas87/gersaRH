@@ -13,8 +13,18 @@ router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
+router.get('/:id/events', authorize(), getEvents);
+
 
 module.exports = router;
+
+function  getEvents(req, res, next) {
+    employeeService.getEvents(req.params.id, req.query.startDate, req.query.endDate)
+        .then(registros => res.json({ registros:registros ,message:'Succesful',ok:true}))
+        .catch(next);
+    }
+
+
 function  sendAccessCodeById(req, res, next) {
     employeeService.sendAccessCode(req.params.id)
         .then(() => res.json({ message:'Succesful',ok:true}))

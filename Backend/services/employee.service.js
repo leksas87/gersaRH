@@ -15,8 +15,24 @@ module.exports = {
     validacionNumeroAleatorio,
     checkAccessCode,
     registerCheck,
-    sendAccessCode
+    sendAccessCode,
+    getEvents
 };
+
+async function getEvents(id, fechaInicio, fechaFin) {
+
+
+    const checks = await models.Check.findAll({where:{
+                                                    employeeId:id,
+                                                    DateCheck: {[Op.between]: [fechaInicio,fechaFin]}
+                                                    },
+                                                order:[['DateCheck', 'DESC']]
+                                              });
+   
+    if ( !checks)  throw 'Empleado no encontrado';
+    
+    return checks;
+}
 
 async function sendAccessCode(id) {
     const employee = await models.Employee.findOne({where:{userId:id}});
