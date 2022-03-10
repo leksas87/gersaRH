@@ -14,6 +14,8 @@ tags:
   description: Access, update contracts information
 - name: schedule
   description: Create, read, update, delete schedules information
+- name: employeeSchedules
+  description: Create, Delete
 paths: 
   /users/{id}:
     get:
@@ -192,7 +194,6 @@ paths:
           $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
-
   /employees/{userId}/contracts:
     get:
       tags:
@@ -341,28 +342,6 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
-  
-  /employees/{userId}/logbook:
-    get:
-      tags:
-      - employees
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: number
-        - name: limit
-          in: query
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Logbook of user
-      security:
-        - bearerAuth: []
-        
   /employees/{userId}/accessCode:
     get:
       tags:
@@ -392,7 +371,6 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
-
   /employees/auth:
     get:
       tags:
@@ -431,7 +409,7 @@ paths:
       tags:
       - employees
       summary: Recupera los eventos del empleado seleccionado
-      description: "El EndPoint retorna el arreglo de eventos del dia actual"
+      description: "El EndPoint en caso de no tener ni fecha inicio ni fecha fin regresará los eventos del día actual; si se incluye la fecha inicio y fecha fin regresa el arreglo de eventos que pertecen a este intervalo de fechas"
       parameters:
         - name: employeeId
           in: path
@@ -502,7 +480,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/EventRegister"
-
   /employees/{employeeId}/contracts/:
     post:
       tags:
@@ -543,7 +520,128 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
-
+  /employeeSchedules/{employeeId}/{scheduleId}:
+    delete:
+      tags:
+      - employeeSchedules
+      summary: End Point para la eliminación de la relación del empleado con el Schedule
+      description: El End Point recibe por body el id del empleado y el id del schedule del horario
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: (OK) Se eliminaron los datos de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /employeeSchedules:
+    post:
+      tags:
+      - employeeSchedules
+      summary: End Point para el registro de la relación del empleado con el Schedule
+      description: El End Point recibe por body el id del empleado y el id del schedule del horario
+      requestBody: 
+        description: "Para realizar un post es necesario enviar todo el schema."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyEmployeeSchedule'
+      responses:
+        200:
+          description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /employees/{employeeId}/employeeSchedule/:
+    get:
+      tags:
+      - employees
+      summary: End Point para el registro de la relación del empleado con el Schedule
+      description: El End Point recibe por path el id del empleado y por body el id del schedule del horario
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: (OK) La informacion de los horarios se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exito'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
   /schedules/{scheduleId}/:
     patch:
       tags:
@@ -1286,6 +1384,15 @@ components:
          description: Salario definido en el contrato
     
 
+    BodyEmployeeSchedule:
+      type: object
+      properties:
+        employeeId:
+          type: integer
+          description: Identificador del empleado
+        scheduleId:
+         type: integer
+         description: Identificador del Schedule
     BodyContratosPut:
       type: object
       properties:
