@@ -24,12 +24,23 @@ const PageControlHorario = () => {
 						>
 							Semanal
 						</div>
+
 						<div className='ms-2 me-2 btn'>Quincenal</div>
 						<div className='ms-2 me-2 btn'>Mensual</div>
 					</div>
 				</div>
-				<div className='d-flex custm-Width100 mt-3'>
-					<div className='textColorSecondary '>14 - 20 FEBRERO 2022</div>
+				<div className='d-flex custm-Width100 mt-3 align-items-center '>
+					<div className='textColorSecondary  d-flex align-items-center'>
+						<div>
+							<i className=' btn bi bi-caret-left' />
+						</div>
+						<div>14 - 20 FEBRERO 2022</div>
+
+						<div>
+							<i className=' btn bi bi-caret-right' />
+						</div>
+					</div>
+					<div className='btn textColorLight'>Ir a actual</div>
 				</div>
 				<div className='custm-tableEmpleados mt-3'>
 					<div className='table-responsive'>
