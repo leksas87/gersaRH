@@ -567,15 +567,6 @@ paths:
       - employeeSchedules
       summary: End Point para la eliminación de la relación del empleado con el Schedule
       description: El End Point recibe por body el id del empleado y el id del schedule del horario
-<<<<<<< HEAD
-=======
-      requestBody: 
-        description: "Para realizar un post es necesario enviar todo el schema."
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BodyEmployeeSchedule'
->>>>>>> 5dd5593e7591a4f080bf6a3f1e7c45b07da3dd02
       responses:
         200:
           description: (OK) La informacion de los contratos se obtuvo de forma exitosa
