@@ -28,7 +28,7 @@ class Schedule extends Model {
     return {
       sequelize,
       tableName: SCHEDULE_TABLE,
-      modelName: 'Squedule',
+      modelName: 'Schedule',
       timestamps: false
     }
   }
