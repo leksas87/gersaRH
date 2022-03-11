@@ -16,6 +16,8 @@ tags:
   description: Create, read, update, delete schedules information
 - name: employeeSchedules
   description: Create, Delete
+- name: eventType
+  description: Create, read, update, delete eventType 
 paths: 
   /users/{id}:
     get:
@@ -520,26 +522,22 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - bearerAuth: []
-  /employeeSchedules/{employeeId}/{scheduleId}:
-    delete:
+
+  /employeeSchedules:
+    post:
       tags:
       - employeeSchedules
-      summary: End Point para la eliminación de la relación del empleado con el Schedule
+      summary: End Point para el registro de la relación del empleado con el Schedule
       description: El End Point recibe por body el id del empleado y el id del schedule del horario
-      parameters:
-        - name: employeeId
-          in: path
-          required: true
-          schema:
-            type: integer
-        - name: scheduleId
-          in: path
-          required: true
-          schema:
-            type: integer
+      requestBody: 
+        description: "Para realizar un post es necesario enviar todo el schema."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyEmployeeSchedule'
       responses:
         200:
-          description: (OK) Se eliminaron los datos de forma correcta
+          description: (OK) La informacion de los contratos se obtuvo de forma exitosa
           content:
             application/json:
               schema:
@@ -564,11 +562,10 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
-  /employeeSchedules:
-    post:
+    delete:
       tags:
       - employeeSchedules
-      summary: End Point para el registro de la relación del empleado con el Schedule
+      summary: End Point para la eliminación de la relación del empleado con el Schedule
       description: El End Point recibe por body el id del empleado y el id del schedule del horario
       requestBody: 
         description: "Para realizar un post es necesario enviar todo el schema."
@@ -850,8 +847,165 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
-
-
+  /eventType/:
+    post:
+        tags:
+        - eventType
+        summary: End Point para el registro del tipo de evento
+        description: El End Point recibe por body el nombre del tipo de evento
+        requestBody: 
+          description: "Para realizar un post es necesario enviar todo el schema."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyEventType'
+        responses:
+          200:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Exito'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+    get:
+        tags:
+        - eventType
+        summary: End Point para obtener todos los eventos registrados
+        description: El End Point solicita estar autorizado para realizar esta accion
+        responses:
+          200:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventsTypes'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+  /eventType/{eventTypeId}/:
+    get:
+        tags:
+        - eventType
+        summary: End Point para obtener todos los eventos registrados
+        description: El End Point solicita estar autorizado y el eventTypeId para realizar esta accion
+        parameters:
+        - name: eventTypeId
+          in: path
+          required: true
+          schema:
+            type: number
+        responses:
+          200:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EventsType'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          404:
+            description: Not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/NotFound1'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+    delete:
+      tags:
+      - eventType
+      summary: Se eliminara el tipo de evento correspondiente al id recibido
+      parameters:
+        - name: eventTypeId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: (OK) Se elimino el registro exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scheduleDelete'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404:
+          description: Not Found 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound1'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
 components: 
   responses:
     UnauthorizedError:
@@ -933,6 +1087,18 @@ components:
           type: boolean
           example: false
           description: ok, es un booleano que indica si la repuesta fue exitosa o no
+    NotFound1:     
+      description:  tipo de evento no se encontrado
+      type: object
+      properties:
+        message:
+          type: string
+          example: tipo de evento no se encontrado
+          description: tipo de evento no se encontrado
+        ok:
+          type: boolean
+          example: false
+          description: ok, es un booleano que indica si la repuesta fue exitosa o no
     Auth:      
       type: object
       properties:
@@ -972,6 +1138,44 @@ components:
               longitudeEvent:
                 type: string
               latitudeEvent:
+                type: string
+        message:
+         type: string
+         example: successful
+         description: Esta propiedad es un mensaje con detalle sobre la respuesta
+        ok:
+         type: boolean
+         example: true
+         description: (True) Salio bien, (False) Algo salio mal
+    EventsTypes:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              nameType:
+                type: string
+        message:
+         type: string
+         example: successful
+         description: Esta propiedad es un mensaje con detalle sobre la respuesta
+        ok:
+         type: boolean
+         example: true
+         description: (True) Salio bien, (False) Algo salio mal
+    EventsType:      
+      type: object
+      properties:
+        data: 
+          type: object
+          properties:
+              id:
+                type: integer
+              nameType:
                 type: string
         message:
          type: string
@@ -1393,6 +1597,12 @@ components:
         scheduleId:
          type: integer
          description: Identificador del Schedule
+    BodyEventType:
+      type: object
+      properties:
+        nameType:
+         type: string
+         description: Nombre del tipo de evento
     BodyContratosPut:
       type: object
       properties:
