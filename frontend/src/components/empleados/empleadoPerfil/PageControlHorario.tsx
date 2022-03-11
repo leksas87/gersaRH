@@ -19,14 +19,13 @@ const PageControlHorario = () => {
 						style={{ backgroundColor: 'var(--backgroundBody)' }}
 					>
 						<div
-							className='btn p-2 shadow rounded-3'
-							style={{ backgroundColor: '#fff' }}
+							className='p-2 shadow rounded-3'
+							style={{ backgroundColor: '#fff', pointerEvents: 'none' }}
 						>
 							Semanal
 						</div>
-
-						<div className='ms-2 me-2 btn'>Quincenal</div>
-						<div className='ms-2 me-2 btn'>Mensual</div>
+						{/* <div className='ms-2 me-2 btn'>Quincenal</div>
+						<div className='ms-2 me-2 btn'>Mensual</div> */}
 					</div>
 				</div>
 				<div className='d-flex custm-Width100 mt-3 align-items-center '>
@@ -40,7 +39,7 @@ const PageControlHorario = () => {
 							<i className=' btn bi bi-caret-right' />
 						</div>
 					</div>
-					<div className='btn textColorLight'>Ir a actual</div>
+					<div className='btn textColorLight'>Ir a semana actual</div>
 				</div>
 				<div className='custm-tableEmpleados mt-3'>
 					<div className='table-responsive'>
@@ -54,13 +53,13 @@ const PageControlHorario = () => {
 										<div className='d-flex justify-content-center'>Entrada</div>
 									</th>
 									<th scope='col'>
+										<div className='d-flex justify-content-center'>Inicia descanso</div>
+									</th>
+									<th scope='col'>
+										<div className='d-flex justify-content-center'>Fin descanso</div>
+									</th>
+									<th scope='col'>
 										<div className='d-flex justify-content-center'>Salida</div>
-									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Lugar Entrada</div>
-									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Lugar Salida</div>
 									</th>
 								</tr>
 							</thead>
@@ -75,28 +74,60 @@ const PageControlHorario = () => {
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 									<td>
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -110,28 +141,60 @@ const PageControlHorario = () => {
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 									<td>
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -145,28 +208,60 @@ const PageControlHorario = () => {
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 									<td>
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -180,28 +275,60 @@ const PageControlHorario = () => {
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 									<td>
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -215,99 +342,195 @@ const PageControlHorario = () => {
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
 										</div>
 									</td>
 									<td>
 										<div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										<div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div>
+									</td>
+									<td>
+										{/* <div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
 									</td>
 								</tr>
-								<tr>
+								<tr style={{ height: '4rem' }}>
 									<th scope='row'>
 										<div className='d-flex align-items-center justify-content-center text-center'>
-											Sabado 19
+											sabado 19
 										</div>
 									</th>
 									<td>
-										<div className='d-flex align-items-center justify-content-center'>
+										{/* <div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
-										</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
 									</td>
 									<td>
-										<div className='d-flex align-items-center justify-content-center'>
+										{/* <div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
+									</td>
+									<td>
+										{/* <div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
+									</td>
+									<td>
+										{/* <div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
 									</td>
 								</tr>
-								<tr>
+								<tr style={{ height: '4rem' }}>
 									<th scope='row'>
 										<div className='d-flex align-items-center justify-content-center text-center'>
 											Domingo 20
 										</div>
 									</th>
 									<td>
-										<div className='d-flex align-items-center justify-content-center'>
+										{/* <div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsEntry'>08:00</div>
-										</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
 									</td>
 									<td>
-										<div className='d-flex align-items-center justify-content-center'>
+										{/* <div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsExit'>11:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
+									</td>
+									<td>
+										{/* <div className='d-flex align-items-center justify-content-center'>
+											<span className='textColorLight'>hrs</span>
+											<div className='custm-hrsEntry'>12:00</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
+									</td>
+									<td>
+										{/* <div className='d-flex align-items-center justify-content-center'>
 											<span className='textColorLight'>hrs</span>
 											<div className='custm-hrsExit'>18:00</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div className='d-flex flex-column align-items-center textColorLight text-center'>
-											<div>Cordenadas:</div>
-											<div>
-												<span>17.5548193</span>, <span>-99.4877102,19z</span>
-											</div>
-										</div>
+											<a
+												className='fs-3 btn textColorSecondary'
+												href='https://www.google.com.mx/maps/@25.7710416,-100.1143285,15z'
+												target='_blank'
+												rel='noopener noreferrer'
+												style={{ textDecoration: 'none' }}
+											>
+												<i className='bi bi-geo-alt' />
+											</a>
+										</div> */}
 									</td>
 								</tr>
 							</tbody>
