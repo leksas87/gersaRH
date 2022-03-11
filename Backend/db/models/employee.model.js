@@ -37,7 +37,12 @@ const EmployeeSchema = {
 class Employee extends Model {
   static associate(models) {
     this.belongsTo(models.User,{as:'user'});
-    this.hasMany(models.Check,{as:'check',foreignKey:'employeeId'});
+    this.belongsToMany(models.Schedule, {
+      as: 'items',
+      through: models.EmployeeSchedule,
+      foreignKey: 'employeeId',
+      otherKey: 'scheduleId'
+    });
   }
 
   static config(sequelize) {
