@@ -1,7 +1,5 @@
 'use strict';
 
-'use strict';
-
 const {SCHEDULE_TABLE,ScheduleSchema}=require('../models/schedule.model');
 
 module.exports = {
