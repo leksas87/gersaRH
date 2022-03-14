@@ -15,6 +15,7 @@ app.use('/api/users', require('./controllers/users.controller'));
 app.use('/api/employees', require('./controllers/employees.controller'));
 app.use('/api/contracts', require('./controllers/contracts.controller'));
 app.use('/api/check', require('./controllers/checks.controller'));
+app.use('/api/schedules', require('./controllers/schedules.controller'));
 
 // global error handler
 app.use(errorHandler);
