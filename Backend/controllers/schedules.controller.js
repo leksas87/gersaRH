@@ -9,8 +9,15 @@ const {models} = require('./../libs/sequelize');
 
 // routes
 router.post('/', authorize(),authenticateSchema,register);
+router.get('/',authorize(),getAll);
 
 module.exports = router;
+
+function getAll(req, res, next) {
+    scheduleService.getAll()
+        .then(users => res.json({ data:users ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function register(req,res,next) {
     scheduleService.create(req.body)
@@ -37,8 +44,4 @@ function authenticateSchema(req, res, next) {
     validateRequest(req, next, schema);
 }
 
-function authenticate(req, res, next) {
-    userService.authenticate(req.body)
-        .then(user => res.json({ data:user ,message:'Succesful'}))
-        .catch(next);
-}
+

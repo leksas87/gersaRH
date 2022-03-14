@@ -6,7 +6,8 @@ const {Op,DataTypes}=require('sequelize');
 const moment = require('moment-timezone');
 
 module.exports = {
-    create
+    create,
+    getAll
 };
 
 
@@ -14,3 +15,6 @@ async function create(params) {
     await models.Schedule.create(params);
 }
 
+async function getAll() {
+    return await models.Schedule.findAll();
+}
