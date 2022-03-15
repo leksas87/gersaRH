@@ -4,10 +4,12 @@ import { RootSote } from '../store/Store';
 
 export const RequireCheckState = () => {
 	///Senecesita el state que indica  el checkState
-	const { checkState } = useSelector((state: RootSote) => state.check);
+	const { eventsState: checkState } = useSelector(
+		(state: RootSote) => state.events
+	);
 
 	// if (!isAutenticated) {
-	if (!checkState.checkIsUserConfirm) {
+	if (!checkState.eventIsUserConfirm) {
 		return <Navigate to='/checador' />;
 	}
 

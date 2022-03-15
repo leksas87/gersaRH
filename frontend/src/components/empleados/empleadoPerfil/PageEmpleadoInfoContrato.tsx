@@ -105,15 +105,15 @@ const PageEmpleadoInfoContrato = () => {
 			horasLaborales: contractToShow.horasLaborales,
 			unidadLaborales: contractToShow.unidadLaborales,
 		});
-		setChecked({
-			lunes: contractToShow.lunes,
-			martes: contractToShow.martes,
-			miercoles: contractToShow.miercoles,
-			jueves: contractToShow.jueves,
-			viernes: contractToShow.viernes,
-			sabado: contractToShow.sabado,
-			domingo: contractToShow.domingo,
-		});
+		// setChecked({
+		// 	lunes: contractToShow.lunes,
+		// 	martes: contractToShow.martes,
+		// 	miercoles: contractToShow.miercoles,
+		// 	jueves: contractToShow.jueves,
+		// 	viernes: contractToShow.viernes,
+		// 	sabado: contractToShow.sabado,
+		// 	domingo: contractToShow.domingo,
+		// });
 	}, [contractToShow, fechaInicio, fechaFin]);
 
 	//handleInputChange
@@ -454,6 +454,7 @@ const PageEmpleadoInfoContrato = () => {
 									<select
 										className=' form-select form-control custm-Width100 custm-empleadoFormIntput'
 										name='tipoDeHorario'
+										disabled={!horasLabValue}
 										// value={tipoDeHorario}
 										// onChange={handleInputChangeInfoBasic}
 										// disabled={!infoBasicavalue}
