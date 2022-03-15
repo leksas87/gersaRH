@@ -8,7 +8,8 @@ const moment = require('moment-timezone');
 module.exports = {
     create,
     getAll,
-    delete: _delete
+    delete: _delete,
+    update
 };
 
 
@@ -30,4 +31,13 @@ async function getSchedule(id) {
     console.log(schedule);
     if (!schedule) throw 'Horario no encontrado';
     return schedule;
+}
+
+async function update(id, params) {
+    const schedule = await getSchedule(id);
+    // copy params to user and save
+    Object.assign(schedule, params);
+    await schedule.save();
+
+    return schedule.get();
 }
