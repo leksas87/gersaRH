@@ -11,6 +11,7 @@ const {models} = require('./../libs/sequelize');
 router.post('/', authorize(),authenticateSchema,register);
 router.get('/',authorize(),getAll);
 router.delete('/:id', authorize(), deleteSchedule);
+router.put('/:id', authorize(),authenticateSchema, updateSchedule);
 
 module.exports = router;
 
@@ -51,4 +52,8 @@ function authenticateSchema(req, res, next) {
     validateRequest(req, next, schema);
 }
 
-
+function updateSchedule(req, res, next) {
+    scheduleService.update(req.params.id, req.body)
+        .then(user => res.json({data:user ,message:'Succesful'}))
+        .catch(next);
+}
