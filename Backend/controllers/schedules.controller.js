@@ -12,6 +12,7 @@ router.post('/', authorize(),authenticateSchema,register);
 router.get('/',authorize(),getAll);
 router.delete('/:id', authorize(), deleteSchedule);
 router.put('/:id', authorize(),authenticateSchema, updateSchedule);
+router.patch('/:id',authorize(),authenticateSchemaPatch,updateSchedule);
 
 module.exports = router;
 
@@ -48,6 +49,24 @@ function authenticateSchema(req, res, next) {
         Viernes: Joi.boolean().required(),
         Sabado: Joi.boolean().required(),
         Domingo: Joi.boolean().required()
+    });
+    validateRequest(req, next, schema);
+}
+function authenticateSchemaPatch(req, res, next) {
+    const schema = Joi.object({
+        scheduleName: Joi.string(),
+        horaEntrada: Joi.string(),
+        horaSalida: Joi.string(),
+        tiempoDescanso: Joi.number(),
+        tiempoRetraso: Joi.number(),
+        tiempoActaAdministrativa: Joi.number(),
+        Lunes: Joi.boolean(),
+        Martes: Joi.boolean(),
+        Miercoles: Joi.boolean(),
+        Jueves: Joi.boolean(),
+        Viernes: Joi.boolean(),
+        Sabado: Joi.boolean(),
+        Domingo: Joi.boolean()
     });
     validateRequest(req, next, schema);
 }
