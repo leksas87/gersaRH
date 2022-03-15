@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import { reSendAccessCode } from '../../../actions/checkActions/checkActions';
+import { reSendAccessCode } from '../../../actions/eventsActions/eventsActions';
 import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
 	getEmployeeById,

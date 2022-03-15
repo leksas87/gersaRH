@@ -111,6 +111,107 @@ const PageInfoContrato = () => {
 									</div>
 								</div>
 
+								<div className='d-flex justify-content-center flex-column mb-4'>
+									<label className='custm-Width100'>Horario del trabajador</label>
+									<select
+										className=' form-select form-control custm-Width100 custm-empleadoFormIntput'
+										name='tipoDeHorario'
+										// value={tipoDeHorario}
+										// onChange={handleInputChangeInfoBasic}
+										disabled
+									>
+										{/* <option>--Selecciona uno--</option> */}
+										<option value='Nike 1 Matutino'>Nike 1 Matutino</option>
+										<option value='Nike 1 Matutino'>Nike 2 Matutino</option>
+										<option value='Nike 1 Matutino'>Nike 3 Matutino</option>
+									</select>
+								</div>
+
+								<div className='d-flex justify-content-center textColorLight mb-1'>
+									<div className='fs-4 textColorLight'>Detalle del horario</div>
+								</div>
+								<div className='d-flex mb-4'>
+									<div className='me-1'>
+										<label className='custm-Width100 text-center textColorLight'>
+											Hora entrada
+										</label>
+
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											// placeholder={perfilEmpleado.ciudad}
+											name='horaEntrada'
+											// value={ciudad}
+											// onChange={handleInputChangeDireccion}
+											disabled
+										/>
+									</div>
+									<div className='ms-1'>
+										<label className='custm-Width100 text-center textColorLight'>
+											Hora salida
+										</label>
+
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											// placeholder={perfilEmpleado.codigoPostal.toString()}
+											name='horaSalida'
+											// value={codigoPostal}
+											// onChange={handleInputChangeDireccion}
+											disabled
+										/>
+									</div>
+								</div>
+								<div className='d-flex mb-4'>
+									<div className='me-1 d-flex flex-column justify-content-end'>
+										<label className='custm-Width100 text-center textColorLight'>
+											Tiempo de retardo
+										</label>
+
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											// placeholder={perfilEmpleado.ciudad}
+											name='horaEntrada'
+											// value={ciudad}
+											// onChange={handleInputChangeDireccion}
+											disabled
+										/>
+									</div>
+									<div className='ms-1 d-flex flex-column justify-content-end'>
+										<label className='custm-Width100 text-center textColorLight'>
+											Tiempo de acta administrativaa
+										</label>
+
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											// placeholder={perfilEmpleado.codigoPostal.toString()}
+											name='horaSalida'
+											// value={codigoPostal}
+											// onChange={handleInputChangeDireccion}
+											disabled
+										/>
+									</div>
+								</div>
+								<div className='d-flex mb-4 justify-content-center'>
+									<div className='me-1 d-flex flex-column justify-content-end'>
+										<label className='custm-Width100 text-center textColorLight'>
+											Tiempo de descanso
+										</label>
+
+										<input
+											className='form-control custm-Width100 custm-empleadoFormIntput'
+											type='text'
+											// placeholder={perfilEmpleado.ciudad}
+											name='horaEntrada'
+											// value={ciudad}
+											// onChange={handleInputChangeDireccion}
+											disabled
+										/>
+									</div>
+								</div>
+
 								<div className='d-flex justify-content-center textColorLight mb-1'>
 									<label>
 										<span className='text-capitalize'>{'perfilEmpleado.firstName'}</span>{' '}

@@ -4,12 +4,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	changeCheckValue,
 	sendAccessCodeCheck,
-} from '../../actions/checkActions/checkActions';
+} from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 const ChecadorTeclado = () => {
 	//Senecesita el state que indica  el checkState
-	const { checkState } = useSelector((state: RootSote) => state.check);
+	const { eventsState: checkState } = useSelector(
+		(state: RootSote) => state.events
+	);
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
 	const dispatch = useDispatch();
@@ -62,7 +64,7 @@ const ChecadorTeclado = () => {
 
 	//useEffect para redireccionar al login una vez se actualizo el password
 	useEffect(() => {
-		if (checkState.checkIsUserConfirm) {
+		if (checkState.eventIsUserConfirm) {
 			navigate('/checador/confirm');
 		}
 	}, [checkState, navigate]);

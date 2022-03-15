@@ -24,13 +24,6 @@ export interface iNewContract {
 	fechaDeFinalizacion?: string;
 	horasLaborales: number;
 	unidadLaborales: string;
-	lunes: boolean;
-	martes: boolean;
-	miercoles: boolean;
-	jueves: boolean;
-	viernes: boolean;
-	sabado: boolean;
-	domingo: boolean;
 	tipoSalario: string;
 	cantidadSalario: number;
 	tipoDeContrato: string;
@@ -45,13 +38,6 @@ export interface iContract {
 	fechaDeFinalizacion?: string | null;
 	horasLaborales: number;
 	unidadLaborales: string;
-	lunes: boolean;
-	martes: boolean;
-	miercoles: boolean;
-	jueves: boolean;
-	viernes: boolean;
-	sabado: boolean;
-	domingo: boolean;
 	tipoSalario: string;
 	cantidadSalario: number;
 	isContractActivide: boolean;

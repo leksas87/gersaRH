@@ -5,14 +5,14 @@ import {
 	changecheckIsUserActiveFalse,
 	changeCheckValue,
 	sendAccessCodeDataCheck,
-} from '../../actions/checkActions/checkActions';
+} from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 
 const ChecadorConfirmacion = () => {
 	//Senecesita el state que indica  el checkState
-	const { userConfirmation, checkState } = useSelector(
-		(state: RootSote) => state.check
+	const { userConfirmation, eventsState: checkState } = useSelector(
+		(state: RootSote) => state.events
 	);
 
 	//useDispatch para ejecutar las Actions
@@ -29,7 +29,7 @@ const ChecadorConfirmacion = () => {
 
 	//Metodo que envia lso datos de confirmacion
 	const confirmationCheck = () => {
-		if (checkState.checkOption === 'entry') {
+		if (checkState.eventOption === 'entry') {
 			dispatch(
 				sendAccessCodeDataCheck(userConfirmation.accessCode, {
 					userId: userConfirmation.id,
@@ -39,7 +39,7 @@ const ChecadorConfirmacion = () => {
 					tipoCheck: 'Entrada',
 				})
 			);
-		} else if (checkState.checkOption === 'exit') {
+		} else if (checkState.eventOption === 'exit') {
 			dispatch(
 				sendAccessCodeDataCheck(userConfirmation.accessCode, {
 					userId: userConfirmation.id,

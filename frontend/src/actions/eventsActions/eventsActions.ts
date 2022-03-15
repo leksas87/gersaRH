@@ -7,23 +7,23 @@ import {
 } from '../../helpers/fetch';
 import { Toast } from '../../helpers/swalAlert';
 import {
-	CheckDispatchTypes,
-	CHECK_IS_USER_ACTIVE,
-	CHECK_IS_USER_ACTIVE_FALSE,
-	CHECK_LOADING_END,
-	CHECK_OPTION,
-	CHECK_START_LOADING,
+	EventsDispatchTypes,
+	EVENTS_IS_USER_ACTIVE,
+	EVENTS_IS_USER_ACTIVE_FALSE,
+	EVENTS_LOADING_END,
+	EVENTS_OPTION,
+	EVENTS_START_LOADING,
 	RESEND_ACCESS_CODE,
 	SEND_ACCESS_CODE,
-} from './checkActionTypes';
+} from './eventsActionTypes';
 
 // (GET) Check
 export const sendAccessCodeCheck = (accessCode: number) => {
-	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
 		try {
 			dispatch({
-				type: CHECK_START_LOADING,
+				type: EVENTS_START_LOADING,
 			});
 
 			const respuesta = await fetchConTokenCheck(
@@ -46,14 +46,14 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 					payload: { userConfirmation: body.data },
 				});
 				dispatch({
-					type: CHECK_IS_USER_ACTIVE,
+					type: EVENTS_IS_USER_ACTIVE,
 				});
 				dispatch({
-					type: CHECK_LOADING_END,
+					type: EVENTS_LOADING_END,
 				});
 			} else {
 				dispatch({
-					type: CHECK_LOADING_END,
+					type: EVENTS_LOADING_END,
 				});
 				//Mensaje de error proveniente de la API
 				if (
@@ -96,27 +96,27 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 //Cambiar el valor del check (checkIn o CheckOut)
 export const changeCheckValue = (checkValue: string) => {
 	// console.log('Ejecutando getUsers');
-	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
-		dispatch({ type: CHECK_OPTION, payload: { checkOption: checkValue } });
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		dispatch({ type: EVENTS_OPTION, payload: { checkOption: checkValue } });
 	};
 };
 //Cambiar el valor del check (checkIn o CheckOut)
 export const changecheckIsUserActiveFalse = () => {
 	// console.log('Ejecutando getUsers');
-	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		console.log('entra a false');
-		dispatch({ type: CHECK_IS_USER_ACTIVE_FALSE });
+		dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
 	};
 };
 
 //(POST) Guardar informacion del check
 export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
-	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
 
 		try {
 			dispatch({
-				type: CHECK_START_LOADING,
+				type: EVENTS_START_LOADING,
 			});
 
 			const respuesta = await fetchCheckconData(
@@ -141,15 +141,15 @@ export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
 				});
 				setTimeout(() => {
 					dispatch({
-						type: CHECK_LOADING_END,
+						type: EVENTS_LOADING_END,
 					});
 					dispatch({
-						type: CHECK_IS_USER_ACTIVE_FALSE,
+						type: EVENTS_IS_USER_ACTIVE_FALSE,
 					});
 				}, 2000);
 			} else {
 				dispatch({
-					type: CHECK_LOADING_END,
+					type: EVENTS_LOADING_END,
 				});
 				//Mensaje de error proveniente de la API
 				if (
@@ -177,7 +177,7 @@ export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
 
 //(GET) Reenviar codigo de Acceso al empleado
 export const reSendAccessCode = (userId: number) => {
-	return async (dispatch: Dispatch<CheckDispatchTypes>) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
 		try {
 			const respuesta = await fetchConToken(

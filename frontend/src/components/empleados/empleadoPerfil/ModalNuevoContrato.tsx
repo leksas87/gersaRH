@@ -32,6 +32,7 @@ const ModalNuevoContrato = () => {
 		sabado: false,
 		domingo: false,
 	};
+
 	//Estado inicial para manejo de errores
 	interface iErrors {
 		msgError: string;
@@ -77,13 +78,13 @@ const ModalNuevoContrato = () => {
 						fechaDeInicio: fechaDeInicio,
 						horasLaborales: horasLaborales,
 						unidadLaborales: unidadLaborales,
-						lunes: lunes,
-						martes: martes,
-						miercoles: miercoles,
-						jueves: jueves,
-						viernes: viernes,
-						sabado: sabado,
-						domingo: domingo,
+						// lunes: lunes,
+						// martes: martes,
+						// miercoles: miercoles,
+						// jueves: jueves,
+						// viernes: viernes,
+						// sabado: sabado,
+						// domingo: domingo,
 						tipoSalario: tipoSalario,
 						cantidadSalario: cantidadSalario,
 						tipoDeContrato: tipoDeContrato,
@@ -98,13 +99,13 @@ const ModalNuevoContrato = () => {
 						fechaDeFinalizacion: fechaDeFinalizacion,
 						horasLaborales: horasLaborales,
 						unidadLaborales: unidadLaborales,
-						lunes: lunes,
-						martes: martes,
-						miercoles: miercoles,
-						jueves: jueves,
-						viernes: viernes,
-						sabado: sabado,
-						domingo: domingo,
+						// lunes: lunes,
+						// martes: martes,
+						// miercoles: miercoles,
+						// jueves: jueves,
+						// viernes: viernes,
+						// sabado: sabado,
+						// domingo: domingo,
 						tipoSalario: tipoSalario,
 						cantidadSalario: cantidadSalario,
 						tipoDeContrato: tipoDeContrato,
@@ -377,9 +378,22 @@ const ModalNuevoContrato = () => {
 												</div>
 											</div>
 											<label htmlFor='recipient-name' className='pt-2'>
-												Dias
+												Horario
 											</label>
-											<div
+											<select
+												className='form-select custm-input form-control custm-Width100  '
+												name='tipoDeHorario'
+												// disabled={!horasLabValue}
+												// value={tipoDeHorario}
+												// onChange={handleInputChangeInfoBasic}
+												// disabled={!infoBasicavalue}
+											>
+												<option>--Selecciona uno--</option>
+												<option value='Nike 1 Matutino'>Nike 1 Matutino</option>
+												<option value='Nike 1 Matutino'>Nike 2 Matutino</option>
+												<option value='Nike 1 Matutino'>Nike 3 Matutino</option>
+											</select>
+											{/* <div
 												className='btn-group mb-2 custm-Width100'
 												role='group'
 												aria-label='Basic checkbox toggle button group'
@@ -484,7 +498,7 @@ const ModalNuevoContrato = () => {
 												>
 													D
 												</label>
-											</div>
+											</div> */}
 											<div className='d-flex'>
 												<div
 													className='me-3'
