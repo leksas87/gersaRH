@@ -4,7 +4,7 @@ const SCHEDULE_TABLE = 'Schedules';
 
 const ScheduleSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
-  scheduleName: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
+  scheduleName: { type: DataTypes.STRING, allowNull: false,unique: true, defaultValue:'' },
   horaEntrada: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   horaSalida: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   tiempoDescanso: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0},
