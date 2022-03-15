@@ -10,6 +10,7 @@ const {models} = require('./../libs/sequelize');
 // routes
 router.post('/', authorize(),authenticateSchema,register);
 router.get('/',authorize(),getAll);
+router.get('/:id', authorize(), getById);
 router.delete('/:id', authorize(), deleteSchedule);
 router.put('/:id', authorize(),authenticateSchema, updateSchedule);
 router.patch('/:id',authorize(),authenticateSchemaPatch,updateSchedule);
@@ -74,5 +75,11 @@ function authenticateSchemaPatch(req, res, next) {
 function updateSchedule(req, res, next) {
     scheduleService.update(req.params.id, req.body)
         .then(user => res.json({data:user ,message:'Succesful'}))
+        .catch(next);
+}
+
+function getById(req, res, next) {
+    scheduleService.getById(req.params.id)
+        .then(user => res.json({ data:user ,message:'Succesful'}))
         .catch(next);
 }

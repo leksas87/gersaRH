@@ -9,7 +9,8 @@ module.exports = {
     create,
     getAll,
     delete: _delete,
-    update
+    update,
+    getById
 };
 
 
@@ -38,6 +39,12 @@ async function update(id, params) {
     // copy params to user and save
     Object.assign(schedule, params);
     await schedule.save();
+    
+    return schedule.get();
+}
 
+async function getById(id) {
+    const schedule = await models.Schedule.findOne({ where: { id } });
+    if (!schedule) throw 'Horario no encontrado';
     return schedule.get();
 }
