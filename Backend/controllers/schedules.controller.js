@@ -10,18 +10,25 @@ const {models} = require('./../libs/sequelize');
 // routes
 router.post('/', authorize(),authenticateSchema,register);
 router.get('/',authorize(),getAll);
+router.delete('/:id', authorize(), deleteSchedule);
 
 module.exports = router;
 
+function deleteSchedule(req, res, next) {
+    scheduleService.delete(req.params.id)
+        .then(() => res.json({ message: 'Horario eliminado exitosamente'}))
+        .catch(next);
+}
+
 function getAll(req, res, next) {
     scheduleService.getAll()
-        .then(users => res.json({ data:users ,message:'Succesful',ok:true}))
+        .then(users => res.json({ data:users ,message:'Succesful'}))
         .catch(next);
 }
 
 function register(req,res,next) {
     scheduleService.create(req.body)
-        .then(()=> res.json({ message:'Registro exitoso!',ok:true}))
+        .then(()=> res.json({ message:'Registro exitoso!'}))
         .catch(next);
 }
 

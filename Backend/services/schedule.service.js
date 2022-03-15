@@ -7,7 +7,8 @@ const moment = require('moment-timezone');
 
 module.exports = {
     create,
-    getAll
+    getAll,
+    delete: _delete
 };
 
 
@@ -17,4 +18,16 @@ async function create(params) {
 
 async function getAll() {
     return await models.Schedule.findAll();
+}
+
+async function _delete(id) {
+    const schedule = await getSchedule(id);
+    await schedule.destroy();
+}
+
+async function getSchedule(id) {
+    const schedule = await models.Schedule.findByPk(id);
+    console.log(schedule);
+    if (!schedule) throw 'Horario no encontrado';
+    return schedule;
 }
