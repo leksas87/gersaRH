@@ -16,8 +16,31 @@ module.exports = {
     checkAccessCode,
     registerCheck,
     sendAccessCode,
-    getEvents
+    getEvents,
+    sendInformationByAccessCode
 };
+
+async function sendInformationByAccessCode(params) {
+
+    const employee=await models.Employee.findOne({where:{accessCode:params.headers['accesscode']}});
+
+    if (!employee) {
+        throw 'Empleado no encontrado';
+    }
+    const atribute=['phone','active','hash','roll','confirmationCode','isEmployeeActive','username','id']
+
+    const usuario=await models.User.findOne({where: {
+        id:employee.userId
+      },
+      attributes: {
+        exclude: atribute
+      }});
+
+      usuario.setDataValue("employeeId",employee.id);
+      //usuario.setDataValue("accessCode",employee.accessCode);
+
+      return usuario;
+}
 
 async function getEvents(id, fechaInicio, fechaFin) {
 

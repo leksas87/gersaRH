@@ -7,9 +7,16 @@ const eventTypeService = require('../services/eventType.service');
 
 router.post('/',authorize(),registerSchema, register);
 router.get('/:id',authorize(), getEventsById);
+router.delete('/:id',authorize(), getEventsByIdDelete);
 router.get('/',authorize(), getEvents);
 
 module.exports = router;
+
+function getEventsByIdDelete(req,res,next) {
+    eventTypeService.getEventsByIdDelete(req.params.id)
+        .then(event => res.json({ data:event ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function getEvents(req,res,next) {
     eventTypeService.getEvents()
