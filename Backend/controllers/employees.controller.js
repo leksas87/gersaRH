@@ -7,6 +7,7 @@ const authorize = require('middleware/authorize')
 const employeeService = require('../services/employee.service');
 
 // routes
+router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
 router.post('/check',registerAccessCodeSchema,registerCheckSchema,registerCheck);
 router.get('/check',registerAccessCodeSchema,Check);
 router.post('/',authorize(),registerSchema, register);
@@ -14,9 +15,16 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
+//router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
 
 
 module.exports = router;
+
+function sendInformationByAccessCode(req,res,next) {
+    employeeService.sendInformationByAccessCode(req)
+    .then(user => res.json({data:user ,message:'Completado con exito',ok:true}))
+    .catch(next);
+}
 
 function  getEvents(req, res, next) {
     employeeService.getEvents(req.params.id, req.query.startDate, req.query.endDate)
@@ -32,6 +40,7 @@ function  sendAccessCodeById(req, res, next) {
 }
 
 function registerAccessCodeSchema(req,res,next){
+    console.log("paso");
     const schema = Joi.object({
         accesscode: Joi.number().integer().min(1000).max(9999).required(),
     });
