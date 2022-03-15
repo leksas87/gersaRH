@@ -27,6 +27,7 @@ async function _delete(id) {
 
 async function getSchedule(id) {
     const schedule = await models.Schedule.findByPk(id);
+    console.log(schedule);
     if (!schedule) throw 'Horario no encontrado';
     return schedule;
 }
