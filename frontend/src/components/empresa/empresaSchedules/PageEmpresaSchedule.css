@@ -1,0 +1,46 @@
+.custm-scheduleWidht {
+	width: 75%;
+	/* max-height: 100px; */
+}
+.custm-btnBorder {
+	background-color: transparent;
+	border: 1.5px solid var(--colorSecondary);
+	padding: 10px;
+	border-radius: 15px;
+	color: var(--colorSecondary);
+	transition: 0.2s ease-in-out;
+	font-weight: normal;
+}
+.custm-btnBorder:hover {
+	background-color: var(--colorSecondary);
+	color: var(--colorPrimary);
+}
+.custm-tableSchedules {
+	/* background-color: violet; */
+	max-height: 270px;
+	/* overflow-y: auto; */
+}
+.custm-tableSchedules {
+	width: 100%;
+	margin-bottom: 1rem;
+	overflow-y: scroll;
+	scrollbar-color: var(--colorSecondary) transparent;
+	scrollbar-width: thin;
+}
+.custm-tableSchedules::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.custm-tableSchedules::-webkit-scrollbar:vertical {
+	width: 4px;
+}
+.custm-tableSchedules::-webkit-scrollbar-thumb {
+	background-color: var(--colorSecondary);
+	border-radius: 40px;
+}
+
+/* maximo de pantalla  */
+@media (max-width: 768px) {
+	.custm-scheduleWidht {
+		width: 100%;
+	}
+}
