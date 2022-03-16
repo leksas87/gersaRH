@@ -95,3 +95,13 @@ body {
 .inputSubmit:active {
 	background-color: var(--colorSecondaryActive);
 }
+.custm-btnEliminar {
+	background-color: var(--textColorError2);
+	padding: 5px 20px;
+	color: var(--backgroundBody);
+	border-radius: 15px;
+}
+.custm-btnEliminar:hover {
+	background-color: #ff3783;
+	color: var(--backgroundBody);
+}

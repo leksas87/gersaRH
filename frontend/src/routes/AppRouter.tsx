@@ -19,6 +19,7 @@ import EmpleadosPage from '../components/empleados/EmpleadosPage';
 import EmpresaArchivados from '../components/empresa/empresaEmpleadosArchivados/EmpresaArchivados';
 import EmpresaDetalles from '../components/empresa/empresaPage/EmpresaDetalles';
 import EmpresaPage from '../components/empresa/empresaPage/EmpresaPage';
+import PageEmpresaSchedule from '../components/empresa/empresaSchedules/PageEmpresaSchedule';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
@@ -90,6 +91,7 @@ const AppRouter = () => {
 									</Route>
 									<Route path='empresa/' element={<EmpresaPage />}>
 										<Route index element={<EmpresaDetalles />} />
+										<Route path='horarios' element={<PageEmpresaSchedule />} />
 										<Route path='archivados' element={<EmpresaArchivados />} />
 										<Route path='archivados/:empleadoId/' element={<EmpleadoPerfil />}>
 											<Route path='perfil' element={<PageEmpleadoPerfil />} />
