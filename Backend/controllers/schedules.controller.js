@@ -10,8 +10,10 @@ const {models} = require('./../libs/sequelize');
 // routes
 router.post('/', authorize(),authenticateSchema,register);
 router.get('/',authorize(),getAll);
+router.get('/:id', authorize(), getById);
 router.delete('/:id', authorize(), deleteSchedule);
 router.put('/:id', authorize(),authenticateSchema, updateSchedule);
+router.patch('/:id',authorize(),authenticateSchemaPatch,updateSchedule);
 
 module.exports = router;
 
@@ -51,9 +53,33 @@ function authenticateSchema(req, res, next) {
     });
     validateRequest(req, next, schema);
 }
+function authenticateSchemaPatch(req, res, next) {
+    const schema = Joi.object({
+        scheduleName: Joi.string(),
+        horaEntrada: Joi.string(),
+        horaSalida: Joi.string(),
+        tiempoDescanso: Joi.number(),
+        tiempoRetraso: Joi.number(),
+        tiempoActaAdministrativa: Joi.number(),
+        Lunes: Joi.boolean(),
+        Martes: Joi.boolean(),
+        Miercoles: Joi.boolean(),
+        Jueves: Joi.boolean(),
+        Viernes: Joi.boolean(),
+        Sabado: Joi.boolean(),
+        Domingo: Joi.boolean()
+    });
+    validateRequest(req, next, schema);
+}
 
 function updateSchedule(req, res, next) {
     scheduleService.update(req.params.id, req.body)
         .then(user => res.json({data:user ,message:'Succesful'}))
+        .catch(next);
+}
+
+function getById(req, res, next) {
+    scheduleService.getById(req.params.id)
+        .then(user => res.json({ data:user ,message:'Succesful'}))
         .catch(next);
 }
