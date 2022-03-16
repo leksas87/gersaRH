@@ -15,10 +15,32 @@ module.exports = {
     validacionNumeroAleatorio,
     checkAccessCode,
     registerCheck,
+    registerEvents,
     sendAccessCode,
     getEvents,
     sendInformationByAccessCode
 };
+
+async function registerEvents(params, id){
+    try {
+        const employee = await getEmployeeById(id);
+
+        const eventType = await models.EventType.findOne({where:{nameType:params.EventType}});
+
+        
+        const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+
+        
+        
+
+        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent});
+        
+        
+    } catch (error) {
+        return res.status(404).json({ message: 'Ya se tiene registro de la hora de entrada',ok:false});
+    }
+        
+}
 
 async function sendInformationByAccessCode(params) {
 
