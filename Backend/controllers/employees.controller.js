@@ -15,10 +15,25 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
-//router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
+router.post('/:id/events',registerEventSchema,registerEvents);
 
 
 module.exports = router;
+
+function registerEvents(req,res,next) {
+    employeeService.registerEvents(req.body, req.params.id)
+        .then(res.json({ message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function registerEventSchema(req,res,next){
+    const schema = Joi.object({
+        latitudeEvent: Joi.string().required(),
+        longitudeEvent: Joi.string().required(),
+        EventType: Joi.string().required()
+    })
+    validateRequest(req, next, schema);
+}
 
 function sendInformationByAccessCode(req,res,next) {
     employeeService.sendInformationByAccessCode(req)
