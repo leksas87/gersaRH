@@ -1,4 +1,112 @@
+import { useState } from 'react';
+import { useForm } from '../../../hooks/useForm';
+
 const ModalNuevoHorario = () => {
+	//objeto user para formulario Registro
+	const newSchedule = {
+		scheduleName: '',
+		horaEntrada: '',
+		horaSalida: '',
+		tiempoDescanso: '',
+		tiempoRetraso: '',
+		tiempoActaAdministrativa: '',
+	};
+
+	// Objeto para el manejo de los dias trabajados
+	const days = {
+		lunes: false,
+		martes: false,
+		miercoles: false,
+		jueves: false,
+		viernes: false,
+		sabado: false,
+		domingo: false,
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newSchedule);
+	//useState para manejo del checkbox
+	const [daysChecked, setDaysChecked] = useState(days);
+
+	//Estado inicial para manejo de errores
+	interface iErrors {
+		msgError: string;
+		errors: string[];
+	}
+	const errors: iErrors = {
+		msgError: '',
+		errors: [],
+	};
+	// useState para manejo de errores
+	const [error, setError] = useState(errors);
+
+	//Desestructuracion de propiedades
+	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } =
+		daysChecked;
+	const {
+		scheduleName,
+		horaEntrada,
+		horaSalida,
+		tiempoDescanso,
+		tiempoRetraso,
+		tiempoActaAdministrativa,
+	} = formValues;
+
+	const handleClick = (e: any): void => {
+		setDaysChecked({ ...daysChecked, [e.target.name]: !e.target.defaultChecked });
+	};
+
+	const handlesubmitNewSchedule = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (isFormValid()) {
+			console.log('Sending form');
+		}
+	};
+
+	const isFormValid = (): boolean => {
+		// El campo usuario no debe estar vacío
+		if (scheduleName === '') {
+			setError({
+				errors: ['scheduleName'],
+				msgError: 'El campo "Nombre del horario" es obligatorio',
+			});
+			return false;
+			// El campo contraseña debe tener al menos 6 caracteres
+		} else if (horaEntrada === '') {
+			setError({
+				errors: ['horaEntrada'],
+				msgError: 'El campo "Hora entrada" es obligatorio',
+			});
+			return false;
+		} else if (tiempoRetraso === '') {
+			setError({
+				errors: ['tiempoRetraso'],
+				msgError: 'El campo "Tiempo de retardo" es obligatorio',
+			});
+			return false;
+		} else if (horaSalida === '') {
+			setError({
+				errors: ['horaSalida'],
+				msgError: 'El campo "Hora salida" es obligatorio',
+			});
+			return false;
+		} else if (tiempoActaAdministrativa === '') {
+			setError({
+				errors: ['tiempoActaAdministrativa'],
+				msgError: 'El campo "Tiempo de acta administrativa" es obligatorio',
+			});
+			return false;
+		} else if (tiempoDescanso === '') {
+			setError({
+				errors: ['tiempoDescanso'],
+				msgError: 'El campo "Tiempo de descanso" es obligatorio',
+			});
+			return false;
+		}
+
+		//Resetea estado al valor inicial
+		setError({ errors: [], msgError: '' });
+		return true;
+	};
 	return (
 		<>
 			{/* <!-- Modal --> */}
@@ -70,23 +178,24 @@ const ModalNuevoHorario = () => {
 										Completa la información siguiente para añadir un nuevo horario.
 									</label>
 								</div>
-								<form
-								// onSubmit={handlesubmitSchedule}
-								>
-									<div className='d-flex mb-4 mt-4'>
+								<form onSubmit={handlesubmitNewSchedule}>
+									<div className='d-flex mb-4 mt-4 justify-content-between'>
 										<div className='me-1'>
 											<label className='custm-Width100 text-center textColorLight'>
 												Nombre del horario
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
+												className={
+													error.errors.includes('scheduleName')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
 												type='text'
 												// placeholder={perfilEmpleado.ciudad}
 												name='scheduleName'
-												// value={ciudad}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={scheduleName}
+												onChange={handleInputChange}
 											/>
 										</div>
 										<div className='ms-1'>
@@ -95,30 +204,36 @@ const ModalNuevoHorario = () => {
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
-												type='text'
+												className={
+													error.errors.includes('horaEntrada')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
+												type='time'
 												// placeholder={perfilEmpleado.codigoPostal.toString()}
 												name='horaEntrada'
-												// value={codigoPostal}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={horaEntrada}
+												onChange={handleInputChange}
 											/>
 										</div>
 									</div>
-									<div className='d-flex mb-4'>
+									<div className='d-flex mb-4 justify-content-between'>
 										<div className='me-1 d-flex flex-column justify-content-end'>
 											<label className='custm-Width100 text-center textColorLight'>
-												Tiempo de retardo
+												Tiempo de retardo (Minutos)
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
-												type='text'
+												className={
+													error.errors.includes('tiempoRetraso')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
+												type='number'
 												// placeholder={perfilEmpleado.ciudad}
 												name='tiempoRetraso'
-												// value={ciudad}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={tiempoRetraso}
+												onChange={handleInputChange}
 											/>
 										</div>
 										<div className='ms-1 d-flex flex-column justify-content-end'>
@@ -127,45 +242,60 @@ const ModalNuevoHorario = () => {
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
-												type='text'
+												className={
+													error.errors.includes('horaSalida')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
+												type='time'
 												// placeholder={perfilEmpleado.codigoPostal.toString()}
 												name='horaSalida'
-												// value={codigoPostal}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={horaSalida}
+												onChange={handleInputChange}
 											/>
 										</div>
 									</div>
-									<div className='d-flex mb-4'>
-										<div className='me-1 d-flex flex-column justify-content-end'>
+									<div className='d-flex mb-4 justify-content-between'>
+										<div
+											className='me-1 d-flex flex-column justify-content-end'
+											style={{ maxWidth: '220px' }}
+										>
 											<label className='custm-Width100 text-center textColorLight'>
-												Tiempo de acta administrativa
+												Tiempo de acta administrativa (Minutos)
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
-												type='text'
+												className={
+													error.errors.includes('tiempoActaAdministrativa')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
+												type='number'
 												// placeholder={perfilEmpleado.ciudad}
 												name='tiempoActaAdministrativa'
-												// value={ciudad}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={tiempoActaAdministrativa}
+												onChange={handleInputChange}
 											/>
 										</div>
-										<div className='ms-1 d-flex flex-column justify-content-end'>
+										<div
+											className='ms-1 d-flex flex-column justify-content-end'
+											style={{ maxWidth: '150px' }}
+										>
 											<label className='custm-Width100 text-center textColorLight'>
-												Tiempo de descanso
+												Tiempo de descanso (Minutos)
 											</label>
 
 											<input
-												className='form-control custm-Width100 custm-empleadoFormIntput'
-												type='text'
+												className={
+													error.errors.includes('tiempoDescanso')
+														? 'form-control custm-Width100 custm-empleadoFormIntput is-invalid'
+														: 'form-control custm-Width100 custm-empleadoFormIntput'
+												}
+												type='number'
 												// placeholder={perfilEmpleado.codigoPostal.toString()}
 												name='tiempoDescanso'
-												// value={codigoPostal}
-												// onChange={handleInputChangeDireccion}
-												// disabled={!scheduleValue}
+												value={tiempoDescanso}
+												onChange={handleInputChange}
 											/>
 										</div>
 									</div>
@@ -185,15 +315,14 @@ const ModalNuevoHorario = () => {
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek '
-												id='btncheckLunesComponent'
+												id='btncheckLunesNewSchedule'
 												name='lunes'
-												// checked={lunes}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={lunes}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckLunesComponent'
+												htmlFor='btncheckLunesNewSchedule'
 											>
 												L
 											</label>
@@ -201,15 +330,14 @@ const ModalNuevoHorario = () => {
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckMartesComponent'
+												id='btncheckMartesNewSchedule'
 												name='martes'
-												// checked={martes}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={martes}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckMartesComponent'
+												htmlFor='btncheckMartesNewSchedule'
 											>
 												M
 											</label>
@@ -217,80 +345,81 @@ const ModalNuevoHorario = () => {
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckMiercolesComponent'
+												id='btncheckMircolesNewSchedule'
 												name='miercoles'
-												// checked={miercoles}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={miercoles}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckMiercolesComponent'
+												htmlFor='btncheckMircolesNewSchedule'
 											>
 												M
 											</label>
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckJuevesComponent'
+												id='btncheckJuevesNewSchedule'
 												name='jueves'
-												// checked={jueves}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={jueves}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckJuevesComponent'
+												htmlFor='btncheckJuevesNewSchedule'
 											>
 												J
 											</label>
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckViernesComponent'
+												id='btncheckViernesNewSchedule'
 												name='viernes'
-												// checked={viernes}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={viernes}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckViernesComponent'
+												htmlFor='btncheckViernesNewSchedule'
 											>
 												V
 											</label>
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckSabadoComponent'
+												id='btncheckSabadoNewSchedule'
 												name='sabado'
-												// checked={sabado}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={sabado}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckSabadoComponent'
+												htmlFor='btncheckSabadoNewSchedule'
 											>
 												S
 											</label>
 											<input
 												type='checkbox'
 												className='btn-check custm-checkWeek'
-												id='btncheckDomingoComponent'
+												id='btncheckDomingoNewSchedule'
 												name='domingo'
-												// checked={domingo}
-												// onChange={handleClick}
-												// disabled={!scheduleValue}
+												defaultChecked={domingo}
+												onChange={handleClick}
 											/>
 											<label
 												className='btn btn-outline-primary custm-btnWeek'
-												htmlFor='btncheckDomingoComponent'
+												htmlFor='btncheckDomingoNewSchedule'
 											>
 												D
 											</label>
 										</div>
 									</div>
+									{error.msgError && (
+										<div className='form-text textColorError'>
+											<i className='bi bi-exclamation-circle'>{` `}</i>
+											{error.msgError}.
+										</div>
+									)}
 
 									<div
 										className='d-flex justify-content-end custm-Width100'
