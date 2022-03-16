@@ -17,7 +17,8 @@ module.exports = {
     registerCheck,
     sendAccessCode,
     getEvents,
-    sendInformationByAccessCode
+    sendInformationByAccessCode,
+    createSchedule
 };
 
 async function sendInformationByAccessCode(params) {
@@ -118,6 +119,11 @@ async function create(params) {
     params.accessCode=await validacionNumeroAleatorio();
     await models.Employee.create(params);
 
+}
+async function createSchedule(params) {
+    
+    const newSchedule=await models.EmployeeSchedule.create(params);
+    return newSchedule;
 }
 
 async function getEmployeeById(id) {

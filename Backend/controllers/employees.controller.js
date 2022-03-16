@@ -15,6 +15,7 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
+router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
 //router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
 
 
@@ -76,6 +77,13 @@ function registerCheckSchema(req,res,next){
     })
     validateRequest(req, next, schema);
 }
+function addScheduleSchema(req,res,next){
+    const schema = Joi.object({
+        employeeId: Joi.number().integer().required(),
+        scheduleId: Joi.number().integer().required()
+    })
+    validateRequest(req, next, schema);
+}
 function updateSchema(req, res, next) {
     const schema = Joi.object({
         tipoIdentificacion: Joi.string().empty(''),
@@ -122,6 +130,11 @@ function registerSchema(req, res, next) {
 function register(req, res, next) {
     employeeService.create(req.body)
         .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
+        .catch(next);
+}
+function registerSchedule(req, res, next) {
+    employeeService.createSchedule(req.body)
+        .then(() => res.json({ message: 'Registro exitoso' }))
         .catch(next);
 }
 
