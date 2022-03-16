@@ -1,14 +1,31 @@
+import { useToggle } from '../../../hooks/useToggle';
+import ModalNuevoHorario from './ModalNuevoHorario';
 import './PageEmpresaSchedule.css';
 
 const PageEmpresaSchedule = () => {
+	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
+	const [scheduleValue, toggleSchedule] = useToggle(false); //Recibe el valor inicial
+
+	const handlesubmitSchedule = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('sending');
+		toggleSchedule(false);
+	};
 	return (
 		<>
+			<ModalNuevoHorario />
 			<div className='custm-contractContainerCenter p-3'>
 				<div className='d-flex flex-column custm-scheduleWidht'>
 					<div className=' d-flex justify-content-end custm-Width100 '>
-						<div className='btn custm-btnBorder'>
+						{/* <div className='btn custm-btnBorder'> */}
+						<button
+							className='btn custm-btnBorder'
+							type='button'
+							data-bs-toggle='modal'
+							data-bs-target='#ModalNuevoHorario'
+						>
 							Nuevo horario <i className='bi bi-plus-circle' />
-						</div>
+						</button>
 					</div>
 					<div className=' mt-3'>
 						<div className='table-responsive custm-tableSchedules'>
@@ -32,7 +49,7 @@ const PageEmpresaSchedule = () => {
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr className='custm-table-trSchedule'>
 										<th scope='row'>
 											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
 												1
@@ -49,7 +66,7 @@ const PageEmpresaSchedule = () => {
 											</div>
 										</td>
 									</tr>
-									<tr>
+									<tr className='custm-table-trSchedule'>
 										<th scope='row'>
 											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
 												2
@@ -66,7 +83,7 @@ const PageEmpresaSchedule = () => {
 											</div>
 										</td>
 									</tr>
-									<tr>
+									<tr className='custm-table-trSchedule'>
 										<th scope='row'>
 											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
 												3
@@ -83,7 +100,7 @@ const PageEmpresaSchedule = () => {
 											</div>
 										</td>
 									</tr>
-									<tr>
+									<tr className='custm-table-trSchedule'>
 										<th scope='row'>
 											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
 												4
@@ -100,7 +117,7 @@ const PageEmpresaSchedule = () => {
 											</div>
 										</td>
 									</tr>
-									<tr>
+									<tr className='custm-table-trSchedule'>
 										<th scope='row'>
 											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
 												4
@@ -121,6 +138,252 @@ const PageEmpresaSchedule = () => {
 							</table>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div className='d-flex justify-content-center pt-5'>
+				<div
+					className='d-flex flex-column align-items-center '
+					style={{ maxWidth: '400px' }}
+				>
+					<div className='d-flex justify-content-end custm-Width100'>
+						<button className='btn fs-3 custm-btnToggle' onClick={toggleSchedule}>
+							<i className='bi bi-pencil-square textColorSecondary' />
+						</button>
+					</div>
+					<form style={{ width: '90%' }} onSubmit={handlesubmitSchedule}>
+						<div className='d-flex justify-content-center textColorLight mb-1'>
+							<div className='fs-4 textColorLight'>Detalle del horario</div>
+						</div>
+						<div className='d-flex mb-4'>
+							<div className='me-1'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Nombre del horario
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.ciudad}
+									name='scheduleName'
+									// value={ciudad}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+							<div className='ms-1'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Hora entrada
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.codigoPostal.toString()}
+									name='horaEntrada'
+									// value={codigoPostal}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+						</div>
+						<div className='d-flex mb-4'>
+							<div className='me-1 d-flex flex-column justify-content-end'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Tiempo de retardo
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.ciudad}
+									name='tiempoRetraso'
+									// value={ciudad}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+							<div className='ms-1 d-flex flex-column justify-content-end'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Hora salida
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.codigoPostal.toString()}
+									name='horaSalida'
+									// value={codigoPostal}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+						</div>
+						<div className='d-flex mb-4'>
+							<div className='me-1 d-flex flex-column justify-content-end'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Tiempo de acta administrativa
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.ciudad}
+									name='tiempoActaAdministrativa'
+									// value={ciudad}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+							<div className='ms-1 d-flex flex-column justify-content-end'>
+								<label className='custm-Width100 text-center textColorLight'>
+									Tiempo de descanso
+								</label>
+
+								<input
+									className='form-control custm-Width100 custm-empleadoFormIntput'
+									type='text'
+									// placeholder={perfilEmpleado.codigoPostal.toString()}
+									name='tiempoDescanso'
+									// value={codigoPostal}
+									// onChange={handleInputChangeDireccion}
+									disabled={!scheduleValue}
+								/>
+							</div>
+						</div>
+
+						<div className='d-flex justify-content-center textColorLight mb-1'>
+							<label>
+								{/* <span className='text-capitalize'>{perfilUsuario.firstName}</span>{' '} */}
+								Días laborales:
+							</label>
+						</div>
+						<div className='d-flex justify-content-center mb-4'>
+							<div
+								className='btn-group mb-2 custm-Width100'
+								role='group'
+								aria-label='Basic checkbox toggle button group'
+							>
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek '
+									id='btncheckLunesComponent'
+									name='lunes'
+									// checked={lunes}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckLunesComponent'
+								>
+									L
+								</label>
+
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckMartesComponent'
+									name='martes'
+									// checked={martes}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckMartesComponent'
+								>
+									M
+								</label>
+
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckMiercolesComponent'
+									name='miercoles'
+									// checked={miercoles}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckMiercolesComponent'
+								>
+									M
+								</label>
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckJuevesComponent'
+									name='jueves'
+									// checked={jueves}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckJuevesComponent'
+								>
+									J
+								</label>
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckViernesComponent'
+									name='viernes'
+									// checked={viernes}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckViernesComponent'
+								>
+									V
+								</label>
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckSabadoComponent'
+									name='sabado'
+									// checked={sabado}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckSabadoComponent'
+								>
+									S
+								</label>
+								<input
+									type='checkbox'
+									className='btn-check custm-checkWeek'
+									id='btncheckDomingoComponent'
+									name='domingo'
+									// checked={domingo}
+									// onChange={handleClick}
+									disabled={!scheduleValue}
+								/>
+								<label
+									className='btn btn-outline-primary custm-btnWeek'
+									htmlFor='btncheckDomingoComponent'
+								>
+									D
+								</label>
+							</div>
+						</div>
+
+						<div
+							className='d-flex justify-content-end custm-Width100'
+							style={{ height: '3rem' }}
+						>
+							{scheduleValue && (
+								<button type='submit' className='btn  custm-empleadoFormSubmit'>
+									Guardar
+								</button>
+							)}
+						</div>
+					</form>
 				</div>
 			</div>
 		</>

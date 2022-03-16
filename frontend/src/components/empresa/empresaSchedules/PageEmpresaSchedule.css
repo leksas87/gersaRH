@@ -37,6 +37,10 @@
 	background-color: var(--colorSecondary);
 	border-radius: 40px;
 }
+.custm-table-trSchedule:hover {
+	background-color: rgba(15, 65, 87, 0.38);
+	cursor: pointer;
+}
 
 /* maximo de pantalla  */
 @media (max-width: 768px) {
