@@ -18,7 +18,8 @@ module.exports = {
     registerEvents,
     sendAccessCode,
     getEvents,
-    sendInformationByAccessCode
+    sendInformationByAccessCode,
+    createSchedule
 };
 
 async function registerEvents(params, id){
@@ -29,8 +30,6 @@ async function registerEvents(params, id){
 
         
         const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
-
-        
         
 
         await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent});
@@ -66,17 +65,33 @@ async function sendInformationByAccessCode(params) {
 
 async function getEvents(id, fechaInicio, fechaFin) {
 
+    if(!fechaInicio && !fechaFin){
+        const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+        const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
-    const checks = await models.Check.findAll({where:{
-                                                    employeeId:id,
-                                                    DateCheck: {[Op.between]: [fechaInicio,fechaFin]}
-                                                    },
-                                                order:[['DateCheck', 'DESC']]
-                                              });
-   
-    if ( !checks)  throw 'Empleado no encontrado';
+        const events = await models.Event.findAll({where:{
+                                                        employeeId:id,
+                                                        DateEvent: {[Op.between]: [fechaInicio,fechaFin]}
+                                                        },
+                                                    order:[['DateEvent', 'DESC']]
+                                                });
     
-    return checks;
+        if ( !events)  throw 'Empleado no encontrado';
+        
+        return events;
+
+    }else{
+        const events = await models.Event.findAll({where:{
+                                                        employeeId:id,
+                                                        DateEvent: {[Op.between]: [fechaInicio,fechaFin]}
+                                                        },
+                                                    order:[['DateEvent', 'DESC']]
+                                                });
+    
+        if ( !events)  throw 'Empleado no encontrado';
+        
+        return events;
+    }
 }
 
 async function sendAccessCode(id) {
@@ -140,6 +155,11 @@ async function create(params) {
     params.accessCode=await validacionNumeroAleatorio();
     await models.Employee.create(params);
 
+}
+async function createSchedule(params) {
+    
+    const newSchedule=await models.EmployeeSchedule.create(params);
+    return newSchedule;
 }
 
 async function getEmployeeById(id) {
