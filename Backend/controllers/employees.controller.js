@@ -15,6 +15,7 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
+router.get('/:id/schedule', authorize(), getSchedule);
 router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
 //router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
 
@@ -130,6 +131,11 @@ function updateSchema(req, res, next) {
 function getById(req, res, next) {
     employeeService.getEmployeeById(req.params.id)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+function getSchedule(req, res, next) {
+    employeeService.getEmployeeScheduleById(req.params.id,res)
+        .then(user => res.json({ data:user ,message:'Succesful'}))
         .catch(next);
 }
 

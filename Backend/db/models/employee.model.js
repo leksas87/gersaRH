@@ -38,7 +38,7 @@ class Employee extends Model {
   static associate(models) {
     this.belongsTo(models.User,{as:'user'});
     this.belongsToMany(models.Schedule, {
-      as: 'items',
+      as: 'schedule',
       through: models.EmployeeSchedule,
       foreignKey: 'employeeId',
       otherKey: 'scheduleId'
