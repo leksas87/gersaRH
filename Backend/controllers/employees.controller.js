@@ -4,7 +4,10 @@ const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const validateRequestHeader = require('middleware/validate-request-header');
 const authorize = require('middleware/authorize')
+const forbidden = require('middleware/forbidden')
 const employeeService = require('../services/employee.service');
+const contractService = require('../services/contract.service');
+//const { forbidden } = require('joi');
 
 // routes
 router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
@@ -15,11 +18,79 @@ router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
+router.post('/:id/events', registerEventSchema, registerEvents);
 router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
-//router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
+router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
+router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
+router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
+router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
 
 
 module.exports = router;
+
+function deleteByIdContracts(req, res, next) {
+    contractService.delete(req.params.id)
+        .then(() => res.json({ message: 'Usuario eliminado exitosamente' ,ok:true}))
+        .catch(next);
+}
+
+function updateSchemaContractsPut(req, res, next) {
+    const schema = Joi.object({
+        tipoDeContrato: Joi.string(),
+        puesto: Joi.string().required(),
+        fechaDeInicio: Joi.date().required(),
+        fechaDeFinalizacion: Joi.date(),
+        horasLaborales: Joi.number().integer().required(),
+        unidadLaborales: Joi.string().required(),
+        tipoSalario: Joi.string().required(),
+        cantidadSalario: Joi.number().integer().required(),
+        isContractActivide: Joi.boolean().required()
+    });
+    validateRequest(req, next, schema);
+}
+
+function updateContracts(req, res, next) {
+    contractService.update(req.params.id, req.params.idContract, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function updateSchemaContracts(req, res, next) {
+    const schema = Joi.object({
+        tipoDeContrato: Joi.string(),
+        puesto: Joi.string(),
+        fechaDeInicio: Joi.date(),
+        fechaDeFinalizacion: Joi.date(),
+        horasLaborales: Joi.number().integer(),
+        unidadLaborales: Joi.string(),
+        tipoSalario: Joi.string(),
+        cantidadSalario: Joi.number().integer(),
+        isContractActivide: Joi.boolean()
+    });
+    validateRequest(req, next, schema);
+}
+
+function registerSchemaContracts(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        userId: Joi.number().integer().required(),
+        tipoDeContrato: Joi.string().required(),
+        puesto: Joi.string().required(),
+        fechaDeInicio: Joi.date().required(),
+        fechaDeFinalizacion: Joi.date(),
+        horasLaborales: Joi.number().integer().required(),
+        unidadLaborales: Joi.string().required(),
+        tipoSalario: Joi.string().required(),
+        cantidadSalario: Joi.number().integer().required()
+    });
+    validateRequest(req, next, schema);
+}
+
+function registerContracts(req, res, next) {
+    contractService.create(req.body, req.params.id)
+        .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
+        .catch(next);
+}
 
 function registerEvents(req,res,next) {
     employeeService.registerEvents(req.body, req.params.id)
