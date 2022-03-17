@@ -19,6 +19,7 @@ router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
 router.post('/:id/events', registerEventSchema, registerEvents);
+router.get('/:id/schedule', authorize(), getSchedule);
 router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
 router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
@@ -201,6 +202,11 @@ function updateSchema(req, res, next) {
 function getById(req, res, next) {
     employeeService.getEmployeeById(req.params.id)
         .then(user => res.json({ data:user ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+function getSchedule(req, res, next) {
+    employeeService.getEmployeeScheduleById(req.params.id,res)
+        .then(user => res.json({ data:user ,message:'Succesful'}))
         .catch(next);
 }
 

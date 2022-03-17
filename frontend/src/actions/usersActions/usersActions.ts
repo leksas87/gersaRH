@@ -18,6 +18,7 @@ import {
 	fetchMultipartFormDataConToken,
 } from '../../helpers/fetch';
 import axios from 'axios';
+// import { axiosClient } from '../../helpers/axios';
 // import * as bootstrap from 'bootstrap';
 
 //(POST) Registro de nuevo Usuario (REGISTRO INDIVIDUAL)
@@ -110,6 +111,7 @@ export const getUserById = (id: string) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para obtener los usuarios
 		const respuesta = await fetchConToken(`users/${id}`, {}, 'GET');
+
 		//.json() a la respuesta
 		const body = await respuesta?.json();
 
