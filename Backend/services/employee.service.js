@@ -19,7 +19,8 @@ module.exports = {
     sendAccessCode,
     getEvents,
     sendInformationByAccessCode,
-    createSchedule
+    createSchedule,
+    getEmployeeScheduleById
 };
 
 async function registerEvents(params, id){
@@ -168,6 +169,22 @@ async function getEmployeeById(id) {
     if ( !employee)  throw 'Empleado no encontrado';
 
     return employee;
+}
+
+async function getEmployeeScheduleById(id,res) {
+    try {
+        const employee = await models.Employee.findOne({where:{userId:id},include:'schedule'});
+    
+        if (!employee)  throw new Error('Empleado no encontrado');
+
+        if (employee.schedule.length==0) throw new Error('Empleado sin registro de horario');
+
+        return employee.schedule;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
 }
 
 function checkAccessCode() {
