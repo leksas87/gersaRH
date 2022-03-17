@@ -9,7 +9,7 @@ const ModalNuevoHorario = () => {
 		horaSalida: '',
 		tiempoDescanso: '',
 		tiempoRetraso: '',
-		tiempoActaAdministrativa: '',
+		// tiempoActaAdministrativa: '',
 	};
 
 	// Objeto para el manejo de los dias trabajados
@@ -48,7 +48,7 @@ const ModalNuevoHorario = () => {
 		horaSalida,
 		tiempoDescanso,
 		tiempoRetraso,
-		tiempoActaAdministrativa,
+		// tiempoActaAdministrativa,
 	} = formValues;
 
 	const handleClick = (e: any): void => {
@@ -89,13 +89,15 @@ const ModalNuevoHorario = () => {
 				msgError: 'El campo "Hora salida" es obligatorio',
 			});
 			return false;
-		} else if (tiempoActaAdministrativa === '') {
-			setError({
-				errors: ['tiempoActaAdministrativa'],
-				msgError: 'El campo "Tiempo de acta administrativa" es obligatorio',
-			});
-			return false;
-		} else if (tiempoDescanso === '') {
+		}
+		// else if (tiempoActaAdministrativa === '') {
+		// 	setError({
+		// 		errors: ['tiempoActaAdministrativa'],
+		// 		msgError: 'El campo "Tiempo de acta administrativa" es obligatorio',
+		// 	});
+		// 	return false;
+		// }
+		else if (tiempoDescanso === '') {
 			setError({
 				errors: ['tiempoDescanso'],
 				msgError: 'El campo "Tiempo de descanso" es obligatorio',
@@ -255,8 +257,8 @@ const ModalNuevoHorario = () => {
 											/>
 										</div>
 									</div>
-									<div className='d-flex mb-4 justify-content-between'>
-										<div
+									<div className='d-flex mb-4 justify-content-center'>
+										{/* <div
 											className='me-1 d-flex flex-column justify-content-end'
 											style={{ maxWidth: '220px' }}
 										>
@@ -276,7 +278,7 @@ const ModalNuevoHorario = () => {
 												value={tiempoActaAdministrativa}
 												onChange={handleInputChange}
 											/>
-										</div>
+										</div> */}
 										<div
 											className='ms-1 d-flex flex-column justify-content-end'
 											style={{ maxWidth: '150px' }}
@@ -415,7 +417,7 @@ const ModalNuevoHorario = () => {
 										</div>
 									</div>
 									{error.msgError && (
-										<div className='form-text textColorError'>
+										<div className='form-text textColorError mb-4'>
 											<i className='bi bi-exclamation-circle'>{` `}</i>
 											{error.msgError}.
 										</div>
