@@ -5,6 +5,7 @@ const validateRequest = require('middleware/validate-request');
 const validateRequestHeader = require('middleware/validate-request-header');
 const authorize = require('middleware/authorize')
 const forbidden = require('middleware/forbidden')
+const forbiddenGet = require('middleware/forbiddenGet')
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
 //const { forbidden } = require('joi');
@@ -25,13 +26,20 @@ router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts,
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
+router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);//Falta revisar la funcion de validar quien puede realizar y ver la info de los get
 
 
 module.exports = router;
 
+function getByEmployee(req,res,next) {
+    contractService.getByEmployee(req.params.id)
+        .then(contracts => res.json({data:contracts ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
 function deleteByIdContracts(req, res, next) {
-    contractService.delete(req.params.id)
-        .then(() => res.json({ message: 'Usuario eliminado exitosamente' ,ok:true}))
+    contractService.delete(req.params.idContract)
+        .then(() => res.json({ message: 'Contrato eliminado exitosamente' ,ok:true}))
         .catch(next);
 }
 
