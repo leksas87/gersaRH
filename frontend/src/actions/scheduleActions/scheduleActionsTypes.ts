@@ -1,5 +1,7 @@
 //Types
 export const GET_SCHEDULES = 'getSchedules';
+export const DELETE_SCHEDULES = 'deleteSchedules';
+export const DELETE_SCHEDULE_FROM_STATE = 'deleteScheduleFromState';
 export const REGISTER_NEW_SCHEDULE_START_LOADING =
 	'registerNewScheduleStartLoading';
 export const REGISTER_NEW_SCHEDULE_LOADING_END =
@@ -39,6 +41,11 @@ export interface iSchedules {
 	Domingo: boolean;
 }
 //Interfaz para schedule reducer.
+export interface iScheduleToDelete {
+	id: number;
+	scheduleName: string;
+}
+//Interfaz para schedule reducer.
 export interface iSchedulesReducer {
 	registerState: {
 		loading: boolean;
@@ -47,6 +54,7 @@ export interface iSchedulesReducer {
 		loading: boolean;
 	};
 	schedulesArray: iSchedules[];
+	schedulesToDelete: iScheduleToDelete;
 }
 
 //Charging Schedule Start Loading
@@ -72,10 +80,26 @@ export interface GetSchedules {
 		schedules: iSchedules[];
 	};
 }
+//Delete Schedules
+export interface DeleteSchedules {
+	type: typeof DELETE_SCHEDULES;
+	payload: {
+		schedule: iScheduleToDelete;
+	};
+}
+//Delete Schedules
+export interface DeleteScheduleFromState {
+	type: typeof DELETE_SCHEDULE_FROM_STATE;
+	payload: {
+		scheduleId: number;
+	};
+}
 
 //Types para el dispatch
 export type SchedulesDispatchTypes =
 	| GetSchedules
+	| DeleteSchedules
+	| DeleteScheduleFromState
 	| RegisterNewScheduleStartLoading
 	| RegisterNewScheduleLoadingEnd
 	| ChargingScheduleStartLoading

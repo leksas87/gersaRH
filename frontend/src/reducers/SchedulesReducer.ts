@@ -1,6 +1,8 @@
 import {
 	CHARGING_SCHEDULE_LOADING_END,
 	CHARGING_SCHEDULE_START_LOADING,
+	DELETE_SCHEDULES,
+	DELETE_SCHEDULE_FROM_STATE,
 	GET_SCHEDULES,
 	iSchedulesReducer,
 	REGISTER_NEW_SCHEDULE_LOADING_END,
@@ -17,6 +19,10 @@ const INITIAL_STATE: iSchedulesReducer = {
 		loading: false,
 	},
 	schedulesArray: [],
+	schedulesToDelete: {
+		id: 0,
+		scheduleName: '',
+	},
 };
 
 //Reducer
@@ -49,6 +55,18 @@ export const SchedulesReducer = (
 			return {
 				...state,
 				schedulesArray: [...action.payload.schedules],
+			};
+		case DELETE_SCHEDULES:
+			return {
+				...state,
+				schedulesToDelete: { ...action.payload.schedule },
+			};
+		case DELETE_SCHEDULE_FROM_STATE:
+			return {
+				...state,
+				schedulesArray: state.schedulesArray.filter(
+					(schedule) => schedule.id !== action.payload.scheduleId
+				),
 			};
 
 		default:

@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSchedules } from '../../../actions/scheduleActions/scheduleActions';
+import {
+	getSchedules,
+	scheduleToDelete,
+} from '../../../actions/scheduleActions/scheduleActions';
+import { iSchedules } from '../../../actions/scheduleActions/scheduleActionsTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
+import ModalEliminarHorario from './ModalEliminarHorario';
 import ModalNuevoHorario from './ModalNuevoHorario';
 import './PageEmpresaSchedule.css';
 
@@ -25,9 +30,16 @@ const PageEmpresaSchedule = () => {
 		dispatch(getSchedules());
 	}, []);
 
+	const selectScheduleToDelete = (schedule: iSchedules) => {
+		dispatch(
+			scheduleToDelete({ id: schedule.id, scheduleName: schedule.scheduleName })
+		);
+	};
+
 	return (
 		<>
 			<ModalNuevoHorario />
+			<ModalEliminarHorario />
 			<div className='custm-contractContainerCenter p-3'>
 				<div className='d-flex flex-column custm-scheduleWidht'>
 					<div className=' d-flex justify-content-end custm-Width100 '>
@@ -63,21 +75,30 @@ const PageEmpresaSchedule = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{schedulesArray.map((schedules) => (
-										<tr key={schedules.id} className='custm-table-trSchedule'>
+									{schedulesArray.map((schedule) => (
+										<tr key={schedule.id} className='custm-table-trSchedule'>
 											<th scope='row'>
 												<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-													{schedules.id}
+													{schedule.id}
 												</div>
 											</th>
 											<td>
 												<div className='d-flex align-items-center justify-content-center'>
-													<div className='textColorSecondary'>{schedules.scheduleName}</div>
+													<div className='textColorSecondary'>{schedule.scheduleName}</div>
 												</div>
 											</td>
 											<td>
 												<div className='d-flex align-items-center justify-content-center'>
-													<div className=' btn custm-btnEliminar'>Eliminar</div>
+													{/* <div className=' btn custm-btnEliminar'>Eliminar</div> */}
+													<button
+														className='btn custm-btnEliminar'
+														type='button'
+														data-bs-toggle='modal'
+														data-bs-target='#ModalEliminarSchedule'
+														onClick={() => selectScheduleToDelete(schedule)}
+													>
+														Eliminar
+													</button>
 												</div>
 											</td>
 										</tr>
