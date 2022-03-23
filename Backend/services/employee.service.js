@@ -189,7 +189,7 @@ async function getEmployeeScheduleById(id,res) {
 }
 async function deleteEmployeeScheduleById(id,res) {
     try {
-        const employeeSchedule = await models.EmployeeSchedule.findOne({where:{employeeId:id}});
+        const employeeSchedule = await models.EmployeeSchedule.findOne({where:{id:id}});
         
         console.log(employeeSchedule);
 
