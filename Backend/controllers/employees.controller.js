@@ -21,6 +21,7 @@ router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
 router.post('/:id/events', registerEventSchema, registerEvents);
 router.get('/:id/schedule', authorize(), getSchedule);
+router.delete('/:id/schedule', deleteSchedule);
 router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
 router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
@@ -215,6 +216,12 @@ function getById(req, res, next) {
 function getSchedule(req, res, next) {
     employeeService.getEmployeeScheduleById(req.params.id,res)
         .then(user => res.json({ data:user ,message:'Succesful'}))
+        .catch(next);
+}
+function deleteSchedule(req, res, next) {
+    console.log(req.params.id);
+    employeeService.deleteEmployeeScheduleById(req.params.id,res)
+        .then(user => res.json({ message:'Horario eliminado correctamente'}))
         .catch(next);
 }
 
