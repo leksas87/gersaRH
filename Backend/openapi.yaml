@@ -1411,8 +1411,6 @@ components:
               type: integer
             tiempoRetraso:
               type: integer
-            tiempoActaAdministrativa:
-              type: integer
             Lunes:
               type: boolean
             Martes:
@@ -1541,8 +1539,6 @@ components:
             tiempoDescanso:
               type: integer
             tiempoRetraso:
-              type: integer
-            tiempoActaAdministrativa:
               type: integer
             Lunes:
               type: boolean
