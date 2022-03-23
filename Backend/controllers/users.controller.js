@@ -3,6 +3,8 @@ const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
+const forbidden = require('middleware/forbidden')
+const forbiddenGet = require('middleware/forbiddenGet')
 const userService = require('../services/user.service');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
@@ -13,15 +15,15 @@ const {models} = require('./../libs/sequelize');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register',authorize(), registerSchema, register);
+router.post('/register',authorize(),forbidden(), registerSchema, register);
 router.post('/registerMaster', registerSchemaMaster, registerMaster);
 router.get('/renew',authorize(),revalidadToken);
 router.get('/', getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/sendinvitation', getByEmployeeActive);
 router.get('/:id', authorize(), getById);
-router.patch('/:id', authorize(), updateSchema, update);
-router.delete('/:id', authorize(), _delete);
+router.patch('/:id', authorize(),forbidden(), updateSchema, update);
+router.delete('/:id', authorize(),forbidden(), _delete);
 router.get('/confirmation/:token',authenticateToken);
 router.post('/confirmation',updateConfirmation);
 router.post('/recuperacion', recovery);
