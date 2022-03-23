@@ -1,14 +1,10 @@
 import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem('gersa-tkn') || '';
 
 //Cliente axios
 export const axiosClientWithToken = axios.create({
 	baseURL: baseURL,
-	headers: {
-		Authorization: `Bearer ${token}`,
-	},
 });
 //Cliente axios
 export const axiosClientWithoutToken = axios.create({
@@ -19,7 +15,7 @@ export const axiosClientWithoutToken = axios.create({
 });
 
 //EXAMPLE OF A PETITION USING THE AXIOSCLIENT- WHIT TOKEN
-// axiosClient
+// axiosClientWithToken
 // 	.get(`users/${id}`)
 // 	.then((respuesta) => {
 // 		if (respuesta.status === 200) {

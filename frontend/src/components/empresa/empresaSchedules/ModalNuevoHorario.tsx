@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registerNewSchedule } from '../../../actions/scheduleActions/scheduleActions';
+
 import { useForm } from '../../../hooks/useForm';
 
 const ModalNuevoHorario = () => {
+	const dispatch = useDispatch();
+
 	//objeto user para formulario Registro
 	const newSchedule = {
 		scheduleName: '',
@@ -55,10 +60,26 @@ const ModalNuevoHorario = () => {
 		setDaysChecked({ ...daysChecked, [e.target.name]: !e.target.defaultChecked });
 	};
 
+	//Submit of the Form
 	const handlesubmitNewSchedule = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isFormValid()) {
-			console.log('Sending form');
+			dispatch(
+				registerNewSchedule({
+					scheduleName: scheduleName,
+					horaEntrada: horaEntrada,
+					horaSalida: horaSalida,
+					tiempoDescanso: tiempoDescanso,
+					tiempoRetraso: tiempoRetraso,
+					Lunes: lunes,
+					Martes: martes,
+					Miercoles: miercoles,
+					Jueves: jueves,
+					Viernes: viernes,
+					Sabado: sabado,
+					Domingo: domingo,
+				})
+			);
 		}
 	};
 
