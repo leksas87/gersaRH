@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerNewSchedule } from '../../../actions/scheduleActions/scheduleActions';
 
 import { useForm } from '../../../hooks/useForm';
+import { RootSote } from '../../../store/Store';
 
 const ModalNuevoHorario = () => {
+	//Dispatch para ejecutar las actions
 	const dispatch = useDispatch();
+
+	//Senecesita el state que indica  el registerState
+	const { registerState } = useSelector((state: RootSote) => state.schedules);
 
 	//objeto user para formulario Registro
 	const newSchedule = {
@@ -448,9 +453,24 @@ const ModalNuevoHorario = () => {
 										className='d-flex justify-content-end custm-Width100'
 										style={{ height: '3rem' }}
 									>
-										<button type='submit' className='btn  custm-empleadoFormSubmit'>
-											Guardar
-										</button>
+										{!registerState.loading ? (
+											<button type='submit' className='btn  custm-empleadoFormSubmit'>
+												Guardar horario
+											</button>
+										) : (
+											<button
+												className='btn custm-empleadoFormSubmit '
+												type='button'
+												disabled
+											>
+												<span
+													className='spinner-border spinner-border-sm me-2'
+													role='status'
+													aria-hidden='true'
+												></span>
+												Creando horario...
+											</button>
+										)}
 									</div>
 								</form>
 							</div>

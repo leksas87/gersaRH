@@ -20,6 +20,12 @@ export interface iNewSchedule {
 	Sabado: boolean;
 	Domingo: boolean;
 }
+//Interfaz para schedule reducer.
+export interface iSchedulesReducer {
+	registerState: {
+		loading: boolean;
+	};
+}
 
 //Register New Schedule Start Loading
 export interface RegisterNewScheduleStartLoading {
