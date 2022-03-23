@@ -23,7 +23,7 @@ router.get('/:id/events', authorize(), getEvents);
 router.post('/:id/events', registerEventSchema, registerEvents);
 router.get('/:id/schedule', authorize(), getSchedule);
 router.delete('/employeeSchedule/:id', authorize(), forbidden(),deleteEmployeeSchedule,deleteSchedule);
-router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
+router.post('/add-schedule',authorize(),forbidden() ,addScheduleSchema,registerSchedule);
 router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
