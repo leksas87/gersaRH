@@ -1,4 +1,7 @@
 import {
+	CHARGING_SCHEDULE_LOADING_END,
+	CHARGING_SCHEDULE_START_LOADING,
+	GET_SCHEDULES,
 	iSchedulesReducer,
 	REGISTER_NEW_SCHEDULE_LOADING_END,
 	REGISTER_NEW_SCHEDULE_START_LOADING,
@@ -10,6 +13,10 @@ const INITIAL_STATE: iSchedulesReducer = {
 	registerState: {
 		loading: false,
 	},
+	getSchedulesState: {
+		loading: false,
+	},
+	schedulesArray: [],
 };
 
 //Reducer
@@ -27,6 +34,21 @@ export const SchedulesReducer = (
 			return {
 				...state,
 				registerState: { loading: false },
+			};
+		case CHARGING_SCHEDULE_START_LOADING:
+			return {
+				...state,
+				getSchedulesState: { loading: true },
+			};
+		case CHARGING_SCHEDULE_LOADING_END:
+			return {
+				...state,
+				getSchedulesState: { loading: false },
+			};
+		case GET_SCHEDULES:
+			return {
+				...state,
+				schedulesArray: [...action.payload.schedules],
 			};
 
 		default:

@@ -1,8 +1,17 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSchedules } from '../../../actions/scheduleActions/scheduleActions';
 import { useToggle } from '../../../hooks/useToggle';
+import { RootSote } from '../../../store/Store';
 import ModalNuevoHorario from './ModalNuevoHorario';
 import './PageEmpresaSchedule.css';
 
 const PageEmpresaSchedule = () => {
+	//dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//Se necesita el state que contiene los datos de los schedules
+	const { schedulesArray } = useSelector((state: RootSote) => state.schedules);
+
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [scheduleValue, toggleSchedule] = useToggle(false); //Recibe el valor inicial
 
@@ -11,6 +20,11 @@ const PageEmpresaSchedule = () => {
 		console.log('sending');
 		toggleSchedule(false);
 	};
+
+	useEffect(() => {
+		dispatch(getSchedules());
+	}, []);
+
 	return (
 		<>
 			<ModalNuevoHorario />
@@ -49,91 +63,25 @@ const PageEmpresaSchedule = () => {
 									</tr>
 								</thead>
 								<tbody>
-									<tr className='custm-table-trSchedule'>
-										<th scope='row'>
-											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-												1
-											</div>
-										</th>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className='textColorSecondary'>Nike Matutino 1</div>
-											</div>
-										</td>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className=' btn custm-btnEliminar'>Eliminar</div>
-											</div>
-										</td>
-									</tr>
-									<tr className='custm-table-trSchedule'>
-										<th scope='row'>
-											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-												2
-											</div>
-										</th>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className='textColorSecondary'>Nike Matutino 1</div>
-											</div>
-										</td>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className=' btn custm-btnEliminar'>Eliminar</div>
-											</div>
-										</td>
-									</tr>
-									<tr className='custm-table-trSchedule'>
-										<th scope='row'>
-											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-												3
-											</div>
-										</th>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className='textColorSecondary'>Nike Matutino 1</div>
-											</div>
-										</td>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className=' btn custm-btnEliminar'>Eliminar</div>
-											</div>
-										</td>
-									</tr>
-									<tr className='custm-table-trSchedule'>
-										<th scope='row'>
-											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-												4
-											</div>
-										</th>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className='textColorSecondary'>Nike Matutino 1</div>
-											</div>
-										</td>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className=' btn custm-btnEliminar'>Eliminar</div>
-											</div>
-										</td>
-									</tr>
-									<tr className='custm-table-trSchedule'>
-										<th scope='row'>
-											<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-												4
-											</div>
-										</th>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className='textColorSecondary'>Nike Matutino 1</div>
-											</div>
-										</td>
-										<td>
-											<div className='d-flex align-items-center justify-content-center'>
-												<div className=' btn custm-btnEliminar'>Eliminar</div>
-											</div>
-										</td>
-									</tr>
+									{schedulesArray.map((schedules) => (
+										<tr key={schedules.id} className='custm-table-trSchedule'>
+											<th scope='row'>
+												<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
+													{schedules.id}
+												</div>
+											</th>
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<div className='textColorSecondary'>{schedules.scheduleName}</div>
+												</div>
+											</td>
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<div className=' btn custm-btnEliminar'>Eliminar</div>
+												</div>
+											</td>
+										</tr>
+									))}
 								</tbody>
 							</table>
 						</div>
