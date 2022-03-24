@@ -3,17 +3,19 @@ const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const authorize = require('middleware/authorize')
+const forbidden = require('middleware/forbidden')
+const forbiddenGet = require('middleware/forbiddenGet')
 const scheduleService = require('../services/schedule.service');
 const moment = require('moment-timezone');
 const {models} = require('./../libs/sequelize');
 
 // routes
-router.post('/', authorize(),authenticateSchema,register);
-router.get('/',authorize(),getAll);
-router.get('/:id', authorize(), getById);
-router.delete('/:id', authorize(), deleteSchedule);
-router.put('/:id', authorize(),authenticateSchema, updateSchedule);
-router.patch('/:id',authorize(),authenticateSchemaPatch,updateSchedule);
+router.post('/', authorize(),forbidden(),authenticateSchema,register);
+router.get('/',authorize(),forbidden(),getAll);
+router.get('/:id', authorize(),forbiddenGet(), getById);
+router.delete('/:id', authorize(),forbidden(), deleteSchedule);
+router.put('/:id', authorize(),forbidden(),authenticateSchema, updateSchedule);
+router.patch('/:id',authorize(),forbidden(),authenticateSchemaPatch,updateSchedule);
 
 module.exports = router;
 

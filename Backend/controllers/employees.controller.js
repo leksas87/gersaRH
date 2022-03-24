@@ -3,6 +3,7 @@ const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const validateRequestHeader = require('middleware/validate-request-header');
+const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize')
 const forbidden = require('middleware/forbidden')
 const forbiddenGet = require('middleware/forbiddenGet')
@@ -21,8 +22,8 @@ router.get('/:id/accessCode', authorize(), sendAccessCodeById);
 router.get('/:id/events', authorize(), getEvents);
 router.post('/:id/events', registerEventSchema, registerEvents);
 router.get('/:id/schedule', authorize(), getSchedule);
-router.delete('/:id/schedule', deleteSchedule);
-router.post('/add-schedule',authorize(),addScheduleSchema,registerSchedule);
+router.delete('/employeeSchedule/:id', authorize(), forbidden(),deleteEmployeeSchedule,deleteSchedule);
+router.post('/add-schedule',authorize(),forbidden() ,addScheduleSchema,registerSchedule);
 router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
@@ -95,7 +96,13 @@ function registerSchemaContracts(req, res, next) {
     });
     validateRequest(req, next, schema);
 }
-
+function deleteEmployeeSchedule(req, res, next) {
+    console.log(req.params.id);
+    const schema = Joi.object({
+        id: Joi.number().integer().required()
+    });
+    validateRequestParams(req, next, schema);
+}
 function registerContracts(req, res, next) {
     contractService.create(req.body, req.params.id)
         .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
