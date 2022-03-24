@@ -26,7 +26,7 @@ router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts,
 router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContracts, updateContracts);
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
-router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);//Falta revisar la funcion de validar quien puede realizar y ver la info de los get
+router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 
 
 module.exports = router;
