@@ -96,15 +96,10 @@ async function registerFile(req, res) {
                         fechaDeFinalizacion:row[29],
                         horasLaborales:row[30],
                         unidadLaborales:row[31],
-                        lunes:row[32],
-                        martes:row[33],
-                        miercoles:row[34],
-                        jueves:row[35],
-                        viernes:row[36],
-                        sabado:row[37],
-                        domingo:row[38],
-                        tipoSalario:row[39],
-                        cantidadSalario:row[40]
+                        tipoSalario:row[32],
+                        cantidadSalario:row[33],
+                        scheduleId:row[34],
+                        
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
                     
@@ -140,16 +135,9 @@ async function registerFile(req, res) {
                     if( user.fechaDeInicio === null ) { user.fechaDeInicio = fechaNow; } 
                     if( user.horasLaborales === null ) { user.horasLaborales = 0; }
                     if( user.unidadLaborales === null ) { user.unidadLaborales = ""; }
-                    if( user.lunes === null ) { user.lunes = false; }
-                    if( user.martes === null ) { user.martes = false; }
-                    if( user.miercoles === null ) { user.miercoles = false; }
-                    if( user.jueves === null ) { user.jueves = false; }
-                    if( user.viernes === null ) { user.viernes = false; }
-                    if( user.sabado === null ) { user.sabado = false; }
-                    if( user.domingo === null ) { user.domingo = false; }
                     if( user.tipoSalario === null ) { user.tipoSalario = ""; }
                     if( user.cantidadSalario === null ) { user.cantidadSalario = 0; }
-                                  
+                    console.log(user.scheduleId)             
                     usersNames.push(user);
                 }
                 
@@ -206,21 +194,31 @@ async function registerFile(req, res) {
                         contract.fechaDeFinalizacion = userF.fechaDeFinalizacion;
                         contract.horasLaborales = userF.horasLaborales;
                         contract.unidadLaborales = userF.unidadLaborales;
-                        contract.lunes = userF.lunes;
-                        contract.martes = userF.martes;
-                        contract.miercoles = userF.miercoles;
-                        contract.jueves = userF.jueves;
-                        contract.viernes = userF.viernes;
-                        contract.sabado = userF.sabado;
-                        contract.domingo = userF.domingo;
                         contract.tipoSalario = userF.tipoSalario;
                         contract.cantidadSalario = userF.cantidadSalario;
                         await contract.save();
                     }
                  });
 
-                 
+                 const employeeSchedules = await models.EmployeeSchedule.findAll();
+                 console.log("paso el buscar la relacion****");
+                 console.log(employeeSchedules);
+                 employeeSchedules.forEach(async employeeScheduleC => {
+                    if(employeeScheduleC.employeeId === employee.id ){
+                        await employeeScheduleC.destroy();
+                    }
+                 });
+                 console.log(typeof employee.id);
+                 console.log(typeof userF.scheduleId);
+                //Revisar error post 
+                const relacion = await models.EmployeeSchedule.create({
+                    employeeId: employee.id,
+                    scheduleId: userF.scheduleId
+                });
 
+                console.log(relacion);
+                relacion.save();
+                
                 user.save();
                 employee.save();
             }else{
@@ -272,16 +270,15 @@ async function registerFile(req, res) {
                     fechaDeFinalizacion:userF.fechaDeFinalizacion,
                     horasLaborales:userF.horasLaborales,
                     unidadLaborales:userF.unidadLaborales,
-                    lunes:userF.lunes,
-                    martes:userF.martes,
-                    miercoles:userF.miercoles,
-                    jueves:userF.jueves,
-                    viernes:userF.viernes,
-                    sabado:userF.sabado,
-                    domingo:userF.domingo,
                     tipoSalario:userF.tipoSalario,
                     cantidadSalario:userF.cantidadSalario
-                })
+                });
+
+                await models.EmployeeSchedule.create({
+                    employeeId: employee.id,
+                    scheduleId: userF.scheduleId
+                });
+                
                 console.log('guardando al usuario',userF.username);
             }
             

@@ -13,13 +13,6 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
     fechaDeFinalizacion: { type:DataTypes.DATE,allowNull:true, defaultValue: null},
     horasLaborales : {type:DataTypes.INTEGER,allowNull:true,defaultValue:0},
     unidadLaborales: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
-    lunes: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    martes: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    miercoles: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    jueves: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    viernes: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    sabado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
-    domingo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
     tipoSalario: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
     cantidadSalario : {type:DataTypes.INTEGER,allowNull:true,defaultValue:0},
     isContractActivide: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:true }
