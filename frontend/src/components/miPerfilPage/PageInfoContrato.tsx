@@ -1,9 +1,38 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContracts } from '../../actions/contractsActions/contractsActions';
 import { RootSote } from '../../store/Store';
 
 const PageInfoContrato = () => {
+	//dispatch para ejecutar las actions
+	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { contractToShow } = useSelector((state: RootSote) => state.contracts);
+
+	//Tomar solo la fecha Inicio
+	const indiceFechaInicio = contractToShow.fechaDeInicio.indexOf('T');
+	const fechaInicio = contractToShow.fechaDeInicio.substring(
+		0,
+		indiceFechaInicio
+	);
+	let fechaFin = '';
+	let fechaFinValue = '';
+	//Tomar solo la fecha Fin
+	if (contractToShow.fechaDeFinalizacion) {
+		const indiceFechaFin = contractToShow.fechaDeFinalizacion.indexOf('T');
+		fechaFinValue = contractToShow.fechaDeFinalizacion.substring(
+			0,
+			indiceFechaFin
+		);
+		if (fechaFinValue === '1000-10-10') fechaFin = '';
+		else fechaFin = fechaFinValue;
+	}
+
+	useEffect(() => {
+		if (perfilEmpleado.id) dispatch(getContracts(perfilEmpleado.id.toString()));
+	}, [dispatch]);
 
 	return (
 		<>
@@ -32,11 +61,22 @@ const PageInfoContrato = () => {
 							{/* Inicia formulario */}
 							<form style={{ width: '90%' }}>
 								<div className='mb-4'>
-									<label className='custm-Width100'>Cargo</label>
+									<label className='custm-Width100'>Tipo de contrato</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder='Cargo'
+										value={contractToShow.tipoDeContrato}
+										placeholder='tipo de contrato'
+										disabled
+									/>
+								</div>
+								<div className='mb-4'>
+									<label className='custm-Width100'>Puesto</label>
+									<input
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										type='text'
+										value={contractToShow.puesto}
+										placeholder='puesto'
 										disabled
 									/>
 								</div>
@@ -45,8 +85,9 @@ const PageInfoContrato = () => {
 
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
+										type='date'
 										placeholder='Fecha de inicio'
+										value={fechaInicio}
 										disabled
 									/>
 								</div>
@@ -54,7 +95,8 @@ const PageInfoContrato = () => {
 									<label className='custm-Width100'>Fecha de finalización</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='text'
+										type='date'
+										value={fechaFin}
 										placeholder='Fecha de finalización'
 										disabled
 									/>
@@ -97,6 +139,7 @@ const PageInfoContrato = () => {
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
 											placeholder='Horas'
+											value={contractToShow.horasLaborales}
 											disabled
 										/>
 									</div>
@@ -105,6 +148,7 @@ const PageInfoContrato = () => {
 										<input
 											className='form-control custm-empleadoFormIntput'
 											type='text'
+											value={contractToShow.unidadLaborales}
 											placeholder='Unidad'
 											disabled
 										/>
@@ -356,6 +400,7 @@ const PageInfoContrato = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
+										value={contractToShow.tipoSalario}
 										placeholder={perfilEmpleado.frecuenciaPago}
 										disabled
 									/>
@@ -366,6 +411,7 @@ const PageInfoContrato = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
+										value={contractToShow.cantidadSalario}
 										placeholder='Cantidad MXN'
 										disabled
 									/>

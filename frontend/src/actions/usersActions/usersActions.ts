@@ -219,7 +219,7 @@ export const deleteAccestoUserById = (id: number) => {
 		const respuesta = await fetchConToken(
 			`users/${id}`,
 			{ active: false },
-			'PUT'
+			'PATCH'
 		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
@@ -257,7 +257,7 @@ export const deleteAccestoUserById = (id: number) => {
 export const makeAdminToUserById = (id: number) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para modificar el roll del usuario
-		const respuesta = await fetchConToken(`users/${id}`, { roll: 1 }, 'PUT');
+		const respuesta = await fetchConToken(`users/${id}`, { roll: 1 }, 'PATCH');
 		// se hace un .json() a la respuesta
 		const body = await respuesta?.json();
 
@@ -288,7 +288,7 @@ export const makeAdminToUserById = (id: number) => {
 export const removeAdminToUserById = (id: number) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para modificar el roll del usuario
-		const respuesta = await fetchConToken(`users/${id}`, { roll: 2 }, 'PUT');
+		const respuesta = await fetchConToken(`users/${id}`, { roll: 2 }, 'PATCH');
 		// se hace un .json() a la respuesta
 		const body = await respuesta?.json();
 
@@ -325,7 +325,7 @@ export const terminateUserById = (id: number) => {
 				isEmployeeActive: false,
 				active: false,
 			},
-			'PUT'
+			'PATCH'
 		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();

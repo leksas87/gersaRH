@@ -1,9 +1,12 @@
 import {
 	CHARGING_SCHEDULE_LOADING_END,
 	CHARGING_SCHEDULE_START_LOADING,
+	CLEAN_EMPLOYEE_SCHEDULES,
 	CLEAN_UPDATED_SCHEDULES,
+	DELETE_EMPLOYEE_SCHEDULE,
 	DELETE_SCHEDULES,
 	DELETE_SCHEDULE_FROM_STATE,
+	GET_EMPLOYEE_SCHEDULES,
 	GET_SCHEDULES,
 	iSchedulesReducer,
 	REGISTER_NEW_SCHEDULE_LOADING_END,
@@ -40,6 +43,7 @@ const INITIAL_STATE: iSchedulesReducer = {
 		Sabado: false,
 		Domingo: false,
 	},
+	employeeSchedules: [],
 };
 
 //Reducer
@@ -73,6 +77,16 @@ export const SchedulesReducer = (
 				...state,
 				schedulesArray: [...action.payload.schedules],
 			};
+		case GET_EMPLOYEE_SCHEDULES:
+			return {
+				...state,
+				employeeSchedules: [...action.payload.schedules],
+			};
+		case CLEAN_EMPLOYEE_SCHEDULES:
+			return {
+				...state,
+				employeeSchedules: INITIAL_STATE.employeeSchedules,
+			};
 		case DELETE_SCHEDULES:
 			return {
 				...state,
@@ -82,6 +96,13 @@ export const SchedulesReducer = (
 			return {
 				...state,
 				schedulesArray: state.schedulesArray.filter(
+					(schedule) => schedule.id !== action.payload.scheduleId
+				),
+			};
+		case DELETE_EMPLOYEE_SCHEDULE:
+			return {
+				...state,
+				employeeSchedules: state.employeeSchedules.filter(
 					(schedule) => schedule.id !== action.payload.scheduleId
 				),
 			};

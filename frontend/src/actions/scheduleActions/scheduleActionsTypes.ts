@@ -1,6 +1,9 @@
 //Types
 export const GET_SCHEDULES = 'getSchedules';
+export const GET_EMPLOYEE_SCHEDULES = 'getEmployeeSchedules';
+export const CLEAN_EMPLOYEE_SCHEDULES = 'cleanEmployeeSchedules';
 export const DELETE_SCHEDULES = 'deleteSchedules';
+export const DELETE_EMPLOYEE_SCHEDULE = 'deleteEmployeeSchedules';
 export const UPDATED_SCHEDULES = 'updatedSchedules';
 export const CLEAN_UPDATED_SCHEDULES = 'cleanUpdatedSchedules';
 export const DELETE_SCHEDULE_FROM_STATE = 'deleteScheduleFromState';
@@ -22,6 +25,7 @@ export interface iSchedulesReducer {
 	schedulesArray: iSchedules[];
 	schedulesToDelete: iScheduleToDelete;
 	schedulesToEdited: iSchedules;
+	employeeSchedules: iEmployeeSchedules[];
 }
 
 //Interfaz para nuevoSchedule.
@@ -70,6 +74,23 @@ export interface iSchedules {
 	Sabado: boolean;
 	Domingo: boolean;
 }
+//Interfaz para arrayDeSchedule.
+export interface iEmployeeSchedules {
+	id: number;
+	EmployeeSchedule: { id: number; employeeId: number; scheduleId: number };
+	horaEntrada: string;
+	horaSalida: string;
+	scheduleName: string;
+	tiempoDescanso: number;
+	tiempoRetraso: number;
+	Lunes: boolean;
+	Martes: boolean;
+	Miercoles: boolean;
+	Jueves: boolean;
+	Viernes: boolean;
+	Sabado: boolean;
+	Domingo: boolean;
+}
 //Interfaz para schedule reducer.
 export interface iScheduleToDelete {
 	id: number;
@@ -99,6 +120,17 @@ export interface GetSchedules {
 		schedules: iSchedules[];
 	};
 }
+//Get employee Schedules
+export interface GetEmployeeSchedules {
+	type: typeof GET_EMPLOYEE_SCHEDULES;
+	payload: {
+		schedules: iEmployeeSchedules[];
+	};
+}
+//Clean employee Schedules
+export interface CleanEmployeeSchedules {
+	type: typeof CLEAN_EMPLOYEE_SCHEDULES;
+}
 //Delete Schedules
 export interface DeleteSchedules {
 	type: typeof DELETE_SCHEDULES;
@@ -109,6 +141,13 @@ export interface DeleteSchedules {
 //Delete Schedules
 export interface DeleteScheduleFromState {
 	type: typeof DELETE_SCHEDULE_FROM_STATE;
+	payload: {
+		scheduleId: number;
+	};
+}
+//Delete Employee Schedules
+export interface DeleteEmployeeSchedule {
+	type: typeof DELETE_EMPLOYEE_SCHEDULE;
 	payload: {
 		scheduleId: number;
 	};
@@ -128,8 +167,11 @@ export interface CleanUpdatedSchedule {
 //Types para el dispatch
 export type SchedulesDispatchTypes =
 	| GetSchedules
+	| GetEmployeeSchedules
+	| CleanEmployeeSchedules
 	| DeleteSchedules
 	| DeleteScheduleFromState
+	| DeleteEmployeeSchedule
 	| UpdatedSchedule
 	| CleanUpdatedSchedule
 	| RegisterNewScheduleStartLoading

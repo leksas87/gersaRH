@@ -4,9 +4,12 @@ import { axiosClientWithToken } from '../../helpers/axios';
 import {
 	CHARGING_SCHEDULE_LOADING_END,
 	CHARGING_SCHEDULE_START_LOADING,
+	CLEAN_EMPLOYEE_SCHEDULES,
 	CLEAN_UPDATED_SCHEDULES,
+	DELETE_EMPLOYEE_SCHEDULE,
 	DELETE_SCHEDULES,
 	DELETE_SCHEDULE_FROM_STATE,
+	GET_EMPLOYEE_SCHEDULES,
 	GET_SCHEDULES,
 	iNewSchedule,
 	iSchedules,
@@ -308,6 +311,251 @@ export const updatedSchedules = (id: number, data: iupdateSchedule) => {
 						showConfirmButton: false,
 						timer: 2000,
 					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(POST) Registro de nuevo schedule a empleado
+export const addScheduleToEmployee = (data: {
+	employeeId: number;
+	scheduleId: number;
+}) => {
+	return async (dispatch: Dispatch<SchedulesDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//dispatch para cambiar loading a true
+		dispatch({ type: REGISTER_NEW_SCHEDULE_START_LOADING });
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.post(`employees/add-schedule`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					// obtener lista schedules
+					dispatch<any>(getSchedules());
+					dispatch<any>(getSchedulesByUserId(data.employeeId));
+					//dispatch para cambiar loading a false
+					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
+					//Mostrar Alerta
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+					//Cerrar modal
+					const asignScheduleModal = document.getElementById(
+						'newScheduleAsignModal'
+					);
+					asignScheduleModal?.click();
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) Array de Schedules by userId
+export const getSchedulesByUserId = (employeeId: number) => {
+	return async (dispatch: Dispatch<SchedulesDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//dispatch para cambiar loading a true
+		dispatch({ type: CHARGING_SCHEDULE_START_LOADING });
+
+		//dispatch para limpiar los horarios
+		dispatch({ type: CLEAN_EMPLOYEE_SCHEDULES });
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${employeeId}/schedule/`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//dispatch para cambiar loading a false
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					dispatch({
+						type: GET_EMPLOYEE_SCHEDULES,
+						payload: { schedules: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					console.log('error404', error.response.data.message);
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+				} else {
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(DELETE) delete EmployeeSchedules by id
+export const deleteEmployeeSchedules = (id: number) => {
+	return async (dispatch: Dispatch<SchedulesDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.delete(`employeeSchedules/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: DELETE_EMPLOYEE_SCHEDULE,
+						payload: { scheduleId: id },
+					});
+					//Mostrar Alerta
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+					//Cerrar modal
+					const deleteScheduleModal = document.getElementById(
+						'ModalDeleteEmployeeSchedule'
+					);
+					deleteScheduleModal?.click();
 				}
 			})
 			.catch((error) => {
