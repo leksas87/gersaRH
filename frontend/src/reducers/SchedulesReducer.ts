@@ -103,7 +103,7 @@ export const SchedulesReducer = (
 			return {
 				...state,
 				employeeSchedules: state.employeeSchedules.filter(
-					(schedule) => schedule.id !== action.payload.scheduleId
+					(schedule) => schedule.EmployeeSchedule.id !== action.payload.scheduleId
 				),
 			};
 		case UPDATED_SCHEDULES:

@@ -568,7 +568,7 @@ const PageEmpleadoInfoContrato = () => {
 													<tr key={schedule.id}>
 														<th scope='row'>
 															<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
-																{schedule.EmployeeSchedule.id}
+																{schedule.EmployeeSchedule.scheduleId}
 															</div>
 														</th>
 														<td>

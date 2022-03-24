@@ -532,7 +532,8 @@ export const deleteEmployeeSchedules = (id: number) => {
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
-			.delete(`employeeSchedules/${id}`, {
+			// .delete(`employeeSchedules/${id}`, {
+			.delete(`employees/employeeSchedule/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
