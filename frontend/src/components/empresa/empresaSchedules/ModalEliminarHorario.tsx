@@ -14,7 +14,6 @@ const ModalEliminarHorario = () => {
 	//Submit del modal
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('eliminando...');
 		dispatch(deleteSchedules(schedulesToDelete.id));
 	};
 
