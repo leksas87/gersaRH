@@ -1,7 +1,17 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewSchedule } from '../../../actions/scheduleActions/scheduleActions';
+
 import { useForm } from '../../../hooks/useForm';
+import { RootSote } from '../../../store/Store';
 
 const ModalNuevoHorario = () => {
+	//Dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+
+	//Senecesita el state que indica  el registerState
+	const { registerState } = useSelector((state: RootSote) => state.schedules);
+
 	//objeto user para formulario Registro
 	const newSchedule = {
 		scheduleName: '',
@@ -55,10 +65,26 @@ const ModalNuevoHorario = () => {
 		setDaysChecked({ ...daysChecked, [e.target.name]: !e.target.defaultChecked });
 	};
 
+	//Submit of the Form
 	const handlesubmitNewSchedule = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (isFormValid()) {
-			console.log('Sending form');
+			dispatch(
+				registerNewSchedule({
+					scheduleName: scheduleName,
+					horaEntrada: horaEntrada,
+					horaSalida: horaSalida,
+					tiempoDescanso: tiempoDescanso,
+					tiempoRetraso: tiempoRetraso,
+					Lunes: lunes,
+					Martes: martes,
+					Miercoles: miercoles,
+					Jueves: jueves,
+					Viernes: viernes,
+					Sabado: sabado,
+					Domingo: domingo,
+				})
+			);
 		}
 	};
 
@@ -427,9 +453,24 @@ const ModalNuevoHorario = () => {
 										className='d-flex justify-content-end custm-Width100'
 										style={{ height: '3rem' }}
 									>
-										<button type='submit' className='btn  custm-empleadoFormSubmit'>
-											Guardar
-										</button>
+										{!registerState.loading ? (
+											<button type='submit' className='btn  custm-empleadoFormSubmit'>
+												Guardar horario
+											</button>
+										) : (
+											<button
+												className='btn custm-empleadoFormSubmit '
+												type='button'
+												disabled
+											>
+												<span
+													className='spinner-border spinner-border-sm me-2'
+													role='status'
+													aria-hidden='true'
+												></span>
+												Creando horario...
+											</button>
+										)}
 									</div>
 								</form>
 							</div>

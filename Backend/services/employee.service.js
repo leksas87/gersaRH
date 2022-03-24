@@ -20,7 +20,8 @@ module.exports = {
     getEvents,
     sendInformationByAccessCode,
     createSchedule,
-    getEmployeeScheduleById
+    getEmployeeScheduleById,
+    deleteEmployeeScheduleById
 };
 
 async function registerEvents(params, id){
@@ -180,6 +181,21 @@ async function getEmployeeScheduleById(id,res) {
         if (employee.schedule.length==0) throw new Error('Empleado sin registro de horario');
 
         return employee.schedule;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function deleteEmployeeScheduleById(id,res) {
+    try {
+        const employeeSchedule = await models.EmployeeSchedule.findOne({where:{id:id}});
+        
+        console.log(employeeSchedule);
+
+        if (!employeeSchedule)  throw new Error('Empleado sin horarios asignados');
+
+        employeeSchedule.destroy();
 
     } catch (error) {
         return res.status(404).json({ message: error.message});
