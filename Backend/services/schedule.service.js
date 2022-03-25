@@ -8,11 +8,16 @@ const moment = require('moment-timezone');
 module.exports = {
     create,
     getAll,
+    getTime,
     delete: _delete,
     update,
     getById
 };
 
+async function getTime() {
+    const time = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss'); 
+    return time;
+}
 
 async function create(params) {
     await models.Schedule.create(params);
