@@ -12,12 +12,19 @@ const {models} = require('./../libs/sequelize');
 // routes
 router.post('/', authorize(),forbidden(),authenticateSchema,register);
 router.get('/',authorize(),forbidden(),getAll);
+router.get('/time',getTime);
 router.get('/:id', authorize(),forbiddenGet(), getById);
 router.delete('/:id', authorize(),forbidden(), deleteSchedule);
 router.put('/:id', authorize(),forbidden(),authenticateSchema, updateSchedule);
 router.patch('/:id',authorize(),forbidden(),authenticateSchemaPatch,updateSchedule);
 
 module.exports = router;
+
+function getTime(req, res, next) {
+    scheduleService.getTime()
+    .then(time => res.json({ data:time ,message:'Succesful'}))
+    .catch(next);;
+}
 
 function deleteSchedule(req, res, next) {
     scheduleService.delete(req.params.id)

@@ -31,7 +31,7 @@ const ChecadorTeclado = () => {
 		setCode(code.concat(e.target.name));
 	};
 
-	//Metodo para eliminar el ultimo caracter
+	//Metodo para eliminar el ultimo caracter ingresado
 	const handleDelete = () => {
 		const strLast = code.slice(0, -1);
 		setCode(strLast);
@@ -52,22 +52,22 @@ const ChecadorTeclado = () => {
 	}, [code, setCode]);
 
 	//Envio data al backend
-	const sendAccessCode = () => {
-		if (pathname === '/checador/entry') {
-			dispatch(sendAccessCodeCheck(parseInt(code)));
-			dispatch(changeCheckValue('entry'));
-		} else if (pathname === '/checador/exit') {
-			dispatch(sendAccessCodeCheck(parseInt(code)));
-			dispatch(changeCheckValue('exit'));
-		}
-	};
+	// const sendAccessCode = () => {
+	// 	if (pathname === '/checador/entry') {
+	// 		dispatch(sendAccessCodeCheck(parseInt(code)));
+	// 		dispatch(changeCheckValue('entry'));
+	// 	} else if (pathname === '/checador/exit') {
+	// 		dispatch(sendAccessCodeCheck(parseInt(code)));
+	// 		dispatch(changeCheckValue('exit'));
+	// 	}
+	// };
 
 	//useEffect para redireccionar al login una vez se actualizo el password
-	useEffect(() => {
-		if (checkState.eventIsUserConfirm) {
-			navigate('/checador/confirm');
-		}
-	}, [checkState, navigate]);
+	// useEffect(() => {
+	// 	if (checkState.eventIsUserConfirm) {
+	// 		navigate('/checador/confirm');
+	// 	}
+	// }, [checkState, navigate]);
 
 	return (
 		<>
@@ -226,7 +226,7 @@ const ChecadorTeclado = () => {
 						<button
 							className='btn custm-Width100 custm-btnCheckSubmit mt-4'
 							type='button'
-							onClick={sendAccessCode}
+							// onClick={sendAccessCode}
 							disabled={code.length < 4 ? true : false}
 						>
 							CONTINUAR
