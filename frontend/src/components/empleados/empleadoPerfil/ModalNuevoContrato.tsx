@@ -22,16 +22,6 @@ const ModalNuevoContrato = () => {
 		cantidadSalario: '',
 		tipoSalario: '',
 	};
-	// Objeto para el manejo de los dias trabajados
-	const days = {
-		lunes: false,
-		martes: false,
-		miercoles: false,
-		jueves: false,
-		viernes: false,
-		sabado: false,
-		domingo: false,
-	};
 
 	//Estado inicial para manejo de errores
 	interface iErrors {
@@ -44,13 +34,10 @@ const ModalNuevoContrato = () => {
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
 	const [formValues, handleInputChange] = useForm(newContract);
-	//useState para manejo del checkbox
-	const [checked, setChecked] = useState(days);
+
 	// useState para manejo de errores
 	const [error, setError] = useState(errors);
 
-	//Desestructuracion de propiedades
-	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
 	const {
 		tipoDeContrato,
 		fechaDeInicio,
@@ -61,10 +48,6 @@ const ModalNuevoContrato = () => {
 		cantidadSalario,
 		tipoSalario,
 	} = formValues;
-
-	const handleClick = (e: any): void => {
-		setChecked({ ...checked, [e.target.name]: !e.target.defaultChecked });
-	};
 
 	//Submit del modal
 	const handeNewContract = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -78,13 +61,6 @@ const ModalNuevoContrato = () => {
 						fechaDeInicio: fechaDeInicio,
 						horasLaborales: horasLaborales,
 						unidadLaborales: unidadLaborales,
-						// lunes: lunes,
-						// martes: martes,
-						// miercoles: miercoles,
-						// jueves: jueves,
-						// viernes: viernes,
-						// sabado: sabado,
-						// domingo: domingo,
 						tipoSalario: tipoSalario,
 						cantidadSalario: cantidadSalario,
 						tipoDeContrato: tipoDeContrato,
@@ -99,13 +75,6 @@ const ModalNuevoContrato = () => {
 						fechaDeFinalizacion: fechaDeFinalizacion,
 						horasLaborales: horasLaborales,
 						unidadLaborales: unidadLaborales,
-						// lunes: lunes,
-						// martes: martes,
-						// miercoles: miercoles,
-						// jueves: jueves,
-						// viernes: viernes,
-						// sabado: sabado,
-						// domingo: domingo,
 						tipoSalario: tipoSalario,
 						cantidadSalario: cantidadSalario,
 						tipoDeContrato: tipoDeContrato,
@@ -377,22 +346,7 @@ const ModalNuevoContrato = () => {
 													</select>
 												</div>
 											</div>
-											<label htmlFor='recipient-name' className='pt-2'>
-												Horario
-											</label>
-											<select
-												className='form-select custm-input form-control custm-Width100  '
-												name='tipoDeHorario'
-												// disabled={!horasLabValue}
-												// value={tipoDeHorario}
-												// onChange={handleInputChangeInfoBasic}
-												// disabled={!infoBasicavalue}
-											>
-												<option>--Selecciona uno--</option>
-												<option value='Nike 1 Matutino'>Nike 1 Matutino</option>
-												<option value='Nike 1 Matutino'>Nike 2 Matutino</option>
-												<option value='Nike 1 Matutino'>Nike 3 Matutino</option>
-											</select>
+
 											{/* <div
 												className='btn-group mb-2 custm-Width100'
 												role='group'
@@ -566,7 +520,7 @@ const ModalNuevoContrato = () => {
 															role='status'
 															aria-hidden='true'
 														></span>
-														Creando empleado...
+														Creando contrato...
 													</button>
 												)}
 												{/* <button className=' custm-btnFormSubmit inputSubmit'>

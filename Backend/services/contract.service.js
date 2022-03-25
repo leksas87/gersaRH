@@ -20,8 +20,10 @@ async function getByEmployee(id) {
     
 }
 
-async function update(id, params) {
-    const contract = await getContract(id);
+async function update(id, idContract, params) {
+    const contract = await getContract(idContract);
+
+    if (!contract) throw 'Contrato no encontrado'
 
     
 
@@ -38,12 +40,12 @@ async function getContract(id) {
     return contract;
 }
 
-async function create(params) {
+async function create(params, id) {
 
     const contracts = await models.Contract.findAll();
 
     contracts.forEach(async contract => {
-        if(contract.userId === params.userId){
+        if(contract.userId === parseInt(id)){
             contract.isContractActivide = false;
             await contract.save();
         }

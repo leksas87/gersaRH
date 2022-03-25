@@ -5,17 +5,35 @@ import {
 	updateContractById,
 } from '../../../actions/contractsActions/contractsActions';
 import { iContract } from '../../../actions/contractsActions/contractsActionTypes';
+import {
+	getSchedules,
+	getSchedulesByUserId,
+	scheduleToDelete,
+} from '../../../actions/scheduleActions/scheduleActions';
+import {
+	iEmployeeSchedules,
+	iSchedules,
+} from '../../../actions/scheduleActions/scheduleActionsTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
+import ModalEliminarHorario from '../../empresa/empresaSchedules/ModalEliminarHorario';
+import ModalAsignarNuevoHorario from './ModalAsignarNuevoHorario';
+import ModalDeleteEmployeeSchedule from './ModalDeleteEmployeeSchedule';
 
 const PageEmpleadoInfoContrato = () => {
 	const dispatch = useDispatch();
 
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario, perfilEmpleado } = useSelector(
+		(state: RootSote) => state.users
+	);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { contratosEmpleado, contractToShow } = useSelector(
 		(state: RootSote) => state.contracts
+	);
+	//Se necesita el state que contiene los datos de los schedules
+	const { schedulesArray, schedulesToEdited, employeeSchedules } = useSelector(
+		(state: RootSote) => state.schedules
 	);
 
 	//Tomar solo la fecha Inicio
@@ -42,6 +60,7 @@ const PageEmpleadoInfoContrato = () => {
 	const [infoBasicavalue, toggleInfoBasic] = useToggle(false); //Recibe el valor inicial
 	const [horasLabValue, toggleHorasLab] = useToggle(false); //Recibe el valor inicial
 	const [salarioBruValue, toggleSalarioBru] = useToggle(false); //Recibe el valor inicial
+	const [horarioValue, toggleHorario] = useToggle(false); //Recibe el valor inicial
 
 	//objeto para formulario InfoBasic
 	const formInfoBasic = {
@@ -144,23 +163,27 @@ const PageEmpleadoInfoContrato = () => {
 		e.preventDefault();
 
 		if (fechaDeFinalizacion) {
-			dispatch(
-				updateContractById(contractToShow.id, {
-					tipoDeContrato: tipoDeContrato,
-					puesto: puesto,
-					fechaDeInicio: fechaDeInicio,
-					fechaDeFinalizacion: fechaDeFinalizacion,
-				})
-			);
+			if (perfilEmpleado.id) {
+				dispatch(
+					updateContractById(contractToShow.id, perfilEmpleado.id, {
+						tipoDeContrato: tipoDeContrato,
+						puesto: puesto,
+						fechaDeInicio: fechaDeInicio,
+						fechaDeFinalizacion: fechaDeFinalizacion,
+					})
+				);
+			}
 		} else {
-			dispatch(
-				updateContractById(contractToShow.id, {
-					tipoDeContrato: tipoDeContrato,
-					puesto: puesto,
-					fechaDeInicio: fechaDeInicio,
-					fechaDeFinalizacion: '10/10/1000',
-				})
-			);
+			if (perfilEmpleado.id) {
+				dispatch(
+					updateContractById(contractToShow.id, perfilEmpleado.id, {
+						tipoDeContrato: tipoDeContrato,
+						puesto: puesto,
+						fechaDeInicio: fechaDeInicio,
+						fechaDeFinalizacion: '10/10/1000',
+					})
+				);
+			}
 		}
 
 		toggleInfoBasic(false);
@@ -169,19 +192,14 @@ const PageEmpleadoInfoContrato = () => {
 	const handlesubmitHoraLaboral = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		dispatch(
-			updateContractById(contractToShow.id, {
-				horasLaborales: horasLaborales,
-				unidadLaborales: unidadLaborales,
-				lunes: lunes,
-				martes: martes,
-				miercoles: miercoles,
-				jueves: jueves,
-				viernes: viernes,
-				sabado: sabado,
-				domingo: domingo,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateContractById(contractToShow.id, perfilEmpleado.id, {
+					horasLaborales: horasLaborales,
+					unidadLaborales: unidadLaborales,
+				})
+			);
+		}
 
 		toggleHorasLab(false);
 	};
@@ -189,23 +207,48 @@ const PageEmpleadoInfoContrato = () => {
 	const handlesubmitSalarioBruto = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		dispatch(
-			updateContractById(contractToShow.id, {
-				tipoSalario: tipoSalario,
-				cantidadSalario: cantidadSalario,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateContractById(contractToShow.id, perfilEmpleado.id, {
+					tipoSalario: tipoSalario,
+					cantidadSalario: cantidadSalario,
+				})
+			);
+		}
 
 		toggleSalarioBru(false);
+	};
+	//Submit del formulario Schedules
+	const handlesubmitSchedules = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		toggleHorario(false);
 	};
 
 	const showInfo = (contractData: iContract) => {
 		dispatch(getContractToShow(contractData));
 	};
+	const selectScheduleToDelete = (schedule: iEmployeeSchedules) => {
+		dispatch(
+			scheduleToDelete({
+				id: schedule.EmployeeSchedule.id,
+				scheduleName: schedule.scheduleName,
+			})
+		);
+	};
+
+	useEffect(() => {
+		dispatch(getSchedules());
+		if (perfilEmpleado.id) {
+			dispatch(getSchedulesByUserId(perfilEmpleado.id));
+		}
+	}, []);
 
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
+				<ModalAsignarNuevoHorario />
+				<ModalDeleteEmployeeSchedule />
 				<div
 					className={
 						contratosEmpleado.length > 2
@@ -449,27 +492,118 @@ const PageEmpleadoInfoContrato = () => {
 										</select>
 									</div>
 								</div>
+
+								<div
+									className='d-flex justify-content-end custm-Width100'
+									style={{ height: '3rem' }}
+								>
+									{horasLabValue && (
+										<button type='submit' className='btn  custm-empleadoFormSubmit'>
+											Guardar
+										</button>
+									)}
+								</div>
+							</form>
+						</div>
+						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer mt-5'>
+							<div className='d-flex justify-content-end custm-Width100'>
+								<button className='btn fs-3 custm-btnToggle' onClick={toggleHorario}>
+									<i className='bi bi-pencil-square textColorSecondary' />
+								</button>
+							</div>
+							{/* Inicia formulario */}
+							<form style={{ width: '90%' }} onSubmit={handlesubmitSchedules}>
 								<div className='d-flex justify-content-center flex-column mb-4'>
-									<label className='custm-Width100'>Horario del trabajador</label>
-									<select
+									<button
+										// className='btn custm-contractBtnPlus'
+										className='btn custm-btnToggle'
+										type='button'
+										data-bs-toggle='modal'
+										data-bs-target='#newScheduleAsignModal'
+										// type='button'
+										disabled={!horarioValue}
+									>
+										Asignar nuevo horario <i className='bi bi-plus-lg' />
+									</button>
+								</div>
+								<div className='d-flex justify-content-center flex-column mb-4'>
+									<label className='custm-Width100'>Horarios del trabajador</label>
+									{/* <select
 										className=' form-select form-control custm-Width100 custm-empleadoFormIntput'
 										name='tipoDeHorario'
-										disabled={!horasLabValue}
+										disabled={!horarioValue}
 										// value={tipoDeHorario}
 										// onChange={handleInputChangeInfoBasic}
 										// disabled={!infoBasicavalue}
 									>
 										<option>--Selecciona uno--</option>
-										<option value='Nike 1 Matutino'>Nike 1 Matutino</option>
-										<option value='Nike 1 Matutino'>Nike 2 Matutino</option>
-										<option value='Nike 1 Matutino'>Nike 3 Matutino</option>
-									</select>
+										{schedulesArray.map((schedule) => (
+											<option key={schedule.id} value={schedule.id}>
+												{schedule.scheduleName}
+											</option>
+										))}
+									</select> */}
+									<div className='table-responsive custm-tableSchedules'>
+										<table className='table table align-middle'>
+											<thead>
+												{/* <thead> */}
+												<tr>
+													<th scope='col'>
+														<div className='d-flex justify-content-center textColorSecondary'>
+															Id
+														</div>
+													</th>
+													<th scope='col'>
+														<div className='d-flex justify-content-center textColorSecondary'>
+															Nombre del horario
+														</div>
+													</th>
+													<th scope='col'>
+														<div className='d-flex justify-content-center'>Acción</div>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{employeeSchedules.map((schedule) => (
+													<tr key={schedule.id}>
+														<th scope='row'>
+															<div className='d-flex align-items-center justify-content-center text-center textColorSecondary'>
+																{schedule.EmployeeSchedule.scheduleId}
+															</div>
+														</th>
+														<td>
+															<div className='d-flex align-items-center justify-content-center'>
+																<div className='textColorSecondary'>
+																	{schedule.scheduleName}
+																</div>
+															</div>
+														</td>
+														<td>
+															<div className='d-flex align-items-center justify-content-center'>
+																{/* <div className=' btn custm-btnEliminar'>Eliminar</div> */}
+																<button
+																	className='btn custm-btnEliminar'
+																	type='button'
+																	data-bs-toggle='modal'
+																	data-bs-target='#ModalDeleteEmployeeSchedule'
+																	disabled={!horarioValue}
+																	onClick={() => selectScheduleToDelete(schedule)}
+																>
+																	Eliminar
+																</button>
+															</div>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
 								</div>
 
-								<div className='d-flex justify-content-center textColorLight mb-1'>
+								{/* <div className='d-flex justify-content-center textColorLight mb-1'>
 									<div className='fs-4 textColorLight'>Detalle del horario</div>
-								</div>
-								<div className='d-flex mb-4'>
+								</div> */}
+								{/* <div className='d-flex mb-4'>
 									<div className='me-1'>
 										<label className='custm-Width100 text-center textColorLight'>
 											Hora entrada
@@ -500,8 +634,8 @@ const PageEmpleadoInfoContrato = () => {
 											disabled
 										/>
 									</div>
-								</div>
-								<div className='d-flex mb-4'>
+								</div> */}
+								{/* <div className='d-flex mb-4'>
 									<div className='me-1 d-flex flex-column justify-content-end'>
 										<label className='custm-Width100 text-center textColorLight'>
 											Tiempo de retardo
@@ -532,8 +666,8 @@ const PageEmpleadoInfoContrato = () => {
 											disabled
 										/>
 									</div>
-								</div>
-								<div className='d-flex mb-4 justify-content-center'>
+								</div> */}
+								{/* <div className='d-flex mb-4 justify-content-center'>
 									<div className='me-1 d-flex flex-column justify-content-end'>
 										<label className='custm-Width100 text-center textColorLight'>
 											Tiempo de descanso
@@ -549,15 +683,15 @@ const PageEmpleadoInfoContrato = () => {
 											disabled
 										/>
 									</div>
-								</div>
+								</div> */}
 
-								<div className='d-flex justify-content-center textColorLight mb-1'>
+								{/* <div className='d-flex justify-content-center textColorLight mb-1'>
 									<label>
 										<span className='text-capitalize'>{perfilUsuario.firstName}</span>{' '}
 										trabaja los días:
 									</label>
-								</div>
-								<div className='d-flex justify-content-center mb-4'>
+								</div> */}
+								{/* <div className='d-flex justify-content-center mb-4'>
 									<div
 										className='btn-group mb-2 custm-Width100'
 										role='group'
@@ -671,18 +805,18 @@ const PageEmpleadoInfoContrato = () => {
 											D
 										</label>
 									</div>
-								</div>
+								</div> */}
 
-								<div
+								{/* <div
 									className='d-flex justify-content-end custm-Width100'
 									style={{ height: '3rem' }}
 								>
-									{horasLabValue && (
+									{horarioValue && (
 										<button type='submit' className='btn  custm-empleadoFormSubmit'>
 											Guardar
 										</button>
 									)}
-								</div>
+								</div> */}
 							</form>
 						</div>
 					</div>

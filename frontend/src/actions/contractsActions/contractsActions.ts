@@ -22,7 +22,12 @@ export const getContracts = (userId: string) => {
 		dispatch<any>(cleanContracts());
 		dispatch<any>(cleanContractToshow());
 		//Peticion Fetch a la API para hacer obtener los contratos
-		const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
+		// const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
+		const respuesta = await fetchConToken(
+			`employees/${userId}/contracts`,
+			{},
+			'GET'
+		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
 
@@ -69,7 +74,11 @@ export const registerNewContract = (data: iNewContract) => {
 		});
 
 		//Peticion Fetch a la API para hacer login
-		const respuesta = await fetchConToken('contracts', data, 'POST');
+		const respuesta = await fetchConToken(
+			`employees/${data.userId}/contracts/`,
+			data,
+			'POST'
+		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
 
@@ -113,11 +122,15 @@ export const registerNewContract = (data: iNewContract) => {
 };
 
 //(PATCH -users ) Modificar datos del contrato
-export const updateContractById = (contractId: number, formData: {}) => {
+export const updateContractById = (
+	contractId: number,
+	employeeId: number,
+	formData: {}
+) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//Peticion Fetch a la API para modificar el accesso
 		const respuesta = await fetchConToken(
-			`contracts/${contractId}`,
+			`employees/${employeeId}/contracts/${contractId}`,
 			formData,
 			'PATCH'
 		);
@@ -155,7 +168,12 @@ export const getContractsWithoutContractToshow = (userId: string) => {
 		//se limpia el array de contratos.
 		dispatch<any>(cleanContracts());
 		//Peticion Fetch a la API para hacer obtener los contratos
-		const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
+		// const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
+		const respuesta = await fetchConToken(
+			`employees/${userId}/contracts`,
+			{},
+			'GET'
+		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
 

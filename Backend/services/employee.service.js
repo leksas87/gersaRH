@@ -15,10 +15,33 @@ module.exports = {
     validacionNumeroAleatorio,
     checkAccessCode,
     registerCheck,
+    registerEvents,
     sendAccessCode,
     getEvents,
-    sendInformationByAccessCode
+    sendInformationByAccessCode,
+    createSchedule,
+    getEmployeeScheduleById,
+    deleteEmployeeScheduleById
 };
+
+async function registerEvents(params, id){
+    try {
+        const employee = await getEmployeeById(id);
+
+        const eventType = await models.EventType.findOne({where:{nameType:params.EventType}});
+
+        
+        const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+        
+
+        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent});
+        
+        
+    } catch (error) {
+        return res.status(404).json({ message: 'Ya se tiene registro de la hora de entrada',ok:false});
+    }
+        
+}
 
 async function sendInformationByAccessCode(params) {
 
@@ -44,17 +67,33 @@ async function sendInformationByAccessCode(params) {
 
 async function getEvents(id, fechaInicio, fechaFin) {
 
+    if(!fechaInicio && !fechaFin){
+        const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+        const fechaFin = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
 
-    const checks = await models.Check.findAll({where:{
-                                                    employeeId:id,
-                                                    DateCheck: {[Op.between]: [fechaInicio,fechaFin]}
-                                                    },
-                                                order:[['DateCheck', 'DESC']]
-                                              });
-   
-    if ( !checks)  throw 'Empleado no encontrado';
+        const events = await models.Event.findAll({where:{
+                                                        employeeId:id,
+                                                        DateEvent: {[Op.between]: [fechaInicio,fechaFin]}
+                                                        },
+                                                    order:[['DateEvent', 'DESC']]
+                                                });
     
-    return checks;
+        if ( !events)  throw 'Empleado no encontrado';
+        
+        return events;
+
+    }else{
+        const events = await models.Event.findAll({where:{
+                                                        employeeId:id,
+                                                        DateEvent: {[Op.between]: [fechaInicio,fechaFin]}
+                                                        },
+                                                    order:[['DateEvent', 'DESC']]
+                                                });
+    
+        if ( !events)  throw 'Empleado no encontrado';
+        
+        return events;
+    }
 }
 
 async function sendAccessCode(id) {
@@ -119,6 +158,11 @@ async function create(params) {
     await models.Employee.create(params);
 
 }
+async function createSchedule(params) {
+    
+    const newSchedule=await models.EmployeeSchedule.create(params);
+    return newSchedule;
+}
 
 async function getEmployeeById(id) {
     const employee = await models.Employee.findOne({where:{userId:id}});
@@ -126,6 +170,37 @@ async function getEmployeeById(id) {
     if ( !employee)  throw 'Empleado no encontrado';
 
     return employee;
+}
+
+async function getEmployeeScheduleById(id,res) {
+    try {
+        const employee = await models.Employee.findOne({where:{userId:id},include:'schedule'});
+    
+        if (!employee)  throw new Error('Empleado no encontrado');
+
+        if (employee.schedule.length==0) throw new Error('Empleado sin registro de horario');
+
+        return employee.schedule;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function deleteEmployeeScheduleById(id,res) {
+    try {
+        const employeeSchedule = await models.EmployeeSchedule.findOne({where:{id:id}});
+        
+        console.log(employeeSchedule);
+
+        if (!employeeSchedule)  throw new Error('Empleado sin horarios asignados');
+
+        employeeSchedule.destroy();
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
 }
 
 function checkAccessCode() {

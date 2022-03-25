@@ -9,7 +9,6 @@ const ScheduleSchema = {
   horaSalida: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   tiempoDescanso: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0},
   tiempoRetraso: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0},
-  tiempoActaAdministrativa: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0},
   Lunes: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
   Martes: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
   Miercoles: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },

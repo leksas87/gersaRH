@@ -44,6 +44,16 @@ const EmpresaPage = () => {
 						</NavLink>
 					)}
 					<NavLink
+						to={`/empresa/horarios`}
+						className={({ isActive }) =>
+							isActive
+								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+						}
+					>
+						Horarios
+					</NavLink>
+					<NavLink
 						to={`/empresa/archivados`}
 						className={({ isActive }) =>
 							isActive
