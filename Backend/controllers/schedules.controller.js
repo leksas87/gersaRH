@@ -39,7 +39,7 @@ function getAll(req, res, next) {
 }
 
 function register(req,res,next) {
-    scheduleService.create(req.body)
+    scheduleService.create(req.body,res)
         .then(()=> res.json({ message:'Registro exitoso!'}))
         .catch(next);
 }
