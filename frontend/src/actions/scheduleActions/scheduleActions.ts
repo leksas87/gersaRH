@@ -392,7 +392,7 @@ export const addScheduleToEmployee = (data: {
 					Swal.fire({
 						position: 'top-end',
 						icon: 'success',
-						title: `¡${respuesta.data.message}!`,
+						title: `¡Asignación de horario exitosa!`,
 						showConfirmButton: false,
 						timer: 2000,
 					});
