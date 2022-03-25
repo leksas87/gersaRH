@@ -124,9 +124,9 @@ const AppRouter = () => {
 						/>
 						{/* Check */}
 						<Route path='checador/' element={<Checador />}>
-							<Route index element={<ChecadorPage />} />
-							<Route path='entry' element={<ChecadorTeclado />} />
-							<Route path='exit' element={<ChecadorTeclado />} />
+							<Route index element={<ChecadorTeclado />} />
+							{/* <Route path='entry' element={<ChecadorTeclado />} /> */}
+							{/* <Route path='exit' element={<ChecadorTeclado />} /> */}
 							<Route element={<RequireCheckState />}>
 								<Route path='confirm' element={<ChecadorConfirmacion />} />
 							</Route>
