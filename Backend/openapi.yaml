@@ -676,7 +676,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
-  /employeeSchedules/{employeeScheduleId}:
+  /employees/employeeSchedule/{employeeScheduleId}:
     delete:
       tags:
       - employees
@@ -694,7 +694,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExitoContratosDelete'
+                $ref: '#/components/schemas/Exito'
         400:
           description: Bad Request
           content:
@@ -946,6 +946,12 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Forbidden'
+        409:
+            description: Request could not be processed because of conflict in the request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/RequestError'
         500:
           description: Bad Request
           content:
@@ -999,6 +1005,50 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
+  /schedules/time:
+    get:
+      tags:
+      - schedule
+      summary: Se obtiene la fecha y hora del servidor
+        
+      responses:
+        200:
+          description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemaScheduleTime'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundSchedules'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      
   /eventType/:
     post:
         tags:
@@ -1255,6 +1305,14 @@ components:
           type: string
           example: Usuario no autorizado
           description: Usuario no autorizado
+    RequestError:
+      description: Ya existe el horario con este nombre
+      type: object
+      properties:
+        message:
+          type: string
+          example: Ya existe el horario con este nombre
+          description: Ya existe el horario con este nombre
     BadRequest:     
       description:  Algo salio mal
       type: object
@@ -1389,6 +1447,19 @@ components:
                 type: boolean
               Domingo:
                 type: boolean 
+        message:
+         type: string
+         example: successful
+         description: Esta propiedad es un mensaje con detalle sobre la respuesta
+    schemaScheduleTime:      
+      type: object
+      properties:
+        data: 
+          type: object
+          properties:
+            time:
+              type: string
+              format: time
         message:
          type: string
          example: successful
