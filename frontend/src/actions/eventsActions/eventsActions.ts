@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import Swal from 'sweetalert2';
+import { axiosClientWithToken } from '../../helpers/axios';
 import {
 	fetchConToken,
 	fetchConTokenCheck,
@@ -17,89 +18,85 @@ import {
 	SEND_ACCESS_CODE,
 } from './eventsActionTypes';
 
-// (GET) Check
+// (GET) Envío de AccessCode por headers
 export const sendAccessCodeCheck = (accessCode: number) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer CheckIn
-		try {
-			dispatch({
-				type: EVENTS_START_LOADING,
-			});
-
-			const respuesta = await fetchConTokenCheck(
-				'employees/check',
-				accessCode,
-				'GET'
-			);
-			//.json() a la respuesta
-			const body = await respuesta?.json();
-
-			//Condicion si existe un id
-			if (body.ok) {
-				console.log('Axeso', body);
-
-				//Se asigna el cuerpo de la respuesta a userConfirmation
-				// const usuario: Usuario = body.data;
-				//dispatch que guarda al usuario obtenido en el reducer
-				dispatch({
-					type: SEND_ACCESS_CODE,
-					payload: { userConfirmation: body.data },
-				});
-				dispatch({
-					type: EVENTS_IS_USER_ACTIVE,
-				});
-				dispatch({
-					type: EVENTS_LOADING_END,
-				});
-			} else {
-				dispatch({
-					type: EVENTS_LOADING_END,
-				});
-				//Mensaje de error proveniente de la API
-				if (
-					body.message ===
-					'Validation error: "accesscode" must be greater than or equal to 1000'
-				) {
-					Swal.fire('Error', 'El código de acceso debe ser numérico', 'error');
-					Swal.fire({
-						position: 'center',
-						icon: 'error',
-						title: `¡El código de acceso debe ser numérico!`,
-						showConfirmButton: false,
-						timer: 2000,
+		dispatch({ type: EVENTS_START_LOADING });
+		//Peticion al API
+		axiosClientWithToken
+			.get(`employees/auth`, { headers: { accessCode: accessCode } })
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: SEND_ACCESS_CODE,
+						payload: { userConfirmation: respuesta.data.data },
 					});
-					console.log('mal');
-				} else {
-					// Swal.fire('Error', body.message, 'error');
-					Swal.fire({
-						position: 'center',
-						icon: 'error',
-						title: `¡${body.message}!`,
-						showConfirmButton: false,
-						timer: 2000,
+					dispatch({
+						type: EVENTS_IS_USER_ACTIVE,
 					});
-					console.log('mal');
+					dispatch({ type: EVENTS_LOADING_END });
 				}
-				// dispatch({ type: AUTH_LOADING_FINISH });
-			}
-		} catch (error) {
-			console.log(error);
-			Toast.fire({
-				icon: 'error',
-				title: '¡Ups! Algo salió mal. <br/> Por favor, Intenta de nuevo!',
+			})
+			.catch((error) => {
+				if (error.response.status === 400) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error400');
+					console.log(error.response.data.message);
+					if (
+						error.response.data.message ===
+						'Validation error: "accesscode" must be greater than or equal to 1000'
+					) {
+						Swal.fire({
+							position: 'top-end',
+							icon: 'error',
+							title: 'El código de acceso debe ser numérico',
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					} else {
+						Swal.fire({
+							position: 'top-end',
+							icon: 'error',
+							title: 'Empleado no encontrado',
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					}
+				} else if (error.response.status === 404) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error404');
+
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: 'El código de acceso es incorrecto',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 500) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({ type: EVENTS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-			// dispatch({ type: AUTH_LOADING_FINISH });
-		}
 	};
 };
 
-//Cambiar el valor del check (checkIn o CheckOut)
-export const changeCheckValue = (checkValue: string) => {
-	// console.log('Ejecutando getUsers');
-	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		dispatch({ type: EVENTS_OPTION, payload: { checkOption: checkValue } });
-	};
-};
 //Cambiar el valor del check (checkIn o CheckOut)
 export const changecheckIsUserActiveFalse = () => {
 	// console.log('Ejecutando getUsers');
@@ -215,5 +212,82 @@ export const reSendAccessCode = (userId: number) => {
 			});
 			// dispatch({ type: AUTH_LOADING_FINISH });
 		}
+	};
+};
+
+// (GET) Obtener eventos del empleado by employeeId
+export const getUserEvents = (employeeId: number) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		dispatch({ type: EVENTS_START_LOADING });
+		//Peticion al API
+		axiosClientWithToken
+			.get(`employees/${employeeId}/events`)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					console.log(respuesta.status);
+					// dispatch({
+					// 	type: SEND_ACCESS_CODE,
+					// 	payload: { userConfirmation: respuesta.data.data },
+					// });
+					dispatch({ type: EVENTS_LOADING_END });
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 400) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error400');
+					console.log(error.response.data.message);
+					if (
+						error.response.data.message ===
+						'Validation error: "accesscode" must be greater than or equal to 1000'
+					) {
+						Swal.fire({
+							position: 'top-end',
+							icon: 'error',
+							title: 'El código de acceso debe ser numérico',
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					} else {
+						Swal.fire({
+							position: 'top-end',
+							icon: 'error',
+							title: 'Empleado no encontrado',
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					}
+				} else if (error.response.status === 404) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error404');
+
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: 'El código de acceso es incorrecto',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 500) {
+					dispatch({ type: EVENTS_LOADING_END });
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({ type: EVENTS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
 	};
 };

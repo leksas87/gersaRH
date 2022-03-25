@@ -3,7 +3,6 @@ import {
 	EVENTS_IS_USER_ACTIVE,
 	EVENTS_IS_USER_ACTIVE_FALSE,
 	EVENTS_LOADING_END,
-	EVENTS_OPTION,
 	EVENTS_START_LOADING,
 	iEventsReducerState,
 	SEND_ACCESS_CODE,
@@ -12,16 +11,13 @@ import {
 //Estado inicial
 const INITIAL_STATE: iEventsReducerState = {
 	userConfirmation: {
-		id: null,
-		accessCode: 0,
-		username: '',
+		employeeId: null,
 		firstName: '',
 		lastName: '',
 	},
 	eventsState: {
 		loading: false,
 		eventIsUserConfirm: false,
-		eventOption: '',
 	},
 };
 
@@ -45,14 +41,6 @@ export const EventsReducer = (
 				eventsState: {
 					...state.eventsState,
 					eventIsUserConfirm: false,
-				},
-			};
-		case EVENTS_OPTION:
-			return {
-				...state,
-				eventsState: {
-					...state.eventsState,
-					eventOption: action.payload.checkOption,
 				},
 			};
 		case EVENTS_START_LOADING:

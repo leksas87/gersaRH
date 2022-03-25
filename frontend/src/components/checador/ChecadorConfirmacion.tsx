@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
-	changeCheckValue,
 	sendAccessCodeDataCheck,
 } from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
@@ -28,34 +27,34 @@ const ChecadorConfirmacion = () => {
 	// const navigate = useNavigate();
 
 	//Metodo que envia lso datos de confirmacion
-	const confirmationCheck = () => {
-		if (checkState.eventOption === 'entry') {
-			dispatch(
-				sendAccessCodeDataCheck(userConfirmation.accessCode, {
-					userId: userConfirmation.id,
-					username: userConfirmation.username,
-					latitudeCheck: cordenadas.latitude.toString(),
-					longitudeCheck: cordenadas.longitude.toString(),
-					tipoCheck: 'Entrada',
-				})
-			);
-		} else if (checkState.eventOption === 'exit') {
-			dispatch(
-				sendAccessCodeDataCheck(userConfirmation.accessCode, {
-					userId: userConfirmation.id,
-					username: userConfirmation.username,
-					latitudeCheck: cordenadas.latitude.toString(),
-					longitudeCheck: cordenadas.longitude.toString(),
-					tipoCheck: 'Salida',
-				})
-			);
-		}
-	};
+	// const confirmationCheck = () => {
+	// 	if (checkState.eventOption === 'entry') {
+	// 		dispatch(
+	// 			sendAccessCodeDataCheck(userConfirmation.accessCode, {
+	// 				userId: userConfirmation.id,
+	// 				username: userConfirmation.username,
+	// 				latitudeCheck: cordenadas.latitude.toString(),
+	// 				longitudeCheck: cordenadas.longitude.toString(),
+	// 				tipoCheck: 'Entrada',
+	// 			})
+	// 		);
+	// 	} else if (checkState.eventOption === 'exit') {
+	// 		dispatch(
+	// 			sendAccessCodeDataCheck(userConfirmation.accessCode, {
+	// 				userId: userConfirmation.id,
+	// 				username: userConfirmation.username,
+	// 				latitudeCheck: cordenadas.latitude.toString(),
+	// 				longitudeCheck: cordenadas.longitude.toString(),
+	// 				tipoCheck: 'Salida',
+	// 			})
+	// 		);
+	// 	}
+	// };
 
 	//Metodo para enviar al inicio
 	const navigateCheck = () => {
 		// console.log('cordenadas', checkState.checkOption);
-		dispatch(changeCheckValue(''));
+		// dispatch(changeCheckValue(''));
 		dispatch(changecheckIsUserActiveFalse());
 		// navigate('/checador');
 	};
@@ -109,7 +108,7 @@ const ChecadorConfirmacion = () => {
 					<button
 						className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
 						type='button'
-						onClick={confirmationCheck}
+						// onClick={confirmationCheck}
 					>
 						SI
 					</button>

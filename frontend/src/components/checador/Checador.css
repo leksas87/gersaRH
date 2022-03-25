@@ -11,6 +11,12 @@
 .custm-btnCheckIn {
 	background-color: hsla(198, 65%, 45%, 0.15);
 }
+.custm-btnCheckInBrake {
+	background-color: rgba(233, 113, 0, 0.4);
+}
+.custm-btnCheckOutBrake {
+	background-color: rgba(0, 233, 12, 0.4);
+}
 .custm-btnCheckOut {
 	background-color: rgba(214, 0, 78, 0.15);
 }

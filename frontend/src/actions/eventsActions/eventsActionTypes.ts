@@ -12,16 +12,13 @@ export interface iEventsReducerState {
 	eventsState: {
 		loading: boolean;
 		eventIsUserConfirm: boolean;
-		eventOption: string;
 	};
 }
 //Interfaz para confirmacion de usuario.
 export interface iUserConfirmation {
-	accessCode: number;
+	employeeId: number | null;
 	firstName: string;
-	id: number | null;
 	lastName: string;
-	username: string;
 }
 
 //Obtener contrato para mostrar
