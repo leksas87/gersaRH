@@ -14,8 +14,16 @@ module.exports = {
 };
 
 
-async function create(params) {
-    await models.Schedule.create(params);
+async function create(params,res) {
+    // try {
+        console.log(params.scheduleName);
+        const schedule=await models.Schedule.findOne({where:{scheduleName:params.scheduleName}});
+        if (schedule) 
+        {
+            return res.status(409).json({message:'ya existe el horario'}); 
+        }
+        await models.Schedule.create(params);
+    
 }
 
 async function getAll() {
