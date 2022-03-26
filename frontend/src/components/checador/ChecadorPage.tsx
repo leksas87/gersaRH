@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as div } from 'react-router-dom';
 import { getUserEvents } from '../../actions/eventsActions/eventsActions';
@@ -11,10 +11,49 @@ const ChecadorPage = () => {
 	//Senecesita el state que indica  el checkState
 	const { userConfirmation } = useSelector((state: RootSote) => state.events);
 
+	const [eventsState, setEventsState] = useState({
+		entrada: true,
+		iniciaDescanso: true,
+		terminaDescanso: true,
+		salida: true,
+	});
+
+	const arrayTest = [];
+
 	useEffect(() => {
 		console.log('aquí');
 		if (userConfirmation.employeeId) {
 			dispatch(getUserEvents(userConfirmation.employeeId));
+		}
+
+		if (arrayTest.length === 0) {
+			setEventsState({
+				entrada: false,
+				iniciaDescanso: true,
+				terminaDescanso: true,
+				salida: true,
+			});
+		} else if (arrayTest.length === 1) {
+			setEventsState({
+				entrada: true,
+				iniciaDescanso: false,
+				terminaDescanso: true,
+				salida: true,
+			});
+		} else if (arrayTest.length === 2) {
+			setEventsState({
+				entrada: true,
+				iniciaDescanso: true,
+				terminaDescanso: false,
+				salida: true,
+			});
+		} else if (arrayTest.length === 3) {
+			setEventsState({
+				entrada: true,
+				iniciaDescanso: true,
+				terminaDescanso: true,
+				salida: false,
+			});
 		}
 	}, []);
 
@@ -36,7 +75,7 @@ const ChecadorPage = () => {
 					// to='/checador/entry'
 					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
-					// disabled
+					disabled={eventsState.entrada}
 				>
 					<div className='custm-btnCheck custm-btnCheckIn d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-door-open' />
@@ -48,7 +87,7 @@ const ChecadorPage = () => {
 					// to='/checador/exit'
 					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
-					// disabled
+					disabled={eventsState.iniciaDescanso}
 				>
 					<div className='custm-btnCheck custm-btnCheckInBrake d-flex justify-content-center align-items-center'>
 						<i className='custm-checkArrow bi bi-box-arrow-right' />
@@ -63,7 +102,7 @@ const ChecadorPage = () => {
 					// to='/checador/exit'
 					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
-					// disabled
+					disabled={eventsState.terminaDescanso}
 				>
 					<div className='custm-btnCheck custm-btnCheckOutBrake d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-cup-straw' />
@@ -78,7 +117,7 @@ const ChecadorPage = () => {
 					// to='/checador/exit'
 					// type='button'
 					className='btn d-flex flex-column align-items-center custm-btnCheckMargin'
-					// disabled
+					disabled={eventsState.salida}
 				>
 					<div className='custm-btnCheck custm-btnCheckOut d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-door-open' />
