@@ -16,12 +16,12 @@ router.get('/auth',registerAccessCodeSchema, sendInformationByAccessCode);
 router.post('/check',registerAccessCodeSchema,registerCheckSchema,registerCheck);
 router.get('/check',registerAccessCodeSchema,Check);
 router.post('/',authorize(),registerSchema, register);
-router.get('/:id', authorize(), getById);
+router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
-router.get('/:id/accessCode', authorize(), sendAccessCodeById);
+router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
 router.get('/:id/events', authorize(), forbiddenGet(), getEvents);
-router.post('/:id/events', registerEventSchema, registerEvents);
-router.get('/:id/schedule', authorize(), getSchedule);
+router.post('/:id/events', forbidden(), registerEventSchema, registerEvents);
+router.get('/:id/schedule', authorize(), forbidden(), getSchedule);
 router.delete('/employeeSchedule/:id', authorize(), forbidden(),deleteEmployeeSchedule,deleteSchedule);
 router.post('/add-schedule',authorize(),forbidden() ,addScheduleSchema,registerSchedule);
 router.post('/:id/contracts', authorize(), forbidden() ,registerSchemaContracts, registerContracts);
@@ -29,6 +29,7 @@ router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchem
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+
 
 
 module.exports = router;
