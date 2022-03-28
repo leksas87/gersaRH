@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as div, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
 	getEmployeeEvents,
 	getServerTime,
-	getUserEvents,
 } from '../../actions/eventsActions/eventsActions';
 import { getSchedulesByUserIdCheckIn } from '../../actions/scheduleActions/scheduleActions';
 import { RootSote } from '../../store/Store';
@@ -27,8 +26,6 @@ const ChecadorPage = () => {
 		terminaDescanso: true,
 		salida: true,
 	});
-
-	// const arrayTest = [];
 
 	useEffect(() => {
 		if (userConfirmation.employeeId) {
@@ -91,10 +88,7 @@ const ChecadorPage = () => {
 	};
 	//Metodo para enviar al inicio
 	const navigateCheck = () => {
-		// console.log('cordenadas', checkState.checkOption);
-		// dispatch(changeCheckValue(''));
 		dispatch(changecheckIsUserActiveFalse());
-		// navigate('/checador');
 	};
 
 	return (

@@ -1,4 +1,19 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployeeEventsByDates } from '../../../actions/eventsActions/eventsActions';
+import { RootSote } from '../../../store/Store';
+
 const PageControlHorario = () => {
+	//dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+
+	useEffect(() => {
+		console.log('Ejecutando');
+		if (perfilEmpleado.id) dispatch(getEmployeeEventsByDates(perfilEmpleado.id));
+	}, []);
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>

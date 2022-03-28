@@ -91,29 +91,27 @@ const ChecadorConfirmacion = () => {
 
 		if (scheduleToComparate?.tiempoDescanso) {
 			if (time <= scheduleToComparate?.tiempoDescanso) {
-				console.log('normal');
 				setEventType('Normal');
 			} else if (
 				time > scheduleToComparate?.tiempoDescanso &&
 				time <=
 					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
 			) {
-				console.log('Retardo');
+				// console.log('Retardo');
 				setEventType('Retardo');
 			} else if (
 				time >
 				scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
 			) {
-				console.log('Acta administrativa');
+				// console.log('Acta administrativa');
 				setEventType('Acta administrativa');
 			}
 		}
 	};
 
-	// const event = 'Lunes';
+	// const event = 'Martes';
 	const schedule = employeeSchedules.find(
 		(schedule: any) => schedule[eventServerDay] === true
-		// (schedule: any) => schedule[eventServerDay] === true
 	);
 	//Efecto para evaluar si empleado trabaja hoy
 	// y validar hora de entrada
@@ -121,7 +119,7 @@ const ChecadorConfirmacion = () => {
 		if (schedule) {
 			setscheduleToComparate(schedule);
 			setEmployeeWorksToday(true);
-			console.log('Empleado SI trabaja hoy');
+			// console.log('Empleado SI trabaja hoy');
 			//Validar hora de Entrada
 			if (employeeEvents.length === 0) {
 				if (scheduleToComparate?.horaEntrada) {
@@ -130,16 +128,16 @@ const ChecadorConfirmacion = () => {
 				}
 			} else if (employeeEvents.length === 1) {
 				setEventType('Normal');
-				console.log('normal');
+				// console.log('normal');
 				compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 2) {
 				compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 3) {
 				setEventType('Normal');
-				console.log('normal');
+				// console.log('normal');
 			}
 		} else {
-			console.log('Empleado no trabaja hoy');
+			// console.log('Empleado no trabaja hoy');
 			setEmployeeWorksToday(false);
 		}
 	}, [schedule, scheduleToComparate]);

@@ -5,6 +5,7 @@ import { fetchConToken, fetchCheckconData } from '../../helpers/fetch';
 import { Toast } from '../../helpers/swalAlert';
 import moment from 'moment';
 import {
+	CLEAN_EMPLOYEE_EVENTS,
 	EventsDispatchTypes,
 	EVENTS_IS_USER_ACTIVE,
 	EVENTS_IS_USER_ACTIVE_FALSE,
@@ -297,6 +298,9 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 		//Se recupera el token guardado el localStorage
 		// const token = localStorage.getItem('gersa-tkn') || '';
 
+		//LimpiarEmployeeEvents
+		dispatch({ type: CLEAN_EMPLOYEE_EVENTS });
+
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(`employees/${employeeId}/events`, {
@@ -306,6 +310,9 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					// console.log(respuesta.data.registros);
+					const reverseArray = respuesta.data.registros.reverse();
+					console.log('arrayAlreves', reverseArray);
 					dispatch({
 						type: GET_EMPLOYEE_EVENTS,
 						payload: { employeeEvents: respuesta.data.registros },
@@ -497,6 +504,85 @@ export const sendEmployeeEvent = (
 					setTimeout(() => {
 						dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
 					}, 1500);
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) employee Events by Dates
+export const getEmployeeEventsByDates = (employeeId: number) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//LimpiarEmployeeEvents
+		dispatch({ type: CLEAN_EMPLOYEE_EVENTS });
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(
+				`employees/${employeeId}/events?startDate=2022-03-28 00:00:00&endDate=2022-04-03 23:59:59`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					const reverseArray = respuesta.data.registros.reverse();
+					console.log('arrayAlreves', reverseArray);
+					dispatch({
+						type: GET_EMPLOYEE_EVENTS,
+						payload: { employeeEvents: respuesta.data.registros },
+					});
 				}
 			})
 			.catch((error) => {
