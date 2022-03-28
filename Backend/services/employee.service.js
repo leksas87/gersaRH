@@ -51,17 +51,18 @@ async function sendInformationByAccessCode(params) {
         throw 'Empleado no encontrado';
     }
     const atribute=['phone','active','hash','roll','confirmationCode','isEmployeeActive','username','id']
-
+    
     const usuario=await models.User.findOne({where: {
         id:employee.userId
       },
       attributes: {
         exclude: atribute
       }});
-
+      const token = jwt.sign({ sub: employee.userId }, config.secret, { expiresIn: '2h' });
+      
       usuario.setDataValue("employeeId",employee.id);
+      usuario.setDataValue("token",token);
       //usuario.setDataValue("accessCode",employee.accessCode);
-
       return usuario;
 }
 
@@ -255,6 +256,9 @@ async function reviewUser(params) {
 
       return usuario;
 }
+
+
+
 
 async function reviewOut(employee) {
 

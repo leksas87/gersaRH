@@ -127,11 +127,11 @@ async function create(params) {
         await models.Employee.create({
             userId: user.id,
             accessCode: params.accessCode
-        })
+        });
         await contractService.create({
             userId: user.id,
             fechaDeInicio: fechaNow
-        })
+        });
     } catch (error) {
         console.log(error.message);
     }
@@ -192,9 +192,11 @@ async function createMaster(params) {
     // save user
     try {
         // save user
+        params.accessCode = await employeeService.validacionNumeroAleatorio();
         const user = await models.User.create(params);
         await models.Employee.create({
-            userId: user.id
+            userId: user.id,
+            accessCode: params.accessCode
         })
     } catch (error) {
         console.log(error.message);
