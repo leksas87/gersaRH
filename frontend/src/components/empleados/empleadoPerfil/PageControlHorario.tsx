@@ -34,7 +34,10 @@ const PageControlHorario = () => {
 	//se obtiene fecha actual
 	const fechaEvent = moment().format('YYYY-MM-DD HH:mm:ss');
 	//Se obtiene numero de semana
-	const semanaEvent = moment(fechaEvent).week();
+	// const semanaEvent = moment(fechaEvent).week();
+	// const semanaEvent = 15;
+
+	const [semanaEvent, setSemanaEvent] = useState(moment(fechaEvent).week());
 
 	const fechaInicio = moment()
 		.isoWeek(semanaEvent - 1)
@@ -44,6 +47,8 @@ const PageControlHorario = () => {
 		.isoWeek(semanaEvent - 1)
 		.endOf('isoWeek')
 		.format('YYYY-MM-DD HH:mm:ss');
+
+	//Efecto que ejecuta la peticion al Backend
 	useEffect(() => {
 		setDays({
 			fechaInicioD: moment(fechaInicio).format('L'),
@@ -52,7 +57,7 @@ const PageControlHorario = () => {
 
 		if (perfilEmpleado.id)
 			dispatch(getEmployeeEventsByDates(perfilEmpleado.id, fechaInicio, fechaFin));
-	}, []);
+	}, [semanaEvent]);
 
 	useEffect(() => {
 		//Monday
@@ -98,6 +103,13 @@ const PageControlHorario = () => {
 		setWeeksArraySunday(result7);
 	}, [employeeEvents]);
 
+	const substWeek = () => {
+		setSemanaEvent(semanaEvent - 1);
+	};
+	const addWeek = () => {
+		setSemanaEvent(semanaEvent + 1);
+	};
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -129,18 +141,18 @@ const PageControlHorario = () => {
 				</div>
 				<div className='d-flex custm-Width100 mt-3 align-items-center '>
 					<div className='textColorSecondary  d-flex align-items-center'>
-						{/* <div>
+						<button className='btn' onClick={substWeek}>
 							<i className=' btn bi bi-caret-left' />
-						</div> */}
+						</button>
 						<div>
 							<span className='textColorLight'>( {days.fechaInicioD}</span>
 							<span className='fs-4'>{'  -  '}</span>
 							<span className='textColorLight'>{days.fechaFinD} )</span>
 						</div>
 
-						{/* <div>
+						<button className='btn' onClick={addWeek}>
 							<i className=' btn bi bi-caret-right' />
-						</div> */}
+						</button>
 					</div>
 					{/* <div className='btn textColorLight'>Ir a semana actual</div> */}
 				</div>
