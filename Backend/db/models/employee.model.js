@@ -39,9 +39,7 @@ class Employee extends Model {
     this.belongsTo(models.User,{as:'user'});
     this.belongsToMany(models.Schedule, {
       as: 'schedule',
-      through: models.EmployeeSchedule,
-      foreignKey: 'employeeId',
-      otherKey: 'scheduleId'
+      through: models.EmployeeSchedule
     });
   }
 

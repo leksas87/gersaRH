@@ -20,6 +20,10 @@ const ScheduleSchema = {
 
 class Schedule extends Model {
   static associate(models) {
+    this.belongsToMany(models.Users, {
+      as: 'user',
+      through: models.EmployeeSchedule,
+    });
     // associate
   }
 
