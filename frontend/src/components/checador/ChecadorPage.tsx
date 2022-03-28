@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as div, useNavigate } from 'react-router-dom';
 import {
+	changecheckIsUserActiveFalse,
 	getEmployeeEvents,
 	getServerTime,
 	getUserEvents,
@@ -32,10 +33,7 @@ const ChecadorPage = () => {
 	useEffect(() => {
 		if (userConfirmation.employeeId) {
 			dispatch(
-				getEmployeeEvents(
-					userConfirmation.employeeId,
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ2MTUwMywiZXhwIjoxNjQ4NDY4NzAzfQ.W6zp6Z2hDyNboyyNb6aEMS-lYwRHsKbhMVYY7zZ3YSk'
-				)
+				getEmployeeEvents(userConfirmation.employeeId, userConfirmation.token)
 			);
 		}
 	}, []);
@@ -69,6 +67,13 @@ const ChecadorPage = () => {
 				terminaDescanso: true,
 				salida: false,
 			});
+		} else if (employeeEvents.length > 3) {
+			setEventsState({
+				entrada: true,
+				iniciaDescanso: true,
+				terminaDescanso: true,
+				salida: true,
+			});
 		}
 	}, [employeeEvents]);
 
@@ -77,16 +82,26 @@ const ChecadorPage = () => {
 			dispatch(
 				getSchedulesByUserIdCheckIn(
 					userConfirmation.employeeId,
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ2MTUwMywiZXhwIjoxNjQ4NDY4NzAzfQ.W6zp6Z2hDyNboyyNb6aEMS-lYwRHsKbhMVYY7zZ3YSk'
+					userConfirmation.token
 				)
 			);
 			dispatch(getServerTime());
 		}
 		navigate('/checador/confirm');
 	};
+	//Metodo para enviar al inicio
+	const navigateCheck = () => {
+		// console.log('cordenadas', checkState.checkOption);
+		// dispatch(changeCheckValue(''));
+		dispatch(changecheckIsUserActiveFalse());
+		// navigate('/checador');
+	};
 
 	return (
 		<div className='container containerProject d-flex flex-column justify-content-center align-items-center'>
+			<button className=' btn custm-arrowLeft' onClick={navigateCheck}>
+				<i className='bi bi-arrow-left' />
+			</button>
 			<div className='d-flex mb-4'>
 				{/* <img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' /> */}
 				<img width='290px' src='\assets\gersaLogo.svg' alt='gersa-logo' />

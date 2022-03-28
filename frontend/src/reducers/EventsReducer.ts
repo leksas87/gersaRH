@@ -20,7 +20,7 @@ const INITIAL_STATE: iEventsReducerState = {
 		employeeId: null,
 		firstName: '',
 		lastName: '',
-		employeeTkn: '',
+		token: '',
 	},
 	eventsState: {
 		loading: false,

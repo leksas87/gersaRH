@@ -26,7 +26,6 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 			.get(`employees/auth`, { headers: { accessCode: accessCode } })
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log(respuesta.data);
 					dispatch({
 						type: SEND_ACCESS_CODE,
 						payload: { userConfirmation: respuesta.data.data },

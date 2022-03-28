@@ -37,7 +37,7 @@ export interface iUserConfirmation {
 	employeeId: number | null;
 	firstName: string;
 	lastName: string;
-	employeeTkn: string;
+	token: string;
 }
 
 //Obtener contrato para mostrar

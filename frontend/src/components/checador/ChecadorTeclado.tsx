@@ -61,9 +61,6 @@ const ChecadorTeclado = () => {
 	return (
 		<>
 			<div className='container containerProject d-flex flex-column justify-content-center align-items-center'>
-				<Link to='/checador' className='custm-arrowLeft'>
-					<i className='bi bi-arrow-left' />
-				</Link>
 				<div className='d-flex mb-4'>
 					<img
 						className='custm-imgCheck'
