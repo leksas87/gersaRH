@@ -495,6 +495,9 @@ export const sendEmployeeEvent = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
+					setTimeout(() => {
+						dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
+					}, 1500);
 				}
 			})
 			.catch((error) => {

@@ -48,7 +48,7 @@ const ChecadorConfirmacion = () => {
 		// navigate('/checador');
 	};
 
-	//Metodo que compara dos horas
+	//Metodo que compara dos horas (Entrada)
 	const compareHours = (
 		horaEntradaSchedule: string,
 		horaActualServer: string
@@ -71,12 +71,47 @@ const ChecadorConfirmacion = () => {
 			setEventType('Acta administrativa');
 		}
 	};
+	//Metodo que compara dos horas (Entrada)
+	const compareHoursEntradaComida = (horaActualServer?: string) => {
+		// const breakfast = moment(employeeEvents[0].DateEvent, 'HH:mm').format();
+		const horaActual = moment(horaActualServer, 'HH:mm');
+		const breakfast = moment(horaActualServer, 'HH:mm').subtract(30, 'minute');
+
+		// const breakfast = moment('03:00', 'HH:mm');
+		// const horaActual = moment('03:59', 'HH:mm'); // igual a 59 minutos de diferencia
+
+		// Find the duration between two dates
+		const durationTime = moment.duration(horaActual.diff(breakfast));
+		const time = durationTime.asMinutes();
+
+		if (scheduleToComparate?.tiempoDescanso) {
+			if (time <= scheduleToComparate?.tiempoDescanso) {
+				console.log('normal');
+				setEventType('Normal');
+			} else if (
+				time > scheduleToComparate?.tiempoDescanso &&
+				time <=
+					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
+			) {
+				console.log('Retardo');
+				setEventType('Retardo');
+			} else if (
+				time >
+				scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
+			) {
+				console.log('Acta administrativa');
+				setEventType('Acta administrativa');
+			}
+		}
+	};
 
 	const event = 'Lunes';
 	const schedule = employeeSchedules.find(
 		(schedule: any) => schedule[event] === true
 		// (schedule: any) => schedule[eventServerDay] === true
 	);
+	//Efecto para evaluar si empleado trabaja hoy
+	// y validar hora de entrada
 	useEffect(() => {
 		if (schedule) {
 			setscheduleToComparate(schedule);
@@ -88,6 +123,15 @@ const ChecadorConfirmacion = () => {
 					compareHours(scheduleToComparate?.horaEntrada, eventServerTime);
 					// compareHours('13:30', '13:29');
 				}
+			} else if (employeeEvents.length === 1) {
+				setEventType('Normal');
+				console.log('normal');
+				// compareHoursEntradaComida(eventServerTime);
+			} else if (employeeEvents.length === 2) {
+				compareHoursEntradaComida(eventServerTime);
+			} else if (employeeEvents.length === 3) {
+				setEventType('Normal');
+				console.log('normal');
 			}
 		} else {
 			console.log('Empleado no trabaja hoy');
@@ -99,8 +143,6 @@ const ChecadorConfirmacion = () => {
 		//Aquí metodo para obtener coordenadas
 		const componentDidMount = () => {
 			navigator.geolocation.getCurrentPosition(function (position) {
-				// console.log('Latitude is :', position.coords.latitude);
-				// console.log('Longitude is :', position.coords.longitude);
 				setCordenadas({
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
@@ -118,7 +160,7 @@ const ChecadorConfirmacion = () => {
 					{
 						latitudeEvent: cordenadas.latitude.toString(),
 						longitudeEvent: cordenadas.longitude.toString(),
-						EventType: 1,
+						EventType: '1',
 					},
 					userConfirmation.employeeId,
 					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ1NTMwMiwiZXhwIjoxNjQ4NDYyNTAyfQ.NhgHybT5Czedlsb2EEFk9ut9j-C8edvwWig0TYpvEuE'

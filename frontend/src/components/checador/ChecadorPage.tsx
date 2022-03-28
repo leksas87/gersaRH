@@ -34,7 +34,7 @@ const ChecadorPage = () => {
 			dispatch(
 				getEmployeeEvents(
 					userConfirmation.employeeId,
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ1Mzg0OCwiZXhwIjoxNjQ4NDYxMDQ4fQ.rrKt59uSQt2QXFDwHBGeecuKmgBBIi67iZ8Fu6YG1x8'
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ2MTUwMywiZXhwIjoxNjQ4NDY4NzAzfQ.W6zp6Z2hDyNboyyNb6aEMS-lYwRHsKbhMVYY7zZ3YSk'
 				)
 			);
 		}
@@ -77,7 +77,7 @@ const ChecadorPage = () => {
 			dispatch(
 				getSchedulesByUserIdCheckIn(
 					userConfirmation.employeeId,
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ1Mzg0OCwiZXhwIjoxNjQ4NDYxMDQ4fQ.rrKt59uSQt2QXFDwHBGeecuKmgBBIi67iZ8Fu6YG1x8'
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ2MTUwMywiZXhwIjoxNjQ4NDY4NzAzfQ.W6zp6Z2hDyNboyyNb6aEMS-lYwRHsKbhMVYY7zZ3YSk'
 				)
 			);
 			dispatch(getServerTime());

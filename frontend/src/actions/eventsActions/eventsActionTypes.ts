@@ -28,7 +28,7 @@ export interface iEmployeeEvent {
 	id: number | null;
 	employeeId: number | null;
 	eventType: string;
-	dateEvent: string;
+	DateEvent: string;
 	longitudeEvent: string;
 	latitudeEvent: string;
 }
@@ -37,6 +37,7 @@ export interface iUserConfirmation {
 	employeeId: number | null;
 	firstName: string;
 	lastName: string;
+	employeeTkn: string;
 }
 
 //Obtener contrato para mostrar
