@@ -73,7 +73,10 @@ const ChecadorConfirmacion = () => {
 	};
 	//Metodo que compara dos horas (Entrada)
 	const compareHoursEntradaComida = (horaActualServer?: string) => {
-		const breakfast = moment(employeeEvents[0].DateEvent, 'HH:mm').format();
+		console.log('Crudo', employeeEvents[1].DateEvent);
+		console.log('CrudoActual', horaActualServer);
+		const breakfast = moment(employeeEvents[1].DateEvent, 'HH:mm');
+		console.log('Convertido', breakfast);
 		// let fechaNow = moment(employeeEvents[0].DateEvent, 'HH:mm').format('HH:mm');
 
 		//2022-03-28T07:39:51.000Z
@@ -82,7 +85,7 @@ const ChecadorConfirmacion = () => {
 		// const breakfast = moment(horaActualServer, 'HH:mm').subtract(30, 'minute');
 
 		// const breakfast = moment('11:00', 'HH:mm');
-		// const horaActual = moment('21:39', 'HH:mm'); // igual a 59 minutos de diferencia
+		// const horaActual = moment('12:22', 'HH:mm'); // igual a 59 minutos de diferencia
 
 		// Find the duration between two dates
 		const durationTime = moment.duration(horaActual.diff(breakfast));
@@ -129,7 +132,7 @@ const ChecadorConfirmacion = () => {
 			} else if (employeeEvents.length === 1) {
 				setEventType('Normal');
 				// console.log('normal');
-				compareHoursEntradaComida(eventServerTime);
+				// compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 2) {
 				compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 3) {
@@ -166,7 +169,7 @@ const ChecadorConfirmacion = () => {
 						EventType: eventType,
 					},
 					userConfirmation.employeeId,
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTY0ODQ1NTMwMiwiZXhwIjoxNjQ4NDYyNTAyfQ.NhgHybT5Czedlsb2EEFk9ut9j-C8edvwWig0TYpvEuE'
+					userConfirmation.token
 				)
 			);
 		}

@@ -557,7 +557,11 @@ export const sendEmployeeEvent = (
 };
 
 //(GET) employee Events by Dates
-export const getEmployeeEventsByDates = (employeeId: number) => {
+export const getEmployeeEventsByDates = (
+	employeeId: number,
+	startDate: string,
+	endDate: string
+) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
 		const token = localStorage.getItem('gersa-tkn') || '';
@@ -568,7 +572,7 @@ export const getEmployeeEventsByDates = (employeeId: number) => {
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(
-				`employees/${employeeId}/events?startDate=2022-03-28 00:00:00&endDate=2022-04-03 23:59:59`,
+				`employees/${employeeId}/events?startDate=${startDate}&endDate=${endDate}`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -578,10 +582,10 @@ export const getEmployeeEventsByDates = (employeeId: number) => {
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
 					const reverseArray = respuesta.data.registros.reverse();
-					console.log('arrayAlreves', reverseArray);
+
 					dispatch({
 						type: GET_EMPLOYEE_EVENTS,
-						payload: { employeeEvents: respuesta.data.registros },
+						payload: { employeeEvents: reverseArray },
 					});
 				}
 			})
