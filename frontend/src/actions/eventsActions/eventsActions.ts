@@ -1,19 +1,18 @@
 import { Dispatch } from 'react';
 import Swal from 'sweetalert2';
 import { axiosClientWithToken } from '../../helpers/axios';
-import {
-	fetchConToken,
-	fetchConTokenCheck,
-	fetchCheckconData,
-} from '../../helpers/fetch';
+import { fetchConToken, fetchCheckconData } from '../../helpers/fetch';
 import { Toast } from '../../helpers/swalAlert';
+import moment from 'moment';
 import {
 	EventsDispatchTypes,
 	EVENTS_IS_USER_ACTIVE,
 	EVENTS_IS_USER_ACTIVE_FALSE,
 	EVENTS_LOADING_END,
-	EVENTS_OPTION,
 	EVENTS_START_LOADING,
+	GET_EMPLOYEE_EVENTS,
+	GET_SERVER_DAY,
+	GET_SERVER_TIME,
 	RESEND_ACCESS_CODE,
 	SEND_ACCESS_CODE,
 } from './eventsActionTypes';
@@ -27,6 +26,7 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 			.get(`employees/auth`, { headers: { accessCode: accessCode } })
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					console.log(respuesta.data);
 					dispatch({
 						type: SEND_ACCESS_CODE,
 						payload: { userConfirmation: respuesta.data.data },
@@ -280,6 +280,261 @@ export const getUserEvents = (employeeId: number) => {
 					});
 				} else {
 					dispatch({ type: EVENTS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) employee Events
+export const getEmployeeEvents = (employeeId: number, token: string) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		// const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${employeeId}/events`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: GET_EMPLOYEE_EVENTS,
+						payload: { employeeEvents: respuesta.data.registros },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) Server Time
+export const getServerTime = () => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		// const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`schedules/time`)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: GET_SERVER_TIME,
+						payload: { serverTime: respuesta.data.data },
+					});
+					if (moment(respuesta.data.data).format('dddd') === 'Sunday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Domingo' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Monday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Lunes' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Tuesday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Martes' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Wednesday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Miercoles' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Thursday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Jueves' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Friday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Viernes' },
+						});
+					} else if (moment(respuesta.data.data).format('dddd') === 'Saturday') {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: 'Sabado' },
+						});
+					} else {
+						dispatch({
+							type: GET_SERVER_DAY,
+							payload: { serverDay: '' },
+						});
+					}
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(POST) employee Events
+export const sendEmployeeEvent = (
+	data: {},
+	employeeId: number,
+	token: string
+) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Peticion Axios a la API para Registrar nuevo Event
+		console.log(data);
+		axiosClientWithToken
+			.post(`employees/${employeeId}/events`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡Registro exitoso!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',

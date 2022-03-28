@@ -1,9 +1,15 @@
 import {
+	CLEAN_EMPLOYEE_EVENTS,
+	CLEAN_SERVER_DAY,
+	CLEAN_SERVER_TIME,
 	EventsDispatchTypes,
 	EVENTS_IS_USER_ACTIVE,
 	EVENTS_IS_USER_ACTIVE_FALSE,
 	EVENTS_LOADING_END,
 	EVENTS_START_LOADING,
+	GET_EMPLOYEE_EVENTS,
+	GET_SERVER_DAY,
+	GET_SERVER_TIME,
 	iEventsReducerState,
 	SEND_ACCESS_CODE,
 } from '../actions/eventsActions/eventsActionTypes';
@@ -19,6 +25,9 @@ const INITIAL_STATE: iEventsReducerState = {
 		loading: false,
 		eventIsUserConfirm: false,
 	},
+	eventServerTime: '',
+	eventServerDay: '',
+	employeeEvents: [],
 };
 
 //Reducer
@@ -64,6 +73,36 @@ export const EventsReducer = (
 			return {
 				...state,
 				userConfirmation: { ...action.payload.userConfirmation },
+			};
+		case GET_EMPLOYEE_EVENTS:
+			return {
+				...state,
+				employeeEvents: [...action.payload.employeeEvents],
+			};
+		case CLEAN_EMPLOYEE_EVENTS:
+			return {
+				...state,
+				employeeEvents: INITIAL_STATE.employeeEvents,
+			};
+		case GET_SERVER_TIME:
+			return {
+				...state,
+				eventServerTime: action.payload.serverTime,
+			};
+		case CLEAN_SERVER_TIME:
+			return {
+				...state,
+				eventServerTime: INITIAL_STATE.eventServerTime,
+			};
+		case GET_SERVER_DAY:
+			return {
+				...state,
+				eventServerDay: action.payload.serverDay,
+			};
+		case CLEAN_SERVER_DAY:
+			return {
+				...state,
+				eventServerDay: INITIAL_STATE.eventServerDay,
 			};
 
 		default:

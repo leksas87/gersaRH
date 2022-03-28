@@ -5,6 +5,12 @@ export const EVENTS_LOADING_END = 'events_loading_end';
 export const EVENTS_IS_USER_ACTIVE = 'events_Is_User_Active';
 export const EVENTS_IS_USER_ACTIVE_FALSE = 'events_Is_User_Active_False';
 export const EVENTS_OPTION = 'events_Option';
+export const GET_EMPLOYEE_EVENTS = 'get_employee_events';
+export const CLEAN_EMPLOYEE_EVENTS = 'clean_employee_events';
+export const GET_SERVER_TIME = 'get_server_time';
+export const CLEAN_SERVER_TIME = 'clean_server_time';
+export const GET_SERVER_DAY = 'get_server_day';
+export const CLEAN_SERVER_DAY = 'clean_server_day';
 
 //Interfaz para confirmacion de usuario.
 export interface iEventsReducerState {
@@ -13,6 +19,18 @@ export interface iEventsReducerState {
 		loading: boolean;
 		eventIsUserConfirm: boolean;
 	};
+	eventServerTime: string;
+	eventServerDay: string;
+	employeeEvents: iEmployeeEvent[];
+}
+//Interfaz para eventos del empleado.
+export interface iEmployeeEvent {
+	id: number | null;
+	employeeId: number | null;
+	eventType: string;
+	dateEvent: string;
+	longitudeEvent: string;
+	latitudeEvent: string;
 }
 //Interfaz para confirmacion de usuario.
 export interface iUserConfirmation {
@@ -55,6 +73,39 @@ export interface Events_loading_end {
 export interface Resend_access_code {
 	type: typeof RESEND_ACCESS_CODE;
 }
+//Obtener los eventos del empleado
+export interface Get_employee_events {
+	type: typeof GET_EMPLOYEE_EVENTS;
+	payload: {
+		employeeEvents: iEmployeeEvent[];
+	};
+}
+//Limpiar eventos del empleado
+export interface Clean_employee_events {
+	type: typeof CLEAN_EMPLOYEE_EVENTS;
+}
+//Obtener el timpo del servidor
+export interface Get_server_time {
+	type: typeof GET_SERVER_TIME;
+	payload: {
+		serverTime: string;
+	};
+}
+//Limpiar el timpo del servidor
+export interface Clean_server_time {
+	type: typeof CLEAN_SERVER_TIME;
+}
+//Obtener el timpo del servidor
+export interface Get_server_day {
+	type: typeof GET_SERVER_DAY;
+	payload: {
+		serverDay: string;
+	};
+}
+//Limpiar el timpo del servidor
+export interface Clean_server_day {
+	type: typeof CLEAN_SERVER_DAY;
+}
 
 //Types para el dispatch
 export type EventsDispatchTypes =
@@ -64,4 +115,10 @@ export type EventsDispatchTypes =
 	| Events_Is_User_Active_False
 	| Events_start_loading
 	| Resend_access_code
-	| Events_loading_end;
+	| Events_loading_end
+	| Get_employee_events
+	| Clean_employee_events
+	| Get_server_time
+	| Clean_server_time
+	| Get_server_day
+	| Clean_server_day;

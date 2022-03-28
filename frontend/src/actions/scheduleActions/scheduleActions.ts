@@ -608,3 +608,80 @@ export const deleteEmployeeSchedules = (id: number) => {
 			});
 	};
 };
+
+//(GET) Array de Schedules by userId
+export const getSchedulesByUserIdCheckIn = (
+	employeeId: number,
+	token: string
+) => {
+	return async (dispatch: Dispatch<SchedulesDispatchTypes>) => {
+		//dispatch para cambiar loading a true
+		dispatch({ type: CHARGING_SCHEDULE_START_LOADING });
+
+		//dispatch para limpiar los horarios
+		dispatch({ type: CLEAN_EMPLOYEE_SCHEDULES });
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${employeeId}/schedule/`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//dispatch para cambiar loading a false
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					dispatch({
+						type: GET_EMPLOYEE_SCHEDULES,
+						payload: { schedules: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status == 500) {
+					// console.log('error500');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 400) {
+					// console.log('error400');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 403) {
+					// console.log('error403');
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status == 404) {
+					console.log('error404', error.response.data.message);
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+				} else {
+					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
