@@ -19,7 +19,7 @@ router.post('/',authorize(),registerSchema, register);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), sendAccessCodeById);
-router.get('/:id/events', authorize(), getEvents);
+router.get('/:id/events', authorize(), forbiddenGet(), getEvents);
 router.post('/:id/events', registerEventSchema, registerEvents);
 router.get('/:id/schedule', authorize(), getSchedule);
 router.delete('/employeeSchedule/:id', authorize(), forbidden(),deleteEmployeeSchedule,deleteSchedule);
