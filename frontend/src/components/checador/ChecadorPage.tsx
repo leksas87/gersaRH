@@ -27,6 +27,7 @@ const ChecadorPage = () => {
 		salida: true,
 	});
 
+	//efecto para obtener los eventos del empleado
 	useEffect(() => {
 		if (userConfirmation.employeeId) {
 			dispatch(
@@ -35,6 +36,7 @@ const ChecadorPage = () => {
 		}
 	}, []);
 
+	//Efecto que determina que botones del checador activar
 	useEffect(() => {
 		if (employeeEvents.length === 0) {
 			setEventsState({
@@ -74,16 +76,20 @@ const ChecadorPage = () => {
 		}
 	}, [employeeEvents]);
 
+	//metodo que se ejecuta al dar clic en un boton del checador
 	const registerEvent = () => {
 		if (userConfirmation.employeeId) {
+			//Se obtiene los horarios del empleado
 			dispatch(
 				getSchedulesByUserIdCheckIn(
 					userConfirmation.employeeId,
 					userConfirmation.token
 				)
 			);
+			//Se obtiene la hora del servidor
 			dispatch(getServerTime());
 		}
+		//Se navega a la página de confirmacion
 		navigate('/checador/confirm');
 	};
 	//Metodo para enviar al inicio
@@ -97,7 +103,6 @@ const ChecadorPage = () => {
 				<i className='bi bi-arrow-left' />
 			</button>
 			<div className='d-flex mb-4'>
-				{/* <img width='200px' src='\assets\gersa-logo.png' alt='gersa-logo' /> */}
 				<img width='290px' src='\assets\gersaLogo.svg' alt='gersa-logo' />
 			</div>
 			<div className='d-flex flex-column align-items-center lh-sm'>
@@ -109,8 +114,6 @@ const ChecadorPage = () => {
 			</div>
 			<div className='d-flex mt-4 mb-5 flex-wrap justify-content-center'>
 				<button
-					// to='/checador/entry'
-					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.entrada}
 					onClick={registerEvent}
@@ -122,8 +125,6 @@ const ChecadorPage = () => {
 					<div className='custm-btnCheckTittle'>ENTRADA.</div>
 				</button>
 				<button
-					// to='/checador/exit'
-					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.iniciaDescanso}
 					onClick={registerEvent}
@@ -138,8 +139,6 @@ const ChecadorPage = () => {
 					</div>
 				</button>
 				<button
-					// to='/checador/exit'
-					// type='button'
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.terminaDescanso}
 					onClick={registerEvent}
@@ -154,8 +153,6 @@ const ChecadorPage = () => {
 					</div>
 				</button>
 				<button
-					// to='/checador/exit'
-					// type='button'
 					className='btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.salida}
 					onClick={registerEvent}

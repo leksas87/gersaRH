@@ -21,19 +21,23 @@ import {
 // (GET) Envío de AccessCode por headers
 export const sendAccessCodeCheck = (accessCode: number) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Loading true
 		dispatch({ type: EVENTS_START_LOADING });
 		//Peticion al API
 		axiosClientWithToken
 			.get(`employees/auth`, { headers: { accessCode: accessCode } })
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					//Guardar la información
 					dispatch({
 						type: SEND_ACCESS_CODE,
 						payload: { userConfirmation: respuesta.data.data },
 					});
+					//isUserActive = true
 					dispatch({
 						type: EVENTS_IS_USER_ACTIVE,
 					});
+					//Loading false
 					dispatch({ type: EVENTS_LOADING_END });
 				}
 			})
@@ -97,11 +101,11 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 	};
 };
 
-//Cambiar el valor del check (checkIn o CheckOut)
+//Cambiar el valor del isUserActive
 export const changecheckIsUserActiveFalse = () => {
 	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		console.log('entra a false');
+		//isUserActive = false
 		dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
 	};
 };
@@ -110,7 +114,6 @@ export const changecheckIsUserActiveFalse = () => {
 export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Peticion Fetch a la API para hacer CheckIn
-
 		try {
 			dispatch({
 				type: EVENTS_START_LOADING,
@@ -215,89 +218,9 @@ export const reSendAccessCode = (userId: number) => {
 	};
 };
 
-// (GET) Obtener eventos del empleado by employeeId
-export const getUserEvents = (employeeId: number) => {
-	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		dispatch({ type: EVENTS_START_LOADING });
-		//Peticion al API
-		axiosClientWithToken
-			.get(`employees/${employeeId}/events`)
-			.then((respuesta) => {
-				if (respuesta.status === 200) {
-					console.log(respuesta.status);
-					// dispatch({
-					// 	type: SEND_ACCESS_CODE,
-					// 	payload: { userConfirmation: respuesta.data.data },
-					// });
-					dispatch({ type: EVENTS_LOADING_END });
-				}
-			})
-			.catch((error) => {
-				if (error.response.status === 400) {
-					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error400');
-					console.log(error.response.data.message);
-					if (
-						error.response.data.message ===
-						'Validation error: "accesscode" must be greater than or equal to 1000'
-					) {
-						Swal.fire({
-							position: 'top-end',
-							icon: 'error',
-							title: 'El código de acceso debe ser numérico',
-							showConfirmButton: false,
-							timer: 1500,
-						});
-					} else {
-						Swal.fire({
-							position: 'top-end',
-							icon: 'error',
-							title: 'Empleado no encontrado',
-							showConfirmButton: false,
-							timer: 1500,
-						});
-					}
-				} else if (error.response.status === 404) {
-					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error404');
-
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: 'El código de acceso es incorrecto',
-						showConfirmButton: false,
-						timer: 1500,
-					});
-				} else if (error.response.status === 500) {
-					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
-				} else {
-					dispatch({ type: EVENTS_LOADING_END });
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
-				}
-			});
-	};
-};
-
 //(GET) employee Events
 export const getEmployeeEvents = (employeeId: number, token: string) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		//Se recupera el token guardado el localStorage
-		// const token = localStorage.getItem('gersa-tkn') || '';
-
 		//LimpiarEmployeeEvents
 		dispatch({ type: CLEAN_EMPLOYEE_EVENTS });
 
@@ -372,9 +295,6 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 //(GET) Server Time
 export const getServerTime = () => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		//Se recupera el token guardado el localStorage
-		// const token = localStorage.getItem('gersa-tkn') || '';
-
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(`schedules/time`)

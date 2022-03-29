@@ -37,15 +37,10 @@ const ChecadorConfirmacion = () => {
 		longitude: 0,
 	});
 
-	//useNaviagate para navegar a la ruta indicada
-	// const navigate = useNavigate();
-
 	//Metodo para enviar al inicio
 	const navigateCheck = () => {
-		// console.log('cordenadas', checkState.checkOption);
-		// dispatch(changeCheckValue(''));
+		//se cambia el estado de isUserActive a False
 		dispatch(changecheckIsUserActiveFalse());
-		// navigate('/checador');
 	};
 
 	//Metodo que compara dos horas (Entrada)
@@ -73,25 +68,14 @@ const ChecadorConfirmacion = () => {
 	};
 	//Metodo que compara dos horas (Entrada)
 	const compareHoursEntradaComida = (horaActualServer?: string) => {
-		console.log('Crudo', employeeEvents[1].DateEvent);
-		console.log('CrudoActual', horaActualServer);
 		const breakfast = moment(employeeEvents[1].DateEvent, 'HH:mm');
-		console.log('Convertido', breakfast);
-		// let fechaNow = moment(employeeEvents[0].DateEvent, 'HH:mm').format('HH:mm');
-
-		//2022-03-28T07:39:51.000Z
-
 		const horaActual = moment(horaActualServer, 'HH:mm');
-		// const breakfast = moment(horaActualServer, 'HH:mm').subtract(30, 'minute');
 
-		// const breakfast = moment('11:00', 'HH:mm');
-		// const horaActual = moment('12:22', 'HH:mm'); // igual a 59 minutos de diferencia
-
-		// Find the duration between two dates
+		//Encuentra la duracion entre dos horas
 		const durationTime = moment.duration(horaActual.diff(breakfast));
 		const time = durationTime.asMinutes();
-		console.log('tiempoo', time);
 
+		//Condicion para guardar tipo de evento (Entrada de Descanso)
 		if (scheduleToComparate?.tiempoDescanso) {
 			if (time <= scheduleToComparate?.tiempoDescanso) {
 				setEventType('Normal');
@@ -100,51 +84,48 @@ const ChecadorConfirmacion = () => {
 				time <=
 					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
 			) {
-				// console.log('Retardo');
 				setEventType('Retardo');
 			} else if (
 				time >
 				scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
 			) {
-				// console.log('Acta administrativa');
 				setEventType('Acta administrativa');
 			}
 		}
 	};
 
+	//Se obtiene horario en el cual el dia actual (hoy) coincide con tu horario
 	// const event = 'Martes';
 	const schedule = employeeSchedules.find(
 		(schedule: any) => schedule[eventServerDay] === true
 	);
+
 	//Efecto para evaluar si empleado trabaja hoy
 	// y validar hora de entrada
 	useEffect(() => {
 		if (schedule) {
-			setscheduleToComparate(schedule);
 			setEmployeeWorksToday(true);
-			// console.log('Empleado SI trabaja hoy');
+			// Empleado SI trabaja hoy
+			setscheduleToComparate(schedule);
 			//Validar hora de Entrada
 			if (employeeEvents.length === 0) {
 				if (scheduleToComparate?.horaEntrada) {
 					compareHours(scheduleToComparate?.horaEntrada, eventServerTime);
-					// compareHours('13:30', '13:29');
 				}
 			} else if (employeeEvents.length === 1) {
 				setEventType('Normal');
-				// console.log('normal');
-				// compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 2) {
 				compareHoursEntradaComida(eventServerTime);
 			} else if (employeeEvents.length === 3) {
 				setEventType('Normal');
-				// console.log('normal');
 			}
 		} else {
-			// console.log('Empleado no trabaja hoy');
+			// Empleado no trabaja hoy
 			setEmployeeWorksToday(false);
 		}
 	}, [schedule, scheduleToComparate]);
 
+	//Efecto que Obtiene las coordenadas cada que se ejecuta el componente
 	useEffect(() => {
 		//Aquí metodo para obtener coordenadas
 		const componentDidMount = () => {
@@ -158,8 +139,8 @@ const ChecadorConfirmacion = () => {
 		componentDidMount();
 	}, []);
 
-	//Metodo que envia lso datos de confirmacion
-	const confirmationCheck = () => {
+	//Metodo que envia los datos de confirmacion
+	const confirmationRegister = () => {
 		if (userConfirmation.employeeId) {
 			dispatch(
 				sendEmployeeEvent(
@@ -223,7 +204,7 @@ const ChecadorConfirmacion = () => {
 							<button
 								className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
 								type='button'
-								onClick={confirmationCheck}
+								onClick={confirmationRegister}
 							>
 								SI
 							</button>

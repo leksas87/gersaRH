@@ -33,16 +33,16 @@ const PageControlHorario = () => {
 
 	//se obtiene fecha actual
 	const fechaEvent = moment().format('YYYY-MM-DD HH:mm:ss');
-	//Se obtiene numero de semana
-	// const semanaEvent = moment(fechaEvent).week();
-	// const semanaEvent = 15;
 
+	//Se obtiene numero de semana y se asigna al useState
 	const [semanaEvent, setSemanaEvent] = useState(moment(fechaEvent).week());
 
+	//Se determina el día de inicio de la semana actual
 	const fechaInicio = moment()
 		.isoWeek(semanaEvent - 1)
 		.startOf('isoWeek')
 		.format('YYYY-MM-DD HH:mm:ss');
+	//Se determina el ultimo día de la semana actual
 	const fechaFin = moment()
 		.isoWeek(semanaEvent - 1)
 		.endOf('isoWeek')
@@ -54,11 +54,12 @@ const PageControlHorario = () => {
 			fechaInicioD: moment(fechaInicio).format('L'),
 			fechaFinD: moment(fechaFin).format('L'),
 		});
-
+		//Si perfilEmpleado.Id existe se hace el dispatch
 		if (perfilEmpleado.id)
 			dispatch(getEmployeeEventsByDates(perfilEmpleado.id, fechaInicio, fechaFin));
 	}, [semanaEvent]);
 
+	//Efecto que separa el array principal en los eventos por día
 	useEffect(() => {
 		//Monday
 		const result = employeeEvents.filter(
@@ -103,11 +104,17 @@ const PageControlHorario = () => {
 		setWeeksArraySunday(result7);
 	}, [employeeEvents]);
 
+	//boton para ir una semana atras
 	const substWeek = () => {
 		setSemanaEvent(semanaEvent - 1);
 	};
+	//boton para ir una semana adelante
 	const addWeek = () => {
 		setSemanaEvent(semanaEvent + 1);
+	};
+	//boton para ir a la semana actual
+	const currentWeek = () => {
+		setSemanaEvent(moment(fechaEvent).week());
 	};
 
 	return (
@@ -154,7 +161,9 @@ const PageControlHorario = () => {
 							<i className=' btn bi bi-caret-right' />
 						</button>
 					</div>
-					{/* <div className='btn textColorLight'>Ir a semana actual</div> */}
+					<button onClick={currentWeek} className='btn textColorLight'>
+						Ir a semana actual
+					</button>
 				</div>
 				<div className='custm-tableEmpleados mt-3'>
 					<div className='table-responsive'>
@@ -193,8 +202,6 @@ const PageControlHorario = () => {
 													<div className='custm-hrsExit'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -222,8 +229,6 @@ const PageControlHorario = () => {
 													<div className='custm-hrsEntry'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -248,11 +253,9 @@ const PageControlHorario = () => {
 											<td key={item.id}>
 												<div className='d-flex align-items-center justify-content-center'>
 													<span className='textColorLight'>hrs</span>
-													<div className='custm-hrsEntry'>
+													<div className='custm-hrsExit'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -280,8 +283,6 @@ const PageControlHorario = () => {
 													<div className='custm-hrsEntry'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -306,11 +307,9 @@ const PageControlHorario = () => {
 											<td key={item.id}>
 												<div className='d-flex align-items-center justify-content-center'>
 													<span className='textColorLight'>hrs</span>
-													<div className='custm-hrsEntry'>
+													<div className='custm-hrsExit'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -338,8 +337,6 @@ const PageControlHorario = () => {
 													<div className='custm-hrsEntry'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
@@ -364,11 +361,9 @@ const PageControlHorario = () => {
 											<td key={item.id}>
 												<div className='d-flex align-items-center justify-content-center'>
 													<span className='textColorLight'>hrs</span>
-													<div className='custm-hrsEntry'>
+													<div className='custm-hrsExit'>
 														{moment(item.DateEvent).format('HH:mm')}
 													</div>
-													{/* <div className='custm-hrsEntry'>{item.DateEvent}</div> */}
-													{/* <div className='custm-hrsEntry'>{weeksArrayMonday}</div> */}
 													<a
 														className='fs-3 btn textColorSecondary'
 														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
