@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-	changeCheckValue,
-	sendAccessCodeCheck,
-} from '../../actions/eventsActions/eventsActions';
+import { sendAccessCodeCheck } from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 const ChecadorTeclado = () => {
 	//Senecesita el state que indica  el checkState
-	const { eventsState: checkState } = useSelector(
-		(state: RootSote) => state.events
-	);
+	const { eventsState } = useSelector((state: RootSote) => state.events);
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
 	const dispatch = useDispatch();
@@ -52,29 +47,20 @@ const ChecadorTeclado = () => {
 	}, [code, setCode]);
 
 	//Envio data al backend
-	// const sendAccessCode = () => {
-	// 	if (pathname === '/checador/entry') {
-	// 		dispatch(sendAccessCodeCheck(parseInt(code)));
-	// 		dispatch(changeCheckValue('entry'));
-	// 	} else if (pathname === '/checador/exit') {
-	// 		dispatch(sendAccessCodeCheck(parseInt(code)));
-	// 		dispatch(changeCheckValue('exit'));
-	// 	}
-	// };
+	const sendAccessCode = () => {
+		dispatch(sendAccessCodeCheck(parseInt(code)));
+	};
 
 	//useEffect para redireccionar al login una vez se actualizo el password
-	// useEffect(() => {
-	// 	if (checkState.eventIsUserConfirm) {
-	// 		navigate('/checador/confirm');
-	// 	}
-	// }, [checkState, navigate]);
+	useEffect(() => {
+		if (eventsState.eventIsUserConfirm) {
+			navigate('/checador/select');
+		}
+	}, [eventsState, navigate]);
 
 	return (
 		<>
 			<div className='container containerProject d-flex flex-column justify-content-center align-items-center'>
-				<Link to='/checador' className='custm-arrowLeft'>
-					<i className='bi bi-arrow-left' />
-				</Link>
 				<div className='d-flex mb-4'>
 					<img
 						className='custm-imgCheck'
@@ -222,11 +208,11 @@ const ChecadorTeclado = () => {
 							</button>
 						</div>
 					</div>
-					{!checkState.loading ? (
+					{!eventsState.loading ? (
 						<button
 							className='btn custm-Width100 custm-btnCheckSubmit mt-4'
 							type='button'
-							// onClick={sendAccessCode}
+							onClick={sendAccessCode}
 							disabled={code.length < 4 ? true : false}
 						>
 							CONTINUAR

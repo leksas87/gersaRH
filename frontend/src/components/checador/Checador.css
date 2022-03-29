@@ -11,6 +11,12 @@
 .custm-btnCheckIn {
 	background-color: hsla(198, 65%, 45%, 0.15);
 }
+.custm-btnCheckInBrake {
+	background-color: rgba(233, 113, 0, 0.4);
+}
+.custm-btnCheckOutBrake {
+	background-color: rgba(0, 233, 12, 0.4);
+}
 .custm-btnCheckOut {
 	background-color: rgba(214, 0, 78, 0.15);
 }
@@ -112,6 +118,22 @@
 	background-color: var(--colorSecondaryHover);
 	color: var(--backgroundBody);
 	transform: scale(0.96);
+}
+.custm-AdvertenciaError {
+	background-color: rgba(255, 0, 0, 0.19);
+	color: #ff0000;
+	padding: 10px;
+	border-radius: 15px;
+	font-size: 1.5rem;
+	text-align: center;
+}
+.custm-AdvertenciaRetardo {
+	background-color: rgba(255, 217, 0, 0.521);
+	color: #002046c5;
+	padding: 10px;
+	border-radius: 15px;
+	font-size: 1.5rem;
+	text-align: center;
 }
 /* +++++Mobile++++ */
 @media (max-width: 782px) {
