@@ -6,6 +6,7 @@ const { EventType, EventTypeSchema }=require('./eventType.model');
 const { Contract, ContractSchema } = require('./contract.model');
 const { Schedule, ScheduleSchema } = require('./schedule.model');
 const { EmployeeSchedule, EmployeeScheduleSchema } = require('./employeeSchedule.model');
+const { Request, RequestSchema } = require('./request.model');
 
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
@@ -16,11 +17,14 @@ function setupModels(sequelize) {
   EventType.init(EventTypeSchema,EventType.config(sequelize));
   Schedule.init(ScheduleSchema,Schedule.config(sequelize));
   EmployeeSchedule.init(EmployeeScheduleSchema,EmployeeSchedule.config(sequelize));
+  Request.init(RequestSchema,Request.config(sequelize));
+  
 
   Employee.associate(sequelize.models);
   //Check.associate(sequelize.models);
   Event.associate(sequelize.models);
   Contract.associate(sequelize.models);
+  Request.associate(sequelize.models);
 
 }
 
