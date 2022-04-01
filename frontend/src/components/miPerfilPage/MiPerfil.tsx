@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import {
 	getEmployeeById,
 	getUserById,
@@ -28,7 +28,7 @@ const MiPerfil = () => {
 	useEffect(() => {
 		dispatch(getUserById(id));
 		dispatch(getEmployeeById(id));
-	}, [id]);
+	}, [id, dispatch]);
 
 	return (
 		<>
