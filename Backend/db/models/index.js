@@ -8,6 +8,7 @@ const { Schedule, ScheduleSchema } = require('./schedule.model');
 const { EmployeeSchedule, EmployeeScheduleSchema } = require('./employeeSchedule.model');
 const { Request, RequestSchema } = require('./request.model');
 const { Status, StatusSchema } = require('./status.model');
+const { RequestType, RequestTypeSchema } = require('./requestType.model');
 
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
@@ -20,6 +21,7 @@ function setupModels(sequelize) {
   EmployeeSchedule.init(EmployeeScheduleSchema,EmployeeSchedule.config(sequelize));
   Request.init(RequestSchema,Request.config(sequelize));
   Status.init(StatusSchema,Status.config(sequelize));
+  RequestType.init(RequestTypeSchema,RequestType.config(sequelize));
 
   Employee.associate(sequelize.models);
   //Check.associate(sequelize.models);
