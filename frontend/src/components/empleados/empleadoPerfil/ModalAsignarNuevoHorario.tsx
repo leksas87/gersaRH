@@ -34,9 +34,6 @@ const ModalAsignarNuevoHorario = () => {
 		e.preventDefault();
 
 		if (isFormValid()) {
-			console.log('adding new schedule');
-			console.log(scheduleId, perfilEmpleado.id);
-
 			if (perfilEmpleado.id) {
 				dispatch(
 					addScheduleToEmployee({
