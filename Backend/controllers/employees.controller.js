@@ -29,6 +29,7 @@ router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchem
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+router.post('/:id/request', authorize(),registerSchemaRequest);
 
 
 
@@ -57,6 +58,18 @@ function updateSchemaContractsPut(req, res, next) {
         tipoSalario: Joi.string().required(),
         cantidadSalario: Joi.number().integer().required(),
         isContractActivide: Joi.boolean().required()
+    });
+    validateRequest(req, next, schema);
+}
+function registerSchemaRequest(req, res, next) {
+    const schema = Joi.object({
+        fechaInicio: {type:DataTypes.STRING,allowNull:false },
+        fechaFin: {type:DataTypes.STRING,allowNull:true },
+        statusId: {type: DataTypes.INTEGER,allowNull:true,references:{model:STATUS_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+        descripcionEmpleado: {type:DataTypes.STRING,allowNull:true },
+        descriptionRespuesta: {type:DataTypes.STRING,allowNull:true },
+        requestTypeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:REQUESTTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+        adjunto: {type:DataTypes.STRING,allowNull:true },
     });
     validateRequest(req, next, schema);
 }
