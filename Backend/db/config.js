@@ -8,6 +8,8 @@ module.exports = {
   development: {
     url: URI,
     dialect: 'mysql',
+    seederStorage: "json",
+    seederStoragePath: "sequelizeData.json"
   },
   production: {
     url: URI,

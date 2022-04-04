@@ -1,6 +1,8 @@
 
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
+const {ROLLTYPE_TABLE} = require('./rollType.model');
+
 const USER_TABLE = 'Users';
 
 const UserSchema = {
@@ -11,14 +13,15 @@ const UserSchema = {
   phone:{type:DataTypes.STRING,allowNull:false},
   active:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
   hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
-  roll: { type: DataTypes.INTEGER, allowNull: false ,defaultValue:2 },
+  roll: {type: DataTypes.INTEGER,allowNull:true,references:{model:ROLLTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   confirmationCode: { type: DataTypes.STRING, unique: true },
   isEmployeeActive:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:true},
 }
 
 class User extends Model {
-  static associate() {
+  static associate(models) {
     // associate
+    this.belongsTo(models.RollType,{as:'rollType'});
   }
 
   static config(sequelize) {
