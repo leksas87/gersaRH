@@ -21,8 +21,26 @@ module.exports = {
     sendInformationByAccessCode,
     createSchedule,
     getEmployeeScheduleById,
-    deleteEmployeeScheduleById
+    deleteEmployeeScheduleById,
+    createRequest
 };
+
+async function createRequest(params, id){
+    try {
+        console.log(params);
+        
+        const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
+
+        console.log(fechaCreacion);
+
+        const request= await models.Request.create({employeeId:id,fechaCreacion:fechaCreacion,fechaInicio:params.fechaInicio,fechaFin:params.fechaFin,statusId:statusId});
+        
+        return request;
+    } catch (error) {
+        console.log(error);
+    }
+        
+}
 
 async function registerEvents(params, id){
     try {
@@ -42,6 +60,7 @@ async function registerEvents(params, id){
     }
         
 }
+
 
 async function sendInformationByAccessCode(params) {
 

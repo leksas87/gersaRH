@@ -29,11 +29,17 @@ router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchem
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
-router.post('/:id/request', authorize(),registerSchemaRequest);
+router.post('/:id/request', authorize(),registerSchemaRequest,registerRequest);
 
 
 
 module.exports = router;
+
+function registerRequest(req, res, next) {
+    employeeService.createRequest(req.body, req.params.id)
+        .then(() => res.json({ message: 'Registro exitoso'}))
+        .catch(next);
+}
 
 function getByEmployee(req,res,next) {
     contractService.getByEmployee(req.params.id)
@@ -63,13 +69,12 @@ function updateSchemaContractsPut(req, res, next) {
 }
 function registerSchemaRequest(req, res, next) {
     const schema = Joi.object({
-        fechaInicio: {type:DataTypes.STRING,allowNull:false },
-        fechaFin: {type:DataTypes.STRING,allowNull:true },
-        statusId: {type: DataTypes.INTEGER,allowNull:true,references:{model:STATUS_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
-        descripcionEmpleado: {type:DataTypes.STRING,allowNull:true },
-        descriptionRespuesta: {type:DataTypes.STRING,allowNull:true },
-        requestTypeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:REQUESTTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
-        adjunto: {type:DataTypes.STRING,allowNull:true },
+        fechaInicio: Joi.string().required(),
+        fechaFin: Joi.string(),
+        descripcionEmpleado: Joi.string().required(),
+        descriptionRespuesta: Joi.string().required(),
+        requestTypeId:Joi.number().integer().required(),
+        adjunto:Joi.string(),
     });
     validateRequest(req, next, schema);
 }
@@ -260,6 +265,7 @@ function register(req, res, next) {
         .then(() => res.json({ message: 'Registro exitoso' ,ok:true}))
         .catch(next);
 }
+    
 function registerSchedule(req, res, next) {
     employeeService.createSchedule(req.body)
         .then(() => res.json({ message: 'Registro exitoso' }))
