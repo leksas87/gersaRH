@@ -9,13 +9,13 @@ module.exports = {
       {nameRollType: "Jefe de cuadrilla"}
     ]
 
-      await queryInterface.bulkInsert('rolltype',rolltype, {});
+      await queryInterface.bulkInsert('RollType',rolltype, {});
 
   },
 
   async down (queryInterface, Sequelize) {
 
-   await queryInterface.bulkDelete('rolltype', null, {});
+   await queryInterface.bulkDelete('RollType', null, {});
     
   }
 };

@@ -13,13 +13,13 @@ module.exports = {
       {nameWorkPlace: "CControl"},
     ]
 
-      await queryInterface.bulkInsert('workplace',workplaces, {});
+      await queryInterface.bulkInsert('WorkPlace',workplaces, {});
 
   },
 
   async down (queryInterface, Sequelize) {
 
-   await queryInterface.bulkDelete('workplace', null, {});
+   await queryInterface.bulkDelete('WorkPlace', null, {});
     
   }
 };
