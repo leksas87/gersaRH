@@ -114,7 +114,7 @@ const PageEmpresaSchedule = () => {
 
 	useEffect(() => {
 		dispatch(getSchedules());
-	}, []);
+	}, [dispatch]);
 
 	const selectScheduleToDelete = (schedule: iSchedules) => {
 		dispatch(
