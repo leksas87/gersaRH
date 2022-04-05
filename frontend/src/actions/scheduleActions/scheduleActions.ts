@@ -661,6 +661,7 @@ export const getSchedulesByUserIdCheckIn = (
 					});
 				} else if (error.response.status == 403) {
 					// console.log('error403');
+					console.log('AQUI');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
 						position: 'top-end',

@@ -236,7 +236,7 @@
 	.custm-navbarPerrfil {
 		border-bottom: 1px solid var(--textColorDisable);
 		display: flex;
-		justify-content: start;
+		justify-content: flex-start;
 		align-items: center;
 		overflow-x: auto;
 	}

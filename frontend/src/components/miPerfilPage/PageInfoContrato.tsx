@@ -32,7 +32,7 @@ const PageInfoContrato = () => {
 
 	useEffect(() => {
 		if (perfilEmpleado.id) dispatch(getContracts(perfilEmpleado.id.toString()));
-	}, [dispatch]);
+	}, [dispatch, perfilEmpleado.id]);
 
 	return (
 		<>

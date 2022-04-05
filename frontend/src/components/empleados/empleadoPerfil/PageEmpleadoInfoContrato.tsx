@@ -10,13 +10,9 @@ import {
 	getSchedulesByUserId,
 	scheduleToDelete,
 } from '../../../actions/scheduleActions/scheduleActions';
-import {
-	iEmployeeSchedules,
-	iSchedules,
-} from '../../../actions/scheduleActions/scheduleActionsTypes';
+import { iEmployeeSchedules } from '../../../actions/scheduleActions/scheduleActionsTypes';
 import { useToggle } from '../../../hooks/useToggle';
 import { RootSote } from '../../../store/Store';
-import ModalEliminarHorario from '../../empresa/empresaSchedules/ModalEliminarHorario';
 import ModalAsignarNuevoHorario from './ModalAsignarNuevoHorario';
 import ModalDeleteEmployeeSchedule from './ModalDeleteEmployeeSchedule';
 
@@ -24,15 +20,13 @@ const PageEmpleadoInfoContrato = () => {
 	const dispatch = useDispatch();
 
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario, perfilEmpleado } = useSelector(
-		(state: RootSote) => state.users
-	);
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { contratosEmpleado, contractToShow } = useSelector(
 		(state: RootSote) => state.contracts
 	);
 	//Se necesita el state que contiene los datos de los schedules
-	const { schedulesArray, schedulesToEdited, employeeSchedules } = useSelector(
+	const { employeeSchedules } = useSelector(
 		(state: RootSote) => state.schedules
 	);
 
@@ -79,32 +73,19 @@ const PageEmpleadoInfoContrato = () => {
 		horasLaborales: 0,
 		unidadLaborales: '',
 	};
-	// Objeto para el manejo de los dias trabajados
-	const days = {
-		lunes: false,
-		martes: false,
-		miercoles: false,
-		jueves: false,
-		viernes: false,
-		sabado: false,
-		domingo: false,
-	};
 
 	//states de formularios
 	const [infoBasicValues, setInfoBasicValues] = useState(formInfoBasic);
 	const [salarioBrutoValues, setSalarioBrutoValues] = useState(formSalarioBruto);
 	const [horasLaboralesValues, setHorasLaboralesValues] =
 		useState(formHorasLaborales);
-	//useState para manejo del checkbox
-	const [checked, setChecked] = useState(days);
 
 	//Desestructuracion de elemntos del useState
 	const { tipoDeContrato, puesto, fechaDeInicio, fechaDeFinalizacion } =
 		infoBasicValues;
 	//Desestructuracion de elemntos del useState
 	const { cantidadSalario, tipoSalario } = salarioBrutoValues;
-	//Desestructuracion de propiedades
-	const { lunes, martes, miercoles, jueves, viernes, sabado, domingo } = checked;
+
 	//Desestructuracion de propiedades
 	const { horasLaborales, unidadLaborales } = horasLaboralesValues;
 
@@ -154,9 +135,9 @@ const PageEmpleadoInfoContrato = () => {
 			[event.target.name]: event.target.value,
 		});
 	};
-	const handleClick = (e: any): void => {
-		setChecked({ ...checked, [e.target.name]: e.target.checked });
-	};
+	// const handleClick = (e: any): void => {
+	// 	setChecked({ ...checked, [e.target.name]: e.target.checked });
+	// };
 
 	//Submit del formulario InfoGral
 	const handlesubmitInfoBasic = (e: React.FormEvent<HTMLFormElement>) => {
@@ -242,7 +223,7 @@ const PageEmpleadoInfoContrato = () => {
 		if (perfilEmpleado.id) {
 			dispatch(getSchedulesByUserId(perfilEmpleado.id));
 		}
-	}, []);
+	}, [dispatch, perfilEmpleado.id]);
 
 	return (
 		<>
