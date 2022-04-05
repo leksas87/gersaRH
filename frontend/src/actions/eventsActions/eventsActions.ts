@@ -243,7 +243,7 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -252,7 +252,7 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -261,7 +261,7 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -270,7 +270,7 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -348,7 +348,7 @@ export const getServerTime = () => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -357,7 +357,7 @@ export const getServerTime = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -366,7 +366,7 @@ export const getServerTime = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -375,7 +375,7 @@ export const getServerTime = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -427,7 +427,7 @@ export const sendEmployeeEvent = (
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -436,7 +436,7 @@ export const sendEmployeeEvent = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -445,7 +445,7 @@ export const sendEmployeeEvent = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -454,7 +454,7 @@ export const sendEmployeeEvent = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -510,7 +510,7 @@ export const getEmployeeEventsByDates = (
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -519,7 +519,7 @@ export const getEmployeeEventsByDates = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -528,7 +528,7 @@ export const getEmployeeEventsByDates = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -537,7 +537,7 @@ export const getEmployeeEventsByDates = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',

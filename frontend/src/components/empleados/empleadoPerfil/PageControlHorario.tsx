@@ -57,7 +57,7 @@ const PageControlHorario = () => {
 		//Si perfilEmpleado.Id existe se hace el dispatch
 		if (perfilEmpleado.id)
 			dispatch(getEmployeeEventsByDates(perfilEmpleado.id, fechaInicio, fechaFin));
-	}, [semanaEvent]);
+	}, [semanaEvent, dispatch, fechaFin, fechaInicio, perfilEmpleado.id]);
 
 	//Efecto que separa el array principal en los eventos por día
 	useEffect(() => {

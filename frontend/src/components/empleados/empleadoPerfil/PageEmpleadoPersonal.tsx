@@ -152,7 +152,7 @@ const PageEmpleadoPersonal = () => {
 			curp: perfilEmpleado.curp,
 			fechaAltaImss: fechaAltImss,
 		});
-	}, [perfilUsuario, perfilEmpleado]);
+	}, [perfilUsuario, perfilEmpleado, direction2, fechaAltImss, fechaNac]);
 
 	//handleInputChange
 	const handleInputChangeInfoGral = (event: any) => {
