@@ -88,7 +88,7 @@ router.patch('/requests/:id', authorize(), forbidden(), updateSchemaRequests, up
 module.exports = router;
 
 function updateRequests(req, res, next) {
-    contractService.updateRequests(req.params.id, req.body)
+    employeeService.updateRequests(req.params.id, req.body)
         .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
         .catch(next);
 }
@@ -97,7 +97,7 @@ function updateSchemaRequests(req, res, next) {
     //console.log(req.user);
     const schema = Joi.object({
         statusId: Joi.number().integer().required(),
-        descripcionRespuesta: Joi.string()
+        descriptionRespuesta: Joi.string()
     });
     validateRequest(req, next, schema);
 }
@@ -152,7 +152,7 @@ function registerSchemaRequest(req, res, next) {
 		fechaInicio: Joi.string().required(),
 		fechaFin: Joi.string(),
 		descripcionEmpleado: Joi.string().required(),
-		descriptionRespuesta: Joi.string().required(),
+		descriptionRespuesta: Joi.string(),
 		requestTypeId: Joi.number().integer().required(),
 		statusId: Joi.number().integer().required(),
 		adjunto: Joi.string(),
