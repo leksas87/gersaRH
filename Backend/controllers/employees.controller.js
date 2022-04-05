@@ -29,10 +29,26 @@ router.patch('/:id/contracts/:idContract', authorize(), forbidden(), updateSchem
 router.put('/:id/contracts/:idContract', authorize(), forbidden(), updateSchemaContractsPut, updateContracts);
 router.delete('/:id/contracts/:idContract', authorize(), forbidden(), deleteByIdContracts);
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+router.patch('/Requests/:id', authorize(), forbidden(), updateSchemaRequests, updateRequests);
 
 
 
 module.exports = router;
+
+function updateRequests(req, res, next) {
+    contractService.updateRequests(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function updateSchemaRequests(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required(),
+        descripcionRespuesta: Joi.string()
+    });
+    validateRequest(req, next, schema);
+}
 
 function getByEmployee(req,res,next) {
     contractService.getByEmployee(req.params.id)

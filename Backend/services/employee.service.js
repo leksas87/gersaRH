@@ -10,6 +10,7 @@ module.exports = {
     create,
     getEmployeeById,
     update,
+    updateRequests,
     reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
@@ -23,6 +24,27 @@ module.exports = {
     getEmployeeScheduleById,
     deleteEmployeeScheduleById
 };
+
+async function updateRequests(id, params) {
+    const Request = await getRequestById(id);
+
+    // validate
+    if ( !Request)  throw 'Solicitud no encontrada';
+
+    // copy params to user and save
+    Object.assign(Request, params);
+    await Request.save();
+
+    return Request;
+}
+
+async function getRequestById(id) {
+    const Request = await models.Request.findByPk(id);
+    
+    if ( !Request)  throw 'Solicitud no encontrada';
+
+    return Request;
+}
 
 async function registerEvents(params, id){
     try {
