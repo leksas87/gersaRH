@@ -130,6 +130,7 @@ function registerSchemaRequest(req, res, next) {
 		descripcionEmpleado: Joi.string().required(),
 		descriptionRespuesta: Joi.string().required(),
 		requestTypeId: Joi.number().integer().required(),
+		statusId: Joi.number().integer().required(),
 		adjunto: Joi.string(),
 	});
 	validateRequest(req, next, schema);
