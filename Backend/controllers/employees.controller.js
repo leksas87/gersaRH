@@ -111,7 +111,7 @@ function getByEmployee(req,res,next) {
 function registerRequest(req, res, next) {
 	employeeService
 		.createRequest(req.body, req.params.id)
-		.then(() => res.json({ message: 'Registro exitoso' }))
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
 		.catch(next);
 }
 
@@ -154,6 +154,7 @@ function registerSchemaRequest(req, res, next) {
 		descripcionEmpleado: Joi.string().required(),
 		descriptionRespuesta: Joi.string().required(),
 		requestTypeId: Joi.number().integer().required(),
+		statusId: Joi.number().integer().required(),
 		adjunto: Joi.string(),
 	});
 	validateRequest(req, next, schema);
