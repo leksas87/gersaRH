@@ -27,13 +27,9 @@ module.exports = {
 
 async function createRequest(params, id){
     try {
-        console.log(params.statusId);
-        
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
 
-        console.log(fechaCreacion);
-
-        const request= await models.Request.create({employeeId:id,fechaCreacion:fechaCreacion,fechaInicio:params.fechaInicio,fechaFin:params.fechaFin,statusId:params.statusId,descripcionEmpleado:params.descripcionEmpleado,descriptionRespuesta:params.descriptionRespuesta});
+        const request= await models.Request.create({employeeId:id,fechaCreacion:fechaCreacion,fechaInicio:params.fechaInicio,fechaFin:params.fechaFin,statusId:params.statusId,descripcionEmpleado:params.descripcionEmpleado,descriptionRespuesta:params.descriptionRespuesta,requestTypeId:params.requestTypeId,adjunto:params.adjunto});
         
         return request;
     } catch (error) {

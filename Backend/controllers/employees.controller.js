@@ -87,7 +87,7 @@ module.exports = router;
 function registerRequest(req, res, next) {
 	employeeService
 		.createRequest(req.body, req.params.id)
-		.then(() => res.json({ message: 'Registro exitoso' }))
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
 		.catch(next);
 }
 
