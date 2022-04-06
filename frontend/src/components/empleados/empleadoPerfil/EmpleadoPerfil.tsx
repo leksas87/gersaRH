@@ -31,7 +31,7 @@ const EmpleadoPerfil = () => {
 	const indiceLastname = perfilEmpleado.lastName.indexOf(' ');
 	const name = perfilEmpleado.firstName.substring(0, indiceName);
 	const lastName = perfilEmpleado.lastName.substring(0, indiceLastname);
-	const roll = perfilEmpleado.roll;
+	const roll = perfilEmpleado.rollTypeId;
 	const isActive = perfilEmpleado.active;
 
 	useEffect(() => {

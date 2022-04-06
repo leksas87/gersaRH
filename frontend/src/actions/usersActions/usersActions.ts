@@ -6,8 +6,6 @@ import {
 	GET_USERS_SUCCESSFUL,
 	GET_USER_BY_ID,
 	DELETE_ACCESS_TO_USER_BY_ID,
-	MAKE_ADMIN_USER_BY_ID,
-	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
@@ -265,7 +263,7 @@ export const changeRollToUser = (userId: number, rollTypeId: number) => {
 		axiosClientWithToken
 			.patch(
 				`users/${userId}`,
-				{ roll: rollTypeId },
+				{ rollTypeId: rollTypeId },
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -276,7 +274,7 @@ export const changeRollToUser = (userId: number, rollTypeId: number) => {
 				if (respuesta.status === 200) {
 					dispatch({
 						type: CHANGE_ROLL_TO_USER_BY_ID,
-						payload: { rollTypeId: respuesta.data.data.roll },
+						payload: { rollTypeId: respuesta.data.data.rollTypeId },
 					});
 					Swal.fire({
 						position: 'top-end',

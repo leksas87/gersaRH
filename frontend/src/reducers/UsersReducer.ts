@@ -109,6 +109,7 @@ export const UsersReducer = (
 				perfilUsuario: {
 					...state.perfilUsuario,
 					roll: action.payload.rollTypeId,
+					rollTypeId: action.payload.rollTypeId,
 				},
 			};
 		case TERMINATE_USER_BY_ID:

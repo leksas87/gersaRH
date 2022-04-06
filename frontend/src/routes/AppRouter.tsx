@@ -34,6 +34,7 @@ import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
 import { RequireCheckState } from './RequireCheckState';
+import { RequireSupervisorAndAdminPrivileges } from './RequireSupervisorAndAdminPrivileges';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -79,6 +80,10 @@ const AppRouter = () => {
 									<Route path='personal' element={<PageInfoPersonal />} />
 									<Route path='infocontrato' element={<PageInfoContrato />} />
 								</Route>
+								<Route path='solicitudes/' element={<h1>Solicitudes</h1>} />
+								<Route path='misreportes/' element={<h1>Reportes</h1>} />
+								<Route path='horasextras/' element={<h1>Horas Extras</h1>} />
+
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
 									<Route path='empleados' element={<EmpleadosPage />} />
@@ -89,6 +94,7 @@ const AppRouter = () => {
 										<Route path='controlhorario' element={<PageControlHorario />} />
 										<Route path='*' element={<NotFound />} />
 									</Route>
+									<Route path='reportes/' element={<h1>Ver Reportes</h1>} />
 									<Route path='empresa/' element={<EmpresaPage />}>
 										<Route index element={<EmpresaDetalles />} />
 										<Route path='horarios' element={<PageEmpresaSchedule />} />
@@ -102,6 +108,16 @@ const AppRouter = () => {
 										</Route>
 									</Route>
 								</Route>
+								{/* Rutas para Jefe de Cuadrilla y Administrador */}
+								<Route element={<RequireSupervisorAndAdminPrivileges />}>
+									<Route path='solicitarhoras/' element={<h1>Solicitar horas</h1>} />
+									<Route path='autorizaciones/' element={<h1>Autorizaciones</h1>} />
+									<Route
+										path='reportesadministrativos/'
+										element={<h1>reportes administrativos</h1>}
+									/>
+								</Route>
+
 								<Route path='/*' element={<NotFound />} />
 							</Route>
 						</Route>
