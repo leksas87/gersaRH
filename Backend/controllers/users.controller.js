@@ -399,7 +399,8 @@ function updateSchema(req, res, next) {
         phone:Joi.string().empty(''),
         active:Joi.boolean(),
         roll:Joi.number(),
-        isEmployeeActive:Joi.boolean()
+        isEmployeeActive:Joi.boolean(),
+        rollTypeId:Joi.number()
     });
     validateRequest(req, next, schema);
 }

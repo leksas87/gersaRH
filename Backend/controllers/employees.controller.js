@@ -74,15 +74,39 @@ router.delete(
 	forbidden(),
 	deleteByIdContracts
 );
-router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 router.post(
 	'/:id/request',
 	authorize(),
 	registerSchemaRequest,
 	registerRequest
 );
+router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+router.patch('/requests/:id', authorize(), forbiddenGet(), updateSchemaRequests, updateRequests);
+
+
 
 module.exports = router;
+
+function updateRequests(req, res, next) {
+    employeeService.updateRequests(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function updateSchemaRequests(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required(),
+        descriptionRespuesta: Joi.string()
+    });
+    validateRequest(req, next, schema);
+}
+
+function getByEmployee(req,res,next) {
+    contractService.getByEmployee(req.params.id)
+        .then(contracts => res.json({data:contracts ,message:'Succesful',ok:true}))
+        .catch(next);
+}
 
 function registerRequest(req, res, next) {
 	employeeService
@@ -128,7 +152,7 @@ function registerSchemaRequest(req, res, next) {
 		fechaInicio: Joi.string().required(),
 		fechaFin: Joi.string(),
 		descripcionEmpleado: Joi.string().required(),
-		descriptionRespuesta: Joi.string().required(),
+		descriptionRespuesta: Joi.string(),
 		requestTypeId: Joi.number().integer().required(),
 		statusId: Joi.number().integer().required(),
 		adjunto: Joi.string(),
