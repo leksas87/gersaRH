@@ -10,6 +10,7 @@ import {
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
+	CHANGE_ROLL_TO_USER_BY_ID,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -26,6 +27,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		username: '',
 		phone: '',
 		roll: 0,
+		rollTypeId: 0,
 		active: false,
 		isEmployeeActive: true,
 	},
@@ -100,6 +102,15 @@ export const UsersReducer = (
 				...state,
 				//roll:2 (Empleado)
 				perfilUsuario: { ...state.perfilUsuario, roll: 2 },
+			};
+		case CHANGE_ROLL_TO_USER_BY_ID:
+			return {
+				...state,
+				perfilUsuario: {
+					...state.perfilUsuario,
+					roll: action.payload.rollTypeId,
+					rollTypeId: action.payload.rollTypeId,
+				},
 			};
 		case TERMINATE_USER_BY_ID:
 			return {

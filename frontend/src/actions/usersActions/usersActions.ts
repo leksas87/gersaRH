@@ -6,11 +6,10 @@ import {
 	GET_USERS_SUCCESSFUL,
 	GET_USER_BY_ID,
 	DELETE_ACCESS_TO_USER_BY_ID,
-	MAKE_ADMIN_USER_BY_ID,
-	REMOVE_ADMIN_USER_BY_ID,
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
+	CHANGE_ROLL_TO_USER_BY_ID,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -18,6 +17,7 @@ import {
 	fetchMultipartFormDataConToken,
 } from '../../helpers/fetch';
 import axios from 'axios';
+import { axiosClientWithToken } from '../../helpers/axios';
 // import { axiosClient } from '../../helpers/axios';
 // import * as bootstrap from 'bootstrap';
 
@@ -253,69 +253,80 @@ export const deleteAccestoUserById = (id: number) => {
 	};
 };
 
-//(PUT - users )Hacer administrador a usuario por ID
-export const makeAdminToUserById = (id: number) => {
+//(PATCH) Cambiar roll a empleado
+export const changeRollToUser = (userId: number, rollTypeId: number) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para modificar el roll del usuario
-		const respuesta = await fetchConToken(`users/${id}`, { roll: 1 }, 'PATCH');
-		// se hace un .json() a la respuesta
-		const body = await respuesta?.json();
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
 
-		if (body.ok) {
-			//Se hace la modificacion del usuario en el Reducer
-			dispatch({ type: MAKE_ADMIN_USER_BY_ID });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Listo!',
-				showConfirmButton: false,
-				timer: 2000,
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.patch(
+				`users/${userId}`,
+				{ rollTypeId: rollTypeId },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: CHANGE_ROLL_TO_USER_BY_ID,
+						payload: { rollTypeId: respuesta.data.data.rollTypeId },
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: '¡Listo!',
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 
-//(PUT - users ) Quitar Admin a usuario por ID
-export const removeAdminToUserById = (id: number) => {
-	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para modificar el roll del usuario
-		const respuesta = await fetchConToken(`users/${id}`, { roll: 2 }, 'PATCH');
-		// se hace un .json() a la respuesta
-		const body = await respuesta?.json();
-
-		if (body.ok) {
-			//Se hace la modificacion del usuario en el Reducer
-			dispatch({ type: REMOVE_ADMIN_USER_BY_ID });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Listo!',
-				showConfirmButton: false,
-				timer: 2000,
-			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
-	};
-};
-
-//(PUT -users ) Finalizar a usuario por ID
+//(PATCH -users ) Finalizar a usuario por ID
 export const terminateUserById = (id: number) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Peticion Fetch a la API para modificar el accesso

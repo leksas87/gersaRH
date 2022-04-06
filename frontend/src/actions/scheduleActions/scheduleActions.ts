@@ -60,7 +60,7 @@ export const registerNewSchedule = (data: iNewSchedule) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -70,7 +70,7 @@ export const registerNewSchedule = (data: iNewSchedule) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -80,7 +80,7 @@ export const registerNewSchedule = (data: iNewSchedule) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -130,7 +130,7 @@ export const getSchedules = () => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -140,7 +140,7 @@ export const getSchedules = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -150,7 +150,7 @@ export const getSchedules = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -160,7 +160,7 @@ export const getSchedules = () => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -229,7 +229,7 @@ export const deleteSchedules = (id: number) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -238,7 +238,7 @@ export const deleteSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -247,7 +247,7 @@ export const deleteSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -256,7 +256,7 @@ export const deleteSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -314,7 +314,7 @@ export const updatedSchedules = (id: number, data: iupdateSchedule) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -323,7 +323,7 @@ export const updatedSchedules = (id: number, data: iupdateSchedule) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -332,7 +332,7 @@ export const updatedSchedules = (id: number, data: iupdateSchedule) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -341,7 +341,7 @@ export const updatedSchedules = (id: number, data: iupdateSchedule) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -404,7 +404,7 @@ export const addScheduleToEmployee = (data: {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -414,7 +414,7 @@ export const addScheduleToEmployee = (data: {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -424,7 +424,7 @@ export const addScheduleToEmployee = (data: {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					dispatch({ type: REGISTER_NEW_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -477,7 +477,7 @@ export const getSchedulesByUserId = (employeeId: number) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -487,7 +487,7 @@ export const getSchedulesByUserId = (employeeId: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -497,7 +497,7 @@ export const getSchedulesByUserId = (employeeId: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -507,7 +507,7 @@ export const getSchedulesByUserId = (employeeId: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					console.log('error404', error.response.data.message);
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 				} else {
@@ -560,7 +560,7 @@ export const deleteEmployeeSchedules = (id: number) => {
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
@@ -569,7 +569,7 @@ export const deleteEmployeeSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
 						position: 'top-end',
@@ -578,7 +578,7 @@ export const deleteEmployeeSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
 						position: 'top-end',
@@ -587,7 +587,7 @@ export const deleteEmployeeSchedules = (id: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
@@ -639,7 +639,7 @@ export const getSchedulesByUserIdCheckIn = (
 				}
 			})
 			.catch((error) => {
-				if (error.response.status == 500) {
+				if (error.response.status === 500) {
 					// console.log('error500');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -649,7 +649,7 @@ export const getSchedulesByUserIdCheckIn = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 400) {
+				} else if (error.response.status === 400) {
 					// console.log('error400');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 					Swal.fire({
@@ -659,7 +659,7 @@ export const getSchedulesByUserIdCheckIn = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 403) {
+				} else if (error.response.status === 403) {
 					// console.log('error403');
 					console.log('AQUI');
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
@@ -670,7 +670,7 @@ export const getSchedulesByUserIdCheckIn = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status == 404) {
+				} else if (error.response.status === 404) {
 					console.log('error404', error.response.data.message);
 					dispatch({ type: CHARGING_SCHEDULE_LOADING_END });
 				} else {
