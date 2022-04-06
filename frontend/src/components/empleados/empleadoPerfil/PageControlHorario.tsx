@@ -146,18 +146,26 @@ const PageControlHorario = () => {
 						<div className='ms-2 me-2 btn'>Mensual</div> */}
 					</div>
 				</div>
-				<div className='d-flex custm-Width100 mt-3 align-items-center '>
+				<div className='d-flex custm-Width100 mt-3 align-items-center flex-wrap'>
 					<div className='textColorSecondary  d-flex align-items-center'>
-						<button className='btn' onClick={substWeek}>
+						<button
+							className='btn d-flex justify-content-center'
+							style={{ width: '30px' }}
+							onClick={substWeek}
+						>
 							<i className=' btn bi bi-caret-left' />
 						</button>
 						<div>
 							<span className='textColorLight'>( {days.fechaInicioD}</span>
-							<span className='fs-4'>{'  -  '}</span>
+							<span className='fs-5'>{'  -  '}</span>
 							<span className='textColorLight'>{days.fechaFinD} )</span>
 						</div>
 
-						<button className='btn' onClick={addWeek}>
+						<button
+							className='btn d-flex justify-content-center'
+							onClick={addWeek}
+							style={{ width: '30px' }}
+						>
 							<i className=' btn bi bi-caret-right' />
 						</button>
 					</div>

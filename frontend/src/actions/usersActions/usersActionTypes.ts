@@ -7,6 +7,7 @@ export const GET_EMPLOYEE_BY_ID = 'getEmployeesByID';
 export const DELETE_ACCESS_TO_USER_BY_ID = 'deleteAccesToUsersByID';
 export const MAKE_ADMIN_USER_BY_ID = 'makeAdminUsersByID';
 export const REMOVE_ADMIN_USER_BY_ID = 'removeAdminUsersByID';
+export const CHANGE_ROLL_TO_USER_BY_ID = 'changeRollToUsersByID';
 export const TERMINATE_USER_BY_ID = 'terminateUsersByID';
 export const CHANGE_TABLE_PATH = 'changeTablePath';
 
@@ -20,6 +21,7 @@ export interface iEmpleado {
 	phone: string;
 	active: boolean;
 	roll: number;
+	rollTypeId: number;
 	isEmployeeActive: boolean;
 }
 export interface iEmployeeData {
@@ -77,6 +79,13 @@ export interface GetEmployeesByID {
 		empleadoData: iEmployeeData;
 	};
 }
+//Cambiar Roll a empleado por ID
+export interface ChangeRollToUsersByID {
+	type: typeof CHANGE_ROLL_TO_USER_BY_ID;
+	payload: {
+		rollTypeId: number;
+	};
+}
 //Eliminar accesso a Empleado
 export interface DeleteAccesToUsersByID {
 	type: typeof DELETE_ACCESS_TO_USER_BY_ID;
@@ -108,6 +117,7 @@ export type UsersDispatchTypes =
 	| MakeAdminUsersByID
 	| RemoveAdminUsersByID
 	| TerminateUsersByID
+	| ChangeRollToUsersByID
 	| ChangeTablePath
 	| GetEmployeesByID
 	| GetUsersByID;

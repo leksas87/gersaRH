@@ -75,16 +75,20 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							Mi perfil
 						</NavLink>
 						<div className='sidebarOption'>
-							<i className='bi bi-clock sidebarIcon ' />
-							Reloj Checador
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-lightbulb-off sidebarIcon' />
-							Ausencias
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-card-checklist sidebarIcon' />
+							<i className='bi bi-calendar-date sidebarIcon ' />
 							Solicitudes
+						</div>
+						<div className='sidebarOption'>
+							<i className='bi bi-exclamation-lg sidebarIcon' />
+							Reportes
+						</div>
+						<div className='sidebarOption'>
+							<i className='bi bi-stopwatch sidebarIcon' />
+							Horas extras
+						</div>
+						<div className='sidebarOption'>
+							<i className='bi bi-folder2-open sidebarIcon' />
+							Archivos
 						</div>
 					</nav>
 					{roll === 1 && (
@@ -104,8 +108,20 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								Empleados
 							</NavLink>
 							<div className='sidebarOption'>
+								<i className='bi bi-stopwatch sidebarIcon' />
+								Solicitar horas extras
+							</div>
+							<div className='sidebarOption'>
 								<i className='bi bi-calendar-week sidebarIcon' />
-								Calendario
+								Autorizaciones
+							</div>
+							{/* <div className='sidebarOption'>
+								<i className='bi bi-exclamation-lg sidebarIcon' />
+								Reportes Administrativos
+							</div> */}
+							<div className='sidebarOption'>
+								<i className='bi bi-exclamation-lg sidebarIcon' />
+								Ver reportes
 							</div>
 							<div className='sidebarOption'>
 								<i className='bi bi-folder2-open sidebarIcon' />
