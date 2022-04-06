@@ -46,7 +46,7 @@ async function getRequestById(id) {
 
     return Request;
 }    
-async function createRequest(params, id){
+async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
 
@@ -54,7 +54,7 @@ async function createRequest(params, id){
         
         return request;
     } catch (error) {
-        console.log(error);
+        next(`Error de validación: ${error}`);
     }
         
 }

@@ -110,7 +110,7 @@ function getByEmployee(req,res,next) {
 
 function registerRequest(req, res, next) {
 	employeeService
-		.createRequest(req.body, req.params.id)
+		.createRequest(req.body, req.params.id,next)
 		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
 		.catch(next);
 }
@@ -148,16 +148,64 @@ function updateSchemaContractsPut(req, res, next) {
 	validateRequest(req, next, schema);
 }
 function registerSchemaRequest(req, res, next) {
-	const schema = Joi.object({
-		fechaInicio: Joi.string().required(),
-		fechaFin: Joi.string(),
-		descripcionEmpleado: Joi.string().required(),
-		descriptionRespuesta: Joi.string(),
-		requestTypeId: Joi.number().integer().required(),
-		statusId: Joi.number().integer().required(),
-		adjunto: Joi.string(),
-	});
+	const requestTypeId=req.body.requestTypeId;
+	
+	///determinara los campos necesarios segun el tipo de solicitud
+	const schema=JoiObject(requestTypeId);
+	
 	validateRequest(req, next, schema);
+}
+
+function JoiObject(requestTypeId) {
+	try {
+		let schema;
+		switch (requestTypeId) {
+			case 1:
+				//vacaciones
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().allow(""),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			case 2:
+				//incapacidad
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string(),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().required(),
+				});
+				return schema;
+				break;
+			case 3:
+				console.log("caso 3");
+				//dia de falta
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().allow(""),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			default:
+				break;
+		}
+	} catch (error) {
+		
+	}
 }
 
 function updateContracts(req, res, next) {
