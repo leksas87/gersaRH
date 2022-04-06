@@ -196,7 +196,6 @@ async function create(params) {
 
 }
 async function createSchedule(params) {
-    
     const newSchedule=await models.EmployeeSchedule.create(params);
     return newSchedule;
 }

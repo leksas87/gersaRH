@@ -11,7 +11,7 @@ function forbidden() {
         async (req, res, next) => {
 
             // revisa si el usuario tiene permisos de ver la informacion
-            if (req.user.roll != 1)
+            if (req.user.rollTypeId != 1)
                 return res.status(403).json( {message: 'Usuario no autorizado'});
             next();
         }
