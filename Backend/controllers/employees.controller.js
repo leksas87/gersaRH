@@ -6,6 +6,7 @@ const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
+const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
@@ -21,7 +22,7 @@ router.post(
 );
 router.get('/check', registerAccessCodeSchema, Check);
 router.post('/', authorize(), registerSchema, register);
-router.get('/', authorize());
+router.get('/', authorize(),forbiddenJefeCuadrilla());
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
