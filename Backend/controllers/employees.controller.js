@@ -21,6 +21,7 @@ router.post(
 );
 router.get('/check', registerAccessCodeSchema, Check);
 router.post('/', authorize(), registerSchema, register);
+router.get('/', authorize());
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
