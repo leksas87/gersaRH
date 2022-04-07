@@ -191,7 +191,7 @@ function JoiObject(requestTypeId) {
 				//dia de falta
 				schema = Joi.object({
 					fechaInicio: Joi.string().required(),
-					fechaFin: Joi.string().allow(""),
+					fechaFin: Joi.string().required(),
 					descripcionEmpleado: Joi.string().required(),
 					descriptionRespuesta: Joi.string().allow(""),
 					requestTypeId: Joi.number().integer().required(),
