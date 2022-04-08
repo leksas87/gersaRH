@@ -103,11 +103,12 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
-async function getEmployeesOfJc(id, res) {
+async function getEmployeesOfJc(id, res,name) {
     try {
         const atribute=['firstName','lastName']
         const atributeEmployee=['id']
         const user=models.User;
+        console.log(name);
         const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:user,attributes:atribute}],attributes:atributeEmployee});
         return employeesJC;
     } catch (error) {
