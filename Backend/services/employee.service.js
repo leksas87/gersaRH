@@ -108,7 +108,7 @@ async function getEmployeesOfJc(id, res,name) {
         const atribute=['firstName','lastName']
         const atributeEmployee=['id']
         console.log(name);
-        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{firstName:name}}],attributes:atributeEmployee});
+        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{firstName:{[Op.like]:'prus%'}}}],attributes:atributeEmployee});
         return employeesJC;
     } catch (error) {
         throw error;
