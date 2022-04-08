@@ -386,8 +386,13 @@ function getById(req, res, next) {
 		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
 		.catch(next);
 }
-function getEmployeesJC(req, res, next) {
-	console.log(req.user);
+async function getEmployeesJC(req, res, next) {
+	const employee = await employeeService.getEmployeeById(req.user.id, res)
+	console.log(employee.id);
+	employeeService
+		.getEmployeesOfJc(employee.id, res)
+		.then((employee) => res.json({ employee, message: 'Succesful' }))
+		.catch(next);
 }
 
 function getSchedule(req, res, next) {

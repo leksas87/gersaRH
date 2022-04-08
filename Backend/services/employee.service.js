@@ -23,7 +23,8 @@ module.exports = {
     createSchedule,
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
-    createRequest
+    createRequest,
+    getEmployeesOfJc
 };
 
 async function updateRequests(id, params) {
@@ -102,6 +103,17 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
+async function getEmployeesOfJc(id, res) {
+    try {
+        const atribute=['firstName','lastName']
+        const atributeEmployee=['id']
+        const user=models.User;
+        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:user,attributes:atribute}],attributes:atributeEmployee});
+        return employeesJC;
+    } catch (error) {
+        throw error;
+    }
+}
 async function getEvents(id, fechaInicio, fechaFin) {
 
     if(!fechaInicio && !fechaFin){
