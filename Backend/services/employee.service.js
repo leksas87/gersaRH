@@ -24,7 +24,8 @@ module.exports = {
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
     createRequest,
-    createTimeRequest
+    createTimeRequest,
+    getEmployeesOfJc
 };
 
 async function createTimeRequest(params, id, res){
@@ -68,7 +69,8 @@ async function getRequestById(id) {
     return Request;
 }  
 
-async function createRequest(params, id){
+  
+async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
 
@@ -76,7 +78,7 @@ async function createRequest(params, id){
         
         return request;
     } catch (error) {
-        console.log(error);
+        next(`Error de validación: ${error}`);
     }
         
 }
@@ -124,6 +126,17 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
+async function getEmployeesOfJc(id, res,name) {
+    try {
+        const atribute=['firstName','lastName']
+        const atributeEmployee=['id']
+        console.log(name);
+        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee});
+        return employeesJC;
+    } catch (error) {
+        throw error;
+    }
+}
 async function getEvents(id, fechaInicio, fechaFin) {
 
     if(!fechaInicio && !fechaFin){

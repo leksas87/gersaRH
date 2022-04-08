@@ -7,6 +7,7 @@ const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
+const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
@@ -22,6 +23,7 @@ router.post(
 );
 router.get('/check', registerAccessCodeSchema, Check);
 router.post('/', authorize(), registerSchema, register);
+router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
@@ -138,7 +140,7 @@ function getByEmployee(req,res,next) {
 
 function registerRequest(req, res, next) {
 	employeeService
-		.createRequest(req.body, req.params.id)
+		.createRequest(req.body, req.params.id,next)
 		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
 		.catch(next);
 }
@@ -176,16 +178,64 @@ function updateSchemaContractsPut(req, res, next) {
 	validateRequest(req, next, schema);
 }
 function registerSchemaRequest(req, res, next) {
-	const schema = Joi.object({
-		fechaInicio: Joi.string().required(),
-		fechaFin: Joi.string(),
-		descripcionEmpleado: Joi.string().required(),
-		descriptionRespuesta: Joi.string(),
-		requestTypeId: Joi.number().integer().required(),
-		statusId: Joi.number().integer().required(),
-		adjunto: Joi.string(),
-	});
+	const requestTypeId=req.body.requestTypeId;
+	
+	///determinara los campos necesarios segun el tipo de solicitud
+	const schema=JoiObject(requestTypeId);
+	
 	validateRequest(req, next, schema);
+}
+
+function JoiObject(requestTypeId) {
+	try {
+		let schema;
+		switch (requestTypeId) {
+			case 1:
+				//vacaciones
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().allow(""),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			case 2:
+				//incapacidad
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string(),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().required(),
+				});
+				return schema;
+				break;
+			case 3:
+				console.log("caso 3");
+				//dia de falta
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			default:
+				break;
+		}
+	} catch (error) {
+		
+	}
 }
 
 function updateContracts(req, res, next) {
@@ -364,6 +414,15 @@ function getById(req, res, next) {
 		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
 		.catch(next);
 }
+async function getEmployeesJC(req, res, next) {
+	const employee = await employeeService.getEmployeeById(req.user.id, res)
+	console.log(employee.id);
+	employeeService
+		.getEmployeesOfJc(employee.id, res,req.query.name)
+		.then((employee) => res.json({ employee, message: 'Succesful' }))
+		.catch(next);
+}
+
 function getSchedule(req, res, next) {
 	employeeService
 		.getEmployeeScheduleById(req.params.id, res)

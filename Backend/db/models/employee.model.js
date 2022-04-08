@@ -36,7 +36,7 @@ const EmployeeSchema = {
 
 class Employee extends Model {
   static associate(models) {
-    this.belongsTo(models.User,{as:'user'});
+    this.belongsTo(models.User);
     this.belongsToMany(models.Schedule, {
       as: 'schedule',
       through: models.EmployeeSchedule
