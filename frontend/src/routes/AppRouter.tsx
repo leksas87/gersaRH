@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
+import PageAutorizaciones from '../components/autorizaciones/PageAutorizaciones';
 import Checador from '../components/checador/Checador';
 import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
 import ChecadorPage from '../components/checador/ChecadorPage';
@@ -28,6 +29,13 @@ import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
 import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
 import PagePerfil from '../components/miPerfilPage/PagePerfil';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
+import PageMisReportes from '../components/reportes/PageMisReportes';
+import PageReportesAdministrativos from '../components/reportes/PageReportesAdministrativos';
+import PageSolicitudes from '../components/solicitudes/PageSolicitudes';
+import PageSolicitudFalta from '../components/solicitudes/PageSolicitudFalta';
+import PageSolicitudIncapacidad from '../components/solicitudes/PageSolicitudIncapacidad';
+import PageSolicitudVacaciones from '../components/solicitudes/PageSolicitudVacaciones';
+import SolicitudesMenu from '../components/solicitudes/SolicitudesMenu';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
@@ -80,8 +88,13 @@ const AppRouter = () => {
 									<Route path='personal' element={<PageInfoPersonal />} />
 									<Route path='infocontrato' element={<PageInfoContrato />} />
 								</Route>
-								<Route path='solicitudes/' element={<h1>Solicitudes</h1>} />
-								<Route path='misreportes/' element={<h1>Reportes</h1>} />
+								<Route path='solicitudes/' element={<PageSolicitudes />}>
+									<Route index element={<SolicitudesMenu />} />
+									<Route path='falta/' element={<PageSolicitudFalta />} />
+									<Route path='incapacidad/' element={<PageSolicitudIncapacidad />} />
+									<Route path='vacaciones/' element={<PageSolicitudVacaciones />} />
+								</Route>
+								<Route path='misreportes/' element={<PageMisReportes />} />
 								<Route path='horasextras/' element={<h1>Horas Extras</h1>} />
 
 								{/* Rutas para administrador */}
@@ -111,10 +124,10 @@ const AppRouter = () => {
 								{/* Rutas para Jefe de Cuadrilla y Administrador */}
 								<Route element={<RequireSupervisorAndAdminPrivileges />}>
 									<Route path='solicitarhoras/' element={<h1>Solicitar horas</h1>} />
-									<Route path='autorizaciones/' element={<h1>Autorizaciones</h1>} />
+									<Route path='autorizaciones/' element={<PageAutorizaciones />} />
 									<Route
 										path='reportesadministrativos/'
-										element={<h1>reportes administrativos</h1>}
+										element={<PageReportesAdministrativos />}
 									/>
 								</Route>
 

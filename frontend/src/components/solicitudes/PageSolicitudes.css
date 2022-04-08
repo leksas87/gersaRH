@@ -1,0 +1,64 @@
+.custm-btnSolicitud {
+	border: 1px solid var(--colorSecondary);
+	padding: 1rem;
+	border-radius: 10px;
+	min-width: 350px;
+	min-height: 120px;
+	width: 30%;
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+
+	text-decoration: none;
+	color: black;
+}
+.custm-PageContainerContent {
+	/* border: 1px solid teal; */
+	padding: 1rem;
+	min-width: 300px;
+	width: 50%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.custm-btnSolicitud:hover {
+	color: black;
+	transform: scale(0.99);
+}
+/* ++++++++++Formulario Styles+++++++++++++++ */
+.custm-PageHistoryContainer {
+	background-color: var(--colorBackgroundForm);
+	border: 1px solid var(--colorBorderForm);
+	border-radius: 12px;
+	padding: 5px;
+	padding-bottom: 15px;
+	width: 100%;
+}
+/* +++++++++++++++++ */
+
+.custm-Status1 {
+	color: rgb(255, 162, 0);
+}
+.custm-Status2 {
+	color: #1ed600;
+}
+.custm-Status3 {
+	color: rgb(255, 0, 0);
+}
+.custm-Status4 {
+	color: rgb(0, 128, 255);
+}
+
+@media (max-width: 768px) {
+	.custm-btnSolicitud {
+		min-width: 300px;
+	}
+}
+@media (max-width: 991px) {
+	.custm-PageContainerContent {
+		padding: 0rem;
+		min-width: 200px;
+		width: 100%;
+	}
+}
