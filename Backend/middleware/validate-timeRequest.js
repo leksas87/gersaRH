@@ -11,7 +11,7 @@ function validateTimeRequest() {
                 //Se obtiene las relaciones que tiene ese empleado con horarios
                 const employeeSchedules = await models.EmployeeSchedule.findAll({where:{employeeId:req.params.id}}); 
 
-                if(!schedule) throw 'Horario no asignado';
+                if(!employeeSchedules) throw 'Enpleado no tiene horario asignado';
                
                 //Se recorre todos los horarios que tenga ese empleado
                 for (const employeeSchedul of employeeSchedules) {

@@ -26,8 +26,33 @@ module.exports = {
     deleteEmployeeScheduleById,
     createRequest,
     createTimeRequest,
-    getEmployeesOfJc
+    getEmployeesOfJc,
+    getTimeRequest
 };
+
+async function getTimeRequest(req,res) {
+    try {
+        console.log(req.user.rollTypeId)
+        if(req.user.rollTypeId === 1){
+            const TimeRequest = await models.TimeRequest.findAll();
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else if(req.user.rollTypeId === 2){
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else{
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }
+
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
 
 async function updateTimeRequests(id, params) {
     const TimeRequest = await getTimeRequestById(id);
@@ -153,7 +178,15 @@ async function getEmployeesOfJc(id, res,name) {
         const atribute=['firstName','lastName']
         const atributeEmployee=['id']
         console.log(name);
-        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee});
+        const employeesJC= await models.Employee.findAll({
+                                                            where:{supervisor:id},
+                                                            include:[{
+                                                                        model:models.User,
+                                                                        attributes:atribute,
+                                                                        where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}
+                                                                    ],
+                                                            attributes:atributeEmployee
+                                                        });
         return employeesJC;
     } catch (error) {
         throw error;
