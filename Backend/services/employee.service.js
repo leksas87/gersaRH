@@ -11,6 +11,7 @@ module.exports = {
     getEmployeeById,
     update,
     updateRequests,
+    updateTimeRequests,
     reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
@@ -27,6 +28,27 @@ module.exports = {
     createTimeRequest,
     getEmployeesOfJc
 };
+
+async function updateTimeRequests(id, params) {
+    const TimeRequest = await getTimeRequestById(id);
+
+    // validate
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    // copy params to user and save
+    Object.assign(TimeRequest, params);
+    await TimeRequest.save();
+
+    return TimeRequest;
+}
+
+async function getTimeRequestById(id) {
+    const TimeRequest = await models.TimeRequest.findByPk(id);
+    
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    return TimeRequest;
+} 
 
 async function createTimeRequest(params, id, res){
     

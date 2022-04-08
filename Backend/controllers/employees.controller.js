@@ -77,11 +77,19 @@ router.delete(
 	forbidden(),
 	deleteByIdContracts
 );
+
 router.post(
 	'/:id/request',
 	authorize(),
 	registerSchemaRequest,
 	registerRequest
+);
+router.patch(
+	'/:id/contracts/:idContract',
+	authorize(),
+	forbidden(),
+	updateSchemaContracts,
+	updateContracts
 );
 router.post(
 	'/:id/timeRequest',
@@ -90,12 +98,42 @@ router.post(
 	registerSchemaTimeRequest,
 	registerTimeRequest
 );
+
+router.patch(
+	'/timeRequest/:id',
+	authorize(),
+	forbiddenGet(),
+	updateSchemaTimeRequests,
+	updateTimeRequests
+);
+
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
-router.patch('/requests/:id', authorize(), forbiddenGet(), updateSchemaRequests, updateRequests);
+router.patch(
+	'/requests/:id',
+	authorize(), 
+	forbiddenGet(), 
+	updateSchemaRequests, 
+	updateRequests
+);
 
 
 
 module.exports = router;
+
+function updateTimeRequests(req, res, next) {
+    employeeService.updateTimeRequests(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .catch(next);
+}
+
+function updateSchemaTimeRequests(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required(),
+        descripcion: Joi.string()
+    });
+    validateRequest(req, next, schema);
+}
 
 function registerTimeRequest(req, res, next) {
 	employeeService
