@@ -22,7 +22,7 @@ router.post(
 );
 router.get('/check', registerAccessCodeSchema, Check);
 router.post('/', authorize(), registerSchema, register);
-router.get('/', authorize(),forbiddenJefeCuadrilla());
+router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
@@ -386,6 +386,10 @@ function getById(req, res, next) {
 		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
 		.catch(next);
 }
+function getEmployeesJC(req, res, next) {
+	console.log(req.user);
+}
+
 function getSchedule(req, res, next) {
 	employeeService
 		.getEmployeeScheduleById(req.params.id, res)
