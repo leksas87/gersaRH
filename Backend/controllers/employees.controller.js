@@ -2,6 +2,7 @@
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
@@ -80,12 +81,39 @@ router.post(
 	registerSchemaRequest,
 	registerRequest
 );
+router.post(
+	'/:id/timeRequest',
+	authorize(),
+	validateTimeRequest(),
+	registerSchemaTimeRequest,
+	registerTimeRequest
+);
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 router.patch('/requests/:id', authorize(), forbiddenGet(), updateSchemaRequests, updateRequests);
 
 
 
 module.exports = router;
+
+function registerTimeRequest(req, res, next) {
+	employeeService
+		.createTimeRequest(req.body, req.params.id)
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.catch(next);
+}
+
+function registerSchemaTimeRequest(req, res, next) {
+	const schema = Joi.object({
+		employeeId: Joi.number().integer().required(),
+		fechaAsignacion: Joi.string().required(),
+		horaAsignacion: Joi.string().required(),
+		LugarApoyo: Joi.string().required(),
+		statusId: Joi.number().integer().required(),
+		description: Joi.string(),
+		employeeIdRequest: Joi.number().integer().required()
+	});
+	validateRequest(req, next, schema);
+}
 
 function updateRequests(req, res, next) {
     employeeService.updateRequests(req.params.id, req.body)

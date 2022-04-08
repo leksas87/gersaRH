@@ -23,8 +23,29 @@ module.exports = {
     createSchedule,
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
-    createRequest
+    createRequest,
+    createTimeRequest
 };
+
+async function createTimeRequest(params, id, res){
+    
+     
+        
+        
+        const timeRequest= await models.TimeRequest.create({
+                        employeeId:id,
+                        fechaAsignacion:params.fechaAsignacion,
+                        horaAsignacion:params.horaAsignacion,
+                        LugarApoyo:params.LugarApoyo,
+                        statusId:params.statusId,
+                        description:params.descripcion,
+                        employeeIdRequest:params.employeeIdRequest
+                    });
+        
+        return timeRequest;
+    
+        
+}
 
 async function updateRequests(id, params) {
     const Request = await getRequestById(id);
@@ -45,7 +66,8 @@ async function getRequestById(id) {
     if ( !Request)  throw 'Solicitud no encontrada';
 
     return Request;
-}    
+}  
+
 async function createRequest(params, id){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
