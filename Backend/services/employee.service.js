@@ -103,12 +103,29 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
-async function getEmployeesOfJc(id, res,name) {
+async function getEmployeesOfJc(id, res,name,roll) {
     try {
         const atribute=['firstName','lastName']
         const atributeEmployee=['id']
-        console.log(name);
-        const employeesJC= await models.Employee.findAll({where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee});
+        console.log(typeof (name)+'nombre');
+        console.log(roll);
+        let params;
+        switch (roll) {
+            case 1:
+                params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                if (typeof (name) === 'undefined') {
+                    console.log('ya valio');
+                    params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                }
+                break;
+            case 3:
+                params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                break;
+            default:
+                break;
+        }
+            
+        const employeesJC= await models.Employee.findAll(params);
         return employeesJC;
     } catch (error) {
         throw error;

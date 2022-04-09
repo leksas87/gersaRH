@@ -390,7 +390,7 @@ async function getEmployeesJC(req, res, next) {
 	const employee = await employeeService.getEmployeeById(req.user.id, res)
 	console.log(employee.id);
 	employeeService
-		.getEmployeesOfJc(employee.id, res,req.query.name)
+		.getEmployeesOfJc(employee.id, res,req.query.name,req.user.rollTypeId)
 		.then((employee) => res.json({ employee, message: 'Succesful' }))
 		.catch(next);
 }
