@@ -11,6 +11,7 @@ module.exports = {
     getEmployeeById,
     update,
     updateRequests,
+    updateTimeRequests,
     reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
@@ -24,8 +25,75 @@ module.exports = {
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
     createRequest,
-    getEmployeesOfJc
+    createTimeRequest,
+    getEmployeesOfJc,
+    getTimeRequest
 };
+
+async function getTimeRequest(req,res) {
+    try {
+        console.log(req.user.rollTypeId)
+        if(req.user.rollTypeId === 1){
+            const TimeRequest = await models.TimeRequest.findAll();
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else if(req.user.rollTypeId === 2){
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else{
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }
+
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+
+async function updateTimeRequests(id, params) {
+    const TimeRequest = await getTimeRequestById(id);
+
+    // validate
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    // copy params to user and save
+    Object.assign(TimeRequest, params);
+    await TimeRequest.save();
+
+    return TimeRequest;
+}
+
+async function getTimeRequestById(id) {
+    const TimeRequest = await models.TimeRequest.findByPk(id);
+    
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    return TimeRequest;
+} 
+
+async function createTimeRequest(params, id, res){
+    
+     
+        
+        
+        const timeRequest= await models.TimeRequest.create({
+                        employeeId:id,
+                        fechaAsignacion:params.fechaAsignacion,
+                        horaAsignacion:params.horaAsignacion,
+                        LugarApoyo:params.LugarApoyo,
+                        statusId:params.statusId,
+                        description:params.descripcion,
+                        employeeIdRequest:params.employeeIdRequest
+                    });
+        
+        return timeRequest;
+    
+        
+}
 
 async function updateRequests(id, params) {
     const Request = await getRequestById(id);
@@ -46,7 +114,9 @@ async function getRequestById(id) {
     if ( !Request)  throw 'Solicitud no encontrada';
 
     return Request;
-}    
+}  
+
+  
 async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');

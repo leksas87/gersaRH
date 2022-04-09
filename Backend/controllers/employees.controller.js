@@ -2,6 +2,7 @@
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
@@ -21,6 +22,12 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
+router.get(
+	'/timeRequest',
+	authorize(),
+	forbiddenGet(),
+	getTimeRequest
+);
 router.post('/', authorize(), registerSchema, register);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
@@ -76,22 +83,96 @@ router.delete(
 	forbidden(),
 	deleteByIdContracts
 );
+
+router.patch(
+	'/:id/contracts/:idContract',
+	authorize(),
+	forbidden(),
+	updateSchemaContracts,
+	updateContracts
+);
+router.post(
+	'/:id/timeRequest',
+	authorize(),
+	validateTimeRequest(),
+	registerSchemaTimeRequest,
+	registerTimeRequest
+);
+
+router.patch(
+	'/timeRequest/:id',
+	authorize(),
+	forbiddenGet(),
+	updateSchemaTimeRequests,
+	updateTimeRequests
+);
+
+
+router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+router.patch(
+	'/requests/:id',
+	authorize(), 
+	forbiddenGet(), 
+	updateSchemaRequests, 
+	updateRequests
+);
+
 router.post(
 	'/:id/request',
 	authorize(),
 	registerSchemaRequest,
 	registerRequest
 );
-router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
-router.patch('/requests/:id', authorize(), forbiddenGet(), updateSchemaRequests, updateRequests);
 
 
 
 module.exports = router;
 
+function getTimeRequest(req, res, next) {
+	employeeService
+		.getTimeRequest(req, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+
+function updateTimeRequests(req, res, next) {
+    employeeService.updateTimeRequests(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
+        .catch(next);
+}
+
+function updateSchemaTimeRequests(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required(),
+        descripcion: Joi.string()
+    });
+    validateRequest(req, next, schema);
+}
+
+function registerTimeRequest(req, res, next) {
+	employeeService
+		.createTimeRequest(req.body, req.params.id)
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.catch(next);
+}
+
+function registerSchemaTimeRequest(req, res, next) {
+	const schema = Joi.object({
+		employeeId: Joi.number().integer().required(),
+		fechaAsignacion: Joi.string().required(),
+		horaAsignacion: Joi.string().required(),
+		LugarApoyo: Joi.string().required(),
+		statusId: Joi.number().integer().required(),
+		description: Joi.string(),
+		employeeIdRequest: Joi.number().integer().required()
+	});
+	validateRequest(req, next, schema);
+}
+
 function updateRequests(req, res, next) {
     employeeService.updateRequests(req.params.id, req.body)
-        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
         .catch(next);
 }
 
@@ -106,7 +187,7 @@ function updateSchemaRequests(req, res, next) {
 
 function getByEmployee(req,res,next) {
     contractService.getByEmployee(req.params.id)
-        .then(contracts => res.json({data:contracts ,message:'Succesful',ok:true}))
+        .then(contracts => res.json({data:contracts ,message:'Succesful'}))
         .catch(next);
 }
 
@@ -121,7 +202,7 @@ function getByEmployee(req, res, next) {
 	contractService
 		.getByEmployee(req.params.id)
 		.then((contracts) =>
-			res.json({ data: contracts, message: 'Succesful', ok: true })
+			res.json({ data: contracts, message: 'Succesful'})
 		)
 		.catch(next);
 }
@@ -130,7 +211,7 @@ function deleteByIdContracts(req, res, next) {
 	contractService
 		.delete(req.params.idContract)
 		.then(() =>
-			res.json({ message: 'Contrato eliminado exitosamente', ok: true })
+			res.json({ message: 'Contrato eliminado exitosamente'})
 		)
 		.catch(next);
 }
@@ -214,7 +295,7 @@ function updateContracts(req, res, next) {
 	contractService
 		.update(req.params.id, req.params.idContract, req.body)
 		.then((contract) =>
-			res.json({ data: contract, message: 'Succesful', ok: true })
+			res.json({ data: contract, message: 'Succesful' })
 		)
 		.catch(next);
 }
@@ -259,14 +340,14 @@ function deleteEmployeeSchedule(req, res, next) {
 function registerContracts(req, res, next) {
 	contractService
 		.create(req.body, req.params.id)
-		.then(() => res.json({ message: 'Registro exitoso', ok: true }))
+		.then(() => res.json({ message: 'Registro exitoso'}))
 		.catch(next);
 }
 
 function registerEvents(req, res, next) {
 	employeeService
 		.registerEvents(req.body, req.params.id)
-		.then(res.json({ message: 'Succesful', ok: true }))
+		.then(res.json({ message: 'Succesful'}))
 		.catch(next);
 }
 
@@ -283,7 +364,7 @@ function sendInformationByAccessCode(req, res, next) {
 	employeeService
 		.sendInformationByAccessCode(req)
 		.then((user) =>
-			res.json({ data: user, message: 'Completado con exito', ok: true })
+			res.json({ data: user, message: 'Completado con exito'})
 		)
 		.catch(next);
 }
@@ -292,7 +373,7 @@ function getEvents(req, res, next) {
 	employeeService
 		.getEvents(req.params.id, req.query.startDate, req.query.endDate)
 		.then((registros) =>
-			res.json({ registros: registros, message: 'Succesful', ok: true })
+			res.json({ registros: registros, message: 'Succesful'})
 		)
 		.catch(next);
 }
@@ -300,7 +381,7 @@ function getEvents(req, res, next) {
 function sendAccessCodeById(req, res, next) {
 	employeeService
 		.sendAccessCode(req.params.id)
-		.then(() => res.json({ message: 'Succesful', ok: true }))
+		.then(() => res.json({ message: 'Succesful'}))
 		.catch(next);
 }
 
@@ -315,7 +396,7 @@ function registerAccessCodeSchema(req, res, next) {
 function registerCheck(req, res, next) {
 	employeeService
 		.registerCheck(req.body)
-		.then(res.json({ message: 'Succesful', ok: true }))
+		.then(res.json({ message: 'Succesful' }))
 		.catch(next);
 }
 
@@ -323,7 +404,7 @@ function Check(req, res, next) {
 	employeeService
 		.reviewUser(req)
 		.then((user) =>
-			res.json({ data: user, message: 'Completado con exito', ok: true })
+			res.json({ data: user, message: 'Completado con exito' })
 		)
 		.catch(next);
 }
@@ -331,7 +412,7 @@ function Check(req, res, next) {
 function update(req, res, next) {
 	employeeService
 		.update(req.params.id, req.body)
-		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
 
@@ -383,7 +464,7 @@ function updateSchema(req, res, next) {
 function getById(req, res, next) {
 	employeeService
 		.getEmployeeById(req.params.id)
-		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
 async function getEmployeesJC(req, res, next) {
@@ -421,7 +502,7 @@ function registerSchema(req, res, next) {
 function register(req, res, next) {
 	employeeService
 		.create(req.body)
-		.then(() => res.json({ message: 'Registro exitoso', ok: true }))
+		.then(() => res.json({ message: 'Registro exitoso'}))
 		.catch(next);
 }
 
