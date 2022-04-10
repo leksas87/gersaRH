@@ -173,30 +173,43 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
-async function getEmployeesOfJc(id, res,name,roll) {
+async function getEmployeesOfJc(id, res,req) {
     try {
         const atribute=['firstName','lastName']
         const atributeEmployee=['id']
+        const name=req.query.name;
+        const roll=req.user.rollTypeId;
+        const tipo=req.query.tipo
+
         let params;
-        switch (roll) {
-            case 1:
-                params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
-                if (typeof (name) === 'undefined') {
-                    params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
-                }
-                break;
-                case 3:
-                    params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
-                    if (typeof (name) === 'undefined') {
-                        params={where:{supervisor:id},include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
-                    }
-                break;
-            default:
-                break;
-        }
+
+        params={include:[{model:models.User,attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
+
+        if (typeof (tipo) === 'undefined') {
             
+            switch (roll) {
+                case 1:
+                    params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    if (typeof (name) === 'undefined') {
+                        params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                    }
+                    break;
+                    case 3:
+                        params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                        if (typeof (name) === 'undefined') {
+                            params={where:{supervisor:id},include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                        }
+                    break;
+                default:
+                    break;
+            }
+            
+            
+        }
+
         const employeesJC= await models.Employee.findAll(params);
         return employeesJC;
+  
     } catch (error) {
         throw error;
     }
