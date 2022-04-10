@@ -2,10 +2,12 @@
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
+const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
@@ -20,7 +22,14 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
+router.get(
+	'/timeRequest',
+	authorize(),
+	forbiddenGet(),
+	getTimeRequest
+);
 router.post('/', authorize(), registerSchema, register);
+router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
@@ -74,22 +83,96 @@ router.delete(
 	forbidden(),
 	deleteByIdContracts
 );
+
+router.patch(
+	'/:id/contracts/:idContract',
+	authorize(),
+	forbidden(),
+	updateSchemaContracts,
+	updateContracts
+);
+router.post(
+	'/:id/timeRequest',
+	authorize(),
+	validateTimeRequest(),
+	registerSchemaTimeRequest,
+	registerTimeRequest
+);
+
+router.patch(
+	'/timeRequest/:id',
+	authorize(),
+	forbiddenGet(),
+	updateSchemaTimeRequests,
+	updateTimeRequests
+);
+
+
+router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
+router.patch(
+	'/requests/:id',
+	authorize(), 
+	forbiddenGet(), 
+	updateSchemaRequests, 
+	updateRequests
+);
+
 router.post(
 	'/:id/request',
 	authorize(),
 	registerSchemaRequest,
 	registerRequest
 );
-router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
-router.patch('/requests/:id', authorize(), forbiddenGet(), updateSchemaRequests, updateRequests);
 
 
 
 module.exports = router;
 
+function getTimeRequest(req, res, next) {
+	employeeService
+		.getTimeRequest(req, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+
+function updateTimeRequests(req, res, next) {
+    employeeService.updateTimeRequests(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
+        .catch(next);
+}
+
+function updateSchemaTimeRequests(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required(),
+        descripcion: Joi.string()
+    });
+    validateRequest(req, next, schema);
+}
+
+function registerTimeRequest(req, res, next) {
+	employeeService
+		.createTimeRequest(req.body, req.params.id)
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.catch(next);
+}
+
+function registerSchemaTimeRequest(req, res, next) {
+	const schema = Joi.object({
+		employeeId: Joi.number().integer().required(),
+		fechaAsignacion: Joi.string().required(),
+		horaAsignacion: Joi.string().required(),
+		LugarApoyo: Joi.string().required(),
+		statusId: Joi.number().integer().required(),
+		description: Joi.string(),
+		employeeIdRequest: Joi.number().integer().required()
+	});
+	validateRequest(req, next, schema);
+}
+
 function updateRequests(req, res, next) {
     employeeService.updateRequests(req.params.id, req.body)
-        .then(contract => res.json({data:contract ,message:'Succesful',ok:true}))
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
         .catch(next);
 }
 
@@ -104,13 +187,13 @@ function updateSchemaRequests(req, res, next) {
 
 function getByEmployee(req,res,next) {
     contractService.getByEmployee(req.params.id)
-        .then(contracts => res.json({data:contracts ,message:'Succesful',ok:true}))
+        .then(contracts => res.json({data:contracts ,message:'Succesful'}))
         .catch(next);
 }
 
 function registerRequest(req, res, next) {
 	employeeService
-		.createRequest(req.body, req.params.id)
+		.createRequest(req.body, req.params.id,next)
 		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
 		.catch(next);
 }
@@ -119,7 +202,7 @@ function getByEmployee(req, res, next) {
 	contractService
 		.getByEmployee(req.params.id)
 		.then((contracts) =>
-			res.json({ data: contracts, message: 'Succesful', ok: true })
+			res.json({ data: contracts, message: 'Succesful'})
 		)
 		.catch(next);
 }
@@ -128,7 +211,7 @@ function deleteByIdContracts(req, res, next) {
 	contractService
 		.delete(req.params.idContract)
 		.then(() =>
-			res.json({ message: 'Contrato eliminado exitosamente', ok: true })
+			res.json({ message: 'Contrato eliminado exitosamente'})
 		)
 		.catch(next);
 }
@@ -148,23 +231,71 @@ function updateSchemaContractsPut(req, res, next) {
 	validateRequest(req, next, schema);
 }
 function registerSchemaRequest(req, res, next) {
-	const schema = Joi.object({
-		fechaInicio: Joi.string().required(),
-		fechaFin: Joi.string(),
-		descripcionEmpleado: Joi.string().required(),
-		descriptionRespuesta: Joi.string(),
-		requestTypeId: Joi.number().integer().required(),
-		statusId: Joi.number().integer().required(),
-		adjunto: Joi.string(),
-	});
+	const requestTypeId=req.body.requestTypeId;
+	
+	///determinara los campos necesarios segun el tipo de solicitud
+	const schema=JoiObject(requestTypeId);
+	
 	validateRequest(req, next, schema);
+}
+
+function JoiObject(requestTypeId) {
+	try {
+		let schema;
+		switch (requestTypeId) {
+			case 1:
+				//vacaciones
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().allow(""),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			case 2:
+				//incapacidad
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string(),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().required(),
+				});
+				return schema;
+				break;
+			case 3:
+				console.log("caso 3");
+				//dia de falta
+				schema = Joi.object({
+					fechaInicio: Joi.string().required(),
+					fechaFin: Joi.string().required(),
+					descripcionEmpleado: Joi.string().required(),
+					descriptionRespuesta: Joi.string().allow(""),
+					requestTypeId: Joi.number().integer().required(),
+					statusId: Joi.number().integer().required(),
+					adjunto: Joi.string().allow(""),
+				});
+				return schema;
+				break;
+			default:
+				break;
+		}
+	} catch (error) {
+		
+	}
 }
 
 function updateContracts(req, res, next) {
 	contractService
 		.update(req.params.id, req.params.idContract, req.body)
 		.then((contract) =>
-			res.json({ data: contract, message: 'Succesful', ok: true })
+			res.json({ data: contract, message: 'Succesful' })
 		)
 		.catch(next);
 }
@@ -209,14 +340,14 @@ function deleteEmployeeSchedule(req, res, next) {
 function registerContracts(req, res, next) {
 	contractService
 		.create(req.body, req.params.id)
-		.then(() => res.json({ message: 'Registro exitoso', ok: true }))
+		.then(() => res.json({ message: 'Registro exitoso'}))
 		.catch(next);
 }
 
 function registerEvents(req, res, next) {
 	employeeService
 		.registerEvents(req.body, req.params.id)
-		.then(res.json({ message: 'Succesful', ok: true }))
+		.then(res.json({ message: 'Succesful'}))
 		.catch(next);
 }
 
@@ -233,7 +364,7 @@ function sendInformationByAccessCode(req, res, next) {
 	employeeService
 		.sendInformationByAccessCode(req)
 		.then((user) =>
-			res.json({ data: user, message: 'Completado con exito', ok: true })
+			res.json({ data: user, message: 'Completado con exito'})
 		)
 		.catch(next);
 }
@@ -242,7 +373,7 @@ function getEvents(req, res, next) {
 	employeeService
 		.getEvents(req.params.id, req.query.startDate, req.query.endDate)
 		.then((registros) =>
-			res.json({ registros: registros, message: 'Succesful', ok: true })
+			res.json({ registros: registros, message: 'Succesful'})
 		)
 		.catch(next);
 }
@@ -250,7 +381,7 @@ function getEvents(req, res, next) {
 function sendAccessCodeById(req, res, next) {
 	employeeService
 		.sendAccessCode(req.params.id)
-		.then(() => res.json({ message: 'Succesful', ok: true }))
+		.then(() => res.json({ message: 'Succesful'}))
 		.catch(next);
 }
 
@@ -265,7 +396,7 @@ function registerAccessCodeSchema(req, res, next) {
 function registerCheck(req, res, next) {
 	employeeService
 		.registerCheck(req.body)
-		.then(res.json({ message: 'Succesful', ok: true }))
+		.then(res.json({ message: 'Succesful' }))
 		.catch(next);
 }
 
@@ -273,7 +404,7 @@ function Check(req, res, next) {
 	employeeService
 		.reviewUser(req)
 		.then((user) =>
-			res.json({ data: user, message: 'Completado con exito', ok: true })
+			res.json({ data: user, message: 'Completado con exito' })
 		)
 		.catch(next);
 }
@@ -281,7 +412,7 @@ function Check(req, res, next) {
 function update(req, res, next) {
 	employeeService
 		.update(req.params.id, req.body)
-		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
 
@@ -333,9 +464,19 @@ function updateSchema(req, res, next) {
 function getById(req, res, next) {
 	employeeService
 		.getEmployeeById(req.params.id)
-		.then((user) => res.json({ data: user, message: 'Succesful', ok: true }))
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
+async function getEmployeesJC(req, res, next) {
+	const employee = await employeeService.getEmployeeById(req.user.id, res)
+	console.log(employee.id);
+	employeeService
+		// .getEmployeesOfJc(employee.id, res,req.query.name,req.user.rollTypeId)
+		.getEmployeesOfJc(employee.id, res,req)
+		.then((employee) => res.json({ employee, message: 'Succesful' }))
+		.catch(next);
+}
+
 function getSchedule(req, res, next) {
 	employeeService
 		.getEmployeeScheduleById(req.params.id, res)
@@ -362,7 +503,7 @@ function registerSchema(req, res, next) {
 function register(req, res, next) {
 	employeeService
 		.create(req.body)
-		.then(() => res.json({ message: 'Registro exitoso', ok: true }))
+		.then(() => res.json({ message: 'Registro exitoso'}))
 		.catch(next);
 }
 

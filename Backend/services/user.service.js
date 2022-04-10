@@ -121,12 +121,12 @@ async function create(params) {
                     console.log(error.message);
                 }
         }
-
+        params.rollTypeId = 2;
         // save user
         const user = await models.User.create(params);
         await models.Employee.create({
             userId: user.id,
-            accessCode: params.accessCode
+            accessCode: params.accessCode,
         });
         await contractService.create({
             userId: user.id,

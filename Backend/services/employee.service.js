@@ -11,6 +11,7 @@ module.exports = {
     getEmployeeById,
     update,
     updateRequests,
+    updateTimeRequests,
     reviewUser,
     reviewOut,
     validacionNumeroAleatorio,
@@ -23,8 +24,76 @@ module.exports = {
     createSchedule,
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
-    createRequest
+    createRequest,
+    createTimeRequest,
+    getEmployeesOfJc,
+    getTimeRequest
 };
+
+async function getTimeRequest(req,res) {
+    try {
+        console.log(req.user.rollTypeId)
+        if(req.user.rollTypeId === 1){
+            const TimeRequest = await models.TimeRequest.findAll();
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else if(req.user.rollTypeId === 2){
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }else{
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
+            if (!TimeRequest)  throw new Error('Empleado no encontrado');
+            return TimeRequest;
+        }
+
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+
+async function updateTimeRequests(id, params) {
+    const TimeRequest = await getTimeRequestById(id);
+
+    // validate
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    // copy params to user and save
+    Object.assign(TimeRequest, params);
+    await TimeRequest.save();
+
+    return TimeRequest;
+}
+
+async function getTimeRequestById(id) {
+    const TimeRequest = await models.TimeRequest.findByPk(id);
+    
+    if ( !TimeRequest)  throw 'Solicitud de tiempo extra no encontrada';
+
+    return TimeRequest;
+} 
+
+async function createTimeRequest(params, id, res){
+    
+     
+        
+        
+        const timeRequest= await models.TimeRequest.create({
+                        employeeId:id,
+                        fechaAsignacion:params.fechaAsignacion,
+                        horaAsignacion:params.horaAsignacion,
+                        LugarApoyo:params.LugarApoyo,
+                        statusId:params.statusId,
+                        description:params.descripcion,
+                        employeeIdRequest:params.employeeIdRequest
+                    });
+        
+        return timeRequest;
+    
+        
+}
 
 async function updateRequests(id, params) {
     const Request = await getRequestById(id);
@@ -45,8 +114,10 @@ async function getRequestById(id) {
     if ( !Request)  throw 'Solicitud no encontrada';
 
     return Request;
-}    
-async function createRequest(params, id){
+}  
+
+  
+async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
 
@@ -54,7 +125,7 @@ async function createRequest(params, id){
         
         return request;
     } catch (error) {
-        console.log(error);
+        next(`Error de validación: ${error}`);
     }
         
 }
@@ -102,6 +173,47 @@ async function sendInformationByAccessCode(params) {
       return usuario;
 }
 
+async function getEmployeesOfJc(id, res,req) {
+    try {
+        const atribute=['firstName','lastName']
+        const atributeEmployee=['id']
+        const name=req.query.name;
+        const roll=req.user.rollTypeId;
+        const tipo=req.query.tipo
+
+        let params;
+
+        params={include:[{model:models.User,attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
+
+        if (typeof (tipo) === 'undefined') {
+            
+            switch (roll) {
+                case 1:
+                    params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    if (typeof (name) === 'undefined') {
+                        params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                    }
+                    break;
+                    case 3:
+                        params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                        if (typeof (name) === 'undefined') {
+                            params={where:{supervisor:id},include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                        }
+                    break;
+                default:
+                    break;
+            }
+            
+            
+        }
+
+        const employeesJC= await models.Employee.findAll(params);
+        return employeesJC;
+  
+    } catch (error) {
+        throw error;
+    }
+}
 async function getEvents(id, fechaInicio, fechaFin) {
 
     if(!fechaInicio && !fechaFin){
@@ -196,7 +308,6 @@ async function create(params) {
 
 }
 async function createSchedule(params) {
-    
     const newSchedule=await models.EmployeeSchedule.create(params);
     return newSchedule;
 }
