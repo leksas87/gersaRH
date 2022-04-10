@@ -17,7 +17,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
 	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
-	let roll = 3;
+	let roll = 1;
 
 	//Tomar Solo el primer nombre y el primer apellido
 	const indiceName = firstName.indexOf(' ');
@@ -147,7 +147,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 											navigateTo('/solicitarhoras');
 										}}
 									>
-										<i className='bi bi-hourglass-split sidebarIcon' />
+										<i className='bi bi-stopwatch sidebarIcon' />
 										Solicitar horas extras
 									</NavLink>
 
@@ -198,7 +198,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							)}
 							<div className='sidebarOption'>
 								<i className='bi bi-folder2-open sidebarIcon' />
-								Archivos
+								Archivos Empresa
 							</div>
 							{roll === 1 && (
 								<NavLink

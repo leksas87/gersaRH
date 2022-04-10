@@ -21,6 +21,10 @@ import EmpresaArchivados from '../components/empresa/empresaEmpleadosArchivados/
 import EmpresaDetalles from '../components/empresa/empresaPage/EmpresaDetalles';
 import EmpresaPage from '../components/empresa/empresaPage/EmpresaPage';
 import PageEmpresaSchedule from '../components/empresa/empresaSchedules/PageEmpresaSchedule';
+import PageAutorizarHorasExtras from '../components/horasExtras/PageAutorizarHorasExtras';
+import PageHistorialHorasExtras from '../components/horasExtras/PageHistorialHorasExtras';
+import PageHorasExtras from '../components/horasExtras/PageHorasExtras';
+import PageSolicitudHorasExtras from '../components/horasExtras/PageSolicitudHorasExtras';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
@@ -30,7 +34,10 @@ import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
 import PagePerfil from '../components/miPerfilPage/PagePerfil';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import PageMisReportes from '../components/reportes/PageMisReportes';
+import PageReportes from '../components/reportes/PageReportes';
 import PageReportesAdministrativos from '../components/reportes/PageReportesAdministrativos';
+import PageVerReportesAdministrativos from '../components/reportes/PageVerReportesAdministrativos';
+import PageVerReportesEmpleado from '../components/reportes/PageVerReportesEmpleado';
 import PageSolicitudes from '../components/solicitudes/PageSolicitudes';
 import PageSolicitudFalta from '../components/solicitudes/PageSolicitudFalta';
 import PageSolicitudIncapacidad from '../components/solicitudes/PageSolicitudIncapacidad';
@@ -95,7 +102,7 @@ const AppRouter = () => {
 									<Route path='vacaciones/' element={<PageSolicitudVacaciones />} />
 								</Route>
 								<Route path='misreportes/' element={<PageMisReportes />} />
-								<Route path='horasextras/' element={<h1>Horas Extras</h1>} />
+								<Route path='horasextras/' element={<PageAutorizarHorasExtras />} />
 
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
@@ -107,7 +114,13 @@ const AppRouter = () => {
 										<Route path='controlhorario' element={<PageControlHorario />} />
 										<Route path='*' element={<NotFound />} />
 									</Route>
-									<Route path='reportes/' element={<h1>Ver Reportes</h1>} />
+									<Route path='reportes/' element={<PageReportes />}>
+										<Route index element={<PageVerReportesEmpleado />} />
+										<Route
+											path='administrativos'
+											element={<PageVerReportesAdministrativos />}
+										/>
+									</Route>
 									<Route path='empresa/' element={<EmpresaPage />}>
 										<Route index element={<EmpresaDetalles />} />
 										<Route path='horarios' element={<PageEmpresaSchedule />} />
@@ -123,7 +136,10 @@ const AppRouter = () => {
 								</Route>
 								{/* Rutas para Jefe de Cuadrilla y Administrador */}
 								<Route element={<RequireSupervisorAndAdminPrivileges />}>
-									<Route path='solicitarhoras/' element={<h1>Solicitar horas</h1>} />
+									<Route path='solicitarhoras/' element={<PageHorasExtras />}>
+										<Route index element={<PageSolicitudHorasExtras />} />
+										<Route path='historial' element={<PageHistorialHorasExtras />} />
+									</Route>
 									<Route path='autorizaciones/' element={<PageAutorizaciones />} />
 									<Route
 										path='reportesadministrativos/'

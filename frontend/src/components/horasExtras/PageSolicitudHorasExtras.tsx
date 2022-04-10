@@ -1,0 +1,192 @@
+import React from 'react';
+
+const PageSolicitudHorasExtras = () => {
+	const handdleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('enviando');
+	};
+	return (
+		<>
+			<div className='d-flex flex-column justify-content-center pt-4 p-4'>
+				<div className='d-flex flex-column align-items-center'>
+					<div className='d-flex '>
+						<div>
+							<i
+								style={{ fontSize: '3rem', color: 'var(--colorSecondary)' }}
+								className='bi bi-stopwatch'
+							/>
+						</div>
+						<div className='d-flex flex-column align-items-center custm-width100'>
+							<div
+								className='text-center fs-5 textColorLight'
+								style={{ maxWidth: '400px' }}
+							>
+								Aquí puedes realizar la solicitud de horas extras a tus empleados.
+							</div>
+							<div style={{ color: 'var(--textColorLink)' }}>____________</div>
+						</div>
+					</div>
+
+					<div className='d-flex flex-column align-items-center custm-PageHistoryContainer mt-4'>
+						<div className='d-flex justify-content-center custm-Width100 p-1'>
+							<div className='textColorSecondary fs-5'>Nueva solicitud</div>
+						</div>
+						{/* Inicio */}
+						<form
+							onSubmit={handdleSubmit}
+							className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'
+						>
+							{/* Derecha */}
+							<div className='d-flex flex-column  custmContainer50pading custm-solicitudContaiter50'>
+								<div className='d-flex flex-column mb-4 mt-1'>
+									<label htmlFor='employeeDataList' className='pt-2 textColorSecondary'>
+										Empleado*
+									</label>
+									<input
+										className='form-control custm-empleadoFormIntput'
+										list='datalistOptions'
+										id='exampleDataList'
+										placeholder='Nombre de un empleado...'
+										// onChange={handleInputChange}
+										// disabled={!horasLabValue}
+										// value={tipoDeHorario}
+										// disabled={!infoBasicavalue}
+									/>
+									<datalist id='datalistOptions'>
+										<option value='Ivan Ojendis' />
+										<option value='Ivan Hernandez' />
+										<option value='Miguel Soleto' />
+										<option value='Ruben Gonzales' />
+										<option value='Rubi Maldonado' />
+									</datalist>
+								</div>
+								<div className='d-flex textColorSecondary mt-3'>
+									<div style={{ width: '40%' }}>Fecha de asignación:</div>
+									<div style={{ width: '60%' }}>
+										<input
+											className='form-control  custm-empleadoFormIntput'
+											type='date'
+										/>
+									</div>
+								</div>
+								<div className='d-flex textColorSecondary mt-3'>
+									<div style={{ width: '40%' }}>Hora de asignación:</div>
+									<div style={{ width: '60%' }}>
+										<input
+											className='form-control  custm-empleadoFormIntput'
+											type='time'
+										/>
+									</div>
+								</div>
+								<div className='d-flex textColorSecondary mt-3'>
+									<div style={{ width: '40%' }}>Lugar de asignación:</div>
+									<div style={{ width: '60%' }}>
+										<input
+											className='form-control  custm-empleadoFormIntput'
+											type='text'
+										/>
+									</div>
+								</div>
+							</div>
+							{/* Izquierda */}
+							<div className='custm-solicitudContaiter50 d-flex justify-content-center'>
+								<div className='mt-5'>
+									<div className='d-flex flex-column align-items-center'>
+										<label className='textColorLight custm-Width100 ms-5'>Detalle*</label>
+										<textarea
+											// form='usrform'
+											className='form-control  custm-empleadoFormIntput'
+											style={{ width: '90%' }}
+											rows={6}
+											cols={50}
+											name='descriptionRespuesta'
+											placeholder='Escribe un detalle breve.'
+										></textarea>
+									</div>
+									<div className='d-flex justify-content-end mt-4 me-4'>
+										<button type='submit' className='custm-btnFormSubmit inputSubmit'>
+											Enviar
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						{/* Tabla */}
+						<div className='custm-tableEmpleados mt-3' style={{ width: '90%' }}>
+							<div className='table-responsive'>
+								<table className='table table align-middle'>
+									<thead className=''>
+										<tr>
+											<th scope='col'>
+												<div className='d-flex justify-content-center'>
+													Solicitud enviada
+												</div>
+											</th>
+											<th scope='col'>
+												<div className='d-flex justify-content-center'>Nombre</div>
+											</th>
+											<th scope='col'>
+												<div className='d-flex justify-content-center'>Apellidos</div>
+											</th>
+											<th scope='col'>
+												<div className='d-flex justify-content-center'>Correo</div>
+											</th>
+											<th scope='col'>
+												<div className='d-flex justify-content-center'>
+													Lugar de trabajo
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr style={{ height: '4rem' }}>
+											<th scope='row'>
+												<div className='d-flex align-items-center justify-content-center text-center'>
+													<i
+														className='bi bi-check-circle-fill fs-4'
+														style={{ color: 'var(--colorVerde)' }}
+													/>
+												</div>
+											</th>
+
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<span>Ivan</span>
+												</div>
+											</td>
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<span>Santana Santana</span>
+												</div>
+											</td>
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<span>ivan.santana@testt.com</span>
+												</div>
+											</td>
+											<td>
+												<div className='d-flex align-items-center justify-content-center'>
+													<span>Lugar 2</span>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div
+							className='d-flex justify-content-end mt-4 mb-5  custm-Width100'
+							style={{ width: '90%' }}
+						>
+							<button className='btn p-2 ps-3 pe-3 custm-empleadoFormSubmit'>
+								Limpiar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default PageSolicitudHorasExtras;

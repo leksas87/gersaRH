@@ -61,4 +61,7 @@
 		min-width: 200px;
 		width: 100%;
 	}
+	.custm-PageHistoryContainer {
+		width: auto;
+	}
 }

@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
-const PageReportes = () => {
+const PageHorasExtras = () => {
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
 	return (
@@ -11,7 +11,7 @@ const PageReportes = () => {
 					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
 				>
 					<div className='fs-4 textColorSecondary'>
-						<span className='text-capitalize'>Reportes</span>
+						<span className='text-capitalize'>Solicitar horas extras</span>
 					</div>
 				</div>
 				{/* Navbar */}
@@ -19,17 +19,17 @@ const PageReportes = () => {
 					className='d-flex justify-content-center align-items-center p-3'
 					style={{ borderBottom: '1px solid var(--textColorDisable)' }}
 				>
-					{pathname === '/reportes' ? (
+					{pathname === '/solicitarhoras' ? (
 						<NavLink
-							to={`/reportes/`}
+							to={`/solicitarhoras/`}
 							// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
 							className='fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
 						>
-							Reportes Empleados
+							Solicitud de horas extras
 						</NavLink>
 					) : (
 						<NavLink
-							to={`/reportes/`}
+							to={`/solicitarhoras/`}
 							// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
 							className={({ isActive }) =>
 								isActive
@@ -37,19 +37,19 @@ const PageReportes = () => {
 									: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
 							}
 						>
-							Reportes Empleados
+							Solicitud de horas extras
 						</NavLink>
 					)}
 
 					<NavLink
-						to={`/reportes/administrativos`}
+						to={`/solicitarhoras/historial`}
 						className={({ isActive }) =>
 							isActive
 								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
 								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
 						}
 					>
-						Reportes Administrativos
+						Historial de horas extras
 					</NavLink>
 				</nav>
 				{/* Contenido */}
@@ -61,4 +61,4 @@ const PageReportes = () => {
 	);
 };
 
-export default PageReportes;
+export default PageHorasExtras;
