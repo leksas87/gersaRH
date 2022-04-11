@@ -338,7 +338,8 @@ async function getEmployeeById(id) {
 
 async function getEmployeeScheduleById(id,res) {
     try {
-        const employee = await models.Employee.findOne({where:{userId:id},include:'schedule'});
+        
+        const employee = await models.Employee.findOne({where:{id:id},include:'schedule'});
     
         if (!employee)  throw new Error('Empleado no encontrado');
 
