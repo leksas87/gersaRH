@@ -29,7 +29,8 @@ module.exports = {
     createTimeRequest,
     getEmployeesOfJc,
     getTimeRequest,
-    getTimeRequestByEmployeeId
+    getTimeRequestByEmployeeId,
+    getRequestByEmployeeId
 };
 
 async function createReport(params, id,next){
@@ -59,6 +60,22 @@ async function getTimeRequestByEmployeeId(id,res) {
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
 
         return TimeRequests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function getRequestByEmployeeId(id,res) {
+    try {
+        //const TimeRequests = await models.TimeRequest.findByPk(id);
+        const Requests = await models.Request.findAll({where:{employeeId:id}});
+
+        console.log(Requests.length); 
+
+        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+
+        return Requests;
 
     } catch (error) {
         return res.status(404).json({ message: error.message});

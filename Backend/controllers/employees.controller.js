@@ -9,6 +9,7 @@ const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
+const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
 //const { forbidden } = require('joi');
@@ -119,6 +120,12 @@ router.post(
 	registerSchemaRequest,
 	registerRequest
 );
+router.get(
+	'/:id/request',
+	authorize(),
+	forbiddenGetUnique(),
+	getRequestByEmployeeId
+);
 
 router.post(
 	'/:id/reports',
@@ -151,6 +158,12 @@ function registerSchemaReport(req, res, next) {
 function getTimeRequestByEmployeeId(req, res, next) {
 	employeeService
 		.getTimeRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+function getRequestByEmployeeId(req, res, next) {
+	employeeService
+		.getRequestByEmployeeId(req.params.id, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
