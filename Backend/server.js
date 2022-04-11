@@ -14,7 +14,7 @@ global.__basedir = __dirname ;
 app.use('/api/users', require('./controllers/users.controller'));
 app.use('/api/employees', require('./controllers/employees.controller'));
 app.use('/api/contracts', require('./controllers/contracts.controller'));
-app.use('/api/workPlaces', require('./controllers/workPlaces.controller'));
+//app.use('/api/check', require('./controllers/checks.controller'));
 app.use('/api/event', require('./controllers/event.controller'));
 app.use('/api/eventType', require('./controllers/eventType.controller'));
 app.use('/api/schedules', require('./controllers/schedules.controller'));

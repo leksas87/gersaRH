@@ -13,7 +13,7 @@ const UserSchema = {
   phone:{type:DataTypes.STRING,allowNull:false},
   active:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
   hash: { type: DataTypes.STRING, allowNull: false ,defaultValue:''},
-  rollTypeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:ROLLTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  roll: {type: DataTypes.INTEGER,allowNull:true,references:{model:ROLLTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   confirmationCode: { type: DataTypes.STRING, unique: true },
   isEmployeeActive:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:true},
 }
