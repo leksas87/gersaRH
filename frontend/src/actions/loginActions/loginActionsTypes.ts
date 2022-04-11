@@ -9,7 +9,7 @@ export type Usuario = {
 	id: string;
 	firstName: string;
 	lastName: string;
-	roll: number;
+	rollTypeId: number;
 	token: string;
 };
 //Cargando

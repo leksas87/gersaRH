@@ -39,6 +39,7 @@ export const startLogin = (email: string, password: string) => {
 				localStorage.setItem('gersaUserName', body.data.username);
 				//Se asugna el cuerpo de la respuesta a usuario
 				const usuario: Usuario = body.data;
+
 				//dispatch que guarda al usuario obtenido en el reducer
 				dispatch({
 					type: AUTH_SUCCESS,

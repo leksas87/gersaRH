@@ -4,7 +4,7 @@ import { RootSote } from '../store/Store';
 
 export const RequireSupervisorAndAdminPrivileges = () => {
 	//Senecesita el state que indica si el usuario está autenticado o no
-	const { roll } = useSelector((state: RootSote) => state.auth);
+	const { rollTypeId: roll } = useSelector((state: RootSote) => state.auth);
 
 	// isAdmin
 	const isAdmin: number | null = roll;

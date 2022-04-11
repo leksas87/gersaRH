@@ -186,11 +186,19 @@ const PageEmpleadoPerfil = () => {
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										// placeholder={perfilEmpleado.lugarDeTrabajo}
+										list='datalistOptions'
 										value={lugarDeTrabajo}
 										name='lugarDeTrabajo'
 										onChange={handleInputChange}
 										disabled={!value}
 									/>
+									<datalist id='datalistOptions'>
+										<option value='1'>tultitlan</option>
+										<option value='2'>Adidas</option>
+										<option value='3'>Adidas</option>
+										<option value='4'>Adidas</option>
+										<option value='5'>Adidas</option>
+									</datalist>
 								</div>
 								<div
 									className='d-flex justify-content-end custm-Width100'
