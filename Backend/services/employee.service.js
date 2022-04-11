@@ -25,11 +25,31 @@ module.exports = {
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
     createRequest,
+    createReport,
     createTimeRequest,
     getEmployeesOfJc,
     getTimeRequest,
     getTimeRequestByEmployeeId
 };
+
+async function createReport(params, id,next){
+    try {
+        const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
+
+        const report = await models.Reports.create({
+                                                    employeeId:id,
+                                                    fechaCreacion:fechaCreacion,
+                                                    descripcionEmpleado:params.descripcionEmpleado,
+                                                    asunto:params.asunto,
+                                                    anonimo:params.anonimo
+                                                });
+        
+        return report;
+    } catch (error) {
+        next(`Error de validación: ${error}`);
+    }
+        
+}
 
 async function getTimeRequestByEmployeeId(id,res) {
     try {
@@ -57,7 +77,7 @@ async function getTimeRequest(req,res) {
             const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
-        }else{
+        }else if(req.user.rollTypeId === 3){
             const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
