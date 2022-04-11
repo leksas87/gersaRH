@@ -5,6 +5,7 @@ import { LogInReducer } from './LogInReducer';
 import { PassReducer } from './PassReducer';
 import { UsersReducer } from './UsersReducer';
 import { SchedulesReducer } from './SchedulesReducer';
+import { RequestReducer } from './RequestReducer';
 
 //Todos los reducer se unen aquí
 export const rootReducer = combineReducers({
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
 	contracts: ContractsReducer,
 	events: EventsReducer,
 	schedules: SchedulesReducer,
+	request: RequestReducer,
 });

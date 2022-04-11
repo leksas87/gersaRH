@@ -1,15 +1,57 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewRequest } from '../../actions/requestActions/requestActions';
 import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
 
 const ModalNuevaSolicitudFalta = () => {
-	const loading = false;
+	//dispatch para ejecutar Actions
+	const dispatch = useDispatch();
+
+	//Senecesita el state que indica  el perfilEmpleado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { registerState } = useSelector((state: RootSote) => state.request);
+	//objeto user para formulario Registro
+	const newRequest = {
+		fechaFin: '',
+		fechaInicio: '',
+		descripcionEmpleado: '',
+		statusId: 1,
+		employeeId: perfilEmpleado.id,
+		requestTypeId: 1,
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newRequest);
+
+	//Desestructuracion de propiedades
+	const { fechaFin, fechaInicio, descripcionEmpleado } = formValues;
+
 	// useForm para el inputFile
-	const [formValues, onchange] = useForm({
+	const [formInputfileValues, onchange] = useForm({
 		uploadfile: '',
 	});
-	const { uploadfile } = formValues;
+	const { uploadfile } = formInputfileValues;
+
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('enviando');
+		if (perfilEmpleado.id) {
+			dispatch(
+				registerNewRequest(
+					{
+						fechaFin: fechaFin,
+						fechaInicio: fechaInicio,
+						descripcionEmpleado: descripcionEmpleado,
+						statusId: 1,
+						employeeId: perfilEmpleado.id,
+						requestTypeId: 3,
+						adjunto: 'EXAMPLEUrl-q1231312dsd',
+					},
+					perfilEmpleado.id,
+					'modalSolicitudIncapacidad'
+				)
+			);
+		} else {
+			console.log('Error falta userId');
+		}
 	};
 	return (
 		<>
@@ -85,8 +127,9 @@ const ModalNuevaSolicitudFalta = () => {
 														type='date'
 														// placeholder={perfilEmpleado.ciudad}
 														name='fechaInicio'
-														// value={scheduleName}
-														// onChange={handleInputChange}
+														value={fechaInicio}
+														onChange={handleInputChange}
+														required
 													/>
 												</div>
 												<div>
@@ -99,8 +142,9 @@ const ModalNuevaSolicitudFalta = () => {
 														type='date'
 														// placeholder={perfilEmpleado.codigoPostal.toString()}
 														name='fechaFin'
-														// value={horaEntrada}
-														// onChange={handleInputChange}
+														value={fechaFin}
+														onChange={handleInputChange}
+														required
 													/>
 												</div>
 											</div>
@@ -115,7 +159,10 @@ const ModalNuevaSolicitudFalta = () => {
 													rows={4}
 													cols={50}
 													name='descripcionEmpleado'
+													value={descripcionEmpleado}
+													onChange={handleInputChange}
 													placeholder='Escribe un breve detalle.'
+													required
 												></textarea>
 											</div>
 											<div
@@ -149,8 +196,8 @@ const ModalNuevaSolicitudFalta = () => {
 											)} */}
 											<div className='d-flex justify-content-end mt-4'>
 												{/* {!registerState.loading ? ( */}
-												{!loading ? (
-													<button className='custm-btnFormSubmit inputSubmit'>
+												{!registerState.loading ? (
+													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 														Enviar solicitud
 													</button>
 												) : (
