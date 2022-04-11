@@ -22,12 +22,7 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
-router.get(
-	'/timeRequest',
-	authorize(),
-	forbiddenGet(),
-	getTimeRequest
-);
+router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
@@ -106,6 +101,7 @@ router.patch(
 	updateSchemaTimeRequests,
 	updateTimeRequests
 );
+router.get('/:id/timeRequest',authorize(),forbiddenGet(), getTimeRequestByEmployeeId);
 
 
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
@@ -124,9 +120,40 @@ router.post(
 	registerRequest
 );
 
+router.post(
+	'/:id/reports',
+	authorize(),
+	registerSchemaReport,
+	registerReport
+);
+
 
 
 module.exports = router;
+
+function registerReport(req, res, next) {
+	employeeService
+		.createReport(req.body, req.params.id, next)
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.catch(next);
+}
+
+function registerSchemaReport(req, res, next) {
+	const schema = Joi.object({
+		descripcionEmpleado: Joi.string().required(),
+		employeeId: Joi.number().integer().required(),
+		asunto: Joi.string().required(),
+		anonimo: Joi.boolean().required(),
+	});
+	validateRequest(req, next, schema);
+}
+
+function getTimeRequestByEmployeeId(req, res, next) {
+	employeeService
+		.getTimeRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
 
 function getTimeRequest(req, res, next) {
 	employeeService

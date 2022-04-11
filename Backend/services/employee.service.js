@@ -25,10 +25,46 @@ module.exports = {
     getEmployeeScheduleById,
     deleteEmployeeScheduleById,
     createRequest,
+    createReport,
     createTimeRequest,
     getEmployeesOfJc,
-    getTimeRequest
+    getTimeRequest,
+    getTimeRequestByEmployeeId
 };
+
+async function createReport(params, id,next){
+    try {
+        const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
+
+        const report = await models.Reports.create({
+                                                    employeeId:id,
+                                                    fechaCreacion:fechaCreacion,
+                                                    descripcionEmpleado:params.descripcionEmpleado,
+                                                    asunto:params.asunto,
+                                                    anonimo:params.anonimo
+                                                });
+        
+        return report;
+    } catch (error) {
+        next(`Error de validación: ${error}`);
+    }
+        
+}
+
+async function getTimeRequestByEmployeeId(id,res) {
+    try {
+        //const TimeRequests = await models.TimeRequest.findByPk(id);
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id}});
+
+        if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
+
+        return TimeRequests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
 
 async function getTimeRequest(req,res) {
     try {
@@ -41,7 +77,7 @@ async function getTimeRequest(req,res) {
             const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
-        }else{
+        }else if(req.user.rollTypeId === 3){
             const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
@@ -322,7 +358,8 @@ async function getEmployeeById(id) {
 
 async function getEmployeeScheduleById(id,res) {
     try {
-        const employee = await models.Employee.findOne({where:{userId:id},include:'schedule'});
+        
+        const employee = await models.Employee.findOne({where:{id:id},include:'schedule'});
     
         if (!employee)  throw new Error('Empleado no encontrado');
 
