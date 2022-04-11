@@ -34,7 +34,7 @@ const ChecadorPage = () => {
 				getEmployeeEvents(userConfirmation.employeeId, userConfirmation.token)
 			);
 		}
-	}, []);
+	}, [dispatch, userConfirmation.employeeId, userConfirmation.token]);
 
 	//Efecto que determina que botones del checador activar
 	useEffect(() => {
@@ -102,8 +102,29 @@ const ChecadorPage = () => {
 			<button className=' btn custm-arrowLeft' onClick={navigateCheck}>
 				<i className='bi bi-arrow-left' />
 			</button>
+
+			{/* Horas Extras Boton */}
+			<button
+				style={{ position: 'absolute', right: '0px', top: '0px' }}
+				className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
+				// disabled
+				// onClick={registerEvent}
+			>
+				<div className='custm-btnCheckHE custm-btnCheckIn d-flex justify-content-center align-items-center'>
+					<i className='bi bi-stopwatch-fill textColorSecondary' />
+				</div>
+				<div className='fs-2 fw-bold textColorSecondary'>
+					Horas
+					<br /> Extras
+				</div>
+			</button>
+
 			<div className='d-flex mb-4'>
-				<img width='290px' src='\assets\gersaLogo.svg' alt='gersa-logo' />
+				<img
+					className='custm-imgLogo'
+					src='\assets\gersaLogo.svg'
+					alt='gersa-logo'
+				/>
 			</div>
 			<div className='d-flex flex-column align-items-center lh-sm'>
 				<div className='fs-2 fw-bold textColorSecondary'>¡Bienvenido!</div>

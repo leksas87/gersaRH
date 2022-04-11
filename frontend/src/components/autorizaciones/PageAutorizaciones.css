@@ -1,0 +1,32 @@
+.custm-solicitudContaiter50 {
+	width: 50%;
+	min-width: 300px;
+}
+.custm-btnAccept {
+	background-color: var(--colorVerde);
+	color: var(--colorPrimary);
+	min-width: 130px;
+}
+.custm-btnDeny {
+	background-color: var(--textColorError2);
+	color: var(--colorPrimary);
+	min-width: 130px;
+}
+.custm-UnderLineSectionDark {
+	border-bottom: 1px solid var(--colorSecondary);
+}
+
+.custmContainer50pading {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+@media (max-width: 991px) {
+	.custm-solicitudContaiter50 {
+		width: 100%;
+	}
+	.custmContainer50pading {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+}

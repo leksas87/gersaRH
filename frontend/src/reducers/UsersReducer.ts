@@ -11,6 +11,10 @@ import {
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
 	CHANGE_ROLL_TO_USER_BY_ID,
+	GET_SUPERVISORES,
+	CLEAN_SUPERVISORES,
+	GET_ADMINISTRADORES,
+	CLEAN_ADMINISTRADORES,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -58,6 +62,8 @@ const INITIAL_STATE: iUsuariosReducer = {
 		fechaAltaImss: '',
 	},
 	tablePath: '',
+	supervisores: [],
+	administradores: [],
 };
 
 //Reducer
@@ -130,6 +136,26 @@ export const UsersReducer = (
 			return {
 				...state,
 				perfilEmpleado: { ...action.payload.empleadoData },
+			};
+		case GET_SUPERVISORES:
+			return {
+				...state,
+				supervisores: [...action.payload.supervisores],
+			};
+		case CLEAN_SUPERVISORES:
+			return {
+				...state,
+				supervisores: INITIAL_STATE.supervisores,
+			};
+		case GET_ADMINISTRADORES:
+			return {
+				...state,
+				administradores: [...action.payload.administradores],
+			};
+		case CLEAN_ADMINISTRADORES:
+			return {
+				...state,
+				administradores: INITIAL_STATE.administradores,
 			};
 
 		default:

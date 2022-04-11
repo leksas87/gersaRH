@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import Swal from 'sweetalert2';
+import { axiosClientWithToken } from '../../helpers/axios';
 import { fetchConToken } from '../../helpers/fetch';
 import {
 	CLEAN_CONTRACTS,
@@ -18,32 +19,99 @@ import {
 export const getContracts = (userId: string) => {
 	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
 		//se limpia el array de contratos.
 		dispatch<any>(cleanContracts());
 		dispatch<any>(cleanContractToshow());
 		//Peticion Fetch a la API para hacer obtener los contratos
 		// const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
-		const respuesta = await fetchConToken(
-			`employees/${userId}/contracts`,
-			{},
-			'GET'
-		);
-		//.json() a la respuesta
-		const body = await respuesta?.json();
 
-		if (body.ok) {
-			//Se guarda los contratos obtenidos en el Reducer
-			dispatch({ type: GET_CONTRACTS, payload: { contratos: body.data } });
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${userId}/contracts`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//Se guarda los contratos obtenidos en el Reducer
+					dispatch({
+						type: GET_CONTRACTS,
+						payload: { contratos: respuesta.data.data },
+					});
 
-			//Buscar contrato activo
-			const found = body.data.find(
-				(elemento: iContract) => elemento.isContractActivide === true
-			);
-			// Guardar contrato activo
-			dispatch<any>(getContractToShow(found));
-		} else {
-			console.log(body.message);
-		}
+					//Buscar contrato activo
+					const found = respuesta.data.data.find(
+						(elemento: iContract) => elemento.isContractActivide === true
+					);
+					// Guardar contrato activo
+					dispatch<any>(getContractToShow(found));
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+
+		// --------------------------
+		// const respuesta = await fetchConToken(
+		// 	`employees/${userId}/contracts`,
+		// 	{},
+		// 	'GET'
+		// );
+		// //.json() a la respuesta
+		// const body = await respuesta?.json();
+		// console.log(body);
+
+		// if (body.ok) {
+		// 	//Se guarda los contratos obtenidos en el Reducer
+		// 	dispatch({ type: GET_CONTRACTS, payload: { contratos: body.data } });
+
+		// 	//Buscar contrato activo
+		// 	const found = body.data.find(
+		// 		(elemento: iContract) => elemento.isContractActivide === true
+		// 	);
+		// 	// Guardar contrato activo
+		// 	dispatch<any>(getContractToShow(found));
+		// } else {
+		// 	console.log(body.message);
+		// }
 	};
 };
 const cleanContracts = () => {
