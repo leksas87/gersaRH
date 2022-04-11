@@ -10,6 +10,10 @@ import {
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
 	CHANGE_ROLL_TO_USER_BY_ID,
+	CLEAN_SUPERVISORES,
+	GET_SUPERVISORES,
+	CLEAN_ADMINISTRADORES,
+	GET_ADMINISTRADORES,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -127,18 +131,76 @@ export const getUserById = (id: string) => {
 //(GET) Obtener Empleado por ID
 export const getEmployeeById = (id: string) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para obtener los usuarios
-		const respuesta = await fetchConToken(`employees/${id}`, {}, 'GET');
-		//.json() a la respuesta
-		const body = await respuesta?.json();
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
 
-		if (body.ok) {
-			//Se guarda los usuarios obtenidos en el Reducer
-			dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
-		} else {
-			console.log('Algo salio mal');
-			console.log(body.message);
-		}
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//Se guarda los usuarios obtenidos en el Reducer
+					dispatch({
+						type: GET_EMPLOYEE_BY_ID,
+						payload: { empleadoData: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+
+		//Peticion Fetch a la API para obtener los usuarios
+		// const respuesta = await fetchConToken(`employees/${id}`, {}, 'GET');
+		// //.json() a la respuesta
+		// const body = await respuesta?.json();
+
+		// if (body.ok) {
+		// 	//Se guarda los usuarios obtenidos en el Reducer
+		// 	dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
+		// } else {
+		// 	console.log('Algo salio mal');
+		// 	console.log(body.message);
+		// }
 	};
 };
 
@@ -460,31 +522,69 @@ export const sendInvitationsMassive = () => {
 //(PUT -Employee ) Modificar datos del usuario
 export const updateEmployeeById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para modificar el accesso
-		const respuesta = await fetchConToken(`employees/${id}`, formData, 'PUT');
-		//.json() a la respuesta
-		const body = await respuesta?.json();
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
 
-		if (body.ok) {
-			//Se hace la modificacion del usuario en el Reducer
-			dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Registro exitoso!',
-				showConfirmButton: false,
-				timer: 2000,
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.put(`employees/${id}`, formData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: GET_EMPLOYEE_BY_ID,
+						payload: { empleadoData: respuesta.data.data },
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: '¡Registro exitoso!',
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 //(PUT -users ) Modificar datos del usuario
@@ -515,5 +615,79 @@ export const updateUserById = (id: number, formData: {}) => {
 				timer: 1500,
 			});
 		}
+	};
+};
+
+//(GET - Employee-> Roll 3  ) Obtener empleados con el roll 3 administrador
+export const getEmployeeByRollType = (rollTypeId: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Se Limpia el reducer el Reducer
+		dispatch({ type: CLEAN_SUPERVISORES });
+		dispatch({ type: CLEAN_ADMINISTRADORES });
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees?tipo=${rollTypeId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					if (rollTypeId === 3) {
+						//Se guarda la respuesta en el Reducer
+						dispatch({
+							type: GET_SUPERVISORES,
+							payload: { supervisores: respuesta.data.employee },
+						});
+					} else if (rollTypeId === 1) {
+						//Se guarda la respuesta en el Reducer
+						dispatch({
+							type: GET_ADMINISTRADORES,
+							payload: { administradores: respuesta.data.employee },
+						});
+					}
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
 	};
 };

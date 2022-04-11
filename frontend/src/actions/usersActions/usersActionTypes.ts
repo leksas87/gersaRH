@@ -10,6 +10,10 @@ export const REMOVE_ADMIN_USER_BY_ID = 'removeAdminUsersByID';
 export const CHANGE_ROLL_TO_USER_BY_ID = 'changeRollToUsersByID';
 export const TERMINATE_USER_BY_ID = 'terminateUsersByID';
 export const CHANGE_TABLE_PATH = 'changeTablePath';
+export const GET_SUPERVISORES = 'getSupervisores';
+export const CLEAN_SUPERVISORES = 'cleanSupervisores';
+export const GET_ADMINISTRADORES = 'getAdministradores';
+export const CLEAN_ADMINISTRADORES = 'cleanAdministradores';
 
 //Usuario que se recibe del fetch al ahcer logIn
 //En realidad esta interfaz es usuario
@@ -23,6 +27,22 @@ export interface iEmpleado {
 	roll: number;
 	rollTypeId: number;
 	isEmployeeActive: boolean;
+}
+//interfaz Supervisor
+export interface iSupervisor {
+	User: {
+		firstName: string;
+		lastName: string;
+	};
+	id: number;
+}
+//interfaz Administrador
+export interface iAdministrador {
+	User: {
+		firstName: string;
+		lastName: string;
+	};
+	id: number;
 }
 export interface iEmployeeData {
 	ciudad: string;
@@ -64,6 +84,28 @@ export interface GetUsersSuccesful {
 	payload: {
 		empleados: iEmpleado[];
 	};
+}
+//Obtener Supervisores
+export interface GetSupervisores {
+	type: typeof GET_SUPERVISORES;
+	payload: {
+		supervisores: iSupervisor[];
+	};
+}
+//Limpiar Supervisores
+export interface CleanSupervisores {
+	type: typeof CLEAN_SUPERVISORES;
+}
+//Obtener Supervisores
+export interface GetAdministradores {
+	type: typeof GET_ADMINISTRADORES;
+	payload: {
+		administradores: iAdministrador[];
+	};
+}
+//Limpiar Supervisores
+export interface CleanAdministradores {
+	type: typeof CLEAN_ADMINISTRADORES;
 }
 //Obtener Usuario por ID
 export interface GetUsersByID {
@@ -120,4 +162,8 @@ export type UsersDispatchTypes =
 	| ChangeRollToUsersByID
 	| ChangeTablePath
 	| GetEmployeesByID
+	| GetSupervisores
+	| CleanSupervisores
+	| GetAdministradores
+	| CleanAdministradores
 	| GetUsersByID;

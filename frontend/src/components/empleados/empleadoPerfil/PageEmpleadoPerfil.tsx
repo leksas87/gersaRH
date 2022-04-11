@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	getEmployeeByRollType,
 	resendInvitationByuserName,
 	updateEmployeeById,
 	updateUserById,
@@ -10,9 +11,11 @@ import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
-	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilUsuario, perfilEmpleado, administradores, supervisores } =
+		useSelector((state: RootSote) => state.users);
+
+	const jefes = administradores.concat(supervisores);
+
 	//Dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 
@@ -40,6 +43,11 @@ const PageEmpleadoPerfil = () => {
 			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
 		});
 	}, [perfilUsuario, perfilEmpleado]);
+
+	useEffect(() => {
+		dispatch(getEmployeeByRollType(3));
+		dispatch(getEmployeeByRollType(1));
+	}, [dispatch]);
 
 	const handleInputChange = (event: any) => {
 		setValues({
@@ -123,7 +131,7 @@ const PageEmpleadoPerfil = () => {
 							<form style={{ width: '90%' }} onSubmit={handlesubmit}>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Reporta a</label>
-									<input
+									{/* <input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										// placeholder={perfilEmpleado.supervisor}
@@ -131,7 +139,21 @@ const PageEmpleadoPerfil = () => {
 										value={supervisor}
 										onChange={handleInputChange}
 										disabled={!value}
-									/>
+									/> */}
+									<select
+										className='form-select  custm-Width100 custm-empleadoFormIntput'
+										name='supervisor'
+										value={supervisor}
+										onChange={handleInputChange}
+										disabled={!value}
+									>
+										<option value=''>Selecciona una opcion</option>
+										{jefes.map((jefe) => (
+											<option key={jefe.id} value={jefe.id}>
+												{jefe.User.firstName} {jefe.User.lastName}
+											</option>
+										))}
+									</select>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>

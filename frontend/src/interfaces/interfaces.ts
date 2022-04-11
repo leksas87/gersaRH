@@ -1,6 +1,8 @@
 import {
+	iAdministrador,
 	iEmpleado,
 	iEmployeeData,
+	iSupervisor,
 } from '../actions/usersActions/usersActionTypes';
 
 //Auth Interfaces
@@ -40,6 +42,8 @@ export interface iUsuariosReducer {
 	perfilUsuario: iEmpleado;
 	perfilEmpleado: iEmployeeData;
 	tablePath: string;
+	supervisores: iSupervisor[];
+	administradores: iAdministrador[];
 }
 //Interface de confirmacion contraseña
 export interface iConfirmarContraseña {
