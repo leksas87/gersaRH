@@ -341,7 +341,6 @@ async function getEmployeeScheduleById(id,res) {
         
         const employee = await models.Employee.findOne({where:{id:id},include:'schedule'});
     
-        console.log(employee);
         if (!employee)  throw new Error('Empleado no encontrado');
 
         if (employee.schedule.length==0) throw new Error('Empleado sin registro de horario');
