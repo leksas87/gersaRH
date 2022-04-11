@@ -120,9 +120,33 @@ router.post(
 	registerRequest
 );
 
+router.post(
+	'/:id/reports',
+	authorize(),
+	registerSchemaReport,
+	registerReport
+);
+
 
 
 module.exports = router;
+
+function registerReport(req, res, next) {
+	employeeService
+		.createReport(req.body, req.params.id, next)
+		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.catch(next);
+}
+
+function registerSchemaReport(req, res, next) {
+	const schema = Joi.object({
+		descripcionEmpleado: Joi.string().required(),
+		employeeId: Joi.number().integer().required(),
+		asunto: Joi.string().required(),
+		anonimo: Joi.boolean().required(),
+	});
+	validateRequest(req, next, schema);
+}
 
 function getTimeRequestByEmployeeId(req, res, next) {
 	employeeService
