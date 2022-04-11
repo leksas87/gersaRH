@@ -1,6 +1,6 @@
 const { User, UserSchema } = require('./user.model');
 const { Employee, EmployeeSchema } = require('./employee.model');
-//const { Check,CheckSchema }=require('./check.model');
+const { Reports,ReportSchema }=require('./report.model');
 const { Event,EventSchema }=require('./event.model');
 const { EventType, EventTypeSchema }=require('./eventType.model');
 const { RollType, RollTypeSchema }=require('./rollType.model');
@@ -16,7 +16,7 @@ const { RequestType, RequestTypeSchema } = require('./requestType.model');
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
   Employee.init(EmployeeSchema, Employee.config(sequelize));
-  //Check.init(CheckSchema,Check.config(sequelize));
+  Reports.init(ReportSchema,Reports.config(sequelize));
   Contract.init(ContractSchema, Contract.config(sequelize));
   Event.init(EventSchema,Event.config(sequelize));
   EventType.init(EventTypeSchema,EventType.config(sequelize));
@@ -35,6 +35,7 @@ function setupModels(sequelize) {
   Contract.associate(sequelize.models);
   Request.associate(sequelize.models);
   TimeRequest.associate(sequelize.models);
+  Reports.associate(sequelize.models);
 
 }
 
