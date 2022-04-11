@@ -22,12 +22,7 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
-router.get(
-	'/timeRequest',
-	authorize(),
-	forbiddenGet(),
-	getTimeRequest
-);
+router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
@@ -106,6 +101,7 @@ router.patch(
 	updateSchemaTimeRequests,
 	updateTimeRequests
 );
+router.get('/:id/timeRequest',authorize(),forbiddenGet(), getTimeRequestByEmployeeId);
 
 
 router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
@@ -127,6 +123,13 @@ router.post(
 
 
 module.exports = router;
+
+function getTimeRequestByEmployeeId(req, res, next) {
+	employeeService
+		.getTimeRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
 
 function getTimeRequest(req, res, next) {
 	employeeService

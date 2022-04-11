@@ -27,8 +27,24 @@ module.exports = {
     createRequest,
     createTimeRequest,
     getEmployeesOfJc,
-    getTimeRequest
+    getTimeRequest,
+    getTimeRequestByEmployeeId
 };
+
+async function getTimeRequestByEmployeeId(id,res) {
+    try {
+        //const TimeRequests = await models.TimeRequest.findByPk(id);
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id}});
+
+        if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
+
+        return TimeRequests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
 
 async function getTimeRequest(req,res) {
     try {
