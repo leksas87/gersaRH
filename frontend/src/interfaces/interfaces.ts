@@ -10,7 +10,7 @@ export interface iAuthState {
 	id: string;
 	firstName: string;
 	lastName: string;
-	roll: number | null;
+	rollTypeId: number | null;
 	authState: {
 		loading: boolean;
 		isAutenticated: boolean;
