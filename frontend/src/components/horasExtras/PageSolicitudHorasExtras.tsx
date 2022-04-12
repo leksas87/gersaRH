@@ -1,10 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployeesByParams } from '../../actions/timeRequest/timeRequestActions';
+import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
 
 const PageSolicitudHorasExtras = () => {
+	//dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//Senecesita el state que indica  el perfilEmpleado
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//Senecesita el state que indica  el array de empleados
+	const { employeesParams } = useSelector(
+		(state: RootSote) => state.timeRequest
+	);
+
+	//objeto user para formulario Registro
+	const newRequest = {
+		employeeId: '',
+		fechaAsignacion: '',
+		horaAsignacion: '',
+		lugarApoyo: '',
+		statusId: 1,
+		descripcion: '',
+		employeeIdRequest: perfilEmpleado.id,
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newRequest);
+
+	//Desestructuracion de propiedades
+	const {
+		employeeId,
+		fechaAsignacion,
+		horaAsignacion,
+		lugarApoyo,
+		descripcion,
+	} = formValues;
+
+	//Submit del formulario
 	const handdleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('enviando');
 	};
+	useEffect(() => {
+		dispatch(getEmployeesByParams(employeeId));
+	}, [employeeId]);
+
 	return (
 		<>
 			<div className='d-flex flex-column justify-content-center pt-4 p-4'>
@@ -47,17 +87,18 @@ const PageSolicitudHorasExtras = () => {
 										list='datalistOptions'
 										id='exampleDataList'
 										placeholder='Nombre de un empleado...'
-										// onChange={handleInputChange}
-										// disabled={!horasLabValue}
-										// value={tipoDeHorario}
+										value={employeeId}
+										name='employeeId'
+										onChange={handleInputChange}
+										required
 										// disabled={!infoBasicavalue}
 									/>
 									<datalist id='datalistOptions'>
-										<option value='Ivan Ojendis' />
-										<option value='Ivan Hernandez' />
-										<option value='Miguel Soleto' />
-										<option value='Ruben Gonzales' />
-										<option value='Rubi Maldonado' />
+										{employeesParams.map((employee) => (
+											<option key={employee.id} value={employee.id}>
+												{employee.User.firstName} {employee.User.lastName}
+											</option>
+										))}
 									</datalist>
 								</div>
 								<div className='d-flex textColorSecondary mt-3'>
@@ -66,6 +107,10 @@ const PageSolicitudHorasExtras = () => {
 										<input
 											className='form-control  custm-empleadoFormIntput'
 											type='date'
+											name='fechaAsignacion'
+											value={fechaAsignacion}
+											onChange={handleInputChange}
+											required
 										/>
 									</div>
 								</div>
@@ -75,6 +120,10 @@ const PageSolicitudHorasExtras = () => {
 										<input
 											className='form-control  custm-empleadoFormIntput'
 											type='time'
+											name='horaAsignacion'
+											value={horaAsignacion}
+											onChange={handleInputChange}
+											required
 										/>
 									</div>
 								</div>
@@ -84,6 +133,10 @@ const PageSolicitudHorasExtras = () => {
 										<input
 											className='form-control  custm-empleadoFormIntput'
 											type='text'
+											name='lugarApoyo'
+											value={lugarApoyo}
+											onChange={handleInputChange}
+											required
 										/>
 									</div>
 								</div>
@@ -99,8 +152,11 @@ const PageSolicitudHorasExtras = () => {
 											style={{ width: '90%' }}
 											rows={6}
 											cols={50}
-											name='descriptionRespuesta'
+											name='descripcion'
+											value={descripcion}
+											onChange={handleInputChange}
 											placeholder='Escribe un detalle breve.'
+											required
 										></textarea>
 									</div>
 									<div className='d-flex justify-content-end mt-4 me-4'>

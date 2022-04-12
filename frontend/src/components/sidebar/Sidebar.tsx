@@ -16,8 +16,9 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
-	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
-	let roll = 1;
+	const { firstName, lastName, rollTypeId } = useSelector(
+		(state: RootSote) => state.auth
+	);
 
 	//Tomar Solo el primer nombre y el primer apellido
 	const indiceName = firstName.indexOf(' ');
@@ -117,10 +118,10 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							Archivos
 						</div>
 					</nav>
-					{(roll === 1 || roll === 3) && (
+					{(rollTypeId === 1 || rollTypeId === 3) && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							{roll === 1 && (
+							{rollTypeId === 1 && (
 								<NavLink
 									to='/empleados'
 									className={({ isActive }) =>
@@ -135,7 +136,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 									Empleados
 								</NavLink>
 							)}
-							{(roll === 1 || roll === 3) && (
+							{(rollTypeId === 1 || rollTypeId === 3) && (
 								<div>
 									<NavLink
 										to='/solicitarhoras'
@@ -166,7 +167,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 									</NavLink>
 								</div>
 							)}
-							{roll === 3 && (
+							{rollTypeId === 3 && (
 								<NavLink
 									to='/reportesadministrativos'
 									className={({ isActive }) =>
@@ -181,7 +182,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 									Reportes Administrativos
 								</NavLink>
 							)}
-							{roll === 1 && (
+							{rollTypeId === 1 && (
 								<NavLink
 									to='/reportes'
 									className={({ isActive }) =>
@@ -200,7 +201,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								<i className='bi bi-folder2-open sidebarIcon' />
 								Archivos Empresa
 							</div>
-							{roll === 1 && (
+							{rollTypeId === 1 && (
 								<NavLink
 									to='/empresa'
 									className={({ isActive }) =>

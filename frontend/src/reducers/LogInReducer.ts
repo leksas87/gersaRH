@@ -12,7 +12,7 @@ const INITIAL_STATE: iAuthState = {
 	id: '',
 	firstName: '',
 	lastName: '',
-	roll: null,
+	rollTypeId: null,
 	authState: {
 		loading: false,
 		isAutenticated: false,
@@ -41,7 +41,7 @@ export const LogInReducer = (
 				id: action.payload.usuario.id,
 				firstName: action.payload.usuario.firstName,
 				lastName: action.payload.usuario.lastName,
-				roll: action.payload.usuario.roll,
+				rollTypeId: action.payload.usuario.rollTypeId,
 				authState: { ...state.authState, isAutenticated: true, loading: false },
 			};
 		case AUTH_LOGOUT:
@@ -50,7 +50,7 @@ export const LogInReducer = (
 				id: '',
 				firstName: '',
 				lastName: '',
-				roll: null,
+				rollTypeId: null,
 				authState: { ...state.authState, isAutenticated: false },
 			};
 

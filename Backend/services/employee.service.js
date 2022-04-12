@@ -30,7 +30,9 @@ module.exports = {
     getEmployeesOfJc,
     getTimeRequest,
     getTimeRequestByEmployeeId,
-    getReport
+    getReport,
+    getRequestByEmployeeId,
+    getRequest
 };
 
 async function getReport(req,res) {
@@ -72,6 +74,53 @@ async function getTimeRequestByEmployeeId(id,res) {
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
 
         return TimeRequests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function getRequest(req,res) {
+    try {
+        console.log(req.user.rollTypeId);
+        let Requests;
+        const employee= await models.Employee.findOne({where:{userId:req.user.id}});
+        switch (req.user.rollTypeId) {
+            case 1:
+                Requests = await models.Request.findAll();
+            break;
+            case 2:
+                Requests = await models.Request.findAll({where:{employeeId:employee.id}});
+            break;
+            case 3:
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}]});
+                    
+            break;
+        
+            default:
+                break;
+        }
+        
+
+        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+
+        return Requests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function getRequestByEmployeeId(id,res) {
+    try {
+        //const TimeRequests = await models.TimeRequest.findByPk(id);
+        const Requests = await models.Request.findAll({where:{employeeId:id}});
+
+        console.log(Requests.length); 
+
+        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+
+        return Requests;
 
     } catch (error) {
         return res.status(404).json({ message: error.message});

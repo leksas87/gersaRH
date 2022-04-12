@@ -9,6 +9,7 @@ const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
+const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
 //const { forbidden } = require('joi');
@@ -25,6 +26,7 @@ router.get('/check', registerAccessCodeSchema, Check);
 router.get('/reports',authorize(),getReport);
 router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
+router.get('/request',authorize(),getRequest);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
@@ -117,8 +119,16 @@ router.patch(
 router.post(
 	'/:id/request',
 	authorize(),
+	forbiddenGetUnique(),
 	registerSchemaRequest,
 	registerRequest
+	);
+	
+	router.get(
+	'/:id/request',
+	authorize(),
+	forbiddenGetUnique(),
+	getRequestByEmployeeId
 );
 
 router.post(
@@ -160,6 +170,19 @@ function registerSchemaReport(req, res, next) {
 function getTimeRequestByEmployeeId(req, res, next) {
 	employeeService
 		.getTimeRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+function getRequestByEmployeeId(req, res, next) {
+	employeeService
+		.getRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+function getRequest(req, res, next) {
+	console.log('funcion get request');
+	employeeService
+		.getRequest(req, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
