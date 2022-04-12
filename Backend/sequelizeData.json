@@ -2,5 +2,6 @@
   "20220403150734-create-rollTypes.js",
   "20220404144924-workPlace.js",
   "20220405022536-seed-status.js",
-  "20220405144615-seed-requestType.js"
+  "20220405144615-seed-requestType.js",
+  "20220412165155-eventActionType.js"
 ]

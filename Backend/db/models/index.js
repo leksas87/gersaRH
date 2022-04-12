@@ -12,6 +12,7 @@ const { Request, RequestSchema } = require('./request.model');
 const { TimeRequest, TimeRequestSchema } = require('./timeRequest.model');
 const { Status, StatusSchema } = require('./status.model');
 const { RequestType, RequestTypeSchema } = require('./requestType.model');
+const { EventActionType, EventActionTypeSchema } = require('./eventActionType.model');
 
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
@@ -28,6 +29,7 @@ function setupModels(sequelize) {
   TimeRequest.init(TimeRequestSchema,TimeRequest.config(sequelize));
   Status.init(StatusSchema,Status.config(sequelize));
   RequestType.init(RequestTypeSchema,RequestType.config(sequelize));
+  EventActionType.init(EventActionTypeSchema,EventActionType.config(sequelize));
 
   Employee.associate(sequelize.models);
   User.associate(sequelize.models);
