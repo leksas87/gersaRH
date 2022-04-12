@@ -28,7 +28,7 @@ router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
 router.get('/request',authorize(),getRequest);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
-router.get('/:id', authorize(), forbidden(), getById);
+router.get('/:id', authorize(), forbiddenGet(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.get('/:id/accessCode', authorize(), forbiddenGet(), sendAccessCodeById);
 router.get('/:id/events', authorize(), forbiddenGet(), getEvents);
