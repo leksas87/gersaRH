@@ -42,7 +42,11 @@ const PageSolicitudHorasExtras = () => {
 	//Submit del formulario
 	const handdleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('enviando');
+
+		// const empleado = employeesParams.filter(
+		// 	(empleado) => empleado.id === parseInt(employeeId)
+		// );
+
 		if (perfilEmpleado.id) {
 			dispatch(
 				registerNewTimeRequest(
