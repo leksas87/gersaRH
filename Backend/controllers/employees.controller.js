@@ -423,6 +423,7 @@ function registerEventSchema(req, res, next) {
 		latitudeEvent: Joi.string().required(),
 		longitudeEvent: Joi.string().required(),
 		EventType: Joi.string().required(),
+		eventActionTypeId:Joi.number().required()
 	});
 	validateRequest(req, next, schema);
 }

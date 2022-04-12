@@ -239,7 +239,7 @@ async function registerEvents(params, id){
         const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
         
     
-        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent});
+        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent,eventActionTypeId: params.eventActionTypeId});
         
         
     } catch (error) {
