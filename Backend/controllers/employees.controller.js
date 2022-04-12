@@ -209,10 +209,9 @@ function updateTimeRequests(req, res, next) {
 }
 
 function updateSchemaTimeRequests(req, res, next) {
-    //console.log(req.user);
     const schema = Joi.object({
         statusId: Joi.number().integer().required(),
-        descripcion: Joi.string()
+        descripcionEmpleado: Joi.string()
     });
     validateRequest(req, next, schema);
 }
@@ -231,7 +230,8 @@ function registerSchemaTimeRequest(req, res, next) {
 		horaAsignacion: Joi.string().required(),
 		LugarApoyo: Joi.string().required(),
 		statusId: Joi.number().integer().required(),
-		descripcion: Joi.string(),
+		descripcion: Joi.string().required(),
+		descripcionEmpleado: Joi.string(),
 		employeeIdRequest: Joi.number().integer().required()
 	});
 	validateRequest(req, next, schema);
