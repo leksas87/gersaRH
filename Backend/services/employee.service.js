@@ -29,8 +29,23 @@ module.exports = {
     createTimeRequest,
     getEmployeesOfJc,
     getTimeRequest,
-    getTimeRequestByEmployeeId
+    getTimeRequestByEmployeeId,
+    getReport,
+    getRequestByEmployeeId,
+    getRequest
 };
+
+async function getReport(req,res) {
+    try {
+        if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
+        return  await models.Reports.findAll();
+         
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
 
 async function createReport(params, id,next){
     try {
@@ -59,6 +74,53 @@ async function getTimeRequestByEmployeeId(id,res) {
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
 
         return TimeRequests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function getRequest(req,res) {
+    try {
+        console.log(req.user.rollTypeId);
+        let Requests;
+        const employee= await models.Employee.findOne({where:{userId:req.user.id}});
+        switch (req.user.rollTypeId) {
+            case 1:
+                Requests = await models.Request.findAll();
+            break;
+            case 2:
+                Requests = await models.Request.findAll({where:{employeeId:employee.id}});
+            break;
+            case 3:
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}]});
+                    
+            break;
+        
+            default:
+                break;
+        }
+        
+
+        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+
+        return Requests;
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
+async function getRequestByEmployeeId(id,res) {
+    try {
+        //const TimeRequests = await models.TimeRequest.findByPk(id);
+        const Requests = await models.Request.findAll({where:{employeeId:id}});
+
+        console.log(Requests.length); 
+
+        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+
+        return Requests;
 
     } catch (error) {
         return res.status(404).json({ message: error.message});
@@ -115,16 +177,17 @@ async function createTimeRequest(params, id, res){
     
      
         
-        
         const timeRequest= await models.TimeRequest.create({
                         employeeId:id,
                         fechaAsignacion:params.fechaAsignacion,
                         horaAsignacion:params.horaAsignacion,
                         LugarApoyo:params.LugarApoyo,
                         statusId:params.statusId,
-                        description:params.descripcion,
+                        descripcion:params.descripcion,
+                        descripcionEmpleado:params.descripcionEmpleado,
                         employeeIdRequest:params.employeeIdRequest
                     });
+
         
         return timeRequest;
     
@@ -176,7 +239,7 @@ async function registerEvents(params, id){
         const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
         
     
-        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent});
+        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent,eventActionTypeId: params.eventActionTypeId});
         
         
     } catch (error) {

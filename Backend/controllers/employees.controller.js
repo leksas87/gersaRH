@@ -9,6 +9,7 @@ const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
+const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
 //const { forbidden } = require('joi');
@@ -22,8 +23,10 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
+router.get('/reports',authorize(),getReport);
 router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
+router.get('/request',authorize(),getRequest);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
 router.get('/:id', authorize(), forbidden(), getById);
 router.put('/:id', authorize(), updateSchema, update);
@@ -116,8 +119,16 @@ router.patch(
 router.post(
 	'/:id/request',
 	authorize(),
+	forbiddenGetUnique(),
 	registerSchemaRequest,
 	registerRequest
+	);
+	
+router.get(
+	'/:id/request',
+	authorize(),
+	forbiddenGetUnique(),
+	getRequestByEmployeeId
 );
 
 router.post(
@@ -126,15 +137,31 @@ router.post(
 	registerSchemaReport,
 	registerReport
 );
+/*
+router.patch(
+	'/request/:id',
+	authorize(),
+	forbiddenGetUnique(),
+	registerSchemaRequest,
+	registerRequest
+);*/
+
 
 
 
 module.exports = router;
 
+function getReport(req, res, next) {
+	employeeService
+		.getReport(req, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+
 function registerReport(req, res, next) {
 	employeeService
 		.createReport(req.body, req.params.id, next)
-		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.then(() => res.json({  message: 'Registro exitoso' }))
 		.catch(next);
 }
 
@@ -154,6 +181,19 @@ function getTimeRequestByEmployeeId(req, res, next) {
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
+function getRequestByEmployeeId(req, res, next) {
+	employeeService
+		.getRequestByEmployeeId(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+function getRequest(req, res, next) {
+	console.log('funcion get request');
+	employeeService
+		.getRequest(req, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
 
 function getTimeRequest(req, res, next) {
 	employeeService
@@ -169,10 +209,9 @@ function updateTimeRequests(req, res, next) {
 }
 
 function updateSchemaTimeRequests(req, res, next) {
-    //console.log(req.user);
     const schema = Joi.object({
         statusId: Joi.number().integer().required(),
-        descripcion: Joi.string()
+        descripcionEmpleado: Joi.string()
     });
     validateRequest(req, next, schema);
 }
@@ -191,7 +230,8 @@ function registerSchemaTimeRequest(req, res, next) {
 		horaAsignacion: Joi.string().required(),
 		LugarApoyo: Joi.string().required(),
 		statusId: Joi.number().integer().required(),
-		description: Joi.string(),
+		descripcion: Joi.string().required(),
+		descripcionEmpleado: Joi.string(),
 		employeeIdRequest: Joi.number().integer().required()
 	});
 	validateRequest(req, next, schema);
@@ -383,6 +423,7 @@ function registerEventSchema(req, res, next) {
 		latitudeEvent: Joi.string().required(),
 		longitudeEvent: Joi.string().required(),
 		EventType: Joi.string().required(),
+		eventActionTypeId:Joi.number().required()
 	});
 	validateRequest(req, next, schema);
 }

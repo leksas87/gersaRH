@@ -13,7 +13,8 @@ const TimeRequestSchema = {
   LugarApoyo: {type:DataTypes.STRING,allowNull:true },
   statusId: {type: DataTypes.INTEGER,allowNull:true,references:{model:STATUS_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   descripcion: {type:DataTypes.STRING,allowNull:true },
-  employeeIdRequest: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0}
+  employeeIdRequest: { type:DataTypes.INTEGER,allowNull:true, defaultValue: 0},
+  descripcionEmpleado: {type:DataTypes.STRING,allowNull:true },
 }
 
 class TimeRequest extends Model {
