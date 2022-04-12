@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeesByParams } from '../../actions/timeRequest/timeRequestActions';
+import {
+	getEmployeesByParams,
+	registerNewTimeRequest,
+} from '../../actions/timeRequest/timeRequestActions';
 import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
 
@@ -40,10 +43,26 @@ const PageSolicitudHorasExtras = () => {
 	const handdleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('enviando');
+		if (perfilEmpleado.id) {
+			dispatch(
+				registerNewTimeRequest(
+					{
+						employeeId: employeeId,
+						fechaAsignacion: fechaAsignacion,
+						horaAsignacion: horaAsignacion,
+						LugarApoyo: lugarApoyo,
+						statusId: 1,
+						descripcion: descripcion,
+						employeeIdRequest: perfilEmpleado.id,
+					},
+					employeeId
+				)
+			);
+		} else console.log('Falta perfilEmpleado.id');
 	};
 	useEffect(() => {
 		dispatch(getEmployeesByParams(employeeId));
-	}, [employeeId]);
+	}, [employeeId, dispatch]);
 
 	return (
 		<>
