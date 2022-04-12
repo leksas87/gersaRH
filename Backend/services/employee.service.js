@@ -29,8 +29,21 @@ module.exports = {
     createTimeRequest,
     getEmployeesOfJc,
     getTimeRequest,
-    getTimeRequestByEmployeeId
+    getTimeRequestByEmployeeId,
+    getReport
 };
+
+async function getReport(req,res) {
+    try {
+        if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
+        return  await models.Reports.findAll();
+         
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
+}
 
 async function createReport(params, id,next){
     try {

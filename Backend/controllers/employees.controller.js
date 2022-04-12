@@ -22,6 +22,7 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
+router.get('/reports',authorize(),getReport);
 router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
 router.get('/', authorize(),forbiddenJefeCuadrilla(),getEmployeesJC);
@@ -129,12 +130,20 @@ router.post(
 
 
 
+
 module.exports = router;
+
+function getReport(req, res, next) {
+	employeeService
+		.getReport(req, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
 
 function registerReport(req, res, next) {
 	employeeService
 		.createReport(req.body, req.params.id, next)
-		.then((request) => res.json({ data:request, message: 'Registro exitoso' }))
+		.then(() => res.json({  message: 'Registro exitoso' }))
 		.catch(next);
 }
 
