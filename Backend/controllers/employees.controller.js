@@ -118,6 +118,7 @@ router.patch(
 router.post(
 	'/:id/request',
 	authorize(),
+	forbiddenGetUnique(),
 	registerSchemaRequest,
 	registerRequest
 	);

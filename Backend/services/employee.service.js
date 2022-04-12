@@ -71,15 +71,16 @@ async function getRequest(req,res) {
     try {
         console.log(req.user.rollTypeId);
         let Requests;
+        const employee= await models.Employee.findOne({where:{userId:req.user.id}});
         switch (req.user.rollTypeId) {
             case 1:
                 Requests = await models.Request.findAll();
             break;
             case 2:
-                Requests = await models.Request.findAll({where:{employeeId:req.user.id}});
+                Requests = await models.Request.findAll({where:{employeeId:employee.id}});
             break;
             case 3:
-                Requests = await models.Request.findAll();
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}]});
                     
             break;
         
