@@ -184,7 +184,7 @@ async function createTimeRequest(params, id, res){
                         horaAsignacion:params.horaAsignacion,
                         LugarApoyo:params.LugarApoyo,
                         statusId:params.statusId,
-                        description:params.descripcion,
+                        descripcion:params.descripcion,
                         employeeIdRequest:params.employeeIdRequest
                     });
         

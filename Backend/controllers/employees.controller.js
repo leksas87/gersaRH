@@ -124,7 +124,7 @@ router.post(
 	registerRequest
 	);
 	
-	router.get(
+router.get(
 	'/:id/request',
 	authorize(),
 	forbiddenGetUnique(),
@@ -137,6 +137,14 @@ router.post(
 	registerSchemaReport,
 	registerReport
 );
+/*
+router.patch(
+	'/request/:id',
+	authorize(),
+	forbiddenGetUnique(),
+	registerSchemaRequest,
+	registerRequest
+);*/
 
 
 
@@ -223,7 +231,7 @@ function registerSchemaTimeRequest(req, res, next) {
 		horaAsignacion: Joi.string().required(),
 		LugarApoyo: Joi.string().required(),
 		statusId: Joi.number().integer().required(),
-		description: Joi.string(),
+		descripcion: Joi.string(),
 		employeeIdRequest: Joi.number().integer().required()
 	});
 	validateRequest(req, next, schema);
