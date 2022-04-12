@@ -177,7 +177,6 @@ async function createTimeRequest(params, id, res){
     
      
         
-        
         const timeRequest= await models.TimeRequest.create({
                         employeeId:id,
                         fechaAsignacion:params.fechaAsignacion,
@@ -185,8 +184,10 @@ async function createTimeRequest(params, id, res){
                         LugarApoyo:params.LugarApoyo,
                         statusId:params.statusId,
                         descripcion:params.descripcion,
+                        descripcionEmpleado:params.descripcionEmpleado,
                         employeeIdRequest:params.employeeIdRequest
                     });
+
         
         return timeRequest;
     
