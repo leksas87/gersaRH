@@ -56,7 +56,8 @@ async function createReport(params, id,next){
                                                     fechaCreacion:fechaCreacion,
                                                     descripcionEmpleado:params.descripcionEmpleado,
                                                     asunto:params.asunto,
-                                                    anonimo:params.anonimo
+                                                    anonimo:params.anonimo,
+                                                    statusId: 1,
                                                 });
         
         return report;
