@@ -2,6 +2,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 
 
 const {EVENTTYPE_TABLE} = require('./eventType.model');
+const {EVENTACTIONTYPE_TABLE} = require('./eventActionType.model');
 
 const {EMPLOYEE_TABLE} = require('./employee.model');
 const { TIMESTAMP } = require('mysql2/lib/constants/types');
@@ -15,12 +16,14 @@ const EventSchema = {
   DateEvent: {type:DataTypes.STRING,allowNull:false },
   latitudeEvent:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
   longitudeEvent:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
+  eventActionTypeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EVENTACTIONTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'}, 
 }
 class Event extends Model {
 
   static associate(models) {
     this.belongsTo(models.Employee, { as: 'employee' });
     this.belongsTo(models.EventType,{as:'eventType'});
+    this.belongsTo(models.EventActionType,{as:'eventActionType'});
   }
 
   static config(sequelize) {
