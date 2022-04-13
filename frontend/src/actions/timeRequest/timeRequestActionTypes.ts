@@ -8,6 +8,8 @@ export const REGISTER_TIME_REQUEST_START_LOADING =
 	'registerTimeRequestStartLoading';
 export const REGISTER_TIME_REQUEST_LOADING_END =
 	'registerTimeRequestLoadingEnd';
+export const GET_EMPLOYEE_LISTINVITATION = 'getEmployeeListInvitation';
+export const CLEAN_EMPLOYEE_LISTINVITATION = 'cleanEmployeeListInvitation';
 
 //Interfaz para EmployeesParams reducer.
 export interface iTimeRequestReducer {
@@ -18,6 +20,7 @@ export interface iTimeRequestReducer {
 		loading: boolean;
 	};
 	employeesParams: iEmployeeParams[];
+	employeesListInvitation: iEmployeeListInvitation[];
 }
 
 //Interfaz para nuevo employeeParams.
@@ -27,6 +30,12 @@ export interface iEmployeeParams {
 		firstName: string;
 		lastName: string;
 	};
+}
+//Interfaz para nuevo employeeParams.
+export interface iEmployeeListInvitation {
+	firstName: string;
+	lastName: string;
+	username: string;
 }
 
 //GET employeeByParams Start Loading
@@ -56,6 +65,17 @@ export interface GetEmployeesByParams {
 export interface CleanEmployeesByParams {
 	type: typeof CLEAN_EMPLOYEES_BY_PARAMS;
 }
+//Get employeesListInvitation
+export interface GetEmployeeListInvitation {
+	type: typeof GET_EMPLOYEE_LISTINVITATION;
+	payload: {
+		employeeListInvitation: iEmployeeListInvitation;
+	};
+}
+//Clean employeesParams
+export interface CleanEmployeeListInvitation {
+	type: typeof CLEAN_EMPLOYEE_LISTINVITATION;
+}
 
 //Types para el dispatch
 export type TimeRequestDispatchTypes =
@@ -64,4 +84,6 @@ export type TimeRequestDispatchTypes =
 	| RegisterTimeRequestStartLoading
 	| RegisterTimeRequestLoadingEnd
 	| GetEmployeesByParams
-	| CleanEmployeesByParams;
+	| CleanEmployeesByParams
+	| GetEmployeeListInvitation
+	| CleanEmployeeListInvitation;

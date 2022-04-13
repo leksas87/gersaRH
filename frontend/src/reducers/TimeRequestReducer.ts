@@ -1,8 +1,10 @@
 import {
 	CLEAN_EMPLOYEES_BY_PARAMS,
+	CLEAN_EMPLOYEE_LISTINVITATION,
 	GET_EMPLOYEES_BY_PARAMS,
 	GET_EMPLOYEES_BY_PARAMS_LOADING_END,
 	GET_EMPLOYEES_BY_PARAMS_START_LOADING,
+	GET_EMPLOYEE_LISTINVITATION,
 	iTimeRequestReducer,
 	TimeRequestDispatchTypes,
 } from '../actions/timeRequest/timeRequestActionTypes';
@@ -16,6 +18,7 @@ const INITIAL_STATE: iTimeRequestReducer = {
 		loading: false,
 	},
 	employeesParams: [],
+	employeesListInvitation: [],
 };
 
 //Reducer
@@ -43,6 +46,19 @@ export const TimeRequestReducer = (
 			return {
 				...state,
 				employeesParams: INITIAL_STATE.employeesParams,
+			};
+		case GET_EMPLOYEE_LISTINVITATION:
+			return {
+				...state,
+				employeesListInvitation: [
+					...state.employeesListInvitation,
+					action.payload.employeeListInvitation,
+				],
+			};
+		case CLEAN_EMPLOYEE_LISTINVITATION:
+			return {
+				...state,
+				employeesListInvitation: INITIAL_STATE.employeesListInvitation,
 			};
 
 		default:
