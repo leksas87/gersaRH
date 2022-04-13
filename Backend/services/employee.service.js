@@ -11,6 +11,7 @@ module.exports = {
     getEmployeeById,
     update,
     updateRequests,
+    updateReport,
     updateTimeRequests,
     reviewUser,
     reviewOut,
@@ -35,6 +36,27 @@ module.exports = {
     getRequest
 };
 
+async function updateReport(id, params) {
+    const Report = await getReportById(id);
+
+    // validate
+    if ( !Report)  throw 'Solicitud no encontrada';
+
+    // copy params to user and save
+    Object.assign(Report, params);
+    await Report.save();
+
+    return Report;
+}
+
+async function getReportById(id) {
+    const Report = await models.Reports.findByPk(id);
+    
+    if ( !Report)  throw 'Solicitud no encontrada';
+
+    return Report;
+}  
+
 async function getReport(req,res) {
     try {
         if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
@@ -56,7 +78,8 @@ async function createReport(params, id,next){
                                                     fechaCreacion:fechaCreacion,
                                                     descripcionEmpleado:params.descripcionEmpleado,
                                                     asunto:params.asunto,
-                                                    anonimo:params.anonimo
+                                                    anonimo:params.anonimo,
+                                                    statusId: 1,
                                                 });
         
         return report;

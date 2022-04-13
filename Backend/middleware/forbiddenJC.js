@@ -11,7 +11,7 @@ function forbiddenJefeCuadrilla() {
         async (req, res, next) => {
     
             // revisa si el usuario tiene permisos de ver la informacion
-            if (req.user.rollTypeId ==2)
+            if (req.user.rollTypeId == 2)
                 return res.status(403).json( {message: 'Usuario no autorizado'});
             next();
         }
