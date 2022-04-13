@@ -137,19 +137,33 @@ router.post(
 	registerSchemaReport,
 	registerReport
 );
-/*
+
 router.patch(
-	'/request/:id',
-	authorize(),
-	forbiddenGetUnique(),
-	registerSchemaRequest,
-	registerRequest
-);*/
+	'/reports/:id',
+	authorize(), 
+	forbiddenGet(),
+	updateSchemaReport, 
+	updateReport
+);
 
 
 
 
 module.exports = router;
+
+function updateReport(req, res, next) {
+    employeeService.updateReport(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
+        .catch(next);
+}
+
+function updateSchemaReport(req, res, next) {
+    //console.log(req.user);
+    const schema = Joi.object({
+        statusId: Joi.number().integer().required()
+    });
+    validateRequest(req, next, schema);
+}
 
 function getReport(req, res, next) {
 	employeeService

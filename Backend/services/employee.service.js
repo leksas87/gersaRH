@@ -11,6 +11,7 @@ module.exports = {
     getEmployeeById,
     update,
     updateRequests,
+    updateReport,
     updateTimeRequests,
     reviewUser,
     reviewOut,
@@ -34,6 +35,27 @@ module.exports = {
     getRequestByEmployeeId,
     getRequest
 };
+
+async function updateReport(id, params) {
+    const Report = await getReportById(id);
+
+    // validate
+    if ( !Report)  throw 'Solicitud no encontrada';
+
+    // copy params to user and save
+    Object.assign(Report, params);
+    await Report.save();
+
+    return Report;
+}
+
+async function getReportById(id) {
+    const Report = await models.Reports.findByPk(id);
+    
+    if ( !Report)  throw 'Solicitud no encontrada';
+
+    return Report;
+}  
 
 async function getReport(req,res) {
     try {
