@@ -92,8 +92,9 @@ async function createReport(params, id,next){
 
 async function getTimeRequestByEmployeeId(id,res) {
     try {
+        const atributeUser=['firstName','lastName'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id}});
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
 
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
 
@@ -154,17 +155,18 @@ async function getRequestByEmployeeId(id,res) {
 
 async function getTimeRequest(req,res) {
     try {
+        const atributeUser=['firstName','lastName'];
         console.log(req.user.rollTypeId)
         if(req.user.rollTypeId === 1){
-            const TimeRequest = await models.TimeRequest.findAll();
+            const TimeRequest = await models.TimeRequest.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }else if(req.user.rollTypeId === 2){
-            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }else if(req.user.rollTypeId === 3){
-            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }
