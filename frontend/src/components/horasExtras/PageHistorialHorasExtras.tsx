@@ -8,6 +8,10 @@ const PageHistorialHorasExtras = () => {
 	//dispatch para ejecutar las actions
 	const dispatch = useDispatch();
 
+	//Senecesita el state que indica el timeRequestList
+	const { timeRequestList } = useSelector(
+		(state: RootSote) => state.timeRequest
+	);
 	//objeto user para formulario Registro
 	const initialState = {
 		sortBy: '',
@@ -16,11 +20,6 @@ const PageHistorialHorasExtras = () => {
 	const [sortValues, handleInputChange, reset] = useForm(initialState);
 	//Desestructuracion
 	const { sortBy } = sortValues;
-
-	//Senecesita el state que indica el timeRequestList
-	const { timeRequestList } = useSelector(
-		(state: RootSote) => state.timeRequest
-	);
 
 	useEffect(() => {
 		dispatch(gettimeRequestList());
@@ -100,7 +99,7 @@ const PageHistorialHorasExtras = () => {
 										</div>
 										<div className='d-flex textColorSecondary mt-2'>
 											<div style={{ width: '40%' }}>Lugar de trabajo:</div>
-											<div style={{ width: '60%' }}>Lugar 1</div>
+											<div style={{ width: '60%' }}>PENDIENTE</div>
 										</div>
 										<div className='d-flex textColorSecondary mt-4'>
 											<div className='fw-bold' style={{ width: '40%' }}>

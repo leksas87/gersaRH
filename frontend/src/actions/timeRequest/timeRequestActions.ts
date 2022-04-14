@@ -419,3 +419,80 @@ export const gettimeRequestList = () => {
 			});
 	};
 };
+//(GET) Array de timeRequests
+export const gettimeRequestListByEmployeeId = (employeeId: number) => {
+	return async (dispatch: Dispatch<TimeRequestDispatchTypes>) => {
+		//dispatch para limpiar el reducer
+		dispatch({ type: CLEAN_TIME_REQUEST });
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${employeeId}/timeRequest`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: GET_TIME_REQUEST,
+						payload: { timeRequestList: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 404) {
+					// console.log('error404');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
