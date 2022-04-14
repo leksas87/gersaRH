@@ -15,6 +15,7 @@ export interface iAuthState {
 		loading: boolean;
 		isAutenticated: boolean;
 	};
+	empleadoData: iEmployeeData;
 }
 export interface iUsuario {
 	uid: string;

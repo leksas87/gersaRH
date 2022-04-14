@@ -4,6 +4,7 @@ import {
 	AUTH_LOGOUT,
 	AUTH_START_LOADING,
 	AUTH_SUCCESS,
+	GET_EMPLEADO_DATA,
 } from '../actions/loginActions/loginActionsTypes';
 import { iAuthState } from '../interfaces/interfaces';
 
@@ -16,6 +17,32 @@ const INITIAL_STATE: iAuthState = {
 	authState: {
 		loading: false,
 		isAutenticated: false,
+	},
+	empleadoData: {
+		id: null,
+		userId: null,
+		tipoIdentificacion: '',
+		documentoIdentidad: '',
+		fechaNacimiento: '',
+		genero: '',
+		nacionalidad: '',
+		lugarDeTrabajo: '',
+		supervisor: '',
+		numeroCuentaBancaria: '',
+		swiftBic: '',
+		frecuenciaPago: '',
+		direccion1: '',
+		direccion2: '',
+		ciudad: '',
+		codigoPostal: '',
+		estadoProvincia: '',
+		pais: '',
+		emergenciaNombre: '',
+		empergenciaTelefono: '',
+		rfc: '',
+		numeroImms: '',
+		curp: '',
+		fechaAltaImss: '',
 	},
 };
 
@@ -44,6 +71,11 @@ export const LogInReducer = (
 				rollTypeId: action.payload.usuario.rollTypeId,
 				authState: { ...state.authState, isAutenticated: true, loading: false },
 			};
+		case GET_EMPLEADO_DATA:
+			return {
+				...state,
+				empleadoData: { ...action.payload.empleadoData },
+			};
 		case AUTH_LOGOUT:
 			return {
 				...state,
@@ -52,6 +84,7 @@ export const LogInReducer = (
 				lastName: '',
 				rollTypeId: null,
 				authState: { ...state.authState, isAutenticated: false },
+				empleadoData: INITIAL_STATE.empleadoData,
 			};
 
 		default:

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	cleanEmployeeList,
 	getEmployeesByParams,
 	registerNewTimeRequest,
 } from '../../actions/timeRequest/timeRequestActions';
@@ -10,8 +11,11 @@ import { RootSote } from '../../store/Store';
 const PageSolicitudHorasExtras = () => {
 	//dispatch para ejecutar las actions
 	const dispatch = useDispatch();
-	//Senecesita el state que indica  el perfilEmpleado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	//Senecesita el state que indica el empleadoData
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	const { employeesListInvitation } = useSelector(
+		(state: RootSote) => state.timeRequest
+	);
 	//Senecesita el state que indica  el array de empleados
 	const { employeesParams } = useSelector(
 		(state: RootSote) => state.timeRequest
@@ -19,19 +23,21 @@ const PageSolicitudHorasExtras = () => {
 
 	//objeto user para formulario Registro
 	const newRequest = {
+		employeeName: '',
 		employeeId: '',
 		fechaAsignacion: '',
 		horaAsignacion: '',
 		lugarApoyo: '',
 		statusId: 1,
 		descripcion: '',
-		employeeIdRequest: perfilEmpleado.id,
+		employeeIdRequest: empleadoData.id,
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(newRequest);
+	const [formValues, handleInputChange, reset] = useForm(newRequest);
 
 	//Desestructuracion de propiedades
 	const {
+		employeeName,
 		employeeId,
 		fechaAsignacion,
 		horaAsignacion,
@@ -43,30 +49,31 @@ const PageSolicitudHorasExtras = () => {
 	const handdleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		// const empleado = employeesParams.filter(
-		// 	(empleado) => empleado.id === parseInt(employeeId)
-		// );
-
-		if (perfilEmpleado.id) {
+		if (empleadoData.id) {
 			dispatch(
 				registerNewTimeRequest(
 					{
-						employeeId: employeeId,
+						employeeId: employeeName,
 						fechaAsignacion: fechaAsignacion,
 						horaAsignacion: horaAsignacion,
 						LugarApoyo: lugarApoyo,
 						statusId: 1,
 						descripcion: descripcion,
-						employeeIdRequest: perfilEmpleado.id,
+						employeeIdRequest: empleadoData.id,
 					},
-					employeeId
+					employeeName
 				)
 			);
 		} else console.log('Falta perfilEmpleado.id');
 	};
 	useEffect(() => {
-		dispatch(getEmployeesByParams(employeeId));
-	}, [employeeId, dispatch]);
+		dispatch(getEmployeesByParams(employeeName));
+	}, [employeeName, dispatch]);
+
+	const cleanList = () => {
+		reset();
+		dispatch(cleanEmployeeList());
+	};
 
 	return (
 		<>
@@ -110,8 +117,8 @@ const PageSolicitudHorasExtras = () => {
 										list='datalistOptions'
 										id='exampleDataList'
 										placeholder='Nombre de un empleado...'
-										value={employeeId}
-										name='employeeId'
+										value={employeeName}
+										name='employeeName'
 										onChange={handleInputChange}
 										required
 										// disabled={!infoBasicavalue}
@@ -210,45 +217,36 @@ const PageSolicitudHorasExtras = () => {
 											<th scope='col'>
 												<div className='d-flex justify-content-center'>Correo</div>
 											</th>
-											<th scope='col'>
-												<div className='d-flex justify-content-center'>
-													Lugar de trabajo
-												</div>
-											</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr style={{ height: '4rem' }}>
-											<th scope='row'>
-												<div className='d-flex align-items-center justify-content-center text-center'>
-													<i
-														className='bi bi-check-circle-fill fs-4'
-														style={{ color: 'var(--colorVerde)' }}
-													/>
-												</div>
-											</th>
-
-											<td>
-												<div className='d-flex align-items-center justify-content-center'>
-													<span>Ivan</span>
-												</div>
-											</td>
-											<td>
-												<div className='d-flex align-items-center justify-content-center'>
-													<span>Santana Santana</span>
-												</div>
-											</td>
-											<td>
-												<div className='d-flex align-items-center justify-content-center'>
-													<span>ivan.santana@testt.com</span>
-												</div>
-											</td>
-											<td>
-												<div className='d-flex align-items-center justify-content-center'>
-													<span>Lugar 2</span>
-												</div>
-											</td>
-										</tr>
+										{employeesListInvitation.map((empleado, i) => (
+											<tr key={i} style={{ height: '4rem' }}>
+												<th scope='row'>
+													<div className='d-flex align-items-center justify-content-center text-center'>
+														<i
+															className='bi bi-check-circle-fill fs-4'
+															style={{ color: 'var(--colorVerde)' }}
+														/>
+													</div>
+												</th>
+												<td>
+													<div className='d-flex align-items-center justify-content-center'>
+														<span>{empleado.firstName}</span>
+													</div>
+												</td>
+												<td>
+													<div className='d-flex align-items-center justify-content-center'>
+														<span>{empleado.lastName}</span>
+													</div>
+												</td>
+												<td>
+													<div className='d-flex align-items-center justify-content-center'>
+														<span>{empleado.username}</span>
+													</div>
+												</td>
+											</tr>
+										))}
 									</tbody>
 								</table>
 							</div>
@@ -257,7 +255,11 @@ const PageSolicitudHorasExtras = () => {
 							className='d-flex justify-content-end mt-4 mb-5  custm-Width100'
 							style={{ width: '90%' }}
 						>
-							<button className='btn p-2 ps-3 pe-3 custm-empleadoFormSubmit'>
+							<button
+								type='button'
+								className='btn p-2 ps-3 pe-3 custm-empleadoFormSubmit'
+								onClick={cleanList}
+							>
 								Limpiar
 							</button>
 						</div>

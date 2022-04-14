@@ -1,8 +1,11 @@
+import { iEmployeeData } from '../usersActions/usersActionTypes';
+
 //Types
 export const AUTH_START_LOADING = 'authStartLoading';
 export const AUTH_LOADING_FINISH = 'authLoadingFinish';
 export const AUTH_LOGOUT = 'authLogOut';
 export const AUTH_SUCCESS = 'authSuccess';
+export const GET_EMPLEADO_DATA = 'getEmpleadoData';
 
 //Usuario que se recibe del fetch al ahcer logIn
 export type Usuario = {
@@ -32,9 +35,18 @@ export interface AuthSuccess {
 		usuario: Usuario;
 	};
 }
+//get empleadoData
+export interface GetEmpleadoData {
+	type: typeof GET_EMPLEADO_DATA;
+	payload: {
+		empleadoData: iEmployeeData;
+	};
+}
+
 //Types para el dispatch
 export type AuthDispatchTypes =
 	| AuthSuccess
 	| AuthStartLoading
 	| AuthLoadingFinish
+	| GetEmpleadoData
 	| AuthLogOut;
