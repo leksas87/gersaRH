@@ -91,7 +91,7 @@ const PageHistorialHorasExtras = () => {
 									>
 										<div className='d-flex textColorSecondary'>
 											<div style={{ width: '40%' }}>Fecha de solicitud:</div>
-											<div style={{ width: '60%' }}>pendiente</div>
+											<div style={{ width: '60%' }}>{timeRequest.fechaCreacion}</div>
 										</div>
 
 										<div className='d-flex textColorSecondary mt-2'>
