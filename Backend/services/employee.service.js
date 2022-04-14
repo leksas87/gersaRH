@@ -59,8 +59,9 @@ async function getReportById(id) {
 
 async function getReport(req,res) {
     try {
+        const atributeUser=['firstName','lastName']
         if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
-        return  await models.Reports.findAll();
+        return  await models.Reports.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['id']}]});
          
 
     } catch (error) {
