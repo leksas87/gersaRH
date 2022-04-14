@@ -8,6 +8,7 @@ const { STATUS_TABLE } = require('./status.model');
 const TimeRequestSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
   employeeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  fechaCreacion: {type:DataTypes.STRING,allowNull:false },
   fechaAsignacion: {type:DataTypes.STRING,allowNull:false },
   horaAsignacion: {type:DataTypes.STRING,allowNull:false },
   LugarApoyo: {type:DataTypes.STRING,allowNull:true },

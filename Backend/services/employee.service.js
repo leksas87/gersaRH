@@ -197,7 +197,8 @@ async function getTimeRequestById(id) {
 } 
 
 async function createTimeRequest(params, id, res){
-    
+
+        const fechaNow = moment().tz(process.env.TZ).format('YYYY-MM-DD');
      
         
         const timeRequest= await models.TimeRequest.create({
@@ -208,7 +209,8 @@ async function createTimeRequest(params, id, res){
                         statusId:params.statusId,
                         descripcion:params.descripcion,
                         descripcionEmpleado:params.descripcionEmpleado,
-                        employeeIdRequest:params.employeeIdRequest
+                        employeeIdRequest:params.employeeIdRequest,
+                        fechaCreacion: fechaNow
                     });
 
         
