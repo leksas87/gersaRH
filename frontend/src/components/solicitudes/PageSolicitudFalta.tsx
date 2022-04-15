@@ -1,7 +1,19 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getRequestsByEmployeeId } from '../../actions/requestActions/requestActions';
+import { RootSote } from '../../store/Store';
 import ModalNuevaSolicitudFalta from './ModalNuevaSolicitudFalta';
 
 const PageSolicitudFalta = () => {
+	//Dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+
+	//Se necesita el estado que indiccá el employeeId
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	//Se necesita el state que indica la lsita de Request
+	const { requestList } = useSelector((state: RootSote) => state.request);
+
 	//useNavigate para redireccionar a la página principal de solicitudes
 	const navigate = useNavigate();
 
@@ -9,6 +21,11 @@ const PageSolicitudFalta = () => {
 		navigate('/solicitudes');
 	};
 
+	useEffect(() => {
+		if (empleadoData.id) {
+			dispatch(getRequestsByEmployeeId(empleadoData.id));
+		}
+	}, [dispatch, empleadoData.id]);
 	return (
 		<>
 			<div className='custm-empleadosHead justify-content-between'>
@@ -47,64 +64,103 @@ const PageSolicitudFalta = () => {
 						<div className='d-flex flex-column align-items-center custm-PageHistoryContainer'>
 							<div className='fs-5 textColorLight mt-2'>Historial de solicitudes</div>
 							{/* Inicio */}
-							<div className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'>
-								<div className='d-flex textColorSecondary'>
-									<div style={{ width: '40%' }}>Fecha de solicitud:</div>
-									<div style={{ width: '60%' }}>01/01/2022</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div className='fw-bold' style={{ width: '40%' }}>
-										Falta:
-									</div>
-									<div className='d-flex' style={{ width: '60%' }}>
-										<div className='d-flex flex-column pe-4'>
-											<div>De:</div>
-											<div className='textColorLight'>01/01/2022</div>
+							{requestList
+								.filter((element) => {
+									return element.requestTypeId === 3;
+								})
+								.map((request) => (
+									<div
+										key={request.id}
+										className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'
+									>
+										<div className='d-flex textColorSecondary'>
+											<div style={{ width: '40%' }}>Fecha de solicitud:</div>
+											<div style={{ width: '60%' }}>{request.fechaCreacion}</div>
 										</div>
-										<div className='d-flex flex-column'>
-											<div>A:</div>
-											<div className='textColorLight'>01/01/2022</div>
+										<div className='d-flex textColorSecondary mt-3'>
+											<div className='fw-bold' style={{ width: '40%' }}>
+												Falta:
+											</div>
+											<div className='d-flex' style={{ width: '60%' }}>
+												<div className='d-flex flex-column pe-4'>
+													<div>De:</div>
+													<div className='textColorLight'>{request.fechaInicio}</div>
+												</div>
+												<div className='d-flex flex-column'>
+													<div>A:</div>
+													<div className='textColorLight'>{request.fechaFin}</div>
+												</div>
+											</div>
 										</div>
-									</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div style={{ width: '40%' }}>Descripción:</div>
-									<div style={{ width: '60%' }}>
-										Veniam non commodo exercitation qui cupidatat sit sit proident
-										proident. Sit duis officia eiusmod sint minim cupidatat dolor
-										exercitation pariatur. Adipisicing velit cillum velit veniam irure
-										dolor laborum fugiat ex Lorem ad.
-									</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div style={{ width: '40%' }}>Estatus:</div>
-									<div className='d-flex' style={{ width: '60%' }}>
-										<span className='custm-Status1 pe-3'>● Pendiente</span>
-										<div className='d-flex'>
-											<div>Adjunto:</div>
-											<a
-												className='fs-4  textColorSecondary'
-												href={`https://www.google.com.mx/maps/`}
-												target='_blank'
-												rel='noopener noreferrer'
-												style={{ textDecoration: 'none' }}
-											>
-												<i className='bi bi-paperclip' />
-											</a>
+										<div className='d-flex textColorSecondary mt-3'>
+											<div style={{ width: '40%' }}>Descripción:</div>
+											<div style={{ width: '60%' }}>{request.descripcionEmpleado}</div>
 										</div>
+										{request.statusId === 1 && (
+											<>
+												<div className='d-flex textColorSecondary mt-3'>
+													<div style={{ width: '40%' }}>Estatus:</div>
+													<div className='d-flex' style={{ width: '60%' }}>
+														<span className='custm-Status1 pe-3'>● Pendiente</span>
+														<div className='d-flex'>
+															<div>Adjunto:</div>
+															<a
+																className='fs-4  textColorSecondary'
+																href={`https://www.google.com.mx/maps/`}
+																target='_blank'
+																rel='noopener noreferrer'
+																style={{ textDecoration: 'none' }}
+															>
+																<i className='bi bi-paperclip' />
+															</a>
+														</div>
+													</div>
+												</div>
+											</>
+										)}
+										{request.statusId !== 1 && (
+											<>
+												<div className='d-flex textColorSecondary mt-3'>
+													<div style={{ width: '40%' }}>Estatus:</div>
+													<div className='d-flex' style={{ width: '60%' }}>
+														{request.statusId === 2 && (
+															<div className='custm-Status2 ' style={{ width: '60%' }}>
+																● Aceptada
+															</div>
+														)}
+														{request.statusId === 3 && (
+															<div className='custm-Status3 ' style={{ width: '65%' }}>
+																● Rechazada
+															</div>
+														)}
+
+														<div className='d-flex'>
+															<div>Adjunto:</div>
+															<a
+																className='fs-4  textColorSecondary'
+																href={`https://www.google.com.mx/maps/`}
+																target='_blank'
+																rel='noopener noreferrer'
+																style={{ textDecoration: 'none' }}
+															>
+																<i className='bi bi-paperclip' />
+															</a>
+														</div>
+													</div>
+												</div>
+
+												<div className='d-flex textColorSecondary'>
+													<div style={{ width: '40%' }}></div>
+													<div className='textColorLight' style={{ width: '60%' }}>
+														<div>Detalle de Respuesta:</div>
+														{request.descriptionRespuesta}
+													</div>
+												</div>
+											</>
+										)}
 									</div>
-								</div>
-								<div className='d-flex textColorSecondary'>
-									<div style={{ width: '40%' }}></div>
-									<div className='textColorLight' style={{ width: '60%' }}>
-										<div>Detalle:</div>
-										Veniam non commodo exercitation qui cupidatat sit sit proident
-										proident. Sit duis officia eiusmod sint minim cupidatat dolor
-										exercitation pariatur. Adipisicing velit cillum velit veniam irure
-										dolor laborum fugiat ex Lorem ad.
-									</div>
-								</div>
-							</div>
+								))
+								.reverse()}
 						</div>
 					</div>
 				</div>

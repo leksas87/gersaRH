@@ -37,7 +37,7 @@ const PageAutorizarHorasExtras = () => {
 							<div>
 								<i
 									style={{ fontSize: '3rem', color: 'var(--colorSecondary)' }}
-									className='bi bi-stopwatch'
+									className='bi bi-stopwatch-fill'
 								/>
 							</div>
 							<div className='d-flex flex-column align-items-center custm-width100 ms-3'>
