@@ -52,6 +52,14 @@ export interface iTimeRequest {
 	employeeIdRequest: number;
 	descripcionEmpleado: string;
 	fechaCreacion: string;
+	employee: {
+		supervisor: string;
+		lugarDeTrabajo: string;
+		User: {
+			firstName: string;
+			lastName: string;
+		};
+	};
 }
 
 //GET employeeByParams Start Loading

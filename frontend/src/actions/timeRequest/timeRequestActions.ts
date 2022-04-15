@@ -359,6 +359,7 @@ export const gettimeRequestList = () => {
 			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					console.log(respuesta.data.data);
 					dispatch({
 						type: GET_TIME_REQUEST,
 						payload: { timeRequestList: respuesta.data.data },
@@ -440,6 +441,96 @@ export const gettimeRequestListByEmployeeId = (employeeId: number) => {
 						type: GET_TIME_REQUEST,
 						payload: { timeRequestList: respuesta.data.data },
 					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 404) {
+					// console.log('error404');
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+//(PATCH) timeRequest
+export const patchtimeRequestById = (
+	timeRequestId: number,
+	data: {},
+	modalId: string,
+	employeeId: number
+) => {
+	return async (dispatch: Dispatch<TimeRequestDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.patch(`employees/timeRequest/${timeRequestId}`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡Respuesta enviada exitosamente!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					//Cerrar modal
+					const miExampleModal = document.getElementById(`${modalId}`);
+					miExampleModal?.click();
+					//obtiene nuevamente los usuarios.
+					setTimeout(() => {
+						dispatch<any>(gettimeRequestListByEmployeeId(employeeId));
+					}, 1500);
 				}
 			})
 			.catch((error) => {

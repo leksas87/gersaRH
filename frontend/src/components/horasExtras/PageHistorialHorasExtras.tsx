@@ -95,11 +95,16 @@ const PageHistorialHorasExtras = () => {
 
 										<div className='d-flex textColorSecondary mt-2'>
 											<div style={{ width: '40%' }}>Empleado:</div>
-											<div style={{ width: '60%' }}>{timeRequest.employeeId}</div>
+											<div style={{ width: '60%' }}>
+												{timeRequest.employee.User.firstName}{' '}
+												{timeRequest.employee.User.lastName}
+											</div>
 										</div>
 										<div className='d-flex textColorSecondary mt-2'>
 											<div style={{ width: '40%' }}>Lugar de trabajo:</div>
-											<div style={{ width: '60%' }}>PENDIENTE</div>
+											<div style={{ width: '60%' }}>
+												{timeRequest.employee.lugarDeTrabajo}
+											</div>
 										</div>
 										<div className='d-flex textColorSecondary mt-4'>
 											<div className='fw-bold' style={{ width: '40%' }}>

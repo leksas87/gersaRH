@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { gettimeRequestListByEmployeeId } from '../../actions/timeRequest/timeRequestActions';
+import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
+import ModalAutorizarHorasExtras from './ModalAutorizarHorasExtras';
 
 const PageAutorizarHorasExtras = () => {
 	//Se recupera el state que indica el auth y timeRequestList
@@ -10,22 +12,21 @@ const PageAutorizarHorasExtras = () => {
 		(state: RootSote) => state.timeRequest
 	);
 
+	//objeto user para formulario Registro
+	const initialState = {
+		sortBy: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [sortValues, handleInputChange, reset] = useForm(initialState);
+	//Desestructuracion
+	const { sortBy } = sortValues;
 	//dispatch para ejecutar las actions
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (empleadoData.id) {
 			dispatch(gettimeRequestListByEmployeeId(empleadoData.id));
-		} else console.log('falta eempleadoData.id');
+		}
 	}, [empleadoData.id, dispatch]);
-
-	const attendRequestAccept = (timeRequestId: number) => {
-		console.log(timeRequestId);
-		console.log('Accept');
-	};
-	const attendRequestReject = (timeRequestId: number) => {
-		console.log(timeRequestId);
-		console.log('Reject');
-	};
 
 	return (
 		<>
@@ -64,152 +65,133 @@ const PageAutorizarHorasExtras = () => {
 									<div className='ms-2'>
 										<select
 											className='form-select form-control  '
-											name='statusFiltering'
-											// onChange={handleInputChange}
-											// disabled={!horasLabValue}
-											// value={tipoDeHorario}
-											// disabled={!infoBasicavalue}
+											value={sortBy}
+											name='sortBy'
+											onChange={handleInputChange}
 										>
-											<option value='Todos'>Todos</option>
-											<option value='Aceptadas'>Aceptadas</option>
-											<option value='Rechazadas'>Rechazadas</option>
-											<option value='Pendientes'>Pendientes</option>
+											<option value=''>Todos</option>
+											<option value='2'>Aceptadas</option>
+											<option value='3'>Rechazadas</option>
+											<option value='1'>Pendientes</option>
 										</select>
 									</div>
 								</div>
 							</div>
 							{/* Inicio */}
-							{timeRequestList.map((timeRequest) => (
-								<div
-									key={timeRequest.id}
-									className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'
-								>
+							{timeRequestList
+								.filter((element) => {
+									if (!sortBy) return true;
+
+									return element.statusId === parseInt(sortBy);
+								})
+								.map((timeRequest) => (
 									<div
-										className='d-flex flex-column  p-3 custm-solicitudContaiter50'
-										// style={{ width: '50%', minWidth: '300px' }}
+										key={timeRequest.id}
+										className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'
 									>
-										<div className='d-flex textColorSecondary'>
-											<div style={{ width: '40%' }}>Fecha de solicitud:</div>
-											<div style={{ width: '60%' }}>{timeRequest.fechaCreacion}</div>
-										</div>
+										<div
+											className='d-flex flex-column  p-3 custm-solicitudContaiter50'
+											// style={{ width: '50%', minWidth: '300px' }}
+										>
+											<div className='d-flex textColorSecondary'>
+												<div style={{ width: '40%' }}>Fecha de solicitud:</div>
+												<div style={{ width: '60%' }}>{timeRequest.fechaCreacion}</div>
+											</div>
 
-										<div className='d-flex textColorSecondary mt-2'>
-											<div style={{ width: '40%' }}>Empleado:</div>
-											<div style={{ width: '60%' }}>{timeRequest.employeeId}</div>
-										</div>
-										<div className='d-flex textColorSecondary mt-2'>
-											<div style={{ width: '40%' }}>Lugar de trabajo:</div>
-											<div style={{ width: '60%' }}>PENDIENTE</div>
-										</div>
-										<div className='d-flex textColorSecondary mt-4'>
-											<div className='fw-bold' style={{ width: '40%' }}>
-												Fecha de asignación:
+											<div className='d-flex textColorSecondary mt-2'>
+												<div style={{ width: '40%' }}>Empleado:</div>
+												<div style={{ width: '60%' }}>
+													{timeRequest.employee.User.firstName}{' '}
+													{timeRequest.employee.User.lastName}
+												</div>
 											</div>
-											<div style={{ width: '60%' }}>{timeRequest.fechaAsignacion}</div>
-										</div>
-										<div className='d-flex textColorSecondary mt-2'>
-											<div className='fw-bold' style={{ width: '40%' }}>
-												Hora de asignación:
+											<div className='d-flex textColorSecondary mt-2'>
+												<div style={{ width: '40%' }}>Lugar de trabajo:</div>
+												<div style={{ width: '60%' }}>
+													{timeRequest.employee.lugarDeTrabajo}
+												</div>
 											</div>
-											<div style={{ width: '60%' }}>{timeRequest.horaAsignacion}</div>
-										</div>
-										<div className='d-flex textColorSecondary mt-2'>
-											<div className='fw-bold' style={{ width: '40%' }}>
-												Lugar de asignación:
+											<div className='d-flex textColorSecondary mt-4'>
+												<div className='fw-bold' style={{ width: '40%' }}>
+													Fecha de asignación:
+												</div>
+												<div style={{ width: '60%' }}>{timeRequest.fechaAsignacion}</div>
 											</div>
-											<div style={{ width: '60%' }}>{timeRequest.LugarApoyo}</div>
-										</div>
-										<div className='d-flex textColorSecondary mt-2'>
-											<div className='fw-bold' style={{ width: '40%' }}>
-												Solicita:
+											<div className='d-flex textColorSecondary mt-2'>
+												<div className='fw-bold' style={{ width: '40%' }}>
+													Hora de asignación:
+												</div>
+												<div style={{ width: '60%' }}>{timeRequest.horaAsignacion}</div>
 											</div>
-											<div style={{ width: '60%' }}>{timeRequest.employeeIdRequest}</div>
-										</div>
+											<div className='d-flex textColorSecondary mt-2'>
+												<div className='fw-bold' style={{ width: '40%' }}>
+													Lugar de asignación:
+												</div>
+												<div style={{ width: '60%' }}>{timeRequest.LugarApoyo}</div>
+											</div>
+											<div className='d-flex textColorSecondary mt-2'>
+												<div className='fw-bold' style={{ width: '40%' }}>
+													Solicita:
+												</div>
+												<div style={{ width: '60%' }}>{timeRequest.employeeIdRequest}</div>
+											</div>
 
-										<div className='d-flex textColorSecondary mt-2'>
-											<div className='textColorLight' style={{ width: '87%' }}>
-												<div className='fw-bold'>Detalle de la solicitud:</div>
-												{timeRequest.descripcion}
+											<div className='d-flex textColorSecondary mt-2'>
+												<div className='textColorLight' style={{ width: '87%' }}>
+													<div className='fw-bold'>Detalle de la solicitud:</div>
+													{timeRequest.descripcion}
+												</div>
 											</div>
+										</div>
+										<div className='custm-solicitudContaiter50 d-flex flex-column justify-content-center align-items-center'>
+											{timeRequest.statusId === 1 && (
+												<>
+													<div className='d-flex textColorSecondary mt-2 mb-4'>
+														<div className='fw-bold me-2' style={{ width: '40%' }}>
+															Estatus:
+														</div>
+														<div className='custm-Status1 ' style={{ width: '60%' }}>
+															● Pendiente
+														</div>
+													</div>
+													<div className='d-flex justify-content-center textColorSecondary mt-2'>
+														<ModalAutorizarHorasExtras
+															timeRequest={timeRequest.id}
+															employeeId={empleadoData.id}
+														/>
+													</div>
+												</>
+											)}
+
+											{/* ------------------------------- */}
+											{timeRequest.statusId !== 1 && (
+												<>
+													<div className='d-flex textColorSecondary mt-2 mb-4'>
+														<div className='fw-bold me-2' style={{ width: '40%' }}>
+															Estatus:
+														</div>
+														{timeRequest.statusId === 2 && (
+															<div className='custm-Status2 ' style={{ width: '60%' }}>
+																● Aceptada
+															</div>
+														)}
+														{timeRequest.statusId === 3 && (
+															<div className='custm-Status3 ' style={{ width: '65%' }}>
+																● Rechazada
+															</div>
+														)}
+													</div>
+													<div className='d-flex justify-content-center textColorSecondary mt-2'>
+														<div className='textColorLight' style={{ minWidth: '87%' }}>
+															<div className='fw-bold'>Detalle de la respuesta:</div>
+															{timeRequest.descripcionEmpleado}
+														</div>
+													</div>
+												</>
+											)}
 										</div>
 									</div>
-									<div className='custm-solicitudContaiter50 d-flex flex-column justify-content-center align-items-center'>
-										{timeRequest.statusId === 1 && (
-											<>
-												<div className='d-flex textColorSecondary mt-2 mb-4'>
-													<div className='fw-bold me-2' style={{ width: '40%' }}>
-														Estatus:
-													</div>
-													<div className='custm-Status1 ' style={{ width: '60%' }}>
-														● Pendiente
-													</div>
-												</div>
-												<div className='d-flex justify-content-center textColorSecondary mt-2'>
-													<form className=''>
-														<div className='d-flex flex-column align-items-center'>
-															<label className='textColorLight custm-Width100 ms-5'>
-																Descripción*
-															</label>
-															<textarea
-																// form='usrform'
-																className='form-control  custm-empleadoFormIntput'
-																style={{ width: '90%' }}
-																rows={6}
-																cols={50}
-																name='descriptionRespuesta'
-																placeholder='Escribe un breve detalle'
-															></textarea>
-														</div>
-														<div className='d-flex justify-content-center mt-4'>
-															<button
-																type='button'
-																onClick={() => attendRequestAccept(timeRequest.id)}
-																className='btn custm-btnAccept p-3 m-3'
-															>
-																Aceptar
-															</button>
-															<button
-																type='button'
-																onClick={() => attendRequestReject(timeRequest.id)}
-																className='btn custm-btnDeny p-3 m-3'
-															>
-																Rechazar
-															</button>
-														</div>
-													</form>
-												</div>
-											</>
-										)}
-
-										{/* ------------------------------- */}
-										{timeRequest.statusId !== 1 && (
-											<>
-												<div className='d-flex textColorSecondary mt-2 mb-4'>
-													<div className='fw-bold me-2' style={{ width: '40%' }}>
-														Estatus:
-													</div>
-													{timeRequest.statusId === 2 && (
-														<div className='custm-Status2 ' style={{ width: '60%' }}>
-															● Aceptada
-														</div>
-													)}
-													{timeRequest.statusId === 3 && (
-														<div className='custm-Status3 ' style={{ width: '65%' }}>
-															● Rechazada
-														</div>
-													)}
-												</div>
-												<div className='d-flex justify-content-center textColorSecondary mt-2'>
-													<div className='textColorLight' style={{ minWidth: '87%' }}>
-														<div className='fw-bold'>Detalle de la respuesta:</div>
-														{timeRequest.descripcionEmpleado}
-													</div>
-												</div>
-											</>
-										)}
-									</div>
-								</div>
-							))}
+								))}
 							{/* Inicio */}
 							{/* <div className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'>
 								<div
