@@ -92,13 +92,14 @@ async function createReport(params, id,next){
 
 async function getTimeRequestByEmployeeId(id,res) {
     try {
+        const atributeUser=['firstName','lastName'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id}});
-
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
+        
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
-
+        
         return TimeRequests;
-
+        
     } catch (error) {
         return res.status(404).json({ message: error.message});
     }
@@ -108,16 +109,17 @@ async function getRequest(req,res) {
     try {
         console.log(req.user.rollTypeId);
         let Requests;
+        const atributeUser=['firstName','lastName'];
         const employee= await models.Employee.findOne({where:{userId:req.user.id}});
         switch (req.user.rollTypeId) {
             case 1:
-                Requests = await models.Request.findAll();
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['id']}]});
             break;
             case 2:
-                Requests = await models.Request.findAll({where:{employeeId:employee.id}});
+                Requests = await models.Request.findAll({where:{employeeId:employee.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['id']}]});
             break;
             case 3:
-                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}]});
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}],include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['id']}]});
                     
             break;
         
@@ -137,8 +139,9 @@ async function getRequest(req,res) {
 }
 async function getRequestByEmployeeId(id,res) {
     try {
+        const atributeUser=['firstName','lastName'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const Requests = await models.Request.findAll({where:{employeeId:id}});
+        const Requests = await models.Request.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['id']}]});
 
         console.log(Requests.length); 
 
@@ -154,17 +157,18 @@ async function getRequestByEmployeeId(id,res) {
 
 async function getTimeRequest(req,res) {
     try {
+        const atributeUser=['firstName','lastName'];
         console.log(req.user.rollTypeId)
         if(req.user.rollTypeId === 1){
-            const TimeRequest = await models.TimeRequest.findAll();
+            const TimeRequest = await models.TimeRequest.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }else if(req.user.rollTypeId === 2){
-            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id}});
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeId:req.user.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }else if(req.user.rollTypeId === 3){
-            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id}});
+            const TimeRequest = await models.TimeRequest.findAll({where:{employeeIdRequest:req.user.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
             if (!TimeRequest)  throw new Error('Empleado no encontrado');
             return TimeRequest;
         }
