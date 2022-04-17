@@ -146,6 +146,7 @@ router.patch(
 	updateReport
 );
 
+router.get('/:id/reports',authorize());
 
 
 
@@ -175,7 +176,7 @@ function getReport(req, res, next) {
 function registerReport(req, res, next) {
 	employeeService
 		.createReport(req.body, req.params.id, next)
-		.then(() => res.json({  message: 'Registro exitoso' }))
+		.then((report) => res.json({data:report,  message: 'Registro exitoso' }))
 		.catch(next);
 }
 
