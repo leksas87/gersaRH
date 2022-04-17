@@ -57,12 +57,10 @@ const PageHistorialHorasExtras = () => {
 								<div>Filtrar por:</div>
 								<div className='ms-2'>
 									<select
-										className='form-select form-control  '
-										// disabled={!horasLabValue}
+										className='form-select form-control'
 										value={sortBy}
 										name='sortBy'
 										onChange={handleInputChange}
-										// disabled={!infoBasicavalue}
 									>
 										<option value=''>Todos</option>
 										<option value='2'>Aceptadas</option>

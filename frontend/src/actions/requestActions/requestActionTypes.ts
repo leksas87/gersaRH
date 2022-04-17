@@ -25,6 +25,8 @@ export interface iRequestList {
 	employee: {
 		User: { firstName: string; lastName: string };
 		id: number | null;
+		supervisor: string;
+		lugarDeTrabajo: string;
 	};
 	employeeId: number | null;
 	fechaCreacion: string;

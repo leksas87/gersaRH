@@ -1,14 +1,48 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewReport } from '../../actions/reportsActions/reportsActions';
+import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
 
 const ModalNuevoReporteEmpleado = () => {
-	const loading = false;
+	//Dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//State que indica el id del empleado
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	const { registerState } = useSelector((state: RootSote) => state.reports);
+
+	//objeto user para formulario Registro
+	const newRequest = {
+		asunto: '',
+		descripcionEmpleado: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newRequest);
+
+	//Desestructuracion de propiedades
+	const { asunto, descripcionEmpleado } = formValues;
+
 	//useState para manejo del checkbox
 	const [checked, setChecked] = useState<boolean>(false);
 	const handleClick = () => setChecked(!checked);
 
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('enviando');
+
+		if (empleadoData.id) {
+			dispatch(
+				registerNewReport(
+					{
+						asunto: asunto,
+						descripcionEmpleado: descripcionEmpleado,
+						employeeId: empleadoData.id,
+						anonimo: checked,
+					},
+					empleadoData.id,
+					'modalNuevoReporteEmpleado'
+				)
+			);
+		}
 	};
 	return (
 		<>
@@ -81,13 +115,12 @@ const ModalNuevoReporteEmpleado = () => {
 												<select
 													id='selectReportType'
 													className='form-select form-control custm-Width100 custm-empleadoFormIntput'
-													name='scheduleId'
-													// onChange={handleInputChange}
-													// disabled={!horasLabValue}
-													// value={tipoDeHorario}
-													// disabled={!infoBasicavalue}
+													name='asunto'
+													onChange={handleInputChange}
+													value={asunto}
+													required
 												>
-													<option>--Selecciona uno--</option>
+													<option value=''>--Selecciona uno--</option>
 
 													<option value='Reporte'>Reporte</option>
 													<option value='Queja'>Queja</option>
@@ -101,12 +134,14 @@ const ModalNuevoReporteEmpleado = () => {
 													Descripción*
 												</label>
 												<textarea
-													// form='usrform'
 													className='form-control custm-Width100 custm-empleadoFormIntput'
 													rows={4}
 													cols={50}
 													name='descripcionEmpleado'
+													value={descripcionEmpleado}
+													onChange={handleInputChange}
 													placeholder='Escribe un breve detalle'
+													required
 												></textarea>
 											</div>
 
@@ -137,9 +172,10 @@ const ModalNuevoReporteEmpleado = () => {
 												</div>
 											)} */}
 											<div className='d-flex justify-content-end'>
-												{/* {!registerState.loading ? ( */}
-												{!loading ? (
-													<button className='custm-btnFormSubmit inputSubmit'>Enviar</button>
+												{!registerState.loading ? (
+													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
+														Enviar
+													</button>
 												) : (
 													<button
 														className='btn  custm-btnFormSubmit inputSubmit'

@@ -102,7 +102,7 @@ const PageSolicitudVacaciones = () => {
 													<div style={{ width: '40%' }}>Estatus:</div>
 													<div className='d-flex' style={{ width: '60%' }}>
 														<span className='custm-Status1 pe-3'>● Pendiente</span>
-														<div className='d-flex'>
+														{/* <div className='d-flex'>
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
@@ -113,7 +113,7 @@ const PageSolicitudVacaciones = () => {
 															>
 																<i className='bi bi-paperclip' />
 															</a>
-														</div>
+														</div> */}
 													</div>
 												</div>
 											</>
@@ -134,7 +134,7 @@ const PageSolicitudVacaciones = () => {
 															</div>
 														)}
 
-														<div className='d-flex'>
+														{/* <div className='d-flex'>
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
@@ -145,7 +145,7 @@ const PageSolicitudVacaciones = () => {
 															>
 																<i className='bi bi-paperclip' />
 															</a>
-														</div>
+														</div> */}
 													</div>
 												</div>
 

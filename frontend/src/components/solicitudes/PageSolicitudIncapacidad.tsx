@@ -161,7 +161,8 @@ const PageSolicitudIncapacidad = () => {
 											</>
 										)}
 									</div>
-								))}
+								))
+								.reverse()}
 						</div>
 					</div>
 				</div>

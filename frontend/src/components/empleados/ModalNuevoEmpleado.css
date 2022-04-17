@@ -13,6 +13,11 @@
 }
 
 /* ---Registro Empleados (MODAL)--- */
+.custm-btnAttend {
+	background-color: var(--textColorLink);
+	color: var(--backgroundPrimary);
+	/* border: 2px solid var(--textColorLink); */
+}
 .custm-modalContent {
 	background-color: var(--backgroundPrimary);
 	border-radius: 20px;
