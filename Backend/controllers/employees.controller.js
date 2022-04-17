@@ -146,7 +146,7 @@ router.patch(
 	updateReport
 );
 
-router.get('/:id/reports',authorize());
+router.get('/:id/reports',authorize(),forbiddenGetUnique(),getReport);
 
 
 
