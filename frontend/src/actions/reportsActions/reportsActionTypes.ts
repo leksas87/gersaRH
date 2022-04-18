@@ -18,20 +18,23 @@ export interface iReportsReducer {
 }
 //Interfaz para requestList.
 export interface iReportsList {
-	adjunto: string;
-	descripcionEmpleado: string;
-	descriptionRespuesta: string;
-	employee: {
-		User: { firstName: string; lastName: string };
-		id: number | null;
-	};
+	id: number | null;
 	employeeId: number | null;
 	fechaCreacion: string;
-	fechaFin: string;
-	fechaInicio: string;
-	id: number | null;
-	requestTypeId: number | null;
-	statusId: number | null;
+	descripcionEmpleado: string;
+	asunto: string;
+	anonimo: boolean;
+	statusId: number;
+	employee: {
+		id: number;
+		supervisor: string;
+		lugarDeTrabajo: string;
+		User: {
+			firstName: string;
+			lastName: string;
+		};
+	};
+	reportType: string | null;
 }
 
 //Charging Report Start Loading

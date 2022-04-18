@@ -37,6 +37,7 @@ const ModalNuevoReporteEmpleado = () => {
 						descripcionEmpleado: descripcionEmpleado,
 						employeeId: empleadoData.id,
 						anonimo: checked,
+						reportType: 'empleado',
 					},
 					empleadoData.id,
 					'modalNuevoReporteEmpleado'

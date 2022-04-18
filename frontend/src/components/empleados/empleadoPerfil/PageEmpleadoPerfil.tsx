@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	getEmployeeByRollType,
+	getWorkPlaces,
 	resendInvitationByuserName,
 	updateEmployeeById,
 	updateUserById,
@@ -11,8 +12,13 @@ import { RootSote } from '../../../store/Store';
 
 const PageEmpleadoPerfil = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario, perfilEmpleado, administradores, supervisores } =
-		useSelector((state: RootSote) => state.users);
+	const {
+		perfilUsuario,
+		perfilEmpleado,
+		administradores,
+		supervisores,
+		workPlaces,
+	} = useSelector((state: RootSote) => state.users);
 
 	const jefes = administradores.concat(supervisores);
 
@@ -47,6 +53,7 @@ const PageEmpleadoPerfil = () => {
 	useEffect(() => {
 		dispatch(getEmployeeByRollType(3));
 		dispatch(getEmployeeByRollType(1));
+		dispatch(getWorkPlaces());
 	}, [dispatch]);
 
 	const handleInputChange = (event: any) => {
@@ -193,11 +200,13 @@ const PageEmpleadoPerfil = () => {
 										disabled={!value}
 									/>
 									<datalist id='datalistOptions'>
-										<option value='1'>tultitlan</option>
 										<option value='2'>Adidas</option>
-										<option value='3'>Adidas</option>
+										{workPlaces.map((workPlace) => (
+											<option key={workPlace.id} value={workPlace.nameWorkPlace} />
+										))}
+										{/* <option value='3'>Adidas</option>
 										<option value='4'>Adidas</option>
-										<option value='5'>Adidas</option>
+										<option value='5'>Adidas</option> */}
 									</datalist>
 								</div>
 								<div

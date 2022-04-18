@@ -1,6 +1,19 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getReportList } from '../../actions/reportsActions/reportsActions';
+import { RootSote } from '../../store/Store';
 import ModalNuevoReporteAdministrativo from './ModalNuevoReporteAdministrativo';
 
 const PageReportesAdministrativos = () => {
+	//dispatch para ejecutar las Actions
+	const dispatch = useDispatch();
+	//Se necesita el satate que indica el reportsList
+	const { reportsList } = useSelector((state: RootSote) => state.reports);
+
+	useEffect(() => {
+		dispatch(getReportList());
+	}, [dispatch]);
+
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -52,40 +65,63 @@ const PageReportesAdministrativos = () => {
 									Historial de reportes
 								</div>
 								{/* Inicio */}
-								<div className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'>
-									<div className='d-flex textColorSecondary'>
-										<div style={{ width: '40%' }}>Fecha de envío:</div>
-										<div style={{ width: '60%' }}>01/01/2022</div>
-									</div>
-									<div className='d-flex custm-Status4 mt-3'>
-										<div className='fw-bold' style={{ width: '100%' }}>
-											Solicitud de baja
+								{reportsList
+									.filter((element) => {
+										return (
+											element.asunto !== 'Queja' &&
+											element.asunto !== 'Reporte' &&
+											element.asunto !== 'Sugerencia'
+										);
+									})
+									.map((report) => (
+										<div
+											key={report.id}
+											className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'
+										>
+											<div className='d-flex textColorSecondary'>
+												<div style={{ width: '40%' }}>Fecha de envío:</div>
+												<div style={{ width: '60%' }}>{report.fechaCreacion}</div>
+											</div>
+											<div className='d-flex custm-Status4 mt-3'>
+												<div className='fw-bold' style={{ width: '100%' }}>
+													{report.asunto}
+												</div>
+											</div>
+											<div className='d-flex textColorSecondary mt-3'>
+												<div style={{ width: '40%' }}>Empleado:</div>
+												<div className='d-flex' style={{ width: '60%' }}>
+													<span className=''>
+														{/* {report.employee.User.firstName} {report.employee.User.lastName} */}
+														PENDIENTE
+													</span>
+												</div>
+											</div>
+											<div className='d-flex textColorSecondary mt-3'>
+												<div style={{ width: '40%' }}>Estatus:</div>
+												<div className='d-flex' style={{ width: '60%' }}>
+													{report.statusId === 1 && (
+														<span className='custm-Status1 pe-3'>● Pendiente de revisar</span>
+													)}
+													{report.statusId !== 1 && (
+														<>
+															{report.statusId === 4 && (
+																<span className='custm-Status4 pe-3'>● Revisado</span>
+															)}
+														</>
+													)}
+												</div>
+											</div>
+											<div className='d-flex mt-3'>
+												<div className='textColorSecondary' style={{ width: '40%' }}>
+													Detalle:
+												</div>
+												<div className='textColorLight' style={{ width: '60%' }}>
+													{report.descripcionEmpleado}
+												</div>
+											</div>
 										</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Empleado:</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<span className=''>Ivan Santana Santana</span>
-										</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Estatus:</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<span className='custm-Status1 pe-3'>● Pendiente de revisar</span>
-										</div>
-									</div>
-									<div className='d-flex mt-3'>
-										<div className='textColorSecondary' style={{ width: '40%' }}>
-											Detalle:
-										</div>
-										<div className='textColorLight' style={{ width: '60%' }}>
-											Veniam non commodo exercitation qui cupidatat sit sit proident
-											proident. Sit duis officia eiusmod sint minim cupidatat dolor
-											exercitation pariatur. Adipisicing velit cillum velit veniam irure
-											dolor laborum fugiat ex Lorem ad.
-										</div>
-									</div>
-								</div>
+									))
+									.reverse()}
 							</div>
 						</div>
 					</div>

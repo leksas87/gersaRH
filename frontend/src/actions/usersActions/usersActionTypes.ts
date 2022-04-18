@@ -14,6 +14,8 @@ export const GET_SUPERVISORES = 'getSupervisores';
 export const CLEAN_SUPERVISORES = 'cleanSupervisores';
 export const GET_ADMINISTRADORES = 'getAdministradores';
 export const CLEAN_ADMINISTRADORES = 'cleanAdministradores';
+export const GET_WORKPLACES = 'getWorkPlaces';
+export const CLEAN_WORKPLACES = 'cleanWorkPlaces';
 
 //Usuario que se recibe del fetch al ahcer logIn
 //En realidad esta interfaz es usuario
@@ -69,6 +71,10 @@ export interface iEmployeeData {
 	swiftBic: string;
 	tipoIdentificacion: string;
 	userId: number | null;
+}
+export interface iWorkPlaces {
+	id: number | null;
+	nameWorkPlace: string;
 }
 //Inicia registro
 export interface RegiserUserStartLoading {
@@ -149,6 +155,17 @@ export interface ChangeTablePath {
 	type: typeof CHANGE_TABLE_PATH;
 	payload: string;
 }
+//Obtener workPlaces
+export interface GetWorkPlaces {
+	type: typeof GET_WORKPLACES;
+	payload: {
+		workPlaces: iWorkPlaces[];
+	};
+}
+//Limpiar workPlaces
+export interface CleanWorkPlaces {
+	type: typeof CLEAN_WORKPLACES;
+}
 
 //Types para el dispatch
 export type UsersDispatchTypes =
@@ -166,4 +183,6 @@ export type UsersDispatchTypes =
 	| CleanSupervisores
 	| GetAdministradores
 	| CleanAdministradores
-	| GetUsersByID;
+	| GetUsersByID
+	| GetWorkPlaces
+	| CleanWorkPlaces;

@@ -1,4 +1,18 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getReportList } from '../../actions/reportsActions/reportsActions';
+import { RootSote } from '../../store/Store';
+import SelectReport from './SelectReport';
+
 const PageVerReportesAdministrativos = () => {
+	//dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//Se necesita el satate que indica el reportsList
+	const { reportsList } = useSelector((state: RootSote) => state.reports);
+
+	useEffect(() => {
+		dispatch(getReportList());
+	}, [dispatch]);
 	return (
 		<>
 			<div className='d-flex flex-column justify-content-center pt-4 p-4'>
@@ -35,62 +49,60 @@ const PageVerReportesAdministrativos = () => {
 								Lista de reportes administrativos.
 							</div>
 							{/* Inicio */}
-							<div className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'>
-								<div className='d-flex textColorSecondary'>
-									<div style={{ width: '40%' }}>Fecha de envío:</div>
-									<div style={{ width: '60%' }}>01/01/2022</div>
-								</div>
-								<div className='d-flex custm-Status4 mt-3'>
-									<div className='fw-bold' style={{ width: '40%' }}>
-										Solicitud de baja
-									</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div style={{ width: '40%' }}>Empleado:</div>
-									<div className='d-flex' style={{ width: '60%' }}>
-										<span className=''>Ivan Santana Santana</span>
-									</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div style={{ width: '40%' }}>Lugar de trabajo:</div>
-									<div className='d-flex' style={{ width: '60%' }}>
-										<span className=''>Lugar 1</span>
-									</div>
-								</div>
+							{reportsList
+								.filter((element) => {
+									return element.reportType === 'administrativo';
+								})
+								.map((report) => (
+									<div
+										key={report.id}
+										className='d-flex flex-column custm-Width100 mt-3 custm-UnderLineSection p-3'
+									>
+										<div className='d-flex textColorSecondary'>
+											<div style={{ width: '40%' }}>Fecha de envío:</div>
+											<div style={{ width: '60%' }}>{report.fechaCreacion}</div>
+										</div>
+										<div className='d-flex custm-Status4 mt-3'>
+											<div className='fw-bold' style={{ width: '40%' }}>
+												{report.asunto}
+											</div>
+										</div>
+										<div className='d-flex textColorSecondary mt-3'>
+											<div style={{ width: '40%' }}>Empleado:</div>
+											<div className='d-flex' style={{ width: '60%' }}>
+												{report.anonimo ? (
+													<span className=''>Anónimo</span>
+												) : (
+													<span className=''>
+														{report.employee.User.firstName} {report.employee.User.lastName}
+													</span>
+												)}
+											</div>
+										</div>
+										<div className='d-flex textColorSecondary mt-3'>
+											<div style={{ width: '40%' }}>Lugar de trabajo:</div>
+											<div className='d-flex' style={{ width: '60%' }}>
+												<span className=''>{report.employee.lugarDeTrabajo}</span>
+											</div>
+										</div>
 
-								<div className='d-flex mt-3'>
-									<div className='textColorSecondary' style={{ width: '40%' }}>
-										Detalle:
+										<div className='d-flex mt-3'>
+											<div className='textColorSecondary' style={{ width: '40%' }}>
+												Detalle:
+											</div>
+											<div className='textColorLight' style={{ width: '60%' }}>
+												{report.descripcionEmpleado}
+											</div>
+										</div>
+										<div className='d-flex textColorSecondary mt-3'>
+											<div style={{ width: '40%' }}>Estado:</div>
+											<div className='d-flex' style={{ width: '60%' }}>
+												<SelectReport report={report} />
+											</div>
+										</div>
 									</div>
-									<div className='textColorLight' style={{ width: '60%' }}>
-										Veniam non commodo exercitation qui cupidatat sit sit proident
-										proident. Sit duis officia eiusmod sint minim cupidatat dolor
-										exercitation pariatur. Adipisicing velit cillum velit veniam irure
-										dolor laborum fugiat ex Lorem ad.
-									</div>
-								</div>
-								<div className='d-flex textColorSecondary mt-3'>
-									<div style={{ width: '40%' }}>Estado:</div>
-									<div className='d-flex' style={{ width: '60%' }}>
-										<select
-											className='form-select form-control'
-											style={{ width: '130px', backgroundColor: 'transparent' }}
-											name='statusFiltering'
-											// onChange={handleInputChange}
-											// disabled={!horasLabValue}
-											// value={tipoDeHorario}
-											// disabled={!infoBasicavalue}
-										>
-											<option className='custm-Status1' value='Pendiente'>
-												Pendiente
-											</option>
-											<option className='custm-Status4' value='Revisado'>
-												Revisado
-											</option>
-										</select>
-									</div>
-								</div>
-							</div>
+								))
+								.reverse()}
 						</div>
 					</div>
 				</div>

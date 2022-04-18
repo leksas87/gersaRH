@@ -61,7 +61,7 @@ const ModalAutorizarHorasExtras = ({ timeRequest, employeeId }: any) => {
 				{/* <!-- Button para activar modal --> */}
 				<button
 					type='button'
-					className='btn custm-btnNuevoEmpleado custmBtnActions me-3'
+					className='btn  custmBtnActions me-3 p-2 custm-btnAttend'
 					style={{ height: 'auto' }}
 					data-bs-toggle='modal'
 					data-bs-target={`#modalAutorizarHorasExtras${timeRequest}`}
