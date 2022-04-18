@@ -12,7 +12,8 @@ const ReportSchema = {
   descripcionEmpleado: {type:DataTypes.STRING,allowNull:true },
   asunto: {type:DataTypes.STRING,allowNull:true },
   anonimo:{type: DataTypes.BOOLEAN,allowNull:false,defaultValue:true},
-  statusId: {type: DataTypes.INTEGER,allowNull:true,references:{model:STATUS_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'}
+  statusId: {type: DataTypes.INTEGER,allowNull:true,references:{model:STATUS_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  reportType: {type:DataTypes.STRING,allowNull:true },
 }
 
 class Reports extends Model {
