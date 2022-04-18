@@ -62,14 +62,17 @@ async function getReport(req,res) {
         const atributeUser=['firstName','lastName'];
         const atributeEmployeeWorkPlace=['id','supervisor','lugarDeTrabajo'];
         let query;
-        if (req.params.id=='undefined') {
+        console.log('::::::::::::::::::::');
+        if (!req.params.id) {
+            console.log('/////////sin id');
             if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
             query={include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
         if (req.params.id>0){
-            console.log('otro');
+            console.log('con id');
             query={where:{employeeId:req.params.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
+        
         return  await models.Reports.findAll(query);
          
 

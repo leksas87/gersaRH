@@ -146,7 +146,7 @@ router.patch(
 	updateReport
 );
 
-router.get('/:id/reports',authorize(),forbiddenGetUnique(),getReport);
+router.get('/:id/reports',authorize(),getReport);
 
 
 
@@ -204,7 +204,6 @@ function getRequestByEmployeeId(req, res, next) {
 		.catch(next);
 }
 function getRequest(req, res, next) {
-	console.log('funcion get request');
 	employeeService
 		.getRequest(req, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
