@@ -186,6 +186,7 @@ function registerSchemaReport(req, res, next) {
 		employeeId: Joi.number().integer().required(),
 		asunto: Joi.string().required(),
 		anonimo: Joi.boolean().required(),
+		reportType: Joi.string().required(),
 	});
 	validateRequest(req, next, schema);
 }
