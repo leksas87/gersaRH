@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getReportList } from '../../actions/reportsActions/reportsActions';
+import { getReportListByEmployeeId } from '../../actions/reportsActions/reportsActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevoReporteAdministrativo from './ModalNuevoReporteAdministrativo';
 
@@ -9,10 +9,14 @@ const PageReportesAdministrativos = () => {
 	const dispatch = useDispatch();
 	//Se necesita el satate que indica el reportsList
 	const { reportsList } = useSelector((state: RootSote) => state.reports);
+	//Stete que indica el employee.id del usuario logeado
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
 
 	useEffect(() => {
-		dispatch(getReportList());
-	}, [dispatch]);
+		if (empleadoData.id) {
+			dispatch(getReportListByEmployeeId(empleadoData.id));
+		}
+	}, [dispatch, empleadoData.id]);
 
 	return (
 		<>
@@ -23,7 +27,7 @@ const PageReportesAdministrativos = () => {
 						className='textColorSecondary fs-4'
 						style={{ textDecoration: 'underline' }}
 					>
-						Reportes administrativos
+						Reportes administrativos2
 					</div>
 					<div>
 						<ModalNuevoReporteAdministrativo />
@@ -67,11 +71,7 @@ const PageReportesAdministrativos = () => {
 								{/* Inicio */}
 								{reportsList
 									.filter((element) => {
-										return (
-											element.asunto !== 'Queja' &&
-											element.asunto !== 'Reporte' &&
-											element.asunto !== 'Sugerencia'
-										);
+										return element.reportType === 'administrativo';
 									})
 									.map((report) => (
 										<div

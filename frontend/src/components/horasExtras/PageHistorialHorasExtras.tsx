@@ -17,13 +17,13 @@ const PageHistorialHorasExtras = () => {
 		sortBy: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [sortValues, handleInputChange, reset] = useForm(initialState);
+	const [sortValues, handleInputChange] = useForm(initialState);
 	//Desestructuracion
 	const { sortBy } = sortValues;
 
 	useEffect(() => {
 		dispatch(gettimeRequestList());
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<>

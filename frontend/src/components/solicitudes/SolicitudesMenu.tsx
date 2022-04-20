@@ -31,7 +31,7 @@ const SolicitudesMenu = () => {
 									style={{ fontSize: '2.8rem', color: 'var(--textColorLink)' }}
 									className='bi bi-window-plus'
 								/>
-								<div className='fs-5'>Solicitud de faltar</div>
+								<div className='fs-5'>Solicitudes personales</div>
 							</Link>
 							<Link to='incapacidad' className=' custm-btnSolicitud shadow-sm'>
 								<i

@@ -2,6 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerNewRequest } from '../../actions/requestActions/requestActions';
 import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
+import { v4 as uuidv4 } from 'uuid';
+import AWS from 'aws-sdk';
+import { useState } from 'react';
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
+
+const S3_BUCKET = 'gersarequestfiles';
+const REGION = 'us-east-1';
+
+AWS.config.update({
+	accessKeyId: accessKeyId,
+	secretAccessKey: secretAccessKey,
+});
+
+const myBucket = new AWS.S3({
+	params: { Bucket: S3_BUCKET },
+	region: REGION,
+});
 
 const ModalNuevaSolicitudFalta = () => {
 	//dispatch para ejecutar Actions
@@ -21,15 +39,13 @@ const ModalNuevaSolicitudFalta = () => {
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
 	const [formValues, handleInputChange] = useForm(newRequest);
+	//estado para mostrar la carga del inputFile
+	const [progress, setProgress] = useState(0);
+	//Estado para guardar el nombre Key del InputFile
+	const [inputFileName, setInputFileName] = useState('');
 
 	//Desestructuracion de propiedades
 	const { fechaFin, fechaInicio, descripcionEmpleado } = formValues;
-
-	// useForm para el inputFile
-	const [formInputfileValues, onchange] = useForm({
-		uploadfile: '',
-	});
-	const { uploadfile } = formInputfileValues;
 
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -43,7 +59,7 @@ const ModalNuevaSolicitudFalta = () => {
 						statusId: 1,
 						employeeId: empleadoData.id,
 						requestTypeId: 3,
-						adjunto: 'EXAMPLEUrl-q1231312dsd',
+						adjunto: inputFileName,
 					},
 					empleadoData.id,
 					'modalSolicitudIncapacidad'
@@ -52,6 +68,29 @@ const ModalNuevaSolicitudFalta = () => {
 		} else {
 			console.log('Error falta userId');
 		}
+	};
+	//Metodo que carga el file
+	const handleFileInput = (e: any) => {
+		setProgress(0);
+		// setSelectedFile(e.target.files[0]);
+		const file = e.target.files[0];
+		const keyName = `${uuidv4()}.${file.name.split('.').pop()}`;
+		setInputFileName(keyName);
+
+		const params = {
+			Body: file,
+			Bucket: S3_BUCKET,
+			Key: keyName,
+		};
+
+		myBucket
+			.putObject(params)
+			.on('httpUploadProgress', (evt) => {
+				setProgress(Math.round((evt.loaded / evt.total) * 100));
+			})
+			.send((err) => {
+				if (err) console.log(err);
+			});
 	};
 	return (
 		<>
@@ -100,13 +139,13 @@ const ModalNuevaSolicitudFalta = () => {
 										className='d-flex flex-column'
 										style={{ maxWidth: '300px', lineHeight: '28px' }}
 									>
-										<label className='textColorPrimary fs-2'>Solicitud de falta</label>
+										<label className='textColorPrimary fs-2'>Solicitud personal</label>
 										<label
 											className='textColorLight fw-light mt-2'
 											style={{ lineHeight: '15px' }}
 										>
-											Completa la información siguiente para crear una nueva solicitud de
-											falta.
+											Completa la información siguiente para crear una nueva solicitud
+											personal.
 										</label>
 									</div>
 									<div
@@ -165,37 +204,20 @@ const ModalNuevaSolicitudFalta = () => {
 													required
 												></textarea>
 											</div>
-											<div
-												// style={{
-												// 	width: '100%',
-												// 	padding: '2rem 0px 2rem 0px',
-												// }}
-												className='mt-4'
-											>
+											<div className='mt-4'>
 												<label className='custm-Width100  textColorLight'>
-													Selecciona un comprobante
+													Selecciona un comprobante*
 												</label>
 												<input
 													className='form-control custm-InputFile'
 													type='file'
-													name='uploadfile'
-													id='formFile'
-													accept='.jpg,.jpeg, .pdf'
-													// required={true}
-													value={uploadfile}
-													onChange={onchange}
+													onChange={handleFileInput}
 												/>
-											</div>
-											{/* </div> */}
 
-											{/* {error && (
-												<div className='form-text textColorError'>
-													<i className='bi bi-exclamation-circle'>{` `}</i>
-													{error}.
-												</div>
-											)} */}
+												<div>El progreso de la carga del archivo es del {progress}%</div>
+											</div>
+
 											<div className='d-flex justify-content-end mt-4'>
-												{/* {!registerState.loading ? ( */}
 												{!registerState.loading ? (
 													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 														Enviar solicitud

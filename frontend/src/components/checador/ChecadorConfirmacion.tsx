@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
-	sendAccessCodeDataCheck,
 	sendEmployeeEvent,
 } from '../../actions/eventsActions/eventsActions';
 import { iEmployeeSchedules } from '../../actions/scheduleActions/scheduleActionsTypes';
@@ -43,57 +42,6 @@ const ChecadorConfirmacion = () => {
 		dispatch(changecheckIsUserActiveFalse());
 	};
 
-	//Metodo que compara dos horas (Entrada)
-	const compareHours = (
-		horaEntradaSchedule: string,
-		horaActualServer: string
-	) => {
-		const horaEntrada = moment(horaEntradaSchedule, 'HH:mm');
-		const horaRetardo = moment(horaEntradaSchedule, 'HH:mm').add(
-			scheduleToComparate?.tiempoRetraso,
-			'minutes'
-		);
-		const horaActual = moment(horaActualServer, 'HH:mm');
-
-		if (horaActual <= horaEntrada) {
-			console.log('Normal');
-			setEventType('Normal');
-		} else if (horaActual > horaEntrada && horaActual <= horaRetardo) {
-			console.log('retardo');
-			setEventType('Retardo');
-		} else if (horaActual > horaRetardo) {
-			console.log('actaAdministrativa');
-			setEventType('Acta administrativa');
-		}
-	};
-	//Metodo que compara dos horas (Entrada)
-	const compareHoursEntradaComida = (horaActualServer?: string) => {
-		const breakfast = moment(employeeEvents[1].DateEvent, 'HH:mm');
-		const horaActual = moment(horaActualServer, 'HH:mm');
-
-		//Encuentra la duracion entre dos horas
-		const durationTime = moment.duration(horaActual.diff(breakfast));
-		const time = durationTime.asMinutes();
-
-		//Condicion para guardar tipo de evento (Entrada de Descanso)
-		if (scheduleToComparate?.tiempoDescanso) {
-			if (time <= scheduleToComparate?.tiempoDescanso) {
-				setEventType('Normal');
-			} else if (
-				time > scheduleToComparate?.tiempoDescanso &&
-				time <=
-					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
-			) {
-				setEventType('Retardo');
-			} else if (
-				time >
-				scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
-			) {
-				setEventType('Acta administrativa');
-			}
-		}
-	};
-
 	//Se obtiene horario en el cual el dia actual (hoy) coincide con tu horario
 	// const event = 'Martes';
 	const schedule = employeeSchedules.find(
@@ -103,6 +51,57 @@ const ChecadorConfirmacion = () => {
 	//Efecto para evaluar si empleado trabaja hoy
 	// y validar hora de entrada
 	useEffect(() => {
+		//Metodo que compara dos horas (Entrada)
+		const compareHoursEntradaComida = (horaActualServer?: string) => {
+			const breakfast = moment(employeeEvents[1].DateEvent, 'HH:mm');
+			const horaActual = moment(horaActualServer, 'HH:mm');
+
+			//Encuentra la duracion entre dos horas
+			const durationTime = moment.duration(horaActual.diff(breakfast));
+			const time = durationTime.asMinutes();
+
+			//Condicion para guardar tipo de evento (Entrada de Descanso)
+			if (scheduleToComparate?.tiempoDescanso) {
+				if (time <= scheduleToComparate?.tiempoDescanso) {
+					setEventType('Normal');
+				} else if (
+					time > scheduleToComparate?.tiempoDescanso &&
+					time <=
+						scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
+				) {
+					setEventType('Retardo');
+				} else if (
+					time >
+					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
+				) {
+					setEventType('Acta administrativa');
+				}
+			}
+		};
+		//Metodo que compara dos horas (Entrada)
+		const compareHours = (
+			horaEntradaSchedule: string,
+			horaActualServer: string
+		) => {
+			const horaEntrada = moment(horaEntradaSchedule, 'HH:mm');
+			const horaRetardo = moment(horaEntradaSchedule, 'HH:mm').add(
+				scheduleToComparate?.tiempoRetraso,
+				'minutes'
+			);
+			const horaActual = moment(horaActualServer, 'HH:mm');
+
+			if (horaActual <= horaEntrada) {
+				console.log('Normal');
+				setEventType('Normal');
+			} else if (horaActual > horaEntrada && horaActual <= horaRetardo) {
+				console.log('retardo');
+				setEventType('Retardo');
+			} else if (horaActual > horaRetardo) {
+				console.log('actaAdministrativa');
+				setEventType('Acta administrativa');
+			}
+		};
+
 		if (schedule) {
 			setEmployeeWorksToday(true);
 			// Empleado SI trabaja hoy
@@ -123,7 +122,14 @@ const ChecadorConfirmacion = () => {
 			// Empleado no trabaja hoy
 			setEmployeeWorksToday(false);
 		}
-	}, [schedule, scheduleToComparate]);
+	}, [
+		schedule,
+		scheduleToComparate,
+		employeeEvents.length,
+		eventServerTime,
+
+		employeeEvents,
+	]);
 
 	//Efecto que Obtiene las coordenadas cada que se ejecuta el componente
 	useEffect(() => {
@@ -148,6 +154,7 @@ const ChecadorConfirmacion = () => {
 						latitudeEvent: cordenadas.latitude.toString(),
 						longitudeEvent: cordenadas.longitude.toString(),
 						EventType: eventType,
+						eventActionTypeId: 1,
 					},
 					userConfirmation.employeeId,
 					userConfirmation.token
@@ -155,6 +162,7 @@ const ChecadorConfirmacion = () => {
 			);
 		}
 	};
+
 	return (
 		<>
 			<div className='container containerProject d-flex flex-column justify-content-center align-items-center'>

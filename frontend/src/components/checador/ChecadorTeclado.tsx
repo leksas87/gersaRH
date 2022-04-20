@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { sendAccessCodeCheck } from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
@@ -8,7 +8,7 @@ const ChecadorTeclado = () => {
 	//Senecesita el state que indica  el checkState
 	const { eventsState } = useSelector((state: RootSote) => state.events);
 	//useLocation para conocer el path
-	const { pathname } = useLocation();
+	// const { pathname } = useLocation();
 	const dispatch = useDispatch();
 	//useNavigate oara redeireciconar a otra pagina
 	const navigate = useNavigate();

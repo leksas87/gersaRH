@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRequests } from '../../actions/requestActions/requestActions';
 import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
-import ModalAutorizarHorasExtras from '../horasExtras/ModalAutorizarHorasExtras';
 import ModalAutorizarSolicitudes from './ModalAutorizarSolicitudes';
 import './PageAutorizaciones.css';
 const PageAutorizaciones = () => {
@@ -17,13 +16,13 @@ const PageAutorizaciones = () => {
 		sortBy: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [sortValues, handleInputChange, reset] = useForm(initialState);
+	const [sortValues, handleInputChange] = useForm(initialState);
 	//Desestructuracion
 	const { sortBy } = sortValues;
 
 	useEffect(() => {
 		dispatch(getRequests());
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<>
@@ -159,7 +158,7 @@ const PageAutorizaciones = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={request.adjunto}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}

@@ -17,7 +17,7 @@ const PageAutorizarHorasExtras = () => {
 		sortBy: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [sortValues, handleInputChange, reset] = useForm(initialState);
+	const [sortValues, handleInputChange] = useForm(initialState);
 	//Desestructuracion
 	const { sortBy } = sortValues;
 	//dispatch para ejecutar las actions
@@ -191,7 +191,8 @@ const PageAutorizarHorasExtras = () => {
 											)}
 										</div>
 									</div>
-								))}
+								))
+								.reverse()}
 							{/* Inicio */}
 							{/* <div className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'>
 								<div

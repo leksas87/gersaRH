@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { getRequestsByEmployeeId } from '../../actions/requestActions/requestActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevaSolicitudIncapacidad from './ModalNuevaSolicitudIncapacidad';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 
+//Inicia compoenente
 const PageSolicitudIncapacidad = () => {
 	//Dispatch para ejecutar las actions
 	const dispatch = useDispatch();
@@ -108,7 +110,7 @@ const PageSolicitudIncapacidad = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}
@@ -140,7 +142,7 @@ const PageSolicitudIncapacidad = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}

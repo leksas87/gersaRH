@@ -71,12 +71,12 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 				}
 			})
 		);
-	}, [searchParams, empleados]);
+	}, [searchParams, empleados, busqueda, filter]);
 
 	//Efecto que se ejecuta cuando hay un cambio de path
 	useEffect(() => {
 		dispatch(changePath(pathname));
-	}, [pathname]);
+	}, [pathname, dispatch]);
 
 	// Effect to create the pagination
 	useEffect(() => {

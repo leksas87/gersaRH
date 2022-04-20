@@ -51,7 +51,8 @@ export const startLogin = (email: string, password: string) => {
 				dispatch<any>(getEmployeeDataById(body.data.id));
 			} else {
 				//Mensaje de error proveniente de la API
-				Swal.fire('Error', body.message, 'error');
+				console.log(body.message);
+				// Swal.fire('Error', body.message, 'error');
 				dispatch({ type: AUTH_LOADING_FINISH });
 			}
 		} catch (error) {
@@ -149,14 +150,14 @@ export const getEmployeeDataById = (id: number) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 403) {
-					// console.log('error403');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error403');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'error',
+					// 	title: `¡${error.response.data.message}!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else {
 					console.log(error.response.data.message);
 					// Swal.fire({

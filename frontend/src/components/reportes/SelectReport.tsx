@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { patchReportListById } from '../../actions/reportsActions/reportsActions';
-import { iReportsList } from '../../actions/reportsActions/reportsActionTypes';
 import { useForm } from '../../hooks/useForm';
 
 const SelectReport = ({ report }: any) => {
@@ -28,7 +27,7 @@ const SelectReport = ({ report }: any) => {
 				})
 			);
 		}
-	}, [reportID]);
+	}, [reportID, dispatch, report.id, report.statusId]);
 
 	return (
 		<>

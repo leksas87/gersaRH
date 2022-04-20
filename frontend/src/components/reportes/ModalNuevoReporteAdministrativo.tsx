@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerNewReport } from '../../actions/reportsActions/reportsActions';
 import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
 
 const ModalNuevoReporteAdministrativo = () => {
-	const loading = false;
-
 	//Dispatch para ejecutar las actions
 	const dispatch = useDispatch();
 	//State que indica el id del empleado

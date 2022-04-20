@@ -233,6 +233,7 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					console.log('employeeEventss', respuesta.data.registros);
 					// console.log(respuesta.data.registros);
 					const reverseArray = respuesta.data.registros.reverse();
 					console.log('arrayAlreves', reverseArray);
@@ -437,7 +438,7 @@ export const sendEmployeeEvent = (
 						timer: 1500,
 					});
 				} else if (error.response.status === 400) {
-					// console.log('error400');
+					console.log(error.response);
 					Swal.fire({
 						position: 'top-end',
 						icon: 'warning',

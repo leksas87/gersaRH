@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { getRequestsByEmployeeId } from '../../actions/requestActions/requestActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevaSolicitudFalta from './ModalNuevaSolicitudFalta';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 
+//Inicia compoenente
 const PageSolicitudFalta = () => {
 	//Dispatch para ejecutar las actions
 	const dispatch = useDispatch();
@@ -37,7 +39,7 @@ const PageSolicitudFalta = () => {
 					className='textColorSecondary fs-4'
 					style={{ textDecoration: 'underline' }}
 				>
-					Solicitud de falta
+					Solicitudes personales
 				</div>
 				<ModalNuevaSolicitudFalta />
 			</div>
@@ -53,9 +55,9 @@ const PageSolicitudFalta = () => {
 									className='bi bi-window-plus'
 								/>
 							</div>
-							<div className='fs-4'>Solicitud de falta</div>
+							<div className='fs-4'>Solicitudes personales.</div>
 							<div className='fs-5 textColorLight'>Crea y visualiza aquí</div>
-							<div className='fs-5 textColorLight'>tus solicitudes de faltas</div>
+							<div className='fs-5 textColorLight'>tus solicitudes personales</div>
 							<div className='custm-underLineTittle'></div>
 						</div>
 					</div>
@@ -79,7 +81,7 @@ const PageSolicitudFalta = () => {
 										</div>
 										<div className='d-flex textColorSecondary mt-3'>
 											<div className='fw-bold' style={{ width: '40%' }}>
-												Falta:
+												Solicitud:
 											</div>
 											<div className='d-flex' style={{ width: '60%' }}>
 												<div className='d-flex flex-column pe-4'>
@@ -106,7 +108,7 @@ const PageSolicitudFalta = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}
@@ -138,7 +140,7 @@ const PageSolicitudFalta = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}

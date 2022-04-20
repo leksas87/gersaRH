@@ -172,14 +172,14 @@ export const getEmployeeById = (id: string) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 403) {
-					// console.log('error403');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error403-');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'error',
+					// 	title: `¡${error.response.data.message}!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else {
 					Swal.fire({
 						position: 'top-end',

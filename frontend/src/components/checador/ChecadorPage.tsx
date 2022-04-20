@@ -7,6 +7,7 @@ import {
 	getServerTime,
 } from '../../actions/eventsActions/eventsActions';
 import { getSchedulesByUserIdCheckIn } from '../../actions/scheduleActions/scheduleActions';
+import { gettimeRequestListByEmployeeIdTOKEN } from '../../actions/timeRequest/timeRequestActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 
@@ -32,6 +33,12 @@ const ChecadorPage = () => {
 		if (userConfirmation.employeeId) {
 			dispatch(
 				getEmployeeEvents(userConfirmation.employeeId, userConfirmation.token)
+			);
+			dispatch(
+				gettimeRequestListByEmployeeIdTOKEN(
+					userConfirmation.employeeId,
+					userConfirmation.token
+				)
 			);
 		}
 	}, [dispatch, userConfirmation.employeeId, userConfirmation.token]);
