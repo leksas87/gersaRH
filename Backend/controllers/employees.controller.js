@@ -458,7 +458,8 @@ function getEvents(req, res, next) {
 					req.params.id, 
 					req.query.startDate, 
 					req.query.endDate, 
-					req.query.eventActionTypeId
+					req.query.eventActionTypeId,
+					res
 		).then(
 			(registros) =>{
 						res.json({ 

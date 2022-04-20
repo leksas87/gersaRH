@@ -361,7 +361,7 @@ async function getEmployeesOfJc(id, res,req) {
         throw error;
     }
 }
-async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId) {
+async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 
     let refEventTypeId = 3;
     
@@ -369,9 +369,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId) {
     //const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
     console.log("PAso")
     if(eventActionTypeId){
-        console.log("PAso")
-            //const fechaHoraCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
-            const fechaHoraCreacion = moment().tz(process.env.TZ).format('2022-04-19 15:59:00');
+            const fechaHoraCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
             const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD')
             const employeeSchedules = await models.EmployeeSchedule.findAll({where:{employeeId:id}}); 
 
@@ -657,23 +655,21 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId) {
                 case "4":
                     
                     break;
-
+                        //Agregar fecha 
                 case "5":
                     const employeeTimeRequests = await models.TimeRequest.findAll({where:{
                                                                                         employeeId:id,
-                                                                                        statusId:2
+                                                                                        statusId:2,
+                                                                                        fechaAsignacion:fechaCreacion,
                                                                                 }}); 
-                    if ( !employeeTimeRequests)  throw 'Empleado no tiene horas extra';
 
-                    
-                                                                            
+                    if ( employeeTimeRequests.length == 0) throw 'Empleado no tiene horas extra';
+
                     for (const employeeTimeRequest of employeeTimeRequests) {
 
                         const fechaEntrada = employeeTimeRequest.fechaAsignacion.concat(' ', employeeTimeRequest.horaAsignacion);
                         const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
                         //se agrega 360 por que por default 5 minutos de retardo antes que acta
-                        console.log(diferencia);
-                        console.log(fechaHoraCreacion);
                         const segundos =  360;
 
                                         if(diferencia<60){
