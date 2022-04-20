@@ -9,7 +9,7 @@ const ModalNuevaSolicitudVacaciones = () => {
 	const dispatch = useDispatch();
 
 	//Senecesita el state que indica  el perfilEmpleado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
 	//Senecesita el state que indica  el requestState
 	const { registerState } = useSelector((state: RootSote) => state.request);
 
@@ -19,7 +19,7 @@ const ModalNuevaSolicitudVacaciones = () => {
 		fechaInicio: '',
 		descripcionEmpleado: '',
 		statusId: 1,
-		employeeId: perfilEmpleado.id,
+		employeeId: empleadoData.id,
 		requestTypeId: 1,
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
@@ -30,7 +30,7 @@ const ModalNuevaSolicitudVacaciones = () => {
 
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (perfilEmpleado.id) {
+		if (empleadoData.id) {
 			dispatch(
 				registerNewRequest(
 					{
@@ -38,10 +38,10 @@ const ModalNuevaSolicitudVacaciones = () => {
 						fechaInicio: fechaInicio,
 						descripcionEmpleado: descripcionEmpleado,
 						statusId: 1,
-						employeeId: perfilEmpleado.id,
+						employeeId: empleadoData.id,
 						requestTypeId: 1,
 					},
-					perfilEmpleado.id,
+					empleadoData.id,
 					'modalSolicitudVacaciones'
 				)
 			);

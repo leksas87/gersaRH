@@ -4,6 +4,8 @@ export const REGISTER_NEW_REQUEST_LOADING_END = 'registerNewRequestLoadingEnd';
 export const GET_REQUEST_START_LOADING = 'getRequestStartLoading';
 export const GET_REQUEST_LOADING_END = 'getRequestLoadingEnd';
 export const REGISTER_NEW_REQUEST = 'registerNewRequest';
+export const GET_REQUEST_LIST = 'getRequestList';
+export const CLEAN_REQUEST_LIST = 'cleanRequestList';
 
 //Interfaz para request reducer.
 export interface iRequestReducer {
@@ -13,8 +15,27 @@ export interface iRequestReducer {
 	getRequestState: {
 		loading: boolean;
 	};
+	requestList: iRequestList[];
 }
-
+//Interfaz para requestList.
+export interface iRequestList {
+	adjunto: string;
+	descripcionEmpleado: string;
+	descriptionRespuesta: string;
+	employee: {
+		User: { firstName: string; lastName: string };
+		id: number | null;
+		supervisor: string;
+		lugarDeTrabajo: string;
+	};
+	employeeId: number | null;
+	fechaCreacion: string;
+	fechaFin: string;
+	fechaInicio: string;
+	id: number | null;
+	requestTypeId: number | null;
+	statusId: number | null;
+}
 //Charging Request Start Loading
 export interface GetRequestStartLoading {
 	type: typeof GET_REQUEST_START_LOADING;
@@ -35,6 +56,17 @@ export interface RegisterNewRequestLoadingEnd {
 export interface registerNewRequest {
 	type: typeof REGISTER_NEW_REQUEST;
 }
+//Obtener RequestList
+export interface GetRequestList {
+	type: typeof GET_REQUEST_LIST;
+	payload: {
+		requestList: iRequestList[];
+	};
+}
+//Limpiar RequestList
+export interface CleanRequestList {
+	type: typeof CLEAN_REQUEST_LIST;
+}
 
 //Types para el dispatch
 export type RequestDispatchTypes =
@@ -42,4 +74,6 @@ export type RequestDispatchTypes =
 	| GetRequestLoadingEnd
 	| RegisterNewRequestStartLoading
 	| RegisterNewRequestLoadingEnd
+	| CleanRequestList
+	| GetRequestList
 	| registerNewRequest;

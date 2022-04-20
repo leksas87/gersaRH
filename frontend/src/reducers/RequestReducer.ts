@@ -1,4 +1,6 @@
 import {
+	CLEAN_REQUEST_LIST,
+	GET_REQUEST_LIST,
 	GET_REQUEST_LOADING_END,
 	GET_REQUEST_START_LOADING,
 	iRequestReducer,
@@ -15,6 +17,7 @@ const INITIAL_STATE: iRequestReducer = {
 	getRequestState: {
 		loading: false,
 	},
+	requestList: [],
 };
 
 //Reducer
@@ -50,6 +53,16 @@ export const RequestReducer = (
 				getRequestState: {
 					loading: false,
 				},
+			};
+		case GET_REQUEST_LIST:
+			return {
+				...state,
+				requestList: [...action.payload.requestList],
+			};
+		case CLEAN_REQUEST_LIST:
+			return {
+				...state,
+				requestList: INITIAL_STATE.requestList,
 			};
 
 		default:

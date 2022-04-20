@@ -1,9 +1,47 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewReport } from '../../actions/reportsActions/reportsActions';
+import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
+
 const ModalNuevoReporteAdministrativo = () => {
 	const loading = false;
 
+	//Dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//State que indica el id del empleado
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	const { registerState } = useSelector((state: RootSote) => state.reports);
+
+	//objeto user para formulario Registro
+	const newRequest = {
+		asunto: '',
+		descripcionEmpleado: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newRequest);
+
+	//Desestructuracion de propiedades
+	const { asunto, descripcionEmpleado } = formValues;
+
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('enviando');
+
+		if (empleadoData.id) {
+			dispatch(
+				registerNewReport(
+					{
+						asunto: asunto,
+						descripcionEmpleado: descripcionEmpleado,
+						employeeId: empleadoData.id,
+						anonimo: false,
+						reportType: 'administrativo',
+					},
+					empleadoData.id,
+					'modalNuevoReporteAdministrativo'
+				)
+			);
+		}
 	};
 	return (
 		<>
@@ -77,12 +115,11 @@ const ModalNuevoReporteAdministrativo = () => {
 													type='text'
 													id='selectReportType'
 													className='form-control custm-Width100 custm-empleadoFormIntput'
-													name='scheduleId'
+													name='asunto'
+													onChange={handleInputChange}
+													value={asunto}
+													required
 													placeholder='Escriba un asunto'
-													// onChange={handleInputChange}
-													// disabled={!horasLabValue}
-													// value={tipoDeHorario}
-													// disabled={!infoBasicavalue}
 												/>
 											</div>
 
@@ -97,6 +134,8 @@ const ModalNuevoReporteAdministrativo = () => {
 													rows={4}
 													cols={50}
 													name='descripcionEmpleado'
+													value={descripcionEmpleado}
+													onChange={handleInputChange}
 													placeholder='Escribe un breve detalle'
 												></textarea>
 											</div>
@@ -111,7 +150,7 @@ const ModalNuevoReporteAdministrativo = () => {
 											)} */}
 											<div className='d-flex justify-content-end mt-3'>
 												{/* {!registerState.loading ? ( */}
-												{!loading ? (
+												{!registerState.loading ? (
 													<button className='custm-btnFormSubmit inputSubmit'>Enviar</button>
 												) : (
 													<button

@@ -38,7 +38,6 @@ const PageSolicitudHorasExtras = () => {
 	//Desestructuracion de propiedades
 	const {
 		employeeName,
-		employeeId,
 		fechaAsignacion,
 		horaAsignacion,
 		lugarApoyo,

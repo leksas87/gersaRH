@@ -1,5 +1,30 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRequests } from '../../actions/requestActions/requestActions';
+import { useForm } from '../../hooks/useForm';
+import { RootSote } from '../../store/Store';
+import ModalAutorizarHorasExtras from '../horasExtras/ModalAutorizarHorasExtras';
+import ModalAutorizarSolicitudes from './ModalAutorizarSolicitudes';
 import './PageAutorizaciones.css';
 const PageAutorizaciones = () => {
+	//dispatch para ejecutar las actions
+	const dispatch = useDispatch();
+	//Se necesita el state que indica el requestList
+	const { requestList } = useSelector((state: RootSote) => state.request);
+
+	//objeto user para formulario Registro
+	const initialState = {
+		sortBy: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [sortValues, handleInputChange, reset] = useForm(initialState);
+	//Desestructuracion
+	const { sortBy } = sortValues;
+
+	useEffect(() => {
+		dispatch(getRequests());
+	}, []);
+
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -40,186 +65,161 @@ const PageAutorizaciones = () => {
 									<div>Filtrar por:</div>
 									<div className='ms-2'>
 										<select
-											className='form-select form-control  '
-											name='statusFiltering'
-											// onChange={handleInputChange}
-											// disabled={!horasLabValue}
-											// value={tipoDeHorario}
-											// disabled={!infoBasicavalue}
+											className='form-select form-control'
+											value={sortBy}
+											name='sortBy'
+											onChange={handleInputChange}
 										>
-											<option value='Todos'>Todos</option>
-											<option value='Aceptadas'>Aceptadas</option>
-											<option value='Rechazadas'>Rechazadas</option>
+											<option value=''>Todos</option>
+											<option value='2'>Aceptadas</option>
+											<option value='3'>Rechazadas</option>
+											<option value='1'>Pendientes</option>
 										</select>
 									</div>
 								</div>
 							</div>
 							{/* Inicio */}
-							<div className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'>
-								<div
-									className='d-flex flex-column  p-3 custm-solicitudContaiter50'
-									// style={{ width: '50%', minWidth: '300px' }}
-								>
-									<div className='d-flex textColorSecondary'>
-										<div style={{ width: '40%' }}>Fecha de solicitud:</div>
-										<div style={{ width: '60%' }}>01/01/2022</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Empleado:</div>
-										<div style={{ width: '60%' }}>Ivan Santana Santana</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Lugar de trabajo:</div>
-										<div style={{ width: '60%' }}>Lugar 2</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div className='fw-bold' style={{ width: '40%' }}>
-											Incapacidad:
-										</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<div className='d-flex flex-column pe-4'>
-												<div>De:</div>
-												<div className='textColorLight'>01/01/2022</div>
+							{requestList
+								.filter((element) => {
+									if (!sortBy) return true;
+
+									return element.statusId === parseInt(sortBy);
+								})
+								.map((request) => (
+									<div
+										key={request.id}
+										className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'
+									>
+										<div
+											className='d-flex flex-column  p-3 custm-solicitudContaiter50'
+											// style={{ width: '50%', minWidth: '300px' }}
+										>
+											<div className='d-flex textColorSecondary'>
+												<div style={{ width: '40%' }}>Fecha de solicitud:</div>
+												<div style={{ width: '60%' }}>{request.fechaCreacion}</div>
 											</div>
-											<div className='d-flex flex-column'>
-												<div>A:</div>
-												<div className='textColorLight'>01/01/2022</div>
+											<div className='d-flex textColorSecondary mt-3 text-capitalize'>
+												<div style={{ width: '40%' }}>Empleado:</div>
+												<div style={{ width: '60%' }}>
+													{request.employee.User.firstName} {request.employee.User.lastName}
+												</div>
 											</div>
-										</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Descripción:</div>
-										<div style={{ width: '60%' }}>
-											Veniam non commodo exercitation qui cupidatat sit sit proident
-											proident. Sit duis officia eiusmod sint minim cupidatat dolor
-											exercitation pariatur. Adipisicing velit cillum velit veniam irure
-											dolor laborum fugiat ex Lorem ad.
-										</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Estatus:</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<span className='custm-Status1 pe-3'>● Pendiente</span>
-											<div className='d-flex'>
-												<div>Adjunto:</div>
-												<a
-													className='fs-4  textColorSecondary'
-													href={`https://www.google.com.mx/maps/`}
-													target='_blank'
-													rel='noopener noreferrer'
-													style={{ textDecoration: 'none' }}
-												>
-													<i className='bi bi-paperclip' />
-												</a>
+											<div className='d-flex textColorSecondary mt-3'>
+												<div style={{ width: '40%' }}>Lugar de trabajo:</div>
+												<div style={{ width: '60%' }}>
+													{request.employee.lugarDeTrabajo}
+												</div>
 											</div>
-										</div>
-									</div>
-									<div className='d-flex textColorSecondary'>
-										<div style={{ width: '40%' }}></div>
-										<div className='textColorLight' style={{ width: '60%' }}>
-											<div>Detalle:</div>
-											Veniam non commodo exercitation qui cupidatat sit sit proident
-											proident. Sit duis officia eiusmod sint minim cupidatat dolor
-											exercitation pariatur. Adipisicing velit cillum velit veniam irure
-											dolor laborum fugiat ex Lorem ad.
-										</div>
-									</div>
-								</div>
-								<div className='custm-solicitudContaiter50 d-flex justify-content-center'>
-									<form className='mt-5'>
-										<div className='d-flex flex-column align-items-center'>
-											<label className='textColorLight custm-Width100 ms-5'>
-												Descripción*
-											</label>
-											<textarea
-												// form='usrform'
-												className='form-control  custm-empleadoFormIntput'
-												style={{ width: '90%' }}
-												rows={6}
-												cols={50}
-												name='descriptionRespuesta'
-												placeholder='Escribe un breve detalle'
-											></textarea>
-										</div>
-										<div className='d-flex justify-content-center mt-4'>
-											<button type='button' className='btn custm-btnAccept p-3 m-3'>
-												Aceptar
-											</button>
-											<button type='button' className='btn custm-btnDeny p-3 m-3'>
-												Rechazar
-											</button>
-										</div>
-									</form>
-								</div>
-							</div>
-							{/* Inicio */}
-							<div className='d-flex flex-wrap custm-UnderLineSectionDark mt-4'>
-								<div
-									className='d-flex flex-column  p-3 custm-solicitudContaiter50'
-									// style={{ width: '50%', minWidth: '300px' }}
-								>
-									<div className='d-flex textColorSecondary'>
-										<div style={{ width: '40%' }}>Fecha de solicitud:</div>
-										<div style={{ width: '60%' }}>01/01/2022</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div className='fw-bold' style={{ width: '40%' }}>
-											Incapacidad:
-										</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<div className='d-flex flex-column pe-4'>
-												<div>De:</div>
-												<div className='textColorLight'>01/01/2022</div>
+											<div className='d-flex textColorSecondary mt-3'>
+												{request.requestTypeId === 1 && (
+													<div className='fw-bold' style={{ width: '40%' }}>
+														Vacaciones:
+													</div>
+												)}
+												{request.requestTypeId === 2 && (
+													<div className='fw-bold' style={{ width: '40%' }}>
+														Incapacidad:
+													</div>
+												)}
+												{request.requestTypeId === 3 && (
+													<div className='fw-bold' style={{ width: '40%' }}>
+														Falta:
+													</div>
+												)}
+												<div className='d-flex' style={{ width: '60%' }}>
+													<div className='d-flex flex-column pe-4'>
+														<div>De:</div>
+														<div className='textColorLight'>{request.fechaInicio}</div>
+													</div>
+													<div className='d-flex flex-column'>
+														<div>A:</div>
+														<div className='textColorLight'>{request.fechaFin}</div>
+													</div>
+												</div>
 											</div>
-											<div className='d-flex flex-column'>
-												<div>A:</div>
-												<div className='textColorLight'>01/01/2022</div>
+											<div className='d-flex textColorSecondary mt-3'>
+												<div style={{ width: '40%' }}>Detalle de la solicitud:</div>
+												<div style={{ width: '60%' }}>{request.descripcionEmpleado}</div>
 											</div>
 										</div>
-									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Descripción:</div>
-										<div style={{ width: '60%' }}>
-											Veniam non commodo exercitation qui cupidatat sit sit proident
-											proident. Sit duis officia eiusmod sint minim cupidatat dolor
-											exercitation pariatur. Adipisicing velit cillum velit veniam irure
-											dolor laborum fugiat ex Lorem ad.
+										{/* Derecha */}
+										<div className='custm-solicitudContaiter50 d-flex flex-column justify-content-center align-items-center mb-4'>
+											{request.statusId === 1 && (
+												<>
+													<div className='d-flex textColorSecondary mt-2 mb-1'>
+														<div className='fw-bold me-2' style={{ width: '40%' }}>
+															Estatus:
+														</div>
+														<div className='custm-Status1 ' style={{ width: '60%' }}>
+															● Pendiente
+														</div>
+													</div>
+													{request.adjunto && (
+														<div className='d-flex ms-1'>
+															<div>Adjunto:</div>
+															<a
+																className='fs-4  textColorSecondary'
+																href={`https://www.google.com.mx/maps/`}
+																target='_blank'
+																rel='noopener noreferrer'
+																style={{ textDecoration: 'none' }}
+															>
+																<i className='bi bi-paperclip' />
+															</a>
+														</div>
+													)}
+													<div className='d-flex justify-content-center textColorSecondary mt-2'>
+														<ModalAutorizarSolicitudes
+															request={request.id}
+															// timeRequest={timeRequest.id}
+															// employeeId={empleadoData.id}
+														/>
+													</div>
+												</>
+											)}
+											{request.statusId !== 1 && (
+												<>
+													<div className='d-flex textColorSecondary mt-2 mb-1'>
+														<div className='fw-bold me-2' style={{ width: '40%' }}>
+															Estatus:
+														</div>
+														{request.statusId === 2 && (
+															<div className='custm-Status2 ' style={{ width: '60%' }}>
+																● Aceptada
+															</div>
+														)}
+														{request.statusId === 3 && (
+															<div className='custm-Status3 ' style={{ width: '65%' }}>
+																● Rechazada
+															</div>
+														)}
+													</div>
+													{request.adjunto && (
+														<div className='d-flex ms-1'>
+															<div>Adjunto:</div>
+															<a
+																className='fs-4  textColorSecondary'
+																href={`https://www.google.com.mx/maps/`}
+																target='_blank'
+																rel='noopener noreferrer'
+																style={{ textDecoration: 'none' }}
+															>
+																<i className='bi bi-paperclip' />
+															</a>
+														</div>
+													)}
+													<div className='d-flex justify-content-center textColorSecondary mt-2'>
+														<div className='textColorLight' style={{ minWidth: '87%' }}>
+															<div className='fw-bold'>Detalle de la respuesta:</div>
+															{request.descriptionRespuesta}
+														</div>
+													</div>
+												</>
+											)}
 										</div>
 									</div>
-									<div className='d-flex textColorSecondary mt-3'>
-										<div style={{ width: '40%' }}>Estatus:</div>
-										<div className='d-flex' style={{ width: '60%' }}>
-											<span className='custm-Status1 pe-3'>● Pendiente</span>
-											<div className='d-flex'>
-												<div>Adjunto:</div>
-												<a
-													className='fs-4  textColorSecondary'
-													href={`https://www.google.com.mx/maps/`}
-													target='_blank'
-													rel='noopener noreferrer'
-													style={{ textDecoration: 'none' }}
-												>
-													<i className='bi bi-paperclip' />
-												</a>
-											</div>
-										</div>
-									</div>
-									<div className='d-flex textColorSecondary'>
-										<div style={{ width: '40%' }}></div>
-										<div className='textColorLight' style={{ width: '60%' }}>
-											<div>Detalle:</div>
-											Veniam non commodo exercitation qui cupidatat sit sit proident
-											proident. Sit duis officia eiusmod sint minim cupidatat dolor
-											exercitation pariatur. Adipisicing velit cillum velit veniam irure
-											dolor laborum fugiat ex Lorem ad.
-										</div>
-									</div>
-								</div>
-								<div className='custm-solicitudContaiter50 d-flex flex-column justify-content-center align-items-center'>
-									<div className='textColorLight fs-4'> Solicitud aceptada por</div>
-									<div className='textColorLight fs-4'> Ivan Ojendis Santana</div>
-								</div>
-							</div>
+								))
+								.reverse()}
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,6 @@
 .custm-solicitudContaiter50 {
 	width: 50%;
-	min-width: 300px;
+	min-width: 450px;
 }
 .custm-btnAccept {
 	background-color: var(--colorVerde);
@@ -24,6 +24,7 @@
 @media (max-width: 991px) {
 	.custm-solicitudContaiter50 {
 		width: 100%;
+		min-width: auto;
 	}
 	.custmContainer50pading {
 		padding-left: 0px;

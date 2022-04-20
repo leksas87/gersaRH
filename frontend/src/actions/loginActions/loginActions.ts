@@ -158,13 +158,14 @@ export const getEmployeeDataById = (id: number) => {
 						timer: 1500,
 					});
 				} else {
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'error',
+					// 	title: `¡${error.response.data.message}!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				}
 			});
 	};

@@ -110,7 +110,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 								navigateTo('/horasextras');
 							}}
 						>
-							<i className='bi bi-stopwatch sidebarIcon' />
+							<i className='bi bi-stopwatch-fill sidebarIcon' />
 							Horas extras
 						</NavLink>
 						<div className='sidebarOption'>

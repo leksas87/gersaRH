@@ -38,16 +38,24 @@
 /* +++++++++++++++++ */
 
 .custm-Status1 {
-	color: rgb(255, 162, 0);
+	color: #ffa200;
 }
 .custm-Status2 {
 	color: #1ed600;
 }
 .custm-Status3 {
-	color: rgb(255, 0, 0);
+	color: #ff0000;
 }
 .custm-Status4 {
-	color: rgb(0, 128, 255);
+	color: #0080ff;
+}
+.custm-selectAttended {
+	border: 2px solid #1ed600;
+	color: #159102;
+}
+.custm-selectPending {
+	border: 2px solid #ff0000;
+	color: #ff0000;
 }
 
 @media (max-width: 768px) {

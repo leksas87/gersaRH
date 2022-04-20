@@ -146,6 +146,7 @@ router.patch(
 	updateReport
 );
 
+router.get('/:id/reports',authorize(),getReport);
 
 
 
@@ -175,7 +176,7 @@ function getReport(req, res, next) {
 function registerReport(req, res, next) {
 	employeeService
 		.createReport(req.body, req.params.id, next)
-		.then(() => res.json({  message: 'Registro exitoso' }))
+		.then((report) => res.json({data:report,  message: 'Registro exitoso' }))
 		.catch(next);
 }
 
@@ -185,6 +186,7 @@ function registerSchemaReport(req, res, next) {
 		employeeId: Joi.number().integer().required(),
 		asunto: Joi.string().required(),
 		anonimo: Joi.boolean().required(),
+		reportType: Joi.string().required(),
 	});
 	validateRequest(req, next, schema);
 }
@@ -202,7 +204,6 @@ function getRequestByEmployeeId(req, res, next) {
 		.catch(next);
 }
 function getRequest(req, res, next) {
-	console.log('funcion get request');
 	employeeService
 		.getRequest(req, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))

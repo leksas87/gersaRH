@@ -6,7 +6,7 @@ import { RootSote } from '../../store/Store';
 const ModalNuevaSolicitudIncapacidad = () => {
 	const dispatch = useDispatch();
 	//Senecesita el state que indica  el perfilEmpleado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
 	const { registerState } = useSelector((state: RootSote) => state.request);
 	//objeto user para formulario Registro
 	const newRequest = {
@@ -14,7 +14,7 @@ const ModalNuevaSolicitudIncapacidad = () => {
 		fechaInicio: '',
 		descripcionEmpleado: '',
 		statusId: 1,
-		employeeId: perfilEmpleado.id,
+		employeeId: empleadoData.id,
 		requestTypeId: 1,
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
@@ -31,7 +31,7 @@ const ModalNuevaSolicitudIncapacidad = () => {
 
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (perfilEmpleado.id) {
+		if (empleadoData.id) {
 			dispatch(
 				registerNewRequest(
 					{
@@ -39,11 +39,11 @@ const ModalNuevaSolicitudIncapacidad = () => {
 						fechaInicio: fechaInicio,
 						descripcionEmpleado: descripcionEmpleado,
 						statusId: 1,
-						employeeId: perfilEmpleado.id,
+						employeeId: empleadoData.id,
 						requestTypeId: 2,
 						adjunto: 'EXAMPLEUrl-q1231312dsd',
 					},
-					perfilEmpleado.id,
+					empleadoData.id,
 					'modalSolicitudIncapacidad'
 				)
 			);
@@ -195,7 +195,6 @@ const ModalNuevaSolicitudIncapacidad = () => {
 												</div>
 											)} */}
 											<div className='d-flex justify-content-end mt-4'>
-												{/* {!registerState.loading ? ( */}
 												{!registerState.loading ? (
 													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 														Enviar solicitud

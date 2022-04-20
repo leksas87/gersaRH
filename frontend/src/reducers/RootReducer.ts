@@ -7,6 +7,7 @@ import { UsersReducer } from './UsersReducer';
 import { SchedulesReducer } from './SchedulesReducer';
 import { RequestReducer } from './RequestReducer';
 import { TimeRequestReducer } from './TimeRequestReducer';
+import { ReportsReducer } from './ReportsReducer';
 
 //Todos los reducer se unen aquí
 export const rootReducer = combineReducers({
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers({
 	events: EventsReducer,
 	schedules: SchedulesReducer,
 	request: RequestReducer,
+	reports: ReportsReducer,
 	timeRequest: TimeRequestReducer,
 });

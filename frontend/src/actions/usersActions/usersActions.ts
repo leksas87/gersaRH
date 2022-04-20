@@ -14,6 +14,8 @@ import {
 	GET_SUPERVISORES,
 	CLEAN_ADMINISTRADORES,
 	GET_ADMINISTRADORES,
+	CLEAN_WORKPLACES,
+	GET_WORKPLACES,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -667,6 +669,74 @@ export const getEmployeeByRollType = (rollTypeId: number) => {
 						position: 'top-end',
 						icon: 'warning',
 						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) Obtener WorkPlaces
+export const getWorkPlaces = () => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//Limpiar Lista
+		dispatch({ type: CLEAN_WORKPLACES });
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`workPlaces`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//dispatch para cambiar loading a false
+					dispatch({
+						type: GET_WORKPLACES,
+						payload: { workPlaces: respuesta.data.data },
+					});
+
+					// setTimeout(() => {
+					// 	dispatch<any>(getRequestsByEmployeeId(employeeId));
+					// }, 2000);
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
 						showConfirmButton: false,
 						timer: 1500,
 					});

@@ -15,6 +15,8 @@ import {
 	CLEAN_SUPERVISORES,
 	GET_ADMINISTRADORES,
 	CLEAN_ADMINISTRADORES,
+	GET_WORKPLACES,
+	CLEAN_WORKPLACES,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -64,6 +66,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 	tablePath: '',
 	supervisores: [],
 	administradores: [],
+	workPlaces: [],
 };
 
 //Reducer
@@ -156,6 +159,16 @@ export const UsersReducer = (
 			return {
 				...state,
 				administradores: INITIAL_STATE.administradores,
+			};
+		case GET_WORKPLACES:
+			return {
+				...state,
+				workPlaces: [...action.payload.workPlaces],
+			};
+		case CLEAN_WORKPLACES:
+			return {
+				...state,
+				workPlaces: INITIAL_STATE.workPlaces,
 			};
 
 		default:
