@@ -454,9 +454,21 @@ function sendInformationByAccessCode(req, res, next) {
 
 function getEvents(req, res, next) {
 	employeeService
-		.getEvents(req.params.id, req.query.startDate, req.query.endDate)
-		.then((registros) =>
-			res.json({ registros: registros, message: 'Succesful'})
+		.getEvents(
+					req.params.id, 
+					req.query.startDate, 
+					req.query.endDate, 
+					req.query.eventActionTypeId,
+					res
+		).then(
+			(registros) =>{
+						res.json({ 
+									registros: registros, 
+									eventActionTypeId:registros.eventActionTypeId,
+									eventTypeId:registros.eventTypeId,
+									employeeId:registros.employeeId,
+									message: 'Succesful'
+								})}
 		)
 		.catch(next);
 }

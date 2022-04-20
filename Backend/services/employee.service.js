@@ -281,7 +281,13 @@ async function registerEvents(params, id){
         const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
         
     
-        await models.Event.create({employeeId: employee.id ,eventTypeId: eventType.id, DateEvent: fechaEvent, longitudeEvent: params.longitudeEvent, latitudeEvent: params.latitudeEvent,eventActionTypeId: params.eventActionTypeId});
+        await models.Event.create({
+                                    employeeId: employee.id,
+                                    eventTypeId: eventType.id, 
+                                    DateEvent: fechaEvent, 
+                                    longitudeEvent: params.longitudeEvent, 
+                                    latitudeEvent: params.latitudeEvent,
+                                    eventActionTypeId: params.eventActionTypeId});
         
         
     } catch (error) {
@@ -355,7 +361,334 @@ async function getEmployeesOfJc(id, res,req) {
         throw error;
     }
 }
-async function getEvents(id, fechaInicio, fechaFin) {
+async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
+
+    let refEventTypeId = 3;
+    
+    //let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
+    //const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+    console.log("PAso")
+    if(eventActionTypeId){
+            const fechaHoraCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
+            const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD')
+            const employeeSchedules = await models.EmployeeSchedule.findAll({where:{employeeId:id}}); 
+
+            if(!employeeSchedules) throw 'Enpleado no tiene horario asignado';
+            switch (eventActionTypeId) {
+                case "1":
+
+                        for (const employeeSchedul of employeeSchedules) {
+
+                            const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
+                            let day = moment(fechaCreacion).format('d');
+                            console.log(day);
+                            if(!schedule) throw 'Horario no encontrado';
+
+                            switch (day) {
+                                case '0':
+                                        if(schedule.Domingo){
+
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            //Se agrega 60 segundos de tolerancia
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '1':
+                                        if(schedule.Lunes){
+
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                            }
+                                        }
+                                    break;
+                                case '2':
+                                        if(schedule.Martes){
+                                            
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '3':
+                                        if(schedule.Miercoles){
+                                            
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '4':
+                                        if(schedule.Jueves){
+                                            
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '5':
+                                        if(schedule.Viernes){
+                                            
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '6':
+                                        if(schedule.Sabado){
+                                            
+                                            const fechaEntrada = fechaCreacion.concat(' ', schedule.horaEntrada);
+                                            const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                                            const segundos = (schedule.tiempoRetraso*60) + 60;
+
+                                            if(diferencia<60){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= 60 && diferencia < segundos ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                
+                                default:
+                                    break;
+                            }
+                        }
+                    break;
+
+                case "2":
+                    
+                    break;
+
+                case "3":
+                        for (const employeeSchedul of employeeSchedules) {
+                            const fechaInicioPre = moment().tz(process.env.TZ).format('2022-04-19 00:00:00');
+                            const fechaFinPre = moment().tz(process.env.TZ).format('2022-04-19 23:59:59');
+                            console.log("****")
+                            const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
+                            const eventsPre = await models.Event.findAll({where:{
+                                                                                employeeId:employeeSchedul.employeeId,
+                                                                                DateEvent: {[Op.between]: [fechaInicioPre,fechaFinPre]}
+                                                                                },
+                                                                        order:[['DateEvent', 'DESC']]
+                                                                        });
+            
+                            if ( !eventsPre)  throw 'Empleado no tiene registros de salida a comer';
+                            let day = moment(fechaCreacion).format('d');
+
+                            if(eventsPre.length > 2) throw 'Empleado tiene más de un registro de salida a comer';
+
+                            if(!schedule) throw 'Horario no encontrado';
+
+                            // se agregara la fecha de entrada y revisara validacion
+                            switch (day) {
+                                case '0':
+                                        if(schedule.Domingo){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '1':
+                                        if(schedule.Lunes){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '2':
+                                        if(schedule.Martes){
+
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                            }
+                                        }
+                                    break;
+                                case '3':
+                                        if(schedule.Miercoles){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '4':
+                                        if(schedule.Jueves){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '5':
+                                        if(schedule.Viernes){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                case '6':
+                                        if(schedule.Sabado){
+                                            
+                                            const diferencia = moment(fechaHoraCreacion).diff(eventsPre[0].DateEvent, 'seconds');
+                                            const segundos = (schedule.tiempoDescanso*60);
+                                            const segundos2 = segundos + (schedule.tiempoRetraso * 60);
+                                            
+                                            if(diferencia < segundos ){
+                                                refEventTypeId = 3;
+                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                refEventTypeId = 2;
+                                        }else if(diferencia >= segundos2 ){
+                                                refEventTypeId = 1;
+                                        }
+                                        }
+                                    break;
+                                
+                                default:
+                                    break;
+                            }
+                            
+                        }
+                    break;
+
+                case "4":
+                    
+                    break;
+                        //Agregar fecha 
+                case "5":
+                    const employeeTimeRequests = await models.TimeRequest.findAll({where:{
+                                                                                        employeeId:id,
+                                                                                        statusId:2,
+                                                                                        fechaAsignacion:fechaCreacion,
+                                                                                }}); 
+
+                    if ( employeeTimeRequests.length == 0) throw 'Empleado no tiene horas extra';
+
+                    for (const employeeTimeRequest of employeeTimeRequests) {
+
+                        const fechaEntrada = employeeTimeRequest.fechaAsignacion.concat(' ', employeeTimeRequest.horaAsignacion);
+                        const diferencia = moment(fechaHoraCreacion).diff(fechaEntrada, 'seconds');
+                        //se agrega 360 por que por default 5 minutos de retardo antes que acta
+                        const segundos =  360;
+
+                                        if(diferencia<60){
+                                            refEventTypeId = 3;
+                                    }else if(diferencia >= 60 && diferencia < segundos ){
+                                            refEventTypeId = 2;
+                                    }else if(diferencia >= segundos ){
+                                            refEventTypeId = 1;
+                                    }
+                    }
+                break;
+
+                case "6":
+                    
+                    break;
+
+                default:
+                    break;
+            }}
 
     if(!fechaInicio && !fechaFin){
         const fechaInicio = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
@@ -369,7 +702,9 @@ async function getEvents(id, fechaInicio, fechaFin) {
                                                 });
     
         if ( !events)  throw 'Empleado no encontrado';
-        
+        events.eventActionTypeId = eventActionTypeId;
+        events.eventTypeId = refEventTypeId;
+        events.employeeId = id;
         return events;
 
     }else{
@@ -381,7 +716,9 @@ async function getEvents(id, fechaInicio, fechaFin) {
                                                 });
     
         if ( !events)  throw 'Empleado no encontrado';
-        
+        events.eventActionTypeId = eventActionTypeId;
+        events.eventTypeId = refEventTypeId;
+        events.employeeId = id;
         return events;
     }
 }
