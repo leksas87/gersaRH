@@ -11,6 +11,8 @@ export const GET_SERVER_TIME = 'get_server_time';
 export const CLEAN_SERVER_TIME = 'clean_server_time';
 export const GET_SERVER_DAY = 'get_server_day';
 export const CLEAN_SERVER_DAY = 'clean_server_day';
+export const GET_EVENT_VALIDATION = 'get_event_validation';
+export const CLEAN_EVENT_VALIDATION = 'clean_event_validation';
 
 //Interfaz para confirmacion de usuario.
 export interface iEventsReducerState {
@@ -22,6 +24,7 @@ export interface iEventsReducerState {
 	eventServerTime: string;
 	eventServerDay: string;
 	employeeEvents: iEmployeeEvent[];
+	eventValidation: iEventValidation;
 }
 //Interfaz para eventos del empleado.
 export interface iEmployeeEvent {
@@ -31,6 +34,14 @@ export interface iEmployeeEvent {
 	DateEvent: string;
 	longitudeEvent: string;
 	latitudeEvent: string;
+	eventActionTypeId: string | number;
+}
+//Interfaz para confirmacion de usuario.
+export interface iEventValidation {
+	eventActionTypeId: number | null;
+	eventTypeId: number | null;
+	employeeId: number | null;
+	message: string;
 }
 //Interfaz para confirmacion de usuario.
 export interface iUserConfirmation {
@@ -107,6 +118,17 @@ export interface Get_server_day {
 export interface Clean_server_day {
 	type: typeof CLEAN_SERVER_DAY;
 }
+//Obtener el timpo del servidor
+export interface Get_event_validation {
+	type: typeof GET_EVENT_VALIDATION;
+	payload: {
+		eventValidation: iEventValidation;
+	};
+}
+//Limpiar el timpo del servidor
+export interface Clean_event_validation {
+	type: typeof CLEAN_EVENT_VALIDATION;
+}
 
 //Types para el dispatch
 export type EventsDispatchTypes =
@@ -122,4 +144,6 @@ export type EventsDispatchTypes =
 	| Get_server_time
 	| Clean_server_time
 	| Get_server_day
-	| Clean_server_day;
+	| Clean_server_day
+	| Get_event_validation
+	| Clean_event_validation;

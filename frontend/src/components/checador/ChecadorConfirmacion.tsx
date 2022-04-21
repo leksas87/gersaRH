@@ -1,34 +1,24 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
 	sendEmployeeEvent,
 } from '../../actions/eventsActions/eventsActions';
-import { iEmployeeSchedules } from '../../actions/scheduleActions/scheduleActionsTypes';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 
 const ChecadorConfirmacion = () => {
 	//Senecesita el state que indica  el checkState
-	const { userConfirmation, eventServerDay, eventServerTime, employeeEvents } =
-		useSelector((state: RootSote) => state.events);
-	//Senecesita el state que indica  el checkState
-	const { employeeSchedules } = useSelector(
-		(state: RootSote) => state.schedules
+	const { userConfirmation, eventValidation } = useSelector(
+		(state: RootSote) => state.events
 	);
 
 	//useDispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 
-	//Usestate para tipo de Event
-	const [eventType, setEventType] = useState('');
-	//Usestate que almacena el horario a evaluar
-	const [scheduleToComparate, setscheduleToComparate] =
-		useState<iEmployeeSchedules>();
 	//useState que indica si empleado trabaja hoy
-	const [employeeWorksToday, setEmployeeWorksToday] = useState(false);
+	const [employeeWorksToday, setEmployeeWorksToday] = useState(true);
 
 	//useState para almacenar las cordenas
 	const [cordenadas, setCordenadas] = useState({
@@ -38,98 +28,8 @@ const ChecadorConfirmacion = () => {
 
 	//Metodo para enviar al inicio
 	const navigateCheck = () => {
-		//se cambia el estado de isUserActive a False
 		dispatch(changecheckIsUserActiveFalse());
 	};
-
-	//Se obtiene horario en el cual el dia actual (hoy) coincide con tu horario
-	// const event = 'Martes';
-	const schedule = employeeSchedules.find(
-		(schedule: any) => schedule[eventServerDay] === true
-	);
-
-	//Efecto para evaluar si empleado trabaja hoy
-	// y validar hora de entrada
-	useEffect(() => {
-		//Metodo que compara dos horas (Entrada)
-		const compareHoursEntradaComida = (horaActualServer?: string) => {
-			const breakfast = moment(employeeEvents[1].DateEvent, 'HH:mm');
-			const horaActual = moment(horaActualServer, 'HH:mm');
-
-			//Encuentra la duracion entre dos horas
-			const durationTime = moment.duration(horaActual.diff(breakfast));
-			const time = durationTime.asMinutes();
-
-			//Condicion para guardar tipo de evento (Entrada de Descanso)
-			if (scheduleToComparate?.tiempoDescanso) {
-				if (time <= scheduleToComparate?.tiempoDescanso) {
-					setEventType('Normal');
-				} else if (
-					time > scheduleToComparate?.tiempoDescanso &&
-					time <=
-						scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
-				) {
-					setEventType('Retardo');
-				} else if (
-					time >
-					scheduleToComparate?.tiempoDescanso + scheduleToComparate.tiempoRetraso
-				) {
-					setEventType('Acta administrativa');
-				}
-			}
-		};
-		//Metodo que compara dos horas (Entrada)
-		const compareHours = (
-			horaEntradaSchedule: string,
-			horaActualServer: string
-		) => {
-			const horaEntrada = moment(horaEntradaSchedule, 'HH:mm');
-			const horaRetardo = moment(horaEntradaSchedule, 'HH:mm').add(
-				scheduleToComparate?.tiempoRetraso,
-				'minutes'
-			);
-			const horaActual = moment(horaActualServer, 'HH:mm');
-
-			if (horaActual <= horaEntrada) {
-				console.log('Normal');
-				setEventType('Normal');
-			} else if (horaActual > horaEntrada && horaActual <= horaRetardo) {
-				console.log('retardo');
-				setEventType('Retardo');
-			} else if (horaActual > horaRetardo) {
-				console.log('actaAdministrativa');
-				setEventType('Acta administrativa');
-			}
-		};
-
-		if (schedule) {
-			setEmployeeWorksToday(true);
-			// Empleado SI trabaja hoy
-			setscheduleToComparate(schedule);
-			//Validar hora de Entrada
-			if (employeeEvents.length === 0) {
-				if (scheduleToComparate?.horaEntrada) {
-					compareHours(scheduleToComparate?.horaEntrada, eventServerTime);
-				}
-			} else if (employeeEvents.length === 1) {
-				setEventType('Normal');
-			} else if (employeeEvents.length === 2) {
-				compareHoursEntradaComida(eventServerTime);
-			} else if (employeeEvents.length === 3) {
-				setEventType('Normal');
-			}
-		} else {
-			// Empleado no trabaja hoy
-			setEmployeeWorksToday(false);
-		}
-	}, [
-		schedule,
-		scheduleToComparate,
-		employeeEvents.length,
-		eventServerTime,
-
-		employeeEvents,
-	]);
 
 	//Efecto que Obtiene las coordenadas cada que se ejecuta el componente
 	useEffect(() => {
@@ -153,8 +53,8 @@ const ChecadorConfirmacion = () => {
 					{
 						latitudeEvent: cordenadas.latitude.toString(),
 						longitudeEvent: cordenadas.longitude.toString(),
-						EventType: eventType,
-						eventActionTypeId: 1,
+						EventType: eventValidation.eventTypeId?.toString(),
+						eventActionTypeId: eventValidation.eventActionTypeId,
 					},
 					userConfirmation.employeeId,
 					userConfirmation.token
@@ -188,13 +88,13 @@ const ChecadorConfirmacion = () => {
 				</div>
 				{employeeWorksToday ? (
 					<div>
-						{eventType === 'Acta administrativa' && (
+						{eventValidation.eventTypeId === 3 && (
 							<div className='form-text custm-AdvertenciaError'>
 								<i className='bi bi-exclamation-circle'>{` `}</i>
 								Advertencia: Tienes un retardo que implica una acta administrativa.
 							</div>
 						)}
-						{eventType === 'Retardo' && (
+						{eventValidation.eventTypeId === 2 && (
 							<div className='form-text custm-AdvertenciaRetardo'>
 								<i className='bi bi-exclamation-circle'>{` `}</i>
 								Advertencia: Haz checado después de tu hora de entrada, implica un

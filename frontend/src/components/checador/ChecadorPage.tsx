@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
 	changecheckIsUserActiveFalse,
+	employeeEventValidation,
 	getEmployeeEvents,
-	getServerTime,
 } from '../../actions/eventsActions/eventsActions';
-import { getSchedulesByUserIdCheckIn } from '../../actions/scheduleActions/scheduleActions';
-import { gettimeRequestListByEmployeeIdTOKEN } from '../../actions/timeRequest/timeRequestActions';
 import { RootSote } from '../../store/Store';
 import './Checador.css';
 
@@ -34,67 +32,48 @@ const ChecadorPage = () => {
 			dispatch(
 				getEmployeeEvents(userConfirmation.employeeId, userConfirmation.token)
 			);
-			dispatch(
-				gettimeRequestListByEmployeeIdTOKEN(
-					userConfirmation.employeeId,
-					userConfirmation.token
-				)
-			);
 		}
 	}, [dispatch, userConfirmation.employeeId, userConfirmation.token]);
 
-	//Efecto que determina que botones del checador activar
+	// Effecto para bloquear botones
 	useEffect(() => {
-		if (employeeEvents.length === 0) {
-			setEventsState({
-				entrada: false,
-				iniciaDescanso: true,
-				terminaDescanso: true,
-				salida: true,
-			});
-		} else if (employeeEvents.length === 1) {
-			setEventsState({
-				entrada: true,
-				iniciaDescanso: false,
-				terminaDescanso: true,
-				salida: true,
-			});
-		} else if (employeeEvents.length === 2) {
-			setEventsState({
-				entrada: true,
-				iniciaDescanso: true,
-				terminaDescanso: false,
-				salida: true,
-			});
-		} else if (employeeEvents.length === 3) {
-			setEventsState({
-				entrada: true,
-				iniciaDescanso: true,
-				terminaDescanso: true,
-				salida: false,
-			});
-		} else if (employeeEvents.length > 3) {
-			setEventsState({
-				entrada: true,
-				iniciaDescanso: true,
-				terminaDescanso: true,
-				salida: true,
-			});
-		}
+		// checks whether an element is even
+		const entrada = employeeEvents.some(
+			(element) => element.eventActionTypeId === 1
+		);
+		const iniciaDescanso = employeeEvents.some(
+			(element) => element.eventActionTypeId === 2
+		);
+		const terminaDescanso = employeeEvents.some(
+			(element) => element.eventActionTypeId === 3
+		);
+		const salida = employeeEvents.some(
+			(element) => element.eventActionTypeId === 4
+		);
+
+		console.log(entrada, iniciaDescanso, terminaDescanso, salida);
+		setEventsState({
+			entrada: entrada,
+			iniciaDescanso: iniciaDescanso,
+			terminaDescanso: terminaDescanso,
+			salida: salida,
+		});
+		// console.log('test:-', eventsState);
 	}, [employeeEvents]);
 
 	//metodo que se ejecuta al dar clic en un boton del checador
-	const registerEvent = () => {
+	const registerEvent = (eventActionTypeId: number) => {
+		console.log('actionTypeId: ', eventActionTypeId);
+
 		if (userConfirmation.employeeId) {
 			//Se obtiene los horarios del empleado
 			dispatch(
-				getSchedulesByUserIdCheckIn(
+				employeeEventValidation(
 					userConfirmation.employeeId,
+					eventActionTypeId,
 					userConfirmation.token
 				)
 			);
-			//Se obtiene la hora del servidor
-			dispatch(getServerTime());
 		}
 		//Se navega a la página de confirmacion
 		navigate('/checador/confirm');
@@ -144,7 +123,7 @@ const ChecadorPage = () => {
 				<button
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.entrada}
-					onClick={registerEvent}
+					onClick={() => registerEvent(1)}
 				>
 					<div className='custm-btnCheck custm-btnCheckIn d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-door-open' />
@@ -155,7 +134,7 @@ const ChecadorPage = () => {
 				<button
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.iniciaDescanso}
-					onClick={registerEvent}
+					onClick={() => registerEvent(2)}
 				>
 					<div className='custm-btnCheck custm-btnCheckInBrake d-flex justify-content-center align-items-center'>
 						<i className='custm-checkArrow bi bi-box-arrow-right' />
@@ -169,7 +148,7 @@ const ChecadorPage = () => {
 				<button
 					className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.terminaDescanso}
-					onClick={registerEvent}
+					onClick={() => registerEvent(3)}
 				>
 					<div className='custm-btnCheck custm-btnCheckOutBrake d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-cup-straw' />
@@ -183,7 +162,7 @@ const ChecadorPage = () => {
 				<button
 					className='btn d-flex flex-column align-items-center custm-btnCheckMargin'
 					disabled={eventsState.salida}
-					onClick={registerEvent}
+					onClick={() => registerEvent(4)}
 				>
 					<div className='custm-btnCheck custm-btnCheckOut d-flex justify-content-center align-items-center'>
 						<i className='custm-checkDoor bi bi-door-open' />
