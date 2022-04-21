@@ -274,8 +274,9 @@ async function createRequest(params, id,next){
 async function registerEvents(params, id){
     try {
         const employee = await getEmployeeById(id);
-
-        const eventType = await models.EventType.findOne({where:{nameType:params.EventTypeId}});
+        const refId = parseInt(params.EventTypeId, 10);
+        const eventType = await models.EventType.findByPk(refId);
+        //const eventType = await models.EventType.findOne({where:{nameType:params.EventTypeId}});
 
         
         const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
