@@ -698,9 +698,9 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                                 });
     
         if ( !events)  throw 'Empleado no encontrado';
-        events.eventActionTypeId = eventActionTypeId;
+        events.eventActionTypeId = parseInt(eventActionTypeId, 10);
         events.eventTypeId = refEventTypeId;
-        events.employeeId = id;
+        events.employeeId = parseInt(id, 10);
         return events;
 
     }else{
@@ -712,9 +712,9 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                                 });
     
         if ( !events)  throw 'Empleado no encontrado';
-        events.eventActionTypeId = eventActionTypeId;
+        events.eventActionTypeId = parseInt(eventActionTypeId, 10);
         events.eventTypeId = refEventTypeId;
-        events.employeeId = id;
+        events.employeeId = parseInt(id, 10);
         return events;
     }
 }
