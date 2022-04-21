@@ -437,7 +437,7 @@ function registerEventSchema(req, res, next) {
 	const schema = Joi.object({
 		latitudeEvent: Joi.string().required(),
 		longitudeEvent: Joi.string().required(),
-		EventType: Joi.string().required(),
+		EventTypeId: Joi.string().required(),
 		eventActionTypeId:Joi.number().required()
 	});
 	validateRequest(req, next, schema);
