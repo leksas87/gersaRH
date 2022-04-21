@@ -426,6 +426,15 @@ export const sendEmployeeEvent = (
 					setTimeout(() => {
 						dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
 					}, 1500);
+				} else if (respuesta.status === 204) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
 				}
 			})
 			.catch((error) => {
@@ -540,15 +549,6 @@ export const getEmployeeEventsByDates = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
-				} else if (error.response.status === 404) {
-					// console.log('error404');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
 				} else {
 					Swal.fire({
 						position: 'top-end',
@@ -584,7 +584,7 @@ export const employeeEventValidation = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log('employeeEventss', respuesta.data);
+					console.log('RespuestaValidacion->', respuesta.data);
 
 					// console.log(respuesta.data.registros);
 					// const reverseArray = respuesta.data.registros.reverse();
@@ -592,6 +592,16 @@ export const employeeEventValidation = (
 					dispatch({
 						type: GET_EVENT_VALIDATION,
 						payload: { eventValidation: respuesta.data },
+					});
+				} else if (respuesta.status === 204) {
+					console.log('RespuestaValidacion 204->', respuesta.data);
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
 					});
 				}
 			})
