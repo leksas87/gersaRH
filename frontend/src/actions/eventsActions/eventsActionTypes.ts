@@ -30,7 +30,7 @@ export interface iEventsReducerState {
 export interface iEmployeeEvent {
 	id: number | null;
 	employeeId: number | null;
-	eventType: string;
+	eventTypeId: string;
 	DateEvent: string;
 	longitudeEvent: string;
 	latitudeEvent: string;

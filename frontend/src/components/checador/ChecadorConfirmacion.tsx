@@ -53,7 +53,7 @@ const ChecadorConfirmacion = () => {
 					{
 						latitudeEvent: cordenadas.latitude.toString(),
 						longitudeEvent: cordenadas.longitude.toString(),
-						EventType: eventValidation.eventTypeId?.toString(),
+						EventTypeId: eventValidation.eventTypeId?.toString(),
 						eventActionTypeId: eventValidation.eventActionTypeId,
 					},
 					userConfirmation.employeeId,
