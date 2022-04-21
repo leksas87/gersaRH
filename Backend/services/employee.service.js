@@ -363,11 +363,8 @@ async function getEmployeesOfJc(id, res,req) {
 }
 async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 
-    let refEventTypeId = 3;
+    let refEventTypeId = 1;
     
-    //let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
-    //const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
-    console.log("PAso")
     if(eventActionTypeId){
             const fechaHoraCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
             const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD')
@@ -394,12 +391,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '1':
@@ -410,11 +407,11 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                            }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                            }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
                                             }
                                         }
                                     break;
@@ -426,12 +423,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '3':
@@ -442,12 +439,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '4':
@@ -458,12 +455,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '5':
@@ -474,12 +471,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '6':
@@ -490,12 +487,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos = (schedule.tiempoRetraso*60) + 60;
 
                                             if(diferencia<60){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= 60 && diferencia < segundos ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= 60 && diferencia < segundos ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 
@@ -513,7 +510,6 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                         for (const employeeSchedul of employeeSchedules) {
                             const fechaInicioPre = moment().tz(process.env.TZ).format('2022-04-19 00:00:00');
                             const fechaFinPre = moment().tz(process.env.TZ).format('2022-04-19 23:59:59');
-                            console.log("****")
                             const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
                             const eventsPre = await models.Event.findAll({where:{
                                                                                 employeeId:employeeSchedul.employeeId,
@@ -539,12 +535,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
                                             
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '1':
@@ -555,12 +551,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
 
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '2':
@@ -572,11 +568,11 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             
 
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                            }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
                                             }
                                         }
                                     break;
@@ -588,12 +584,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
                                             
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '4':
@@ -604,12 +600,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
                                             
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '5':
@@ -620,12 +616,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
                                             
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 case '6':
@@ -636,12 +632,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             const segundos2 = segundos + (schedule.tiempoRetraso * 60);
                                             
                                             if(diferencia < segundos ){
-                                                refEventTypeId = 3;
-                                        }else if(diferencia >= segundos && diferencia < segundos2 ){
-                                                refEventTypeId = 2;
-                                        }else if(diferencia >= segundos2 ){
                                                 refEventTypeId = 1;
-                                        }
+                                            }else if(diferencia >= segundos && diferencia < segundos2 ){
+                                                    refEventTypeId = 2;
+                                            }else if(diferencia >= segundos2 ){
+                                                    refEventTypeId = 3;
+                                            }
                                         }
                                     break;
                                 
@@ -672,12 +668,12 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                         //se agrega 360 por que por default 5 minutos de retardo antes que acta
                         const segundos =  360;
 
-                                        if(diferencia<60){
-                                            refEventTypeId = 3;
+                                    if(diferencia<60){
+                                            refEventTypeId = 1;
                                     }else if(diferencia >= 60 && diferencia < segundos ){
                                             refEventTypeId = 2;
                                     }else if(diferencia >= segundos ){
-                                            refEventTypeId = 1;
+                                            refEventTypeId = 3;
                                     }
                     }
                 break;
