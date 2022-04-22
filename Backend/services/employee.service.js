@@ -372,7 +372,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
             const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD')
             const employeeSchedules = await models.EmployeeSchedule.findAll({where:{employeeId:id}}); 
 
-            if(!employeeSchedules) throw 'Enpleado no tiene horario asignado'; 
+            if(!employeeSchedules) return res.status(202).json({message: 'Horario no encontrado'});    
 
             switch (eventActionTypeId) {
                 case "1":
