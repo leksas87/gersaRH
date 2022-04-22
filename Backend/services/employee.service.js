@@ -399,6 +399,8 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             }else if(diferencia >= segundos ){
                                                     refEventTypeId = 3;
                                             }
+                                        }else{
+                                            return res.status(204).json({message: 'Día no laboral.'}); 
                                         }
                                     break;
                                 case '1':
@@ -474,7 +476,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             }
                                         }
                                         else{
-                                            return res.status(204).json({message: 'Día no laboral.'}); 
+                                            return res.status(202).json({message: 'Día no laboral.'}); 
                                         }
                                     break;
                                 case '5':
@@ -640,7 +642,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                             }
                                         }
                                         else{
-                                            return res.status(204).json({message: 'Día no laboral.'}); 
+                                            return res.status(202).json({message: 'Día no laboral.'}); 
                                         }
                                     break;
                                 case '5':
