@@ -198,18 +198,11 @@ const PageControlHorario = () => {
 									<th scope='col'>
 										<div className='d-flex justify-content-center'>Fecha</div>
 									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Entrada</div>
-									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Inicia descanso</div>
-									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Fin descanso</div>
-									</th>
-									<th scope='col'>
-										<div className='d-flex justify-content-center'>Salida</div>
-									</th>
+									{tipoDeAccionArray.map((element) => (
+										<th key={element.eventActionType} scope='col'>
+											<div className='d-flex justify-content-center'>{element.name}</div>
+										</th>
+									))}
 								</tr>
 							</thead>
 							<tbody>
