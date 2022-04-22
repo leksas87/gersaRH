@@ -528,10 +528,11 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                 case "2":
                         
                     for (const employeeSchedul of employeeSchedules) {
-
+                        
                         const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
                         let day = moment(fechaCreacion).format('d');
                         if(!schedule) return res.status(202).json({message: 'Horario no encontrado'});    
+                        
                         switch (day) {
                             case '0':
                                     if(!schedule.Domingo){
@@ -539,32 +540,32 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                     }
                                 break;
                             case '1':
-                                    if(schedule.Lunes){
+                                    if(!schedule.Lunes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '2':
-                                    if(schedule.Martes){
+                                    if(!schedule.Martes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '3':
-                                    if(schedule.Miercoles){
+                                    if(!schedule.Miercoles){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '4':
-                                    if(schedule.Jueves){
+                                    if(!schedule.Jueves){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '5':
-                                    if(schedule.Viernes){
+                                    if(!schedule.Viernes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '6':
-                                    if(schedule.Sabado){
+                                    if(!schedule.Sabado){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
@@ -751,32 +752,32 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                     }
                                 break;
                             case '1':
-                                    if(schedule.Lunes){
+                                    if(!schedule.Lunes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '2':
-                                    if(schedule.Martes){
+                                    if(!schedule.Martes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '3':
-                                    if(schedule.Miercoles){
+                                    if(!schedule.Miercoles){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '4':
-                                    if(schedule.Jueves){
+                                    if(!schedule.Jueves){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '5':
-                                    if(schedule.Viernes){
+                                    if(!schedule.Viernes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '6':
-                                    if(schedule.Sabado){
+                                    if(!schedule.Sabado){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
@@ -826,32 +827,32 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                     }
                                 break;
                             case '1':
-                                    if(schedule.Lunes){
+                                    if(!schedule.Lunes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '2':
-                                    if(schedule.Martes){
+                                    if(!schedule.Martes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '3':
-                                    if(schedule.Miercoles){
+                                    if(!schedule.Miercoles){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '4':
-                                    if(schedule.Jueves){
+                                    if(!schedule.Jueves){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '5':
-                                    if(schedule.Viernes){
+                                    if(!schedule.Viernes){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
                             case '6':
-                                    if(schedule.Sabado){
+                                    if(!schedule.Sabado){
                                         return res.status(202).json({message: 'Día no laboral.'}); 
                                     }
                                 break;
