@@ -42,6 +42,7 @@ export interface iEventValidation {
 	eventTypeId: number | null;
 	employeeId: number | null;
 	message: string;
+	employeeWorksToday: boolean;
 }
 //Interfaz para confirmacion de usuario.
 export interface iUserConfirmation {

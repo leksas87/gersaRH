@@ -36,6 +36,7 @@ const INITIAL_STATE: iEventsReducerState = {
 		eventTypeId: null,
 		employeeId: null,
 		message: 'null',
+		employeeWorksToday: true,
 	},
 };
 

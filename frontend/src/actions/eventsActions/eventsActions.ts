@@ -584,24 +584,37 @@ export const employeeEventValidation = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log('RespuestaValidacion->', respuesta.data);
+					console.log('RespuestaValidacion200->', respuesta.data);
 
 					// console.log(respuesta.data.registros);
 					// const reverseArray = respuesta.data.registros.reverse();
 					// console.log('arrayAlreves', reverseArray);
 					dispatch({
 						type: GET_EVENT_VALIDATION,
-						payload: { eventValidation: respuesta.data },
+						payload: {
+							eventValidation: {
+								eventActionTypeId: respuesta.data.eventActionTypeId,
+								eventTypeId: respuesta.data.eventTypeId,
+								employeeId: respuesta.data.employeeId,
+								employeeWorksToday: true,
+								message: respuesta.data.message,
+							},
+						},
 					});
-				} else if (respuesta.status === 204) {
-					console.log('RespuestaValidacion 204->', respuesta.data);
-					// console.log('error404');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${respuesta.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
+				} else if (respuesta.status === 202) {
+					console.log('RespuestaValidacion 202->', respuesta.data);
+
+					dispatch({
+						type: GET_EVENT_VALIDATION,
+						payload: {
+							eventValidation: {
+								eventActionTypeId: null,
+								eventTypeId: null,
+								employeeId: null,
+								employeeWorksToday: false,
+								message: '202',
+							},
+						},
 					});
 				}
 			})

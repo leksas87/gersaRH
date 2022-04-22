@@ -86,7 +86,7 @@ const ChecadorConfirmacion = () => {
 						Cordenadas: {cordenadas.latitude}, {cordenadas.longitude}
 					</div>
 				</div>
-				{employeeWorksToday ? (
+				{eventValidation.employeeWorksToday ? (
 					<div>
 						{eventValidation.eventTypeId === 3 && (
 							<div className='form-text custm-AdvertenciaError'>
