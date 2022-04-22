@@ -367,7 +367,6 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
     let refEventTypeId = 1;
 
     if(eventActionTypeId){
-            console.log(typeof id);
             const fechaHoraCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
             const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD')
             const employeeSchedules = await models.EmployeeSchedule.findAll({where:{employeeId:id}}); 
@@ -381,8 +380,6 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 
                             const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
                             let day = moment(fechaCreacion).format('d');
-                            console.log(day);
-                            //if(!schedule) throw 'Horario no encontrado';
                             if(!schedule) return res.status(202).json({message: 'Horario no encontrado'});    
                             switch (day) {
                                 case '0':
@@ -578,8 +575,8 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 
                 case "3":
                         for (const employeeSchedul of employeeSchedules) {
-                            const fechaInicioPre = moment().tz(process.env.TZ).format('2022-04-19 00:00:00');
-                            const fechaFinPre = moment().tz(process.env.TZ).format('2022-04-19 23:59:59');
+                            const fechaInicioPre = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+                            const fechaFinPre = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
                             const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
                             const eventsPre = await models.Event.findAll({where:{
                                                                                 employeeId:employeeSchedul.employeeId,
@@ -588,7 +585,8 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                                                         order:[['DateEvent', 'DESC']]
                                                                         });
             
-                            if ( !eventsPre)  throw 'Empleado no tiene registros de salida a comer';
+                            if ( eventsPre.length === 0) res.status(202).json({message: 'Empleado no tiene registros de salida a comer'});
+                             
                             let day = moment(fechaCreacion).format('d');
 
                             //if(eventsPre.length > 2) throw 'Empleado tiene más de un registro de salida a comer';
@@ -789,13 +787,14 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                     break;
                         //Agregar fecha 
                 case "5":
+                    
                     const employeeTimeRequests = await models.TimeRequest.findAll({where:{
                                                                                         employeeId:id,
                                                                                         statusId:2,
                                                                                         fechaAsignacion:fechaCreacion,
                                                                                 }}); 
-
-                    if ( employeeTimeRequests.length == 0) return res.status(202).json({message: 'Empleado no tiene horas extra'}); 
+                                                                                                                           
+                    if ( employeeTimeRequests.length === 0) return res.status(202).json({message: 'Empleado no tiene horas extra'}); 
 
                     for (const employeeTimeRequest of employeeTimeRequests) {
 
@@ -815,13 +814,25 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                 break;
 
                 case "6":
+                    const fechaInicioPre = moment().tz(process.env.TZ).format('YYYY-MM-DD 00:00:00');
+                    const fechaFinPre = moment().tz(process.env.TZ).format('YYYY-MM-DD 23:59:59');
+                    const eventsPre = await models.Event.findAll({where:{
+                                                                                employeeId:id,
+                                                                                eventActionTypeId:5,
+                                                                                DateEvent: {[Op.between]: [fechaInicioPre,fechaFinPre]}
+                                                                                },
+                                                                        order:[['DateEvent', 'DESC']]
+                                                                        });
+
+                    if ( eventsPre.length === 0)  return res.status(202).json({message: 'Empleado no tiene registros de entrada a hora extra'});
+
                      const employeeTimeRequests1 = await models.TimeRequest.findAll({where:{
                                                                                         employeeId:id,
                                                                                         statusId:2,
                                                                                         fechaAsignacion:fechaCreacion,
                                                                                 }}); 
 
-                    if ( employeeTimeRequests.length == 0) return res.status(202).json({message: 'Empleado no tiene horas extra'});
+                    if ( employeeTimeRequests1.length === 0) return res.status(202).json({message: 'Empleado no tiene horas extra'});
                     break;
 
                 default:
