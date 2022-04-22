@@ -795,7 +795,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                                                                                         fechaAsignacion:fechaCreacion,
                                                                                 }}); 
 
-                    if ( employeeTimeRequests.length == 0) throw 'Empleado no tiene horas extra';
+                    if ( employeeTimeRequests.length == 0) return res.status(202).json({message: 'Empleado no tiene horas extra'}); 
 
                     for (const employeeTimeRequest of employeeTimeRequests) {
 
@@ -815,52 +815,13 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
                 break;
 
                 case "6":
-                    for (const employeeSchedul of employeeSchedules) {
+                     const employeeTimeRequests1 = await models.TimeRequest.findAll({where:{
+                                                                                        employeeId:id,
+                                                                                        statusId:2,
+                                                                                        fechaAsignacion:fechaCreacion,
+                                                                                }}); 
 
-                        const schedule = await models.Schedule.findByPk(employeeSchedul.scheduleId);
-                        let day = moment(fechaCreacion).format('d');
-                        if(!schedule) return res.status(202).json({message: 'Horario no encontrado'});    
-                        switch (day) {
-                            case '0':
-                                    if(!schedule.Domingo){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '1':
-                                    if(!schedule.Lunes){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '2':
-                                    if(!schedule.Martes){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '3':
-                                    if(!schedule.Miercoles){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '4':
-                                    if(!schedule.Jueves){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '5':
-                                    if(!schedule.Viernes){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            case '6':
-                                    if(!schedule.Sabado){
-                                        return res.status(202).json({message: 'Día no laboral.'}); 
-                                    }
-                                break;
-                            
-                            default:
-                                break;
-                        }
-                    }
+                    if ( employeeTimeRequests.length == 0) return res.status(202).json({message: 'Empleado no tiene horas extra'});
                     break;
 
                 default:
