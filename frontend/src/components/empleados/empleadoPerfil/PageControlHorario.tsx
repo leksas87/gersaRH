@@ -13,6 +13,13 @@ const PageControlHorario = () => {
 	//Se necesita el state que contiene los datos del EmployeeEvents
 	const { employeeEvents } = useSelector((state: RootSote) => state.events);
 
+	const tipoDeAccionArray = [
+		{ name: 'Entrada', eventActionType: 1 },
+		{ name: 'Inicia descanso', eventActionType: 2 },
+		{ name: 'Fin descanso', eventActionType: 3 },
+		{ name: 'Salida', eventActionType: 4 },
+	];
+
 	//useState que guarda el digito de día inicio y fin de semana para mostrar en el titulo
 	const [days, setDays] = useState({
 		fechaInicioD: '',
@@ -30,6 +37,16 @@ const PageControlHorario = () => {
 	const [weeksArraySaturday, setWeeksArraySaturday] =
 		useState<iEmployeeEvent[]>();
 	const [weeksArraySunday, setWeeksArraySunday] = useState<iEmployeeEvent[]>();
+
+	const semanaArray = [
+		{ id: 1, dia: 'Lunes', position: 0, weeksArrayDay: weeksArrayMonday },
+		{ id: 2, dia: 'Martes', position: 1, weeksArrayDay: weeksArrayTuesday },
+		{ id: 3, dia: 'Miercoles', position: 2, weeksArrayDay: weeksArrayWednesday },
+		{ id: 4, dia: 'Jueves', position: 3, weeksArrayDay: weeksArrayThursday },
+		{ id: 5, dia: 'Viernes', position: 4, weeksArrayDay: weeksArrayFriday },
+		{ id: 6, dia: 'Sabado', position: 5, weeksArrayDay: weeksArraySaturday },
+		{ id: 7, dia: 'Domingo', position: 6, weeksArrayDay: weeksArraySunday },
+	];
 
 	//se obtiene fecha actual
 	const fechaEvent = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -196,34 +213,45 @@ const PageControlHorario = () => {
 								</tr>
 							</thead>
 							<tbody>
-								<tr style={{ height: '4rem' }}>
-									<th scope='row'>
-										<div className='d-flex align-items-center justify-content-center text-center'>
-											Lunes {moment(fechaInicio).format('DD')}
-										</div>
-									</th>
-									{weeksArrayMonday &&
-										weeksArrayMonday.map((item) => (
-											<td key={item.id}>
-												<div className='d-flex align-items-center justify-content-center'>
-													<span className='textColorLight'>hrs</span>
-													<div className='custm-hrsExit'>
-														{moment(item.DateEvent).format('HH:mm')}
-													</div>
-													<a
-														className='fs-3 btn textColorSecondary'
-														href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
-														target='_blank'
-														rel='noopener noreferrer'
-														style={{ textDecoration: 'none' }}
-													>
-														<i className='bi bi-geo-alt' />
-													</a>
-												</div>
+								{semanaArray.map((semana) => (
+									<tr key={semana.id} style={{ height: '4rem' }}>
+										<th scope='row'>
+											<div className='d-flex align-items-center justify-content-center text-center'>
+												{semana.dia}{' '}
+												{moment(fechaInicio).add(semana.position, 'day').format('DD')}
+											</div>
+										</th>
+										{tipoDeAccionArray.map((tipoAction) => (
+											<td>
+												{semana.weeksArrayDay &&
+													semana.weeksArrayDay
+														.filter(
+															(array) => array.eventActionTypeId === tipoAction.eventActionType
+														)
+														.map((item) => (
+															<div className='d-flex align-items-center justify-content-center'>
+																<span className='textColorLight'>hrs</span>
+																<div className='custm-hrsExit'>
+																	{moment(item.DateEvent).format('HH:mm')}
+																</div>
+																<a
+																	className='fs-3 btn textColorSecondary'
+																	href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
+																	target='_blank'
+																	rel='noopener noreferrer'
+																	style={{ textDecoration: 'none' }}
+																>
+																	<i className='bi bi-geo-alt' />
+																</a>
+															</div>
+														))}
 											</td>
 										))}
-								</tr>
-								<tr style={{ height: '4rem' }}>
+									</tr>
+								))}
+
+								{/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
+								{/* <tr style={{ height: '4rem' }}>
 									<th scope='row'>
 										<div className='d-flex align-items-center justify-content-center text-center'>
 											Martes {moment(fechaInicio).add(1, 'day').format('DD')}
@@ -384,7 +412,7 @@ const PageControlHorario = () => {
 												</div>
 											</td>
 										))}
-								</tr>
+								</tr> */}
 							</tbody>
 						</table>
 					</div>

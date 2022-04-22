@@ -512,7 +512,6 @@ export const getEmployeeEventsByDates = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log(respuesta.data);
 					const reverseArray = respuesta.data.registros.reverse();
 
 					dispatch({
