@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,9 +15,6 @@ const ChecadorConfirmacion = () => {
 
 	//useDispatch para ejecutar las Actions
 	const dispatch = useDispatch();
-
-	//useState que indica si empleado trabaja hoy
-	const [employeeWorksToday, setEmployeeWorksToday] = useState(true);
 
 	//useState para almacenar las cordenas
 	const [cordenadas, setCordenadas] = useState({
@@ -117,6 +113,20 @@ const ChecadorConfirmacion = () => {
 								SI
 							</button>
 						</div>
+					</div>
+				) : eventValidation.message === 'Empleado no tiene horas extra' ? (
+					<div className='d-flex flex-column align-items-center'>
+						<div className='form-text custm-AdvertenciaError'>
+							<i className='bi bi-exclamation-circle'>{` `}</i>
+							Error: ¡No tienes horas extras asignadas o aceptadas!
+						</div>
+						<button
+							className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
+							type='button'
+							onClick={navigateCheck}
+						>
+							OK
+						</button>
 					</div>
 				) : (
 					<div className='d-flex flex-column align-items-center'>

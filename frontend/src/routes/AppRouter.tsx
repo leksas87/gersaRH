@@ -5,6 +5,7 @@ import { startChecking } from '../actions/loginActions/loginActions';
 import PageAutorizaciones from '../components/autorizaciones/PageAutorizaciones';
 import Checador from '../components/checador/Checador';
 import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
+import ChecadorHorasExtrasPage from '../components/checador/ChecadorHorasExtrasPage';
 import ChecadorPage from '../components/checador/ChecadorPage';
 
 import ChecadorTeclado from '../components/checador/ChecadorTeclado';
@@ -167,12 +168,13 @@ const AppRouter = () => {
 							path='/recuperarcontrasena'
 							element={<RecuperarContraseñaPage />}
 						/>
-						{/* Check */}
+						{/* Checador */}
 						<Route path='checador/' element={<Checador />}>
 							<Route index element={<ChecadorTeclado />} />
 							{/* <Route path='exit' element={<ChecadorTeclado />} /> */}
 							<Route element={<RequireCheckState />}>
 								<Route path='select' element={<ChecadorPage />} />
+								<Route path='tiempoextra' element={<ChecadorHorasExtrasPage />} />
 								<Route path='confirm' element={<ChecadorConfirmacion />} />
 							</Route>
 							{/* <Route path='*' element={<NotFound />} /> */}

@@ -612,7 +612,7 @@ export const employeeEventValidation = (
 								eventTypeId: null,
 								employeeId: null,
 								employeeWorksToday: false,
-								message: '202',
+								message: respuesta.data.message,
 							},
 						},
 					});
@@ -629,14 +629,27 @@ export const employeeEventValidation = (
 						timer: 1500,
 					});
 				} else if (error.response.status === 400) {
-					// console.log('error400');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: 'Algo salio mal',
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					if (error.response.data.message === 'Empleado no tiene horas extra') {
+						dispatch({
+							type: GET_EVENT_VALIDATION,
+							payload: {
+								eventValidation: {
+									eventActionTypeId: null,
+									eventTypeId: null,
+									employeeId: null,
+									employeeWorksToday: false,
+									message: 'Empleado no tiene horas extra',
+								},
+							},
+						});
+					}
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: 'Algo salio mal',
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 403) {
 					// console.log('error403');
 					Swal.fire({
