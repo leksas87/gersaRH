@@ -14,6 +14,7 @@ import RecuperacionContrasenaPage from '../components/confirmarContraseña/Recup
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/empleadoPerfil/EmpleadoPerfil';
 import PageControlHorario from '../components/empleados/empleadoPerfil/PageControlHorario';
+import PageControlHorasExtras from '../components/empleados/empleadoPerfil/PageControlHorasExtras';
 import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/PageEmpleadoInfoContrato';
 import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
 import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
@@ -113,6 +114,10 @@ const AppRouter = () => {
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
 										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 										<Route path='controlhorario' element={<PageControlHorario />} />
+										<Route
+											path='controlhorasextras'
+											element={<PageControlHorasExtras />}
+										/>
 										<Route path='*' element={<NotFound />} />
 									</Route>
 									<Route path='reportes/' element={<PageReportes />}>
@@ -131,6 +136,7 @@ const AppRouter = () => {
 											<Route path='personal' element={<PageEmpleadoPersonal />} />
 											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 											<Route path='controlhorario' element={<PageControlHorario />} />
+											<Route path='controlhorasextras' element={<h1>Horas extras</h1>} />
 											<Route path='*' element={<NotFound />} />
 										</Route>
 									</Route>

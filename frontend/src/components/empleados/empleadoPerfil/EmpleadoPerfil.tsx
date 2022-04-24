@@ -295,6 +295,16 @@ const EmpleadoPerfil = () => {
 					>
 						Control horario
 					</NavLink>
+					<NavLink
+						to={`${tablePath}/${params.empleadoId}/controlhorasextras`}
+						className={({ isActive }) =>
+							isActive
+								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+						}
+					>
+						Control horas extras
+					</NavLink>
 				</nav>
 				{/* Contenido */}
 				<div className='d-flex flex-column p-4'>
