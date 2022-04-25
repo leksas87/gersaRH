@@ -121,23 +121,23 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 					{(rollTypeId === 1 || rollTypeId === 3) && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							{rollTypeId === 1 && (
-								<NavLink
-									to='/empleados'
-									className={({ isActive }) =>
-										isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
-									}
-									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
-									onClick={() => {
-										navigateTo('/empleados');
-									}}
-								>
-									<i className='bi bi-person-video2 sidebarIcon' />
-									Empleados
-								</NavLink>
-							)}
+							{/* {rollTypeId === 1 && (
+							)} */}
 							{(rollTypeId === 1 || rollTypeId === 3) && (
 								<div>
+									<NavLink
+										to='/empleados'
+										className={({ isActive }) =>
+											isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+										}
+										data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+										onClick={() => {
+											navigateTo('/empleados');
+										}}
+									>
+										<i className='bi bi-person-video2 sidebarIcon' />
+										Empleados
+									</NavLink>
 									<NavLink
 										to='/solicitarhoras'
 										className={({ isActive }) =>

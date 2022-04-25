@@ -23,6 +23,8 @@ const EmpleadoPerfil = () => {
 	const { perfilUsuario: perfilEmpleado, tablePath } = useSelector(
 		(state: RootSote) => state.users
 	);
+	//Senecesita el state que indica el roll, nombre y apellido del usuario
+	const { rollTypeId } = useSelector((state: RootSote) => state.auth);
 	//useDispatch para ehecutar las Actions
 	const dispatch = useDispatch();
 
@@ -94,7 +96,7 @@ const EmpleadoPerfil = () => {
 						<ModalElimnarAcceso />
 						<ModalFinalizarEmpleado />
 						<ModalNuevoContrato />
-						{tablePath === '/empleados' && (
+						{tablePath === '/empleados' && rollTypeId === 1 && (
 							<div className='dropdown'>
 								{/* Boton para activar ventana DropDown */}
 								<button
@@ -254,37 +256,41 @@ const EmpleadoPerfil = () => {
 				</div>
 				{/* Navbar */}
 				<nav className='custm-navbarPerrfil p-3'>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/perfil`}
-						// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
-						}
-					>
-						Perfil
-					</NavLink>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/personal`}
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
-						}
-					>
-						Personal
-					</NavLink>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/infocontrato`}
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
-						}
-					>
-						Información de Contrato
-					</NavLink>
+					{rollTypeId === 1 && (
+						<>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/perfil`}
+								// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+								}
+							>
+								Perfil
+							</NavLink>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/personal`}
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+								}
+							>
+								Personal
+							</NavLink>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/infocontrato`}
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+								}
+							>
+								Información de Contrato
+							</NavLink>
+						</>
+					)}
 					<NavLink
 						to={`${tablePath}/${params.empleadoId}/controlhorario`}
 						className={({ isActive }) =>

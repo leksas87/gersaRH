@@ -108,7 +108,7 @@ const AppRouter = () => {
 
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
-									<Route path='empleados' element={<EmpleadosPage />} />
+									{/* <Route path='empleados' element={<EmpleadosPage />} />
 									<Route path='empleados/:empleadoId/' element={<EmpleadoPerfil />}>
 										<Route path='perfil' element={<PageEmpleadoPerfil />} />
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
@@ -119,7 +119,7 @@ const AppRouter = () => {
 											element={<PageControlHorasExtras />}
 										/>
 										<Route path='*' element={<NotFound />} />
-									</Route>
+									</Route> */}
 									<Route path='reportes/' element={<PageReportes />}>
 										<Route index element={<PageVerReportesEmpleado />} />
 										<Route
@@ -136,13 +136,30 @@ const AppRouter = () => {
 											<Route path='personal' element={<PageEmpleadoPersonal />} />
 											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 											<Route path='controlhorario' element={<PageControlHorario />} />
-											<Route path='controlhorasextras' element={<h1>Horas extras</h1>} />
+											<Route
+												path='controlhorasextras'
+												element={<PageControlHorasExtras />}
+											/>
 											<Route path='*' element={<NotFound />} />
 										</Route>
 									</Route>
 								</Route>
 								{/* Rutas para Jefe de Cuadrilla y Administrador */}
 								<Route element={<RequireSupervisorAndAdminPrivileges />}>
+									<Route path='empleados' element={<EmpleadosPage />} />
+									<Route path='empleados/:empleadoId/' element={<EmpleadoPerfil />}>
+										<Route element={<RequireAdminPrivileges />}>
+											<Route path='perfil' element={<PageEmpleadoPerfil />} />
+											<Route path='personal' element={<PageEmpleadoPersonal />} />
+											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+										</Route>
+										<Route path='controlhorario' element={<PageControlHorario />} />
+										<Route
+											path='controlhorasextras'
+											element={<PageControlHorasExtras />}
+										/>
+										<Route path='*' element={<NotFound />} />
+									</Route>
 									<Route path='solicitarhoras/' element={<PageHorasExtras />}>
 										<Route index element={<PageSolicitudHorasExtras />} />
 										<Route path='historial' element={<PageHistorialHorasExtras />} />
