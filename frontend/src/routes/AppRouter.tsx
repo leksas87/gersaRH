@@ -40,6 +40,7 @@ import PageReportes from '../components/reportes/PageReportes';
 import PageReportesAdministrativos from '../components/reportes/PageReportesAdministrativos';
 import PageVerReportesAdministrativos from '../components/reportes/PageVerReportesAdministrativos';
 import PageVerReportesEmpleado from '../components/reportes/PageVerReportesEmpleado';
+import SessionTimeout from '../components/sessionTimeOut/SessionTimeOut';
 import PageSolicitudes from '../components/solicitudes/PageSolicitudes';
 import PageSolicitudFalta from '../components/solicitudes/PageSolicitudFalta';
 import PageSolicitudIncapacidad from '../components/solicitudes/PageSolicitudIncapacidad';
@@ -206,6 +207,7 @@ const AppRouter = () => {
 						{/* <Route path='output/' element={<h1>salida</h1>}> */}
 						{/* <Route path='/checador' element={<ChecadorConfirmacion />} /> */}
 					</Routes>
+					<SessionTimeout />
 				</BrowserRouter>
 			</Suspense>
 		</>

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
 import { Toast } from '../../helpers/swalAlert';
 import { axiosClientWithToken } from '../../helpers/axios';
+import moment from 'moment';
 
 //Login
 export const startLogin = (email: string, password: string) => {
@@ -34,10 +35,12 @@ export const startLogin = (email: string, password: string) => {
 			if (body.ok) {
 				//Se guarda el token en localStorage como gersa-tkn
 				localStorage.setItem('gersa-tkn', body.data.token);
-				const time = new Date().getTime();
+				//se obtiene fecha actual
+				const time = moment().format('YYYY-MM-DD HH:mm:ss');
+				// const time = new Date().getTime();
 
 				//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
-				localStorage.setItem('gersa-tkn-init-date', time.toString());
+				localStorage.setItem('gersa-tkn-init-date', time);
 				localStorage.setItem('gersaUserName', body.data.username);
 				//Se asugna el cuerpo de la respuesta a usuario
 				const usuario: Usuario = body.data;
@@ -79,7 +82,9 @@ export const startChecking = () => {
 			if (body.ok) {
 				//Se guarda el token en localStorage como gersa-tkn
 				localStorage.setItem('gersa-tkn', body.data.token);
-				const time = new Date().getTime();
+				//se obtiene fecha actual
+				const time = moment().format('YYYY-MM-DD HH:mm:ss');
+				// const time = new Date().getTime();
 				//Se guarda el tiempo en el que se guardo el token en localStorage como gersa-tkn-init-date
 				localStorage.setItem('gersa-tkn-init-date', time.toString());
 				localStorage.setItem('gersaUserName', body.data.username);
@@ -171,3 +176,5 @@ export const getEmployeeDataById = (id: number) => {
 			});
 	};
 };
+
+//
