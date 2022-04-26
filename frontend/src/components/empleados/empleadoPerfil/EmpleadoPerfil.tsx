@@ -13,6 +13,7 @@ import './EmpleadoPerfil.css';
 import ModalElimnarAcceso from './ModalElimnarAcceso';
 import ModalFinalizarEmpleado from './ModalFinalizarEmpleado';
 import ModalNuevoContrato from './ModalNuevoContrato';
+import * as bootstrap from 'bootstrap';
 
 const EmpleadoPerfil = () => {
 	//Hook para obtener los parametros del url
@@ -58,6 +59,10 @@ const EmpleadoPerfil = () => {
 	//Metodo para reenviar codifo de acceso al empleado
 	const resendAccessCode = () => {
 		dispatch(reSendAccessCode(perfilEmpleado.id));
+	};
+	const showDropDown = () => {
+		let searchDropdown = new bootstrap.Dropdown('#btnEployeeOptions');
+		searchDropdown.show();
 	};
 	return (
 		<>
@@ -105,6 +110,7 @@ const EmpleadoPerfil = () => {
 									id='btnEployeeOptions'
 									data-bs-toggle='dropdown'
 									aria-expanded='false'
+									onClick={showDropDown}
 								>
 									●●●
 								</button>

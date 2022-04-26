@@ -32,10 +32,10 @@ const SessionTimeout = () => {
 						const diff = moment.duration(moment().diff(moment(timeString)));
 
 						const minPast = diff.minutes();
-						// console.log('minPast', minPast);
+						console.log('minPast', minPast);
 
 						const leftSecond = 60 - diff.seconds();
-						// console.log(leftSecond);
+						console.log(leftSecond);
 
 						if (minPast === popTime) {
 							setSecond(leftSecond);
@@ -57,7 +57,8 @@ const SessionTimeout = () => {
 				};
 				warningInactive(fecha);
 			} else return;
-		}, 6600000); //110 mntos //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
+			// }, 6600000); //110 mntos //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
+		}, 5000); //5segundos //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
 	}, [isAuthenticated, dispatch]);
 
 	// reset interval timer
@@ -75,38 +76,33 @@ const SessionTimeout = () => {
 		setOpen(false);
 	}, [isAuthenticated, dispatch, timeChecker]);
 
-	// handle close popup
+	// handle close popup - Formulario
 	const handleClose = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		resetTimer();
 	};
 
 	useEffect(() => {
-		// events.forEach((event) => {
-		// 	window.addEventListener(event, resetTimer);
-		// });
-
 		timeChecker();
 
 		return () => {
 			clearTimeout(startTimerInterval.current);
-			//   resetTimer();
 		};
 	}, [timeChecker]);
 
 	// console.log(second);
 
 	useEffect(() => {
+		//mostrarmodal
 		if (isOpen) {
-			//mostrarmodal
 			const miModal = document.getElementById('ModalSessionTimeOut');
 			if (miModal) {
-				var myModal = new bootstrap.Modal(miModal, {});
-
+				const myModal = new bootstrap.Modal(miModal, {});
 				myModal.show();
 			}
 		}
 	}, [isOpen]);
+
 	const startLogOut = () => {
 		setOpen(false);
 		localStorage.clear();
@@ -115,13 +111,13 @@ const SessionTimeout = () => {
 		//ocultar modal
 		const miModal = document.getElementById('ModalSessionTimeOut');
 		if (miModal) miModal.click();
-
 		resetTimer();
 	};
 
 	// change fragment to modal and handleclose func to close
 	// return <Fragment />;
 	return (
+		// <Fragment />
 		<>
 			{/* <!-- Modal --> */}
 			<div

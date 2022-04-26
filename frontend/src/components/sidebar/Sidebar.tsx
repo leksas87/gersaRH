@@ -3,8 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
-// import { Offcanvas } from 'bootstrap';
-// import * as bootstrap from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 interface iProps {
 	screenSize?: boolean;
@@ -28,6 +27,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 
 	//Metodo para cerrar sesion
 	const startLogOut = () => {
+		window.location.reload();
 		localStorage.clear();
 		// localStorage.setItem('gersaUserName', '');
 		dispatch(logOut());
@@ -36,6 +36,11 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	//se usa navigate ya que data-bs-dismiss del offCanvas no permite el redireccionamiento directo
 	const navigateTo = (ruta: string) => {
 		navigate(ruta);
+	};
+
+	const showDropDown = () => {
+		let searchDropdown = new bootstrap.Dropdown('#dropDownLeft');
+		searchDropdown.show();
 	};
 
 	return (
@@ -220,10 +225,12 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 					)}
 					<div className='mt-3 ms-1 btn-group '>
 						<button
+							id='dropDownLeft'
 							type='button'
 							className='sidebarLeaveButton sidebarOption'
 							data-bs-toggle='dropdown'
-							aria-expanded='false'
+							aria-expanded='true'
+							onClick={showDropDown}
 						>
 							<div className='custm-imgCount me-2'>
 								<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />

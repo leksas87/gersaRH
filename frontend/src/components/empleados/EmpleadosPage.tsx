@@ -10,6 +10,7 @@ import ModalNuevoEmpleado from './ModalNuevoEmpleado';
 import './EmpleadosPage.css';
 import TablaEmpleados from './TablaEmpleados';
 import ModalSeleccionarExcel from './ModalSeleccionarExcel';
+import * as bootstrap from 'bootstrap';
 
 const EmpleadosPage = () => {
 	//Dispatch para ejetur la accion.
@@ -37,6 +38,10 @@ const EmpleadosPage = () => {
 		console.log('enviando a TOdos');
 		dispatch(sendInvitationsMassive());
 	};
+	const showDropDown = () => {
+		let searchDropdown = new bootstrap.Dropdown('#btnMenuEmpleadosMas');
+		searchDropdown.show();
+	};
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -62,6 +67,7 @@ const EmpleadosPage = () => {
 									id='btnMenuEmpleadosMas'
 									data-bs-toggle='dropdown'
 									aria-expanded='false'
+									onClick={showDropDown}
 								>
 									●●●
 								</button>
