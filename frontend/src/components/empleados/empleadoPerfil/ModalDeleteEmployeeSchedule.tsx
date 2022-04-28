@@ -1,9 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteEmployeeSchedules,
-	deleteSchedules,
-} from '../../../actions/scheduleActions/scheduleActions';
+import { deleteEmployeeSchedules } from '../../../actions/scheduleActions/scheduleActions';
 import { RootSote } from '../../../store/Store';
 
 const ModalDeleteEmployeeSchedule = () => {
@@ -14,9 +11,7 @@ const ModalDeleteEmployeeSchedule = () => {
 		(state: RootSote) => state.schedules
 	);
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario, perfilEmpleado } = useSelector(
-		(state: RootSote) => state.users
-	);
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 
 	//Submit del modal
 	const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

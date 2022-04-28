@@ -3,8 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { logOut } from '../../actions/loginActions/loginActions';
 import { RootSote } from '../../store/Store';
 import './Sidebar.css';
-// import { Offcanvas } from 'bootstrap';
-// import * as bootstrap from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 interface iProps {
 	screenSize?: boolean;
@@ -16,7 +15,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	//useDispatch para hacer dispatch de la accion
 	const dispatch = useDispatch();
 	//Senecesita el state que indica el roll, nombre y apellido del usuario
-	const { roll, firstName, lastName } = useSelector(
+	const { firstName, lastName, rollTypeId } = useSelector(
 		(state: RootSote) => state.auth
 	);
 
@@ -28,6 +27,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 
 	//Metodo para cerrar sesion
 	const startLogOut = () => {
+		window.location.reload();
 		localStorage.clear();
 		// localStorage.setItem('gersaUserName', '');
 		dispatch(logOut());
@@ -36,6 +36,11 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 	//se usa navigate ya que data-bs-dismiss del offCanvas no permite el redireccionamiento directo
 	const navigateTo = (ruta: string) => {
 		navigate(ruta);
+	};
+
+	const showDropDown = () => {
+		let searchDropdown = new bootstrap.Dropdown('#dropDownLeft');
+		searchDropdown.show();
 	};
 
 	return (
@@ -74,64 +79,158 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							<i className='bi bi-person-square sidebarIcon' />
 							Mi perfil
 						</NavLink>
-						<div className='sidebarOption'>
-							<i className='bi bi-clock sidebarIcon ' />
-							Reloj Checador
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-lightbulb-off sidebarIcon' />
-							Ausencias
-						</div>
-						<div className='sidebarOption'>
-							<i className='bi bi-card-checklist sidebarIcon' />
+						<NavLink
+							to='/solicitudes'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/solicitudes');
+							}}
+						>
+							<i className='bi bi-calendar-date sidebarIcon ' />
 							Solicitudes
+						</NavLink>
+						<NavLink
+							to='/misreportes'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/misreportes');
+							}}
+						>
+							<i className='bi bi-exclamation-lg sidebarIcon' />
+							Reportes
+						</NavLink>
+						<NavLink
+							to='/horasextras'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/horasextras');
+							}}
+						>
+							<i className='bi bi-stopwatch-fill sidebarIcon' />
+							Horas extras
+						</NavLink>
+						<div className='sidebarOption'>
+							<i className='bi bi-folder2-open sidebarIcon' />
+							Archivos
 						</div>
 					</nav>
-					{roll === 1 && (
+					{(rollTypeId === 1 || rollTypeId === 3) && (
 						<nav className='d-flex flex-column sidebarEmpresa'>
 							<label className='fs-6 textColorSecondary'>TU EMPRESA</label>
-							<NavLink
-								to='/empleados'
-								className={({ isActive }) =>
-									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
-								}
-								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
-								onClick={() => {
-									navigateTo('/empleados');
-								}}
-							>
-								<i className='bi bi-person-video2 sidebarIcon' />
-								Empleados
-							</NavLink>
-							<div className='sidebarOption'>
-								<i className='bi bi-calendar-week sidebarIcon' />
-								Calendario
-							</div>
+							{/* {rollTypeId === 1 && (
+							)} */}
+							{(rollTypeId === 1 || rollTypeId === 3) && (
+								<div>
+									<NavLink
+										to='/empleados'
+										className={({ isActive }) =>
+											isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+										}
+										data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+										onClick={() => {
+											navigateTo('/empleados');
+										}}
+									>
+										<i className='bi bi-person-video2 sidebarIcon' />
+										Empleados
+									</NavLink>
+									<NavLink
+										to='/solicitarhoras'
+										className={({ isActive }) =>
+											isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+										}
+										data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+										onClick={() => {
+											navigateTo('/solicitarhoras');
+										}}
+									>
+										<i className='bi bi-stopwatch sidebarIcon' />
+										Solicitar horas extras
+									</NavLink>
+
+									<NavLink
+										to='/autorizaciones'
+										className={({ isActive }) =>
+											isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+										}
+										data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+										onClick={() => {
+											navigateTo('/autorizaciones');
+										}}
+									>
+										<i className='bi bi-calendar-week sidebarIcon' />
+										Autorizaciones
+									</NavLink>
+								</div>
+							)}
+							{rollTypeId === 3 && (
+								<NavLink
+									to='/reportesadministrativos'
+									className={({ isActive }) =>
+										isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+									}
+									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+									onClick={() => {
+										navigateTo('/reportesadministrativos');
+									}}
+								>
+									<i className='bi bi-exclamation-lg sidebarIcon' />
+									Reportes Administrativos
+								</NavLink>
+							)}
+							{rollTypeId === 1 && (
+								<NavLink
+									to='/reportes'
+									className={({ isActive }) =>
+										isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+									}
+									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+									onClick={() => {
+										navigateTo('/reportes');
+									}}
+								>
+									<i className='bi bi-exclamation-lg sidebarIcon' />
+									Ver reportes
+								</NavLink>
+							)}
 							<div className='sidebarOption'>
 								<i className='bi bi-folder2-open sidebarIcon' />
-								Archivos
+								Archivos Empresa
 							</div>
-							<NavLink
-								to='/empresa'
-								className={({ isActive }) =>
-									isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
-								}
-								data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
-								onClick={() => {
-									navigateTo('/empresa');
-								}}
-							>
-								<i className='bi bi-gear sidebarIcon ' />
-								Empresa
-							</NavLink>
+							{rollTypeId === 1 && (
+								<NavLink
+									to='/empresa'
+									className={({ isActive }) =>
+										isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+									}
+									data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+									onClick={() => {
+										navigateTo('/empresa');
+									}}
+								>
+									<i className='bi bi-gear sidebarIcon ' />
+									Empresa
+								</NavLink>
+							)}
 						</nav>
 					)}
 					<div className='mt-3 ms-1 btn-group '>
 						<button
+							id='dropDownLeft'
 							type='button'
 							className='sidebarLeaveButton sidebarOption'
 							data-bs-toggle='dropdown'
-							aria-expanded='false'
+							aria-expanded='true'
+							onClick={showDropDown}
 						>
 							<div className='custm-imgCount me-2'>
 								<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />

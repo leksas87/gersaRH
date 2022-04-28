@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Outlet } from 'react-router-dom';
-import {
-	getEmployeeById,
-	getUserById,
-} from '../../actions/usersActions/usersActions';
-import { RootSote } from '../../store/Store';
+
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './DashboardPage.css';
@@ -51,13 +47,6 @@ const DashboardPage = () => {
 				)}
 				<div className='custm-dashboardContainer'>
 					<Outlet />
-					{/* <Routes>
-						<Route path='/' element={<InicioPage />} />
-						<Route path='/' element={<EmpleadosPage />} />
-					</Routes> */}
-
-					{/* <InicioPage /> */}
-					{/* <EmpleadosPage /> */}
 				</div>
 			</div>
 		</>

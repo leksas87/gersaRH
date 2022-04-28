@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { changePath } from '../../actions/usersActions/usersActions';
 import { iEmpleado } from '../../actions/usersActions/usersActionTypes';
 import { sortEmployees } from '../../helpers/sortEmployees';
+import { RootSote } from '../../store/Store';
 import './TablaEmpleados.css';
 
 //interface para las props del componente
@@ -19,6 +20,8 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 	const dispatch = useDispatch();
 	//useLocation para conocer el path
 	const { pathname } = useLocation();
+	//Senecesita el state que indica el roll, nombre y apellido del usuario
+	const { rollTypeId } = useSelector((state: RootSote) => state.auth);
 
 	//hook searchParams
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -41,7 +44,10 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 	//hook useNavigate
 	const navigate = useNavigate();
 	//Metodo para navegar al perfil del empleado
-	const irEmpleado = (id: number) => navigate(`${pathname}/${id}/perfil`);
+	const irEmpleado = (id: number) => {
+		if (rollTypeId === 1) navigate(`${pathname}/${id}/perfil`);
+		if (rollTypeId === 3) navigate(`${pathname}/${id}/controlhorario`);
+	};
 	//Metodo para filtrado (Bisqueda)
 	const handleFilter = (e: any) => {
 		setSearchParams({ filter: e.target.value });
@@ -71,12 +77,12 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 				}
 			})
 		);
-	}, [searchParams, empleados]);
+	}, [searchParams, empleados, busqueda, filter]);
 
 	//Efecto que se ejecuta cuando hay un cambio de path
 	useEffect(() => {
 		dispatch(changePath(pathname));
-	}, [pathname]);
+	}, [pathname, dispatch]);
 
 	// Effect to create the pagination
 	useEffect(() => {

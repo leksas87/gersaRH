@@ -7,9 +7,9 @@ const {SCHEDULE_TABLE} = require('./schedule.model');
 const EMPLOYEESCHEDULE_TABLE = 'EmployeeSchedule';
 
 const EmployeeScheduleSchema = {
-  id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
-  employeeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
-  scheduleId: {type: DataTypes.INTEGER,allowNull:true,references:{model:SCHEDULE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  id: { allowNull: true,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
+  // employeeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  // scheduleId: {type: DataTypes.INTEGER,allowNull:true,references:{model:SCHEDULE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
 }
 
 class EmployeeSchedule extends Model {

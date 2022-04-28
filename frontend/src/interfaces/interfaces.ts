@@ -1,6 +1,9 @@
 import {
+	iAdministrador,
 	iEmpleado,
 	iEmployeeData,
+	iSupervisor,
+	iWorkPlaces,
 } from '../actions/usersActions/usersActionTypes';
 
 //Auth Interfaces
@@ -8,11 +11,12 @@ export interface iAuthState {
 	id: string;
 	firstName: string;
 	lastName: string;
-	roll: number | null;
+	rollTypeId: number | null;
 	authState: {
 		loading: boolean;
 		isAutenticated: boolean;
 	};
+	empleadoData: iEmployeeData;
 }
 export interface iUsuario {
 	uid: string;
@@ -40,6 +44,9 @@ export interface iUsuariosReducer {
 	perfilUsuario: iEmpleado;
 	perfilEmpleado: iEmployeeData;
 	tablePath: string;
+	supervisores: iSupervisor[];
+	administradores: iAdministrador[];
+	workPlaces: iWorkPlaces[];
 }
 //Interface de confirmacion contraseña
 export interface iConfirmarContraseña {

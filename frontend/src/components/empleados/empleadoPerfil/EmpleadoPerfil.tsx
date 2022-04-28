@@ -4,16 +4,16 @@ import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { reSendAccessCode } from '../../../actions/eventsActions/eventsActions';
 import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
+	changeRollToUser,
 	getEmployeeById,
 	getUserById,
-	makeAdminToUserById,
-	removeAdminToUserById,
 } from '../../../actions/usersActions/usersActions';
 import { RootSote } from '../../../store/Store';
 import './EmpleadoPerfil.css';
 import ModalElimnarAcceso from './ModalElimnarAcceso';
 import ModalFinalizarEmpleado from './ModalFinalizarEmpleado';
 import ModalNuevoContrato from './ModalNuevoContrato';
+import * as bootstrap from 'bootstrap';
 
 const EmpleadoPerfil = () => {
 	//Hook para obtener los parametros del url
@@ -24,6 +24,8 @@ const EmpleadoPerfil = () => {
 	const { perfilUsuario: perfilEmpleado, tablePath } = useSelector(
 		(state: RootSote) => state.users
 	);
+	//Senecesita el state que indica el roll, nombre y apellido del usuario
+	const { rollTypeId } = useSelector((state: RootSote) => state.auth);
 	//useDispatch para ehecutar las Actions
 	const dispatch = useDispatch();
 
@@ -32,7 +34,7 @@ const EmpleadoPerfil = () => {
 	const indiceLastname = perfilEmpleado.lastName.indexOf(' ');
 	const name = perfilEmpleado.firstName.substring(0, indiceName);
 	const lastName = perfilEmpleado.lastName.substring(0, indiceLastname);
-	const roll = perfilEmpleado.roll;
+	const roll = perfilEmpleado.rollTypeId;
 	const isActive = perfilEmpleado.active;
 
 	useEffect(() => {
@@ -44,15 +46,23 @@ const EmpleadoPerfil = () => {
 
 	//metodo para remover Permisos de Administrador
 	const quitarAdmin = () => {
-		dispatch(removeAdminToUserById(perfilEmpleado.id));
+		dispatch(changeRollToUser(perfilEmpleado.id, 2));
 	};
 	//metodo para asignar Permisos de Administrador
 	const nombrarAdmin = () => {
-		dispatch(makeAdminToUserById(perfilEmpleado.id));
+		dispatch(changeRollToUser(perfilEmpleado.id, 1));
+	};
+	//metodo para asignar Permisos de Jefe de Cuadrilla
+	const nombrarJefe = () => {
+		dispatch(changeRollToUser(perfilEmpleado.id, 3));
 	};
 	//Metodo para reenviar codifo de acceso al empleado
 	const resendAccessCode = () => {
 		dispatch(reSendAccessCode(perfilEmpleado.id));
+	};
+	const showDropDown = () => {
+		let searchDropdown = new bootstrap.Dropdown('#btnEployeeOptions');
+		searchDropdown.show();
 	};
 	return (
 		<>
@@ -91,7 +101,7 @@ const EmpleadoPerfil = () => {
 						<ModalElimnarAcceso />
 						<ModalFinalizarEmpleado />
 						<ModalNuevoContrato />
-						{tablePath === '/empleados' && (
+						{tablePath === '/empleados' && rollTypeId === 1 && (
 							<div className='dropdown'>
 								{/* Boton para activar ventana DropDown */}
 								<button
@@ -100,6 +110,7 @@ const EmpleadoPerfil = () => {
 									id='btnEployeeOptions'
 									data-bs-toggle='dropdown'
 									aria-expanded='false'
+									onClick={showDropDown}
 								>
 									●●●
 								</button>
@@ -118,7 +129,7 @@ const EmpleadoPerfil = () => {
 												data-bs-toggle='modal'
 												data-bs-target='#ModalEliminarAcceso'
 											>
-												<div className='fs-4'>Eliminar acceso</div>
+												<div className='fs-5'>Eliminar acceso</div>
 												<div className='custm-dropItemText'>
 													El empleado no podrá acceder al
 												</div>
@@ -131,13 +142,13 @@ const EmpleadoPerfil = () => {
 									)}
 									<li>
 										{/* rollId 2 = Empleado */}
-										{roll === 2 && (
+										{(roll === 2 || roll === 3) && (
 											<button
 												className='dropdown-item custm-dropdown-item custm-dropItem'
 												type='button'
 												onClick={nombrarAdmin}
 											>
-												<div className='fs-4'>Nombrar administrador</div>
+												<div className='fs-5'>Nombrar administrador</div>
 
 												<div className='custm-dropItemText'>
 													Tendrá visibilidad total en la cuenta de
@@ -155,7 +166,7 @@ const EmpleadoPerfil = () => {
 												type='button'
 												onClick={quitarAdmin}
 											>
-												<div className='fs-4'>Quitar como admin</div>
+												<div className='fs-5'>Quitar como admin</div>
 
 												<div className='custm-dropItemText'>
 													Convierte este admin en un empleado
@@ -167,13 +178,55 @@ const EmpleadoPerfil = () => {
 										)}
 									</li>
 									<li>
+										{/* rollId 2 = Empleado */}
+										{(roll === 1 || roll === 2) && (
+											<button
+												className='dropdown-item custm-dropdown-item custm-dropItem'
+												type='button'
+												onClick={nombrarJefe}
+											>
+												<div className='fs-5'>Nombrar Jefe </div>
+												<div className='fs-5'>de cuadrilla </div>
+
+												<div className='custm-dropItemText'>
+													Tendrá visibilidad de los empleados a
+												</div>
+												<div className='custm-dropItemText'>
+													su cargo y podrá realizar las funciones
+												</div>
+												<div className='custm-dropItemText'>de un jefe de cuadrilla.</div>
+											</button>
+										)}
+										{/* rollId 1 = Admin */}
+										{roll === 3 && (
+											<button
+												className='dropdown-item custm-dropdown-item custm-dropItem'
+												type='button'
+												onClick={quitarAdmin}
+											>
+												<div className='fs-5'>
+													<div>Quitar como</div>
+													<div>Jefe de Cuadrilla</div>
+												</div>
+
+												<div className='custm-dropItemText'>
+													Convierte este Jefe en un empleado
+												</div>
+												<div className='custm-dropItemText'>
+													básico sin poderes en la empresa.
+												</div>
+											</button>
+										)}
+									</li>
+
+									<li>
 										<button
 											className='dropdown-item custm-dropdown-item custm-dropItem'
 											type='button'
 											onClick={resendAccessCode}
 										>
-											<div className='fs-4'>Reenviar Codigo</div>
-											<div className='fs-4'>de Acceso </div>
+											<div className='fs-5'>Reenviar Codigo</div>
+											<div className='fs-5'>de Acceso </div>
 											<div className='custm-dropItemText'>
 												Reenvia al empleado su código de
 											</div>
@@ -187,7 +240,7 @@ const EmpleadoPerfil = () => {
 											data-bs-toggle='modal'
 											data-bs-target='#ModalFinalizarEmpleado'
 										>
-											<div className='fs-4'>
+											<div className='fs-5'>
 												Finalizar a{' '}
 												<span className='text-capitalize'>
 													{name ? name : perfilEmpleado.firstName}
@@ -209,37 +262,41 @@ const EmpleadoPerfil = () => {
 				</div>
 				{/* Navbar */}
 				<nav className='custm-navbarPerrfil p-3'>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/perfil`}
-						// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
-						}
-					>
-						Perfil
-					</NavLink>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/personal`}
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
-						}
-					>
-						Personal
-					</NavLink>
-					<NavLink
-						to={`${tablePath}/${params.empleadoId}/infocontrato`}
-						className={({ isActive }) =>
-							isActive
-								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
-								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
-						}
-					>
-						Información de Contrato
-					</NavLink>
+					{rollTypeId === 1 && (
+						<>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/perfil`}
+								// className='fs-5  textColorSecondary ms-1 me-2 custm-empleadoNavLink custm-empleadoNavLink-Active'
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+								}
+							>
+								Perfil
+							</NavLink>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/personal`}
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+								}
+							>
+								Personal
+							</NavLink>
+							<NavLink
+								to={`${tablePath}/${params.empleadoId}/infocontrato`}
+								className={({ isActive }) =>
+									isActive
+										? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+										: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+								}
+							>
+								Información de Contrato
+							</NavLink>
+						</>
+					)}
 					<NavLink
 						to={`${tablePath}/${params.empleadoId}/controlhorario`}
 						className={({ isActive }) =>
@@ -249,6 +306,16 @@ const EmpleadoPerfil = () => {
 						}
 					>
 						Control horario
+					</NavLink>
+					<NavLink
+						to={`${tablePath}/${params.empleadoId}/controlhorasextras`}
+						className={({ isActive }) =>
+							isActive
+								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+						}
+					>
+						Control horas extras
 					</NavLink>
 				</nav>
 				{/* Contenido */}

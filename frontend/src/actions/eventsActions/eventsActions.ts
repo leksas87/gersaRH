@@ -6,12 +6,14 @@ import { Toast } from '../../helpers/swalAlert';
 import moment from 'moment';
 import {
 	CLEAN_EMPLOYEE_EVENTS,
+	CLEAN_EVENT_VALIDATION,
 	EventsDispatchTypes,
 	EVENTS_IS_USER_ACTIVE,
 	EVENTS_IS_USER_ACTIVE_FALSE,
 	EVENTS_LOADING_END,
 	EVENTS_START_LOADING,
 	GET_EMPLOYEE_EVENTS,
+	GET_EVENT_VALIDATION,
 	GET_SERVER_DAY,
 	GET_SERVER_TIME,
 	RESEND_ACCESS_CODE,
@@ -234,8 +236,8 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
 					// console.log(respuesta.data.registros);
-					const reverseArray = respuesta.data.registros.reverse();
-					console.log('arrayAlreves', reverseArray);
+					// const reverseArray = respuesta.data.registros.reverse();
+					// console.log('arrayAlreves', reverseArray);
 					dispatch({
 						type: GET_EMPLOYEE_EVENTS,
 						payload: { employeeEvents: respuesta.data.registros },
@@ -424,6 +426,15 @@ export const sendEmployeeEvent = (
 					setTimeout(() => {
 						dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
 					}, 1500);
+				} else if (respuesta.status === 204) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
 				}
 			})
 			.catch((error) => {
@@ -437,7 +448,7 @@ export const sendEmployeeEvent = (
 						timer: 1500,
 					});
 				} else if (error.response.status === 400) {
-					// console.log('error400');
+					console.log(error.response);
 					Swal.fire({
 						position: 'top-end',
 						icon: 'warning',
@@ -537,12 +548,131 @@ export const getEmployeeEventsByDates = (
 						showConfirmButton: false,
 						timer: 1500,
 					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) employeeEventValidation
+export const employeeEventValidation = (
+	employeeId: number,
+	eventActionTypeId: number,
+	token: string
+) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//LimpiarEmployeeEvents
+		dispatch({ type: CLEAN_EVENT_VALIDATION });
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(
+				`employees/${employeeId}/events?eventActionTypeId=${eventActionTypeId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					console.log('RespuestaValidacion200->', respuesta.data);
+
+					// console.log(respuesta.data.registros);
+					// const reverseArray = respuesta.data.registros.reverse();
+					// console.log('arrayAlreves', reverseArray);
+					dispatch({
+						type: GET_EVENT_VALIDATION,
+						payload: {
+							eventValidation: {
+								eventActionTypeId: respuesta.data.eventActionTypeId,
+								eventTypeId: respuesta.data.eventTypeId,
+								employeeId: respuesta.data.employeeId,
+								employeeWorksToday: true,
+								message: respuesta.data.message,
+							},
+						},
+					});
+				} else if (respuesta.status === 202) {
+					console.log('RespuestaValidacion 202->', respuesta.data);
+
+					dispatch({
+						type: GET_EVENT_VALIDATION,
+						payload: {
+							eventValidation: {
+								eventActionTypeId: null,
+								eventTypeId: null,
+								employeeId: null,
+								employeeWorksToday: false,
+								message: respuesta.data.message,
+							},
+						},
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					if (error.response.data.message === 'Empleado no tiene horas extra') {
+						dispatch({
+							type: GET_EVENT_VALIDATION,
+							payload: {
+								eventValidation: {
+									eventActionTypeId: null,
+									eventTypeId: null,
+									employeeId: null,
+									employeeWorksToday: false,
+									message: 'Empleado no tiene horas extra',
+								},
+							},
+						});
+					}
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: 'Algo salio mal',
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
 				} else if (error.response.status === 404) {
 					// console.log('error404');
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',
 						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 204) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡No se encontro un horario asignado!`,
 						showConfirmButton: false,
 						timer: 1500,
 					});

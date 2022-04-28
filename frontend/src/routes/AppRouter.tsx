@@ -2,8 +2,10 @@ import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { startChecking } from '../actions/loginActions/loginActions';
+import PageAutorizaciones from '../components/autorizaciones/PageAutorizaciones';
 import Checador from '../components/checador/Checador';
 import ChecadorConfirmacion from '../components/checador/ChecadorConfirmacion';
+import ChecadorHorasExtrasPage from '../components/checador/ChecadorHorasExtrasPage';
 import ChecadorPage from '../components/checador/ChecadorPage';
 
 import ChecadorTeclado from '../components/checador/ChecadorTeclado';
@@ -12,6 +14,7 @@ import RecuperacionContrasenaPage from '../components/confirmarContraseña/Recup
 import DashboardPage from '../components/dashboardPage/DashboardPage';
 import EmpleadoPerfil from '../components/empleados/empleadoPerfil/EmpleadoPerfil';
 import PageControlHorario from '../components/empleados/empleadoPerfil/PageControlHorario';
+import PageControlHorasExtras from '../components/empleados/empleadoPerfil/PageControlHorasExtras';
 import PageEmpleadoInfoContrato from '../components/empleados/empleadoPerfil/PageEmpleadoInfoContrato';
 import PageEmpleadoPerfil from '../components/empleados/empleadoPerfil/PageEmpleadoPerfil';
 import PageEmpleadoPersonal from '../components/empleados/empleadoPerfil/PageEmpleadoPersonal';
@@ -20,6 +23,10 @@ import EmpresaArchivados from '../components/empresa/empresaEmpleadosArchivados/
 import EmpresaDetalles from '../components/empresa/empresaPage/EmpresaDetalles';
 import EmpresaPage from '../components/empresa/empresaPage/EmpresaPage';
 import PageEmpresaSchedule from '../components/empresa/empresaSchedules/PageEmpresaSchedule';
+import PageAutorizarHorasExtras from '../components/horasExtras/PageAutorizarHorasExtras';
+import PageHistorialHorasExtras from '../components/horasExtras/PageHistorialHorasExtras';
+import PageHorasExtras from '../components/horasExtras/PageHorasExtras';
+import PageSolicitudHorasExtras from '../components/horasExtras/PageSolicitudHorasExtras';
 import InicioPage from '../components/inicioPage/InicioPage';
 import Loading from '../components/loading/Loading';
 import LoginPage from '../components/loginPage/LoginPage';
@@ -28,12 +35,24 @@ import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
 import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
 import PagePerfil from '../components/miPerfilPage/PagePerfil';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
+import PageMisReportes from '../components/reportes/PageMisReportes';
+import PageReportes from '../components/reportes/PageReportes';
+import PageReportesAdministrativos from '../components/reportes/PageReportesAdministrativos';
+import PageVerReportesAdministrativos from '../components/reportes/PageVerReportesAdministrativos';
+import PageVerReportesEmpleado from '../components/reportes/PageVerReportesEmpleado';
+import SessionTimeout from '../components/sessionTimeOut/SessionTimeOut';
+import PageSolicitudes from '../components/solicitudes/PageSolicitudes';
+import PageSolicitudFalta from '../components/solicitudes/PageSolicitudFalta';
+import PageSolicitudIncapacidad from '../components/solicitudes/PageSolicitudIncapacidad';
+import PageSolicitudVacaciones from '../components/solicitudes/PageSolicitudVacaciones';
+import SolicitudesMenu from '../components/solicitudes/SolicitudesMenu';
 import { RootSote } from '../store/Store';
 import NotFound from './NotFound';
 import { RequireAdminPrivileges } from './RequireAdminPrivileges';
 import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
 import { RequireCheckState } from './RequireCheckState';
+import { RequireSupervisorAndAdminPrivileges } from './RequireSupervisorAndAdminPrivileges';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -79,15 +98,35 @@ const AppRouter = () => {
 									<Route path='personal' element={<PageInfoPersonal />} />
 									<Route path='infocontrato' element={<PageInfoContrato />} />
 								</Route>
+								<Route path='solicitudes/' element={<PageSolicitudes />}>
+									<Route index element={<SolicitudesMenu />} />
+									<Route path='falta/' element={<PageSolicitudFalta />} />
+									<Route path='incapacidad/' element={<PageSolicitudIncapacidad />} />
+									<Route path='vacaciones/' element={<PageSolicitudVacaciones />} />
+								</Route>
+								<Route path='misreportes/' element={<PageMisReportes />} />
+								<Route path='horasextras/' element={<PageAutorizarHorasExtras />} />
+
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
-									<Route path='empleados' element={<EmpleadosPage />} />
+									{/* <Route path='empleados' element={<EmpleadosPage />} />
 									<Route path='empleados/:empleadoId/' element={<EmpleadoPerfil />}>
 										<Route path='perfil' element={<PageEmpleadoPerfil />} />
 										<Route path='personal' element={<PageEmpleadoPersonal />} />
 										<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 										<Route path='controlhorario' element={<PageControlHorario />} />
+										<Route
+											path='controlhorasextras'
+											element={<PageControlHorasExtras />}
+										/>
 										<Route path='*' element={<NotFound />} />
+									</Route> */}
+									<Route path='reportes/' element={<PageReportes />}>
+										<Route index element={<PageVerReportesEmpleado />} />
+										<Route
+											path='administrativos'
+											element={<PageVerReportesAdministrativos />}
+										/>
 									</Route>
 									<Route path='empresa/' element={<EmpresaPage />}>
 										<Route index element={<EmpresaDetalles />} />
@@ -98,10 +137,41 @@ const AppRouter = () => {
 											<Route path='personal' element={<PageEmpleadoPersonal />} />
 											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
 											<Route path='controlhorario' element={<PageControlHorario />} />
+											<Route
+												path='controlhorasextras'
+												element={<PageControlHorasExtras />}
+											/>
 											<Route path='*' element={<NotFound />} />
 										</Route>
 									</Route>
 								</Route>
+								{/* Rutas para Jefe de Cuadrilla y Administrador */}
+								<Route element={<RequireSupervisorAndAdminPrivileges />}>
+									<Route path='empleados' element={<EmpleadosPage />} />
+									<Route path='empleados/:empleadoId/' element={<EmpleadoPerfil />}>
+										<Route element={<RequireAdminPrivileges />}>
+											<Route path='perfil' element={<PageEmpleadoPerfil />} />
+											<Route path='personal' element={<PageEmpleadoPersonal />} />
+											<Route path='infocontrato' element={<PageEmpleadoInfoContrato />} />
+										</Route>
+										<Route path='controlhorario' element={<PageControlHorario />} />
+										<Route
+											path='controlhorasextras'
+											element={<PageControlHorasExtras />}
+										/>
+										<Route path='*' element={<NotFound />} />
+									</Route>
+									<Route path='solicitarhoras/' element={<PageHorasExtras />}>
+										<Route index element={<PageSolicitudHorasExtras />} />
+										<Route path='historial' element={<PageHistorialHorasExtras />} />
+									</Route>
+									<Route path='autorizaciones/' element={<PageAutorizaciones />} />
+									<Route
+										path='reportesadministrativos/'
+										element={<PageReportesAdministrativos />}
+									/>
+								</Route>
+
 								<Route path='/*' element={<NotFound />} />
 							</Route>
 						</Route>
@@ -122,12 +192,13 @@ const AppRouter = () => {
 							path='/recuperarcontrasena'
 							element={<RecuperarContraseñaPage />}
 						/>
-						{/* Check */}
+						{/* Checador */}
 						<Route path='checador/' element={<Checador />}>
 							<Route index element={<ChecadorTeclado />} />
 							{/* <Route path='exit' element={<ChecadorTeclado />} /> */}
 							<Route element={<RequireCheckState />}>
 								<Route path='select' element={<ChecadorPage />} />
+								<Route path='tiempoextra' element={<ChecadorHorasExtrasPage />} />
 								<Route path='confirm' element={<ChecadorConfirmacion />} />
 							</Route>
 							{/* <Route path='*' element={<NotFound />} /> */}
@@ -136,6 +207,7 @@ const AppRouter = () => {
 						{/* <Route path='output/' element={<h1>salida</h1>}> */}
 						{/* <Route path='/checador' element={<ChecadorConfirmacion />} /> */}
 					</Routes>
+					<SessionTimeout />
 				</BrowserRouter>
 			</Suspense>
 		</>

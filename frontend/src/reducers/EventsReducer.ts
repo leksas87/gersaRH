@@ -1,5 +1,6 @@
 import {
 	CLEAN_EMPLOYEE_EVENTS,
+	CLEAN_EVENT_VALIDATION,
 	CLEAN_SERVER_DAY,
 	CLEAN_SERVER_TIME,
 	EventsDispatchTypes,
@@ -8,6 +9,7 @@ import {
 	EVENTS_LOADING_END,
 	EVENTS_START_LOADING,
 	GET_EMPLOYEE_EVENTS,
+	GET_EVENT_VALIDATION,
 	GET_SERVER_DAY,
 	GET_SERVER_TIME,
 	iEventsReducerState,
@@ -29,6 +31,13 @@ const INITIAL_STATE: iEventsReducerState = {
 	eventServerTime: '',
 	eventServerDay: '',
 	employeeEvents: [],
+	eventValidation: {
+		eventActionTypeId: null,
+		eventTypeId: null,
+		employeeId: null,
+		message: 'null',
+		employeeWorksToday: true,
+	},
 };
 
 //Reducer
@@ -104,6 +113,16 @@ export const EventsReducer = (
 			return {
 				...state,
 				eventServerDay: INITIAL_STATE.eventServerDay,
+			};
+		case GET_EVENT_VALIDATION:
+			return {
+				...state,
+				eventValidation: action.payload.eventValidation,
+			};
+		case CLEAN_EVENT_VALIDATION:
+			return {
+				...state,
+				eventValidation: INITIAL_STATE.eventValidation,
 			};
 
 		default:

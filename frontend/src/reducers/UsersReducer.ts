@@ -10,6 +10,13 @@ import {
 	TERMINATE_USER_BY_ID,
 	CHANGE_TABLE_PATH,
 	GET_EMPLOYEE_BY_ID,
+	CHANGE_ROLL_TO_USER_BY_ID,
+	GET_SUPERVISORES,
+	CLEAN_SUPERVISORES,
+	GET_ADMINISTRADORES,
+	CLEAN_ADMINISTRADORES,
+	GET_WORKPLACES,
+	CLEAN_WORKPLACES,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -26,6 +33,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		username: '',
 		phone: '',
 		roll: 0,
+		rollTypeId: 0,
 		active: false,
 		isEmployeeActive: true,
 	},
@@ -56,6 +64,9 @@ const INITIAL_STATE: iUsuariosReducer = {
 		fechaAltaImss: '',
 	},
 	tablePath: '',
+	supervisores: [],
+	administradores: [],
+	workPlaces: [],
 };
 
 //Reducer
@@ -101,6 +112,15 @@ export const UsersReducer = (
 				//roll:2 (Empleado)
 				perfilUsuario: { ...state.perfilUsuario, roll: 2 },
 			};
+		case CHANGE_ROLL_TO_USER_BY_ID:
+			return {
+				...state,
+				perfilUsuario: {
+					...state.perfilUsuario,
+					roll: action.payload.rollTypeId,
+					rollTypeId: action.payload.rollTypeId,
+				},
+			};
 		case TERMINATE_USER_BY_ID:
 			return {
 				...state,
@@ -119,6 +139,36 @@ export const UsersReducer = (
 			return {
 				...state,
 				perfilEmpleado: { ...action.payload.empleadoData },
+			};
+		case GET_SUPERVISORES:
+			return {
+				...state,
+				supervisores: [...action.payload.supervisores],
+			};
+		case CLEAN_SUPERVISORES:
+			return {
+				...state,
+				supervisores: INITIAL_STATE.supervisores,
+			};
+		case GET_ADMINISTRADORES:
+			return {
+				...state,
+				administradores: [...action.payload.administradores],
+			};
+		case CLEAN_ADMINISTRADORES:
+			return {
+				...state,
+				administradores: INITIAL_STATE.administradores,
+			};
+		case GET_WORKPLACES:
+			return {
+				...state,
+				workPlaces: [...action.payload.workPlaces],
+			};
+		case CLEAN_WORKPLACES:
+			return {
+				...state,
+				workPlaces: INITIAL_STATE.workPlaces,
 			};
 
 		default:

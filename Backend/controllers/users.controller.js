@@ -224,9 +224,8 @@ async function registerFile(req, res) {
             }else{
 
                 userF.accessCode = await employeeService.validacionNumeroAleatorio();
-
-                console.log(userF.accessCode);
-                console.log(sendInvitation);
+                userF.rollTypeId = 2;
+                
                     ///inicia proceso de guardado,verificamos si se mandara la invitacion
                 if (sendInvitation==='send') {
                     console.log(sendInvitation,'se mandaran las invitaciones');
@@ -356,7 +355,7 @@ function registerSchemaMaster(req, res, next) {
         username: Joi.string().required(),
         active:Joi.boolean().required(),
         password: Joi.string().required(),
-        roll:Joi.number().required(),
+        rollTypeId:Joi.number().required(),
         phone:Joi.string().required()
     });
     validateRequest(req, next, schema);
@@ -398,8 +397,8 @@ function updateSchema(req, res, next) {
         password: Joi.string().min(6).empty(''),
         phone:Joi.string().empty(''),
         active:Joi.boolean(),
-        roll:Joi.number(),
-        isEmployeeActive:Joi.boolean()
+        isEmployeeActive:Joi.boolean(),
+        rollTypeId:Joi.number()
     });
     validateRequest(req, next, schema);
 }

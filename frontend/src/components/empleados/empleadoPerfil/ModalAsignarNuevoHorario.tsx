@@ -11,11 +11,8 @@ const ModalAsignarNuevoHorario = () => {
 	const { perfilUsuario, perfilEmpleado } = useSelector(
 		(state: RootSote) => state.users
 	);
-	const { registerState } = useSelector((state: RootSote) => state.contracts);
 	//Se necesita el state que contiene los datos de los schedules
-	const { schedulesArray, schedulesToEdited } = useSelector(
-		(state: RootSote) => state.schedules
-	);
+	const { schedulesArray } = useSelector((state: RootSote) => state.schedules);
 
 	//objeto user para formulario Registro
 	const newSchedule = {
@@ -46,7 +43,7 @@ const ModalAsignarNuevoHorario = () => {
 	};
 
 	const isFormValid = (): boolean => {
-		if (scheduleId == 0 || scheduleId === '--Selecciona uno--') {
+		if (scheduleId === 0 || scheduleId === '--Selecciona uno--') {
 			setError(true);
 			return false;
 		}

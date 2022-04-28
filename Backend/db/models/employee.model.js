@@ -8,7 +8,7 @@ const EMPLOYEE_TABLE = 'Employees';
 
 const EmployeeSchema = {
   id: {allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
-  userId: {type: DataTypes.INTEGER,allowNull:true,references:{model:USER_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+  // userId: {type: DataTypes.INTEGER,allowNull:true,references:{model:USER_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   tipoIdentificacion: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   documentoIdentidad: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
   fechaNacimiento:{type:DataTypes.DATE,allowNull:true, defaultValue: DataTypes.NOW},
@@ -36,7 +36,7 @@ const EmployeeSchema = {
 
 class Employee extends Model {
   static associate(models) {
-    this.belongsTo(models.User,{as:'user'});
+    this.belongsTo(models.User);
     this.belongsToMany(models.Schedule, {
       as: 'schedule',
       through: models.EmployeeSchedule
