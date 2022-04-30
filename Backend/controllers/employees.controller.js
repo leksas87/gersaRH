@@ -563,11 +563,12 @@ function getById(req, res, next) {
 		.catch(next);
 }
 async function getEmployeesJC(req, res, next) {
-	const employee = await employeeService.getEmployeeById(req.user.id, res)
-	console.log(employee.id);
+	console.log(req.user.id);
+	// const employee = await employeeService.getEmployeeById(req.user.id, res)
+	// console.log('**********' +employee.id);
 	employeeService
 		// .getEmployeesOfJc(employee.id, res,req.query.name,req.user.rollTypeId)
-		.getEmployeesOfJc(employee.id, res,req)
+		.getEmployeesOfJc(req.user.id, res,req)
 		.then((employee) => res.json({ employee, message: 'Succesful' }))
 		.catch(next);
 }

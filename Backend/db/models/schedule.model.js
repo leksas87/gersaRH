@@ -21,8 +21,9 @@ const ScheduleSchema = {
 class Schedule extends Model {
   static associate(models) {
     this.belongsToMany(models.Users, {
-      as: 'user',
+      as: 'userS',
       through: models.EmployeeSchedule,
+      foreignKey: 'scheduleId'
     });
     // associate
   }
