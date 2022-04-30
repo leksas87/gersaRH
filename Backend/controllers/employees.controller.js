@@ -55,6 +55,11 @@ router.post(
 	registerSchedule
 );
 router.post(
+	'/:id/hoursAccepted',
+	authorize(),
+	forbiddenJefeCuadrilla()
+);
+router.post(
 	'/:id/contracts',
 	authorize(),
 	forbidden(),
