@@ -18,6 +18,15 @@ module.exports = {
     ]
 
       await queryInterface.bulkInsert('Users',userMaster, {});
+      
+      const user = await queryInterface.sequelize.query(
+        `SELECT id from Users;`
+      );
+      const userRows = user[0];
+
+    return await queryInterface.bulkInsert('Employees', [
+      {fechanacimiento: new Date(),  userId: userRows[0].id}
+    ], {});
 
   },
 
