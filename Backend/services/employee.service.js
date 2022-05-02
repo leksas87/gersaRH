@@ -104,7 +104,7 @@ async function getTimeRequestByEmployeeId(id,res) {
     try {
         const atributeUser=['firstName','lastName'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
         
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
         
