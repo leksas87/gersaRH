@@ -331,23 +331,23 @@ async function getEmployeesOfJc(id, res,req) {
 
         let params;
 
-        params={include:[{model:models.User,attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
+        params={include:[{model:models.User,as:'User',attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
 
         if (typeof (tipo) === 'undefined') {
             
             switch (roll) {
                 case 1:
-                    params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    params={include:[{model:models.User,as:'User',attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
                     if (typeof (name) === 'undefined') {
-                        params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                        params={include:[{model:models.User,as:'User',attributes:atribute}],attributes:atributeEmployee};
                     }
                     break;
-                    case 3:
-                        params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
-                        if (typeof (name) === 'undefined') {
-                            params={where:{supervisor:id},include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
-                        }
-                    break;
+                case 3:
+                    params={where:{supervisor:id},include:[{model:models.User,as:'User',attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    if (typeof (name) === 'undefined') {
+                        params={where:{supervisor:id},include:[{model:models.User,as:'User',attributes:atribute}],attributes:atributeEmployee};
+                    }
+                break;
                 default:
                     break;
             }
