@@ -475,7 +475,7 @@ export const gettimeRequestListByEmployeeId = (employeeId: number) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 404) {
-					// console.log('error404');
+					console.log('error404', error.response.data.message);
 					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
 					Swal.fire({
 						position: 'top-end',
