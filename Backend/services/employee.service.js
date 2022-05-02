@@ -64,10 +64,10 @@ async function getReport(req,res) {
         let query;
         if (!req.params.id) {
             if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
-            query={include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
+            query={include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
         if (req.params.id>0){
-            query={where:{employeeId:req.params.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
+            query={where:{employeeId:req.params.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
         
         return  await models.Reports.findAll(query);
