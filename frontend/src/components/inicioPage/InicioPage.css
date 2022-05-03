@@ -2,7 +2,38 @@
 	background-color: transparent;
 	animation: fadein 0.3s ease-in;
 	width: 100%;
-	min-height: 50vh;
+	/* min-height: 50vh; */
+}
+.custm-NominaContainer {
+	background-color: transparent;
+	animation: fadein 0.3s ease-in;
+	margin-left: 10px;
+	width: 100%;
+	min-height: 90vh;
+	margin-bottom: 10px;
+}
+.custm-postDetalleNom {
+	width: 100%;
+	background-color: #fff;
+	/* height: 100px; */
+	border: 1px solid var(--textColorDisable);
+	border-radius: 8px;
+	box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.25);
+}
+.custm-NomDetall {
+	min-width: 300px;
+	width: 45%;
+}
+.custm-NomDetallShadow {
+	min-height: 300px;
+}
+.custm-NomDollarIcon {
+	font-size: 1.5rem;
+	background-color: rgb(0, 205, 20);
+	color: var(--backgroundPrimary);
+	border-radius: 50%;
+	width: 2rem;
+	height: 2rem;
 }
 .custm-postShadow {
 	box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.25);
@@ -37,8 +68,9 @@
 .custm-iPost1 {
 	width: 100%;
 	height: 300px;
-	background-color: #fff;
-	border: 1px solid var(--textColorDisable);
+	/* background-color: #fff; */
+	background-color: transparent;
+	/* border: 1px solid var(--textColorDisable); */
 	border-radius: 8px;
 }
 .custm-iPost2 {
@@ -54,15 +86,14 @@
 	grid-auto-rows: 1fr;
 	row-gap: 20px;
 	column-gap: 20px;
-	grid-template-areas:
-		'post1 post1 post2'
-		'post3 post4 post2'
-		'post5 post6 post7';
+	grid-template-areas: 'post1 post1 post1';
+	/* 'post3 post4 post2'
+		'post5 post6 post7'; */
 	width: 100%;
 	height: 100%;
 	grid-auto-flow: dense;
 	/* place-items: center; */
-	padding-bottom: 1rem;
+	/* padding-bottom: 1rem; */
 }
 .custm-grid-area {
 	position: relative;
@@ -97,25 +128,27 @@
 @media (max-width: 1200px) {
 	.custm-ContainerListGrid {
 		grid-template-columns: repeat(2, 1fr);
-		grid-template-areas:
-			'post1 post2'
+		grid-template-areas: 'post1 post1';
+		/* 'post1 post2'
 			'post3  post2'
 			'post4 post5 '
-			'post6 post7 ';
+			'post6 post7 '; */
 	}
 }
 /* maximo de pantalla  */
 @media (max-width: 992px) {
+	.custm-NomDetall {
+		width: 100%;
+	}
 	.custm-ContainerListGrid {
 		grid-template-columns: repeat(1, 1fr);
-		grid-template-areas:
-			'post1'
-			'post2'
+		grid-template-areas: 'post1';
+		/* 'post2'
 			'post3'
 			'post4'
 			'post5'
 			'post6'
-			'post7';
+			'post7'; */
 	}
 	.custm-iPost2 {
 		height: 300px;
