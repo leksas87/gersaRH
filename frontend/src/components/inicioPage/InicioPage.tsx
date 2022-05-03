@@ -43,7 +43,7 @@ const InicioPage = () => {
 
 	return (
 		<>
-			<div className='d-flex flex-column'>
+			<div className='d-flex flex-column custm-NominaContainer'>
 				<div className='custm-inicioContainer'>
 					<div className=' custm-ContainerListGrid'>
 						{isBirthday ? (
@@ -68,7 +68,7 @@ const InicioPage = () => {
 							</div>
 						) : (
 							<div className='custm-grid-area grid-area-post1'>
-								<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
+								<div className='custm-iPost1  d-flex flex-column justify-content-center align-items-center'>
 									<div className='fs-1 fw-bold'>¡Hola {firstName}!</div>
 									<div className='fs-3' style={{ height: '28px' }}>
 										Bienvenido de vuelta
