@@ -57,7 +57,9 @@ router.post(
 router.post(
 	'/:id/hoursAccepted',
 	authorize(),
-	forbiddenJefeCuadrilla()
+	forbiddenJefeCuadrilla(),
+	registerHoursAccepted,
+	registerPostHourAcecepted
 );
 router.post(
 	'/:id/contracts',
@@ -253,6 +255,15 @@ function registerSchemaTimeRequest(req, res, next) {
 		descripcion: Joi.string().required(),
 		descripcionEmpleado: Joi.string(),
 		employeeIdRequest: Joi.number().integer().required()
+	});
+	validateRequest(req, next, schema);
+}
+function registerHoursAccepted(req, res, next) {
+	const schema = Joi.object({
+		employeeId: Joi.number().integer().required(),
+		fechEvento: Joi.string().required(),
+		horasAceptadas: Joi.string().required(),
+		employeeIdAutorizo: Joi.number().integer().required()
 	});
 	validateRequest(req, next, schema);
 }
@@ -609,6 +620,12 @@ function register(req, res, next) {
 function registerSchedule(req, res, next) {
 	employeeService
 		.createSchedule(req.body)
+		.then(() => res.json({ message: 'Registro exitoso' }))
+		.catch(next);
+}
+function registerPostHourAcecepted(req, res, next) {
+	employeeService
+		.createHourAcecepted(req.body, req.params.id, next)
 		.then(() => res.json({ message: 'Registro exitoso' }))
 		.catch(next);
 }

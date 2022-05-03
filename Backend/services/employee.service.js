@@ -33,7 +33,8 @@ module.exports = {
     getTimeRequestByEmployeeId,
     getReport,
     getRequestByEmployeeId,
-    getRequest
+    getRequest,
+    createHourAcecepted
 };
 
 async function updateReport(id, params) {
@@ -91,6 +92,24 @@ async function createReport(params, id,next){
                                                     anonimo:params.anonimo,
                                                     reportType:params.reportType,
                                                     statusId: 1,
+                                                });
+        
+        return report;
+    } catch (error) {
+        next(`Error de validación: ${error}`);
+    }
+        
+}
+async function createHourAcecepted(params, id,next){
+    try {
+        const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
+
+        const report = await models.Reports.create({
+                                                    employeeId:id,
+                                                    fechaCreacion:fechaCreacion,
+                                                    horasAceptadas:params.horasAceptadas,
+                                                    fechEvento:params.fechEvento,
+                                                    employeeIdAutorizo:params.employeeIdAutorizo
                                                 });
         
         return report;

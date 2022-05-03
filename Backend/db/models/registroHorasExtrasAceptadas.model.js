@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const REGISTRO_HORAS_TABLE = 'RegistroHoras';
+const REGISTRO_HORAS_TABLE = 'RegistroHorasExtraAceptadas';
 
 const {EMPLOYEE_TABLE} = require('./employee.model');
 
