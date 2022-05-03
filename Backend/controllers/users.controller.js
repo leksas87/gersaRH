@@ -90,15 +90,16 @@ async function registerFile(req, res) {
                         numeroImms:row[23],
                         curp:row[24],
                         fechaAltaImss:row[25],
-                        tipoDeContrato:row[26],
-                        puesto:row[27],
-                        fechaDeInicio:row[28],
-                        fechaDeFinalizacion:row[29],
-                        horasLaborales:row[30],
-                        unidadLaborales:row[31],
-                        tipoSalario:row[32],
-                        cantidadSalario:row[33],
-                        scheduleId:row[34],
+                        numeroEmpleado:row[26],
+                        tipoDeContrato:row[27],
+                        puesto:row[28],
+                        fechaDeInicio:row[29],
+                        fechaDeFinalizacion:row[30],
+                        horasLaborales:row[31],
+                        unidadLaborales:row[32],
+                        tipoSalario:row[33],
+                        cantidadSalario:row[34],
+                        scheduleId:row[35],
                         
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
@@ -130,6 +131,7 @@ async function registerFile(req, res) {
                     if( user.numeroImms === null ) { user.numeroImms = ""; }
                     if( user.curp === null ) { user.curp = ""; }
                     if( user.fechaAltaImss === null ) { user.fechaAltaImss = fechaNow; }  
+                    if( user.numeroEmpleado === null ) { user.numeroEmpleado = ''; } 
                     if( user.tipoDeContrato === null ) { user.tipoDeContrato = ''; } 
                     if( user.puesto === null ) { user.puesto = ''; } 
                     if( user.fechaDeInicio === null ) { user.fechaDeInicio = fechaNow; } 
@@ -184,6 +186,7 @@ async function registerFile(req, res) {
                 employee.numeroImms = userF.numeroImms;
                 employee.curp = userF.curp;
                 employee.fechaAltaImss = userF.fechaAltaImss;
+                employee.numeroEmpleado = userF.numeroEmpleado;
 
                 const contracts = await models.Contract.findAll();
                 contracts.forEach(async contract => {
@@ -208,31 +211,24 @@ async function registerFile(req, res) {
                         await employeeScheduleC.destroy();
                     }
                  });
-                 console.log(typeof employee.id);
-                 console.log(typeof userF.scheduleId);
                 //Revisar error post 
                 const relacion = await models.EmployeeSchedule.create({
                     employeeId: employee.id,
                     scheduleId: userF.scheduleId
                 });
 
-                console.log(relacion);
                 relacion.save();
                 
                 user.save();
                 employee.save();
             }else{
-
                 userF.accessCode = await employeeService.validacionNumeroAleatorio();
                 userF.rollTypeId = 2;
                 
                     ///inicia proceso de guardado,verificamos si se mandara la invitacion
                 if (sendInvitation==='send') {
-                    console.log(sendInvitation,'se mandaran las invitaciones');
                     await userService.sendInvitation(userF);
-                } else if(sendInvitation==='donotsend'){
-                    console.log(sendInvitation,'no se mandaran las invitaciones');
-                }
+                } 
                 // await models.User.create(user);
                 const employee = await models.User.create(userF);
                 await models.Employee.create({
@@ -259,7 +255,8 @@ async function registerFile(req, res) {
                     numeroImms:userF.numeroImms,
                     curp:userF.curp,
                     fechaAltaImss:userF.fechaAltaImss,
-                    accessCode: userF.accessCode
+                    accessCode: userF.accessCode,
+                    numeroEmpleado: userF.numeroEmpleado
                 });
                 await contractService.create({
                     userId: employee.id,
@@ -272,13 +269,10 @@ async function registerFile(req, res) {
                     tipoSalario:userF.tipoSalario,
                     cantidadSalario:userF.cantidadSalario
                 });
-
                 await models.EmployeeSchedule.create({
                     employeeId: employee.id,
                     scheduleId: userF.scheduleId
                 });
-                
-                console.log('guardando al usuario',userF.username);
             }
             
         }

@@ -64,10 +64,10 @@ async function getReport(req,res) {
         let query;
         if (!req.params.id) {
             if(req.user.rollTypeId != 1){ return res.status(403).json( {message: 'Usuario no autorizado'});}
-            query={include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
+            query={include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
         if (req.params.id>0){
-            query={where:{employeeId:req.params.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
+            query={where:{employeeId:req.params.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]};
         }
         
         return  await models.Reports.findAll(query);
@@ -104,7 +104,7 @@ async function getTimeRequestByEmployeeId(id,res) {
     try {
         const atributeUser=['firstName','lastName'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
+        const TimeRequests = await models.TimeRequest.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:['supervisor','lugarDeTrabajo']}]});
         
         if ( !TimeRequests)  throw 'Solicitud de tiempo extra no encontrada';
         
@@ -331,23 +331,23 @@ async function getEmployeesOfJc(id, res,req) {
 
         let params;
 
-        params={include:[{model:models.User,attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
+        params={include:[{model:models.User,as:'User',attributes:atribute,where:{rollTypeId:tipo}}],attributes:atributeEmployee};
 
         if (typeof (tipo) === 'undefined') {
             
             switch (roll) {
                 case 1:
-                    params={include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    params={include:[{model:models.User,as:'User',attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
                     if (typeof (name) === 'undefined') {
-                        params={include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
+                        params={include:[{model:models.User,as:'User',attributes:atribute}],attributes:atributeEmployee};
                     }
                     break;
-                    case 3:
-                        params={where:{supervisor:id},include:[{model:models.User,attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
-                        if (typeof (name) === 'undefined') {
-                            params={where:{supervisor:id},include:[{model:models.User,attributes:atribute}],attributes:atributeEmployee};
-                        }
-                    break;
+                case 3:
+                    params={where:{supervisor:id},include:[{model:models.User,as:'User',attributes:atribute,where:{[Op.or]:[{firstName:{[Op.like]:''+name+'%'}},{lastName:{[Op.like]:''+name+'%'}}]}}],attributes:atributeEmployee};
+                    if (typeof (name) === 'undefined') {
+                        params={where:{supervisor:id},include:[{model:models.User,as:'User',attributes:atribute}],attributes:atributeEmployee};
+                    }
+                break;
                 default:
                     break;
             }
