@@ -5,6 +5,7 @@ import {
 	getUserById,
 } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
+import DetalleNomina from './DetalleNomina';
 import './InicioPage.css';
 
 const InicioPage = () => {
@@ -42,41 +43,42 @@ const InicioPage = () => {
 
 	return (
 		<>
-			<div className='custm-inicioContainer'>
-				<div className=' custm-ContainerListGrid'>
-					{isBirthday ? (
-						<div className='custm-grid-area grid-area-post1'>
-							<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
-								<div className='fs-4 fw-bold'>
-									<span className='fs-1'>🎊</span>¡Hola {firstName}!
-									<span className='fs-1'>🎊</span>
+			<div className='d-flex flex-column'>
+				<div className='custm-inicioContainer'>
+					<div className=' custm-ContainerListGrid'>
+						{isBirthday ? (
+							<div className='custm-grid-area grid-area-post1'>
+								<div className='custm-iPost1  d-flex flex-column justify-content-center align-items-center'>
+									<div className='fs-4 fw-bold'>
+										<span className='fs-1'>🎊</span>¡Hola {firstName}!
+										<span className='fs-1'>🎊</span>
+									</div>
+									<div className='fs-2' style={{ height: '28px' }}>
+										<span className='fs-1'>🎉</span>
+										¡FELIZ CUMPLEAÑOS!<span className='fs-1'>🎉</span>
+									</div>
+									<div
+										className='fs-3 text-center mt-5 textColorLight lh-1'
+										style={{ width: '80%' }}
+									>
+										Nuestros mejores deseos para tí te desean tus amigos de GERSA
+									</div>
+									<div className='custm-underLine'></div>
 								</div>
-								<div className='fs-2' style={{ height: '28px' }}>
-									<span className='fs-1'>🎉</span>
-									¡FELIZ CUMPLEAÑOS!<span className='fs-1'>🎉</span>
-								</div>
-								<div
-									className='fs-3 text-center mt-5 textColorLight lh-1'
-									style={{ width: '80%' }}
-								>
-									Nuestros mejores deseos para tí te desean tus amigos de GERSA
-								</div>
-								<div className='custm-underLine'></div>
 							</div>
-						</div>
-					) : (
-						<div className='custm-grid-area grid-area-post1'>
-							<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
-								<div className='fs-1 fw-bold'>¡Hola {firstName}!</div>
-								<div className='fs-3' style={{ height: '28px' }}>
-									Bienvenido de vuelta
+						) : (
+							<div className='custm-grid-area grid-area-post1'>
+								<div className='custm-iPost1 custm-postShadow d-flex flex-column justify-content-center align-items-center'>
+									<div className='fs-1 fw-bold'>¡Hola {firstName}!</div>
+									<div className='fs-3' style={{ height: '28px' }}>
+										Bienvenido de vuelta
+									</div>
+									<div className='fs-3 '>esto es lo nuevo por aqui...</div>
+									<div className='custm-underLine'></div>
 								</div>
-								<div className='fs-3 '>esto es lo nuevo por aqui...</div>
-								<div className='custm-underLine'></div>
 							</div>
-						</div>
-					)}
-					<div className='custm-grid-area grid-area-post2'>
+						)}
+						{/* <div className='custm-grid-area grid-area-post2'>
 						<div className='custm-iPost2 custm-postShadow d-flex flex-column align-items-center'>
 							<div className='custm-PostTittle'>TAREAS PENDIENTES</div>
 							<div className='custm-postBody'>
@@ -145,20 +147,22 @@ const InicioPage = () => {
 								</label>
 							</div>
 						</div>
-					</div>
+					</div> */}
 
-					{/* <div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'>
+						{/* <div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'>
 						<h3>
-							¡Hola, <span style={{ textTransform: 'capitalize' }}>{firstName}</span>!
+						¡Hola, <span style={{ textTransform: 'capitalize' }}>{firstName}</span>!
 						</h3>
 						<p className='text-center'>
-							Bienvenido de vuelta.
-							<br /> Esto es lo nuevo por aqui...
+						Bienvenido de vuelta.
+						<br /> Esto es lo nuevo por aqui...
 						</p>
-					</div>
-					<div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'></div>
+						</div>
+						<div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'></div>
 					<div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'></div> */}
+					</div>
 				</div>
+				<DetalleNomina />
 			</div>
 		</>
 	);
