@@ -13,6 +13,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    // await queryInterface.dropTable(ROLLTYPE_TABLE);
+    // await queryInterface.dropTable(EMPLOYEE_TABLE);
   }
 };
