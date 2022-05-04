@@ -8,7 +8,7 @@ const RegistroHorasSchema = {
   id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
   fechaCreacion: {type:DataTypes.STRING,allowNull:false },
   employeeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
-  fechaEvento: {type:DataTypes.STRING,allowNull:false },
+  fechaEvento: {type:DataTypes.STRING,allowNull:true },
   horasAceptadas: {type:DataTypes.STRING,allowNull:true },
   employeeIdAcepto: {type: DataTypes.INTEGER,allowNull:true}
 }

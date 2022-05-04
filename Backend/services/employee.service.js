@@ -104,12 +104,12 @@ async function createHourAcecepted(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
 
-        const report = await models.Reports.create({
+        const report = await models.RegistroHoras.create({
                                                     employeeId:id,
                                                     fechaCreacion:fechaCreacion,
                                                     horasAceptadas:params.horasAceptadas,
-                                                    fechEvento:params.fechEvento,
-                                                    employeeIdAutorizo:params.employeeIdAutorizo
+                                                    fechaEvento:params.fechaEvento,
+                                                    employeeIdAcepto:params.employeeIdAutorizo
                                                 });
         
         return report;

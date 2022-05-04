@@ -261,7 +261,7 @@ function registerSchemaTimeRequest(req, res, next) {
 function registerHoursAccepted(req, res, next) {
 	const schema = Joi.object({
 		employeeId: Joi.number().integer().required(),
-		fechEvento: Joi.string().required(),
+		fechaEvento: Joi.string(),
 		horasAceptadas: Joi.string().required(),
 		employeeIdAutorizo: Joi.number().integer().required()
 	});
@@ -626,6 +626,6 @@ function registerSchedule(req, res, next) {
 function registerPostHourAcecepted(req, res, next) {
 	employeeService
 		.createHourAcecepted(req.body, req.params.id, next)
-		.then(() => res.json({ message: 'Registro exitoso' }))
+		.then((report) => res.json({data:report, message: 'Registro exitoso' }))
 		.catch(next);
 }
