@@ -1,13 +1,13 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-const {USER_TABLE} = require('./user.model');
+const {EMPLOYEE_TABLE} = require('./employee.model');
 
 const FILE_TABLE = 'File';
 
   const FileSchema = {
     id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
-    employeeId: { type: DataTypes.INTEGER,allowNull:true,references:{model:USER_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
+    employeeId: { type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
     employeeIdUpload: {type:DataTypes.INTEGER,allowNull:true,defaultValue:0},
     isFileActive: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
     fechaCreacion: { type:DataTypes.STRING,allowNull:true,  defaultValue:''},
@@ -19,7 +19,7 @@ const FILE_TABLE = 'File';
 
   class File extends Model {
     static associate(models) {
-      this.belongsTo(models.User,{as:'user'});
+      this.belongsTo(models.Employee,{as:'employee'});
     }
 
     static config(sequelize) {
