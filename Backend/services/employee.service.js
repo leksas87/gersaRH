@@ -34,7 +34,8 @@ module.exports = {
     getReport,
     getRequestByEmployeeId,
     getRequest,
-    createHourAcecepted
+    createHourAcecepted,
+    getHourAceptedBy
 };
 
 async function updateReport(id, params) {
@@ -117,6 +118,21 @@ async function createHourAcecepted(params, id,next){
         next(`Error de validación: ${error}`);
     }
         
+}
+
+async function getHourAceptedBy(id,res) {
+    try {
+        
+        const hourAcepted = await models.RegistroHoras.findAll({where:{employeeId:id}});
+        
+        if ( !hourAcepted)  throw 'Solicitud de tiempo extra no encontrada';
+        
+        return hourAcepted;
+        
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
 }
 
 async function getTimeRequestByEmployeeId(id,res) {

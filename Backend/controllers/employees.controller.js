@@ -46,14 +46,15 @@ router.delete(
 	forbidden(),
 	deleteEmployeeSchedule,
 	deleteSchedule
-);
-router.post(
-	'/add-schedule',
-	authorize(),
-	forbidden(),
-	addScheduleSchema,
-	registerSchedule
-);
+	);
+	router.post(
+		'/add-schedule',
+		authorize(),
+		forbidden(),
+		addScheduleSchema,
+		registerSchedule
+		);
+router.get('/:id/hoursAccepted', authorize(), forbiddenGet(), getHourAcepted);
 router.post(
 	'/:id/hoursAccepted',
 	authorize(),
@@ -590,6 +591,12 @@ async function getEmployeesJC(req, res, next) {
 function getSchedule(req, res, next) {
 	employeeService
 		.getEmployeeScheduleById(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
+function getHourAcepted(req, res, next) {
+	employeeService
+		.getHourAceptedBy(req.params.id, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
