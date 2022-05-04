@@ -34,7 +34,7 @@ import MiPerfil from '../components/miPerfilPage/MiPerfil';
 import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
 import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
 import PagePerfil from '../components/miPerfilPage/PagePerfil';
-import MisArchivos from '../components/misArchivos/MisArchivos';
+import MisArchivos from '../components/archivos/MisArchivos';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import PageMisReportes from '../components/reportes/PageMisReportes';
 import PageReportes from '../components/reportes/PageReportes';
@@ -54,6 +54,7 @@ import { RequireAuth } from './RequireAuth';
 import { RequireAuthToHidden } from './RequireAuthToHidden';
 import { RequireCheckState } from './RequireCheckState';
 import { RequireSupervisorAndAdminPrivileges } from './RequireSupervisorAndAdminPrivileges';
+import ArchivosEmpresa from '../components/archivos/ArchivosEmpresa';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -145,6 +146,7 @@ const AppRouter = () => {
 											/>
 											<Route path='*' element={<NotFound />} />
 										</Route>
+										<Route path='archivosempresa' element={<ArchivosEmpresa />} />
 									</Route>
 								</Route>
 								{/* Rutas para Jefe de Cuadrilla y Administrador */}
