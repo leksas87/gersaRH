@@ -2,16 +2,33 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
-//const validateRequestQuery=require('middleware/validate-request-query');
 const fileService = require('../services/file.service');
 const authorize = require('middleware/authorize')
 const validateFileName = require('middleware/validate-fileName')
-const forbidden = require('middleware/forbidden')
 
 router.post('/',authorize(),validateFileName(), registerSchema, register);
-//router.get('/',registerSchemaCheck,check);
+router.patch('/:id', authorize(), validateFileName(), updateSchema, update);
 
 module.exports = router;
+
+function update(req, res, next) {
+    fileService.update(req.params.id, req.body)
+        .then(contract => res.json({data:contract ,message:'Succesful'}))
+        .catch(next);
+}
+
+function updateSchema(req, res, next) {
+    const schema = Joi.object({
+        employeeId: Joi.number(),
+        employeeIdUpload: Joi.number(),
+        isFileActive: Joi.boolean(),
+        nombreArchivo: Joi.string(),
+        ubicacionCarpeta: Joi.string(),
+        url: Joi.string(),
+        tipoDocumento: Joi.number()
+    });
+    validateRequest(req, next, schema);
+}
 
 function registerSchema(req,res,next) {
     const schema = Joi.object({
@@ -23,7 +40,6 @@ function registerSchema(req,res,next) {
         tipoDocumento: Joi.number().required()
     });
     validateRequest(req, next, schema);
-    console.log("*****2*****");
 }
 
 function register(req, res, next) {

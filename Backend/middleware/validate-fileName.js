@@ -16,7 +16,7 @@ function validateFileName() {
             if(!user)
                 return res.status(400).json({ message: 'El empleado no existe.'});
 
-            if(req.user.rollTypeId == 2 && req.body.employeeId != req.body.employeeIdUpload)
+            if(req.user.rollTypeId == 2 && req.body.employeeId != req.body.employeeIdUpload || req.user.id != req.body.employeeIdUpload )
             return res.status(403).json( {message: 'Usuario no autorizado'});
 
             if (fileName)
