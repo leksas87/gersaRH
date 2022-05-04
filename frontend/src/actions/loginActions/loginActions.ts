@@ -55,7 +55,7 @@ export const startLogin = (email: string, password: string) => {
 			} else {
 				//Mensaje de error proveniente de la API
 				console.log(body.message);
-				// Swal.fire('Error', body.message, 'error');
+				Swal.fire('Error', body.message, 'error');
 				dispatch({ type: AUTH_LOADING_FINISH });
 			}
 		} catch (error) {
