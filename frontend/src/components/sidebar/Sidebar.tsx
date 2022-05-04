@@ -118,10 +118,19 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 							<i className='bi bi-stopwatch-fill sidebarIcon' />
 							Horas extras
 						</NavLink>
-						<div className='sidebarOption'>
+						<NavLink
+							to='/misarchivos'
+							className={({ isActive }) =>
+								isActive ? 'sidebarOption sidebarOptionActive' : 'sidebarOption'
+							}
+							data-bs-dismiss={`${screenSize ? 'offcanvas' : ''}`}
+							onClick={() => {
+								navigateTo('/misarchivos');
+							}}
+						>
 							<i className='bi bi-folder2-open sidebarIcon' />
-							Archivos
-						</div>
+							Mis Archivos
+						</NavLink>
 					</nav>
 					{(rollTypeId === 1 || rollTypeId === 3) && (
 						<nav className='d-flex flex-column sidebarEmpresa'>

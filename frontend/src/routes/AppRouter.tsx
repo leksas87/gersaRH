@@ -34,6 +34,7 @@ import MiPerfil from '../components/miPerfilPage/MiPerfil';
 import PageInfoContrato from '../components/miPerfilPage/PageInfoContrato';
 import PageInfoPersonal from '../components/miPerfilPage/PageInfoPersonal';
 import PagePerfil from '../components/miPerfilPage/PagePerfil';
+import MisArchivos from '../components/misArchivos/MisArchivos';
 import RecuperarContraseñaPage from '../components/recuperarContraseña/RecuperarContraseñaPage';
 import PageMisReportes from '../components/reportes/PageMisReportes';
 import PageReportes from '../components/reportes/PageReportes';
@@ -106,6 +107,7 @@ const AppRouter = () => {
 								</Route>
 								<Route path='misreportes/' element={<PageMisReportes />} />
 								<Route path='horasextras/' element={<PageAutorizarHorasExtras />} />
+								<Route path='misarchivos/' element={<MisArchivos />} />
 
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>
