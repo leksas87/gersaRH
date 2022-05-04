@@ -7,6 +7,7 @@ const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
+const forbiddenTimeRequest = require('middleware/forbiddenTimeRequest');
 const forbiddenJefeCuadrilla = require('middleware/forbiddenJC');
 const forbiddenGet = require('middleware/forbiddenGet');
 const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
@@ -100,7 +101,7 @@ router.post(
 router.patch(
 	'/timeRequest/:id',
 	authorize(),
-	forbiddenGet(),
+	forbiddenTimeRequest(),
 	updateSchemaTimeRequests,
 	updateTimeRequests
 );
