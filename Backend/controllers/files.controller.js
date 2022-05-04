@@ -3,13 +3,21 @@ const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
 const fileService = require('../services/file.service');
-const authorize = require('middleware/authorize')
-const validateFileName = require('middleware/validate-fileName')
+const authorize = require('middleware/authorize');
+const validateFileName = require('middleware/validate-fileName');
+const validateFileQuery = require('middleware/validate-fileQuery')
 
 router.post('/',authorize(),validateFileName(), registerSchema, register);
 router.patch('/:id', authorize(), validateFileName(), updateSchema, update);
+router.get('/', authorize(),validateFileQuery(), getFile1);
 
 module.exports = router;
+
+function getFile1(req,res,next) {
+    fileService.getFile1(req, res)
+        .then(contracts => res.json({data:contracts ,message:'Succesful'}))
+        .catch(next);
+}
 
 function update(req, res, next) {
     fileService.update(req.params.id, req.body)
