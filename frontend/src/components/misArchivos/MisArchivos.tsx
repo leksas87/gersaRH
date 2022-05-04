@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootSote } from '../../store/Store';
+import ModalNuevoArchivo from './ModalNuevoArchivo';
 
 const MisArchivos = () => {
 	const { firstName, lastName } = useSelector((state: RootSote) => state.auth);
@@ -30,83 +31,80 @@ const MisArchivos = () => {
 					</div>
 				</div>
 				<div className='d-flex flex-column align-items-center'>
-					<div className='d-flex '>
-						<div>
-							<i
-								style={{ fontSize: '3rem', color: 'var(--colorSecondary)' }}
-								className='bi bi-folder-fill'
-							/>
-						</div>
-						<div className='d-flex flex-column align-items-center justify-content-center custm-width100 ms-2'>
-							<div
-								className='text-center fs-4 textColorSecondary'
-								style={{ maxWidth: '400px' }}
-							>
-								Mis archivos / Personales.
+					<div
+						className='d-flex justify-content-center custm-Width100'
+						style={{ position: 'relative' }}
+					>
+						<div className='d-flex mt-4'>
+							<div>
+								<i
+									style={{ fontSize: '3rem', color: 'var(--colorSecondary)' }}
+									className='bi bi-folder-fill'
+								/>
 							</div>
-							<div className='table-responsive cutm-tablaResponsive'>
-								<table className='table table-hover '>
+							<div className='d-flex flex-column align-items-center justify-content-center custm-width100 ms-2'>
+								<div
+									className='text-center fs-4 textColorSecondary'
+									style={{ maxWidth: '400px' }}
+								>
+									Mis archivos / Personales.
+								</div>
+							</div>
+						</div>
+						<div style={{ position: 'absolute', top: '1rem', right: '2rem' }}>
+							<ModalNuevoArchivo />
+						</div>
+					</div>
+					<div className='d-flex justify-content-center  mt-3 custm-Width100'>
+						<div className='custm-tableArchivos mt-3'>
+							<div className='table-responsive '>
+								<table className='table align-middle'>
 									<thead className='custm-tableThead'>
 										<tr>
-											<th scope='col'></th>
-											<th scope='col' className='custm-col'>
+											<th scope='col' className='custm-col textColorLight'>
 												Nombre
-												<i
-													className='custm-icon bi bi-arrow-down-up'
-													// onClick={() => {
-													// 	sortEmployees(empleados, 'Nombre', isAscending);
-													// 	isAscending ? setIsAscending(false) : setIsAscending(true);
-													// }}
-												/>
 											</th>
-											<th scope='col' className='custm-col'>
-												Apellidos
-												<i
-													className='custm-icon bi bi-arrow-down-up'
-													// onClick={() => {
-													// 	sortEmployees(empleados, 'Apellidos', isAscending);
-													// 	isAscending ? setIsAscending(false) : setIsAscending(true);
-													// }}
-												/>
-											</th>
-											<th scope='col' className='custm-col'>
-												Correo
-												<i
-													className='custm-icon bi bi-arrow-down-up'
-													// onClick={() => {
-													// 	sortEmployees(empleados, 'Correo', isAscending);
-													// 	isAscending ? setIsAscending(false) : setIsAscending(true);
-													// }}
-												/>
-											</th>
-											<th scope='col' className='custm-col'>
-												Telefono
-												<i
-													className='custm-icon bi bi-arrow-down-up'
-													// onClick={() => {
-													// 	sortEmployees(empleados, 'Telefono', isAscending);
-													// 	isAscending ? setIsAscending(false) : setIsAscending(true);
-													// }}
-												/>
+											<th scope='col' className='custm-col textColorLight'>
+												Fecha creación
 											</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr
-											className='custm-table-tr'
+											className='custm-table-tr textColorLight'
 											// onClick={() => {
 											// 	irEmpleado(empleado.id);
 											// }}
 										>
 											<th scope='row'>
-												<div className='custm-imgCount ms-2'>
-													<i className=' d-flex bi bi-person-circle m-0 sidebarIcon' />
-												</div>
+												<i className='bi bi-file-earmark-text pe-1' />
+												Imagen.png
 											</th>
-											<td>nombre</td>
-											<td>apellido</td>
-											<td>correo</td>
-											<td>telefono</td>
+											<td>22/04/22</td>
+										</tr>
+										<tr
+											className='custm-table-tr textColorLight'
+											// onClick={() => {
+											// 	irEmpleado(empleado.id);
+											// }}
+										>
+											<th scope='row'>
+												<i className='bi bi-file-earmark-text pe-1' />
+												Imagen.png
+											</th>
+											<td>22/04/22</td>
+										</tr>
+										<tr
+											className='custm-table-tr textColorLight'
+											// onClick={() => {
+											// 	irEmpleado(empleado.id);
+											// }}
+										>
+											<th scope='row'>
+												<i className='bi bi-file-earmark-text pe-1' />
+												Imagen.png
+											</th>
+											<td>22/04/22</td>
 										</tr>
 									</tbody>
 								</table>
