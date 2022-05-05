@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('middleware/validate-request');
+const validateRequestQuery = require('middleware/validate-request-query');
 const fileService = require('../services/file.service');
 const authorize = require('middleware/authorize');
 const validateFileName = require('middleware/validate-fileName');
@@ -9,9 +10,18 @@ const validateFileQuery = require('middleware/validate-fileQuery')
 
 router.post('/',authorize(),validateFileName(), registerSchema, register);
 router.patch('/:id', authorize(), validateFileName(), updateSchema, update);
-router.get('/', authorize(),validateFileQuery(), getFile1);
+router.get('/',getSchema, authorize(),validateFileQuery(), getFile1);
 
 module.exports = router;
+
+function getSchema(req, res, next) {
+    const schema = Joi.object({
+        ubicacionCarpeta: Joi.string().required(),
+        tipoDocumento: Joi.number(),
+        employeeId: Joi.number(),
+    });
+    validateRequestQuery(req, next, schema);
+}
 
 function getFile1(req,res,next) {
     fileService.getFile1(req, res)

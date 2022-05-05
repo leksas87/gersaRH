@@ -15,9 +15,9 @@ function validateFileQuery() {
             if(!user)
                 return res.status(400).json({ message: 'El empleado no existe.'});
 
-            if(req.user.rollTypeId != 1 && !req.query.employeeId && !req.query.tipoDocumento  )
+            if(req.user.rollTypeId != 1 && !req.query.employeeId && !req.query.tipoDocumento && !req.query.ubicacionCarpeta )
                 return res.status(403).json( {message: 'Usuario no autorizado'});
-            if(parseInt(req.query.employeeId) != req.user.id && req.user.rollTypeId != 1 )
+            if(req.query.employeeId && parseInt(req.query.employeeId) != req.user.id && req.user.rollTypeId != 1 )
                 return res.status(403).json( {message: 'Usuario no autorizado'});
 
             next();
