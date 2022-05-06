@@ -71,6 +71,7 @@ export interface iEmployeeData {
 	swiftBic: string;
 	tipoIdentificacion: string;
 	userId: number | null;
+	numeroEmpleado: string;
 }
 export interface iWorkPlaces {
 	id: number | null;
