@@ -43,6 +43,7 @@ const INITIAL_STATE: iAuthState = {
 		numeroImms: '',
 		curp: '',
 		fechaAltaImss: '',
+		numeroEmpleado: '',
 	},
 };
 

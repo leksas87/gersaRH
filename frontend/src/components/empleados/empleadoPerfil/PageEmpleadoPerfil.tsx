@@ -31,6 +31,7 @@ const PageEmpleadoPerfil = () => {
 
 	//useToggle, se extrae el valor y toggleValue-> para cabiar el valor
 	const [value, toggleValue] = useToggle(false); //Recibe el valor inicial
+	const [valueForm2, toggleValueForm2] = useToggle(false); //Recibe el valor inicial
 
 	//objeto para formulario formPuesto
 	const formPuesto = {
@@ -38,15 +39,24 @@ const PageEmpleadoPerfil = () => {
 		username: '',
 		lugarDeTrabajo: '',
 	};
+	//objeto para formulario2
+	const form2 = {
+		numeroEmpleado: '',
+	};
 	//state de formulario Puesto
 	const [values, setValues] = useState(formPuesto);
+	const [values2, setValues2] = useState(form2);
 	const { supervisor, username, lugarDeTrabajo } = values;
+	const { numeroEmpleado } = values2;
 
 	useEffect(() => {
 		setValues({
 			supervisor: perfilEmpleado.supervisor,
 			username: perfilUsuario.username,
 			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
+		});
+		setValues2({
+			numeroEmpleado: perfilEmpleado.numeroEmpleado,
 		});
 	}, [perfilUsuario, perfilEmpleado]);
 
@@ -59,6 +69,12 @@ const PageEmpleadoPerfil = () => {
 	const handleInputChange = (event: any) => {
 		setValues({
 			...values,
+			[event.target.name]: event.target.value,
+		});
+	};
+	const handleInputChange2 = (event: any) => {
+		setValues2({
+			...values2,
 			[event.target.name]: event.target.value,
 		});
 	};
@@ -83,6 +99,19 @@ const PageEmpleadoPerfil = () => {
 		);
 
 		toggleValue(false);
+	};
+	const handlesubmitForm2 = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					numeroEmpleado: numeroEmpleado,
+				})
+			);
+		}
+
+		toggleValueForm2(false);
 	};
 
 	const resendInvitation = () => {
@@ -214,6 +243,51 @@ const PageEmpleadoPerfil = () => {
 									style={{ height: '3rem' }}
 								>
 									{value && (
+										<button type='submit' className='btn  custm-empleadoFormSubmit'>
+											Guardar
+										</button>
+									)}
+								</div>
+							</form>
+						</div>
+						<div className='d-flex flex-column align-items-center custm-empleadoFormContainer mt-5'>
+							<div className='d-flex justify-content-end custm-Width100'>
+								<button className='btn fs-3 custm-btnToggle' onClick={toggleValueForm2}>
+									<i className='bi bi-pencil-square textColorSecondary' />
+								</button>
+							</div>
+							{/* Inicia formulario */}
+							<form style={{ width: '90%' }} onSubmit={handlesubmitForm2}>
+								<div className='mb-4'>
+									<label className='custm-Width100'>Número empleado</label>
+									<input
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										type='text'
+										name='numeroEmpleado'
+										value={numeroEmpleado}
+										onChange={handleInputChange2}
+										disabled={!valueForm2}
+										placeholder='Número de empleado'
+									/>
+								</div>
+
+								<div className='mb-4'>
+									<label className='custm-Width100'>Días disponibles (faltas)</label>
+									<input
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										type='number'
+										name='diasDisponibles'
+										// value={numeroEmpleado}
+										onChange={handleInputChange2}
+										disabled={!valueForm2}
+										placeholder='días disponibles (faltas)'
+									/>
+								</div>
+								<div
+									className='d-flex justify-content-end custm-Width100'
+									style={{ height: '3rem' }}
+								>
+									{valueForm2 && (
 										<button type='submit' className='btn  custm-empleadoFormSubmit'>
 											Guardar
 										</button>

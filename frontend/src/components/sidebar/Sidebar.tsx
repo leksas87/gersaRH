@@ -211,10 +211,7 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 									Ver reportes
 								</NavLink>
 							)}
-							<div className='sidebarOption'>
-								<i className='bi bi-folder2-open sidebarIcon' />
-								Archivos Empresa
-							</div>
+
 							{rollTypeId === 1 && (
 								<NavLink
 									to='/empresa'
