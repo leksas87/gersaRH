@@ -317,6 +317,18 @@ const EmpleadoPerfil = () => {
 					>
 						Control horas extras
 					</NavLink>
+					{rollTypeId === 1 && (
+						<NavLink
+							to={`${tablePath}/${params.empleadoId}/archivos`}
+							className={({ isActive }) =>
+								isActive
+									? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active text-center'
+									: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink text-center'
+							}
+						>
+							Archivos
+						</NavLink>
+					)}
 				</nav>
 				{/* Contenido */}
 				<div className='d-flex flex-column p-4'>

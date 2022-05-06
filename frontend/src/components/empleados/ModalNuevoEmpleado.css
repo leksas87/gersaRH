@@ -54,6 +54,14 @@
 	border-radius: 11px;
 	color: var(--backgroundPrimary);
 }
+.custm-btnFormSubmitModal {
+	width: auto;
+	height: 3rem;
+	margin-top: 1rem;
+	padding: 10px 17px;
+	border-radius: 11px;
+	color: var(--backgroundPrimary);
+}
 .custm-inputGird {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);

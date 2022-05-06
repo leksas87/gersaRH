@@ -63,6 +63,16 @@ const EmpresaPage = () => {
 					>
 						Empleados archivados
 					</NavLink>
+					<NavLink
+						to={`/empresa/archivosempresa`}
+						className={({ isActive }) =>
+							isActive
+								? 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink custm-empleadoNavLink-Active'
+								: 'fs-5  textColorSecondary ms-1 me-3 custm-empleadoNavLink'
+						}
+					>
+						Archivos Empresa
+					</NavLink>
 				</nav>
 				{/* Contenido */}
 				<div className='d-flex flex-column p-4'>
