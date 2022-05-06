@@ -12,6 +12,23 @@
 	text-decoration: none;
 	color: black;
 }
+.custm-btnEmployeeFilesLink {
+	border: 1px solid var(--colorSecondary);
+	/* padding: 1rem; */
+	border-radius: 10px;
+	background-color: var(--colorBackgroundForm);
+	/* width: 100%; */
+	padding-left: 10px;
+	display: flex;
+	align-items: center;
+
+	text-decoration: none;
+	color: var(--colorSecondary);
+}
+.custm-btnEmployeeFilesLink:hover {
+	color: var(--colorSecondary);
+	transform: scale(0.99);
+}
 .custm-PageContainerContent {
 	/* border: 1px solid teal; */
 	padding: 1rem;

@@ -1,12 +1,13 @@
-import ModalNuevoArchivoEmpresa from './ModalNuevoArchivoEmpresa';
+import React from 'react';
+import ModalNuevoArchivoEmpleadoPersonal from './ModalNuevoArchivoEmpleadoPersonal';
 
-const ArchivosEmpresa = () => {
+const ArchivosEmpleadoPersonales = () => {
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
 				<div className='d-flex flex-column justify-content-center custm-Width100'>
 					<div className='d-flex justify-content-end'>
-						<ModalNuevoArchivoEmpresa />
+						<ModalNuevoArchivoEmpleadoPersonal />
 					</div>
 					<div className='d-flex justify-content-center'>
 						<div>
@@ -20,7 +21,7 @@ const ArchivosEmpresa = () => {
 								className='text-center  textColorSecondary'
 								style={{ maxWidth: '400px' }}
 							>
-								Archivos / Empresa.
+								Archivos / Empleado / Personales.
 							</div>
 						</div>
 					</div>
@@ -143,4 +144,4 @@ const ArchivosEmpresa = () => {
 	);
 };
 
-export default ArchivosEmpresa;
+export default ArchivosEmpleadoPersonales;

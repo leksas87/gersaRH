@@ -1,12 +1,25 @@
-import ModalNuevoArchivoEmpresa from './ModalNuevoArchivoEmpresa';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { RootSote } from '../../../store/Store';
+import ModalNuevoArchivoEmpleadoEmpresa from './ModalNuevoArchivoEmpleadoEmpresa';
 
-const ArchivosEmpresa = () => {
+const ArchivosEmpleadoEmpresa = () => {
+	//Se necesita el state que contiene los datos del empleadoSeleccionado
+	const { perfilEmpleado, perfilUsuario } = useSelector(
+		(state: RootSote) => state.users
+	);
+	//Hook para obtener los parametros del url
+	const params = useParams();
+	const location = useLocation();
+	console.log(params);
+	console.log(location.pathname);
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
 				<div className='d-flex flex-column justify-content-center custm-Width100'>
 					<div className='d-flex justify-content-end'>
-						<ModalNuevoArchivoEmpresa />
+						<ModalNuevoArchivoEmpleadoEmpresa />
 					</div>
 					<div className='d-flex justify-content-center'>
 						<div>
@@ -17,10 +30,10 @@ const ArchivosEmpresa = () => {
 						</div>
 						<div className='d-flex flex-column align-items-center justify-content-center custm-width100 ms-2'>
 							<div
-								className='text-center  textColorSecondary'
+								className='text-center textColorSecondary'
 								style={{ maxWidth: '400px' }}
 							>
-								Archivos / Empresa.
+								Archivos / Empleado / Empresa.
 							</div>
 						</div>
 					</div>
@@ -143,4 +156,4 @@ const ArchivosEmpresa = () => {
 	);
 };
 
-export default ArchivosEmpresa;
+export default ArchivosEmpleadoEmpresa;
