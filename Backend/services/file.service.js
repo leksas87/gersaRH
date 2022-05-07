@@ -23,7 +23,7 @@ async function getFile1(req,res) {
         return files;
     }else if(req.query.ubicacionCarpeta && req.user.rollTypeId === 1){
         const files = await models.File.findAll({where:{
-            ubicacionCarpeta: req.query.ubicacionCarpeta.substring(0, req.query.ubicacionCarpeta.length - 1)
+            ubicacionCarpeta: req.query.ubicacionCarpeta.substring(0, req.query.ubicacionCarpeta.length - 0)
             }
         });
         if ( !files)  throw 'Empleado no encontrado';
@@ -31,7 +31,7 @@ async function getFile1(req,res) {
     }else if(req.query.ubicacionCarpeta){
         const files = await models.File.findAll({where:{
             employeeId: req.user.id,
-            ubicacionCarpeta: req.query.ubicacionCarpeta.substring(0, req.query.ubicacionCarpeta.length - 1),
+            ubicacionCarpeta: req.query.ubicacionCarpeta.substring(0, req.query.ubicacionCarpeta.length - 0),
             }
         });
         if ( !files)  throw 'Empleado no encontrado';

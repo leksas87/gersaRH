@@ -15,10 +15,10 @@ function validateFileName() {
             // check user still exists
             if(!user)
                 return res.status(400).json({ message: 'El empleado no existe.'});
-
-            if(req.user.rollTypeId == 2 && req.body.employeeId != req.body.employeeIdUpload || req.user.id != req.body.employeeIdUpload )
-            return res.status(403).json( {message: 'Usuario no autorizado'});
-
+            if(req.user.rollTypeId === 2 ){ 
+                if(req.body.employeeId != req.body.employeeIdUpload || req.user.id != req.body.employeeIdUpload )
+                return res.status(403).json( {message: 'Usuario no autorizado'});
+            }
             if (fileName)
                 return res.status(400).json({ message: 'El nombre del archivo "' + req.body.nombreArchivo + '" ya existe.'});
 
