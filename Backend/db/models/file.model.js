@@ -9,7 +9,7 @@ const FILE_TABLE = 'File';
     id: { allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER},
     employeeId: { type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
     employeeIdUpload: {type:DataTypes.INTEGER,allowNull:true,defaultValue:0},
-    isFileActive: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:false },
+    isFileActive: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue:true },
     fechaCreacion: { type:DataTypes.STRING,allowNull:true,  defaultValue:''},
     nombreArchivo: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
     ubicacionCarpeta: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
