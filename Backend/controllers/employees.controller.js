@@ -633,7 +633,9 @@ function registerSchedule(req, res, next) {
 }
 function registerPostHourAcecepted(req, res, next) {
 	employeeService
-		.createHourAcecepted(req.body, req.params.id, next)
-		.then((report) => res.status(201).json({data:report, message: 'Registro exitoso' }))
+		.createHourAcecepted(req.body, req.params.id, next,res)
+		.then((report) => {if (report) {
+			res.status(201).json({data:report, message: 'Registro exitoso' })
+		} else {res.status(400).json({message: 'Registro duplicado' })}})
 		.catch(next);
 }

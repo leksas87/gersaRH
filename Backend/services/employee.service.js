@@ -101,10 +101,18 @@ async function createReport(params, id,next){
     }
         
 }
-async function createHourAcecepted(params, id,next){
+async function createHourAcecepted(params, id,next,res){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
         
+        ///validacion 
+        const hourAcepted=await models.RegistroHoras.findAll({where: {employeeId:id,fechaEvento:params.fechaEvento}});
+
+        if (hourAcepted.length>0) {
+            const error=null;
+            return error;
+        }
+
         const report = await models.RegistroHoras.create({
                                                     employeeId:id,
                                                     fechaCreacion:fechaCreacion,
@@ -115,9 +123,9 @@ async function createHourAcecepted(params, id,next){
         
         return report;
     } catch (error) {
-        next(`Error de validación: ${error}`);
+        next(` ${error}`);
     }
-        
+     
 }
 
 async function getHourAceptedBy(id,res) {
