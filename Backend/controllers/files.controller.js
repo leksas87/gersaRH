@@ -6,10 +6,11 @@ const validateRequestQuery = require('middleware/validate-request-query');
 const fileService = require('../services/file.service');
 const authorize = require('middleware/authorize');
 const validateFileName = require('middleware/validate-fileName');
-const validateFileQuery = require('middleware/validate-fileQuery')
+const validateFilePatch = require('middleware/validate-filePatch');
+const validateFileQuery = require('middleware/validate-fileQuery');
 
 router.post('/',authorize(),validateFileName(), registerSchema, register);
-router.patch('/:id', authorize(), validateFileName(), updateSchema, update);
+router.patch('/:id', authorize(), validateFilePatch(), updateSchema, update);
 router.get('/',getSchema, authorize(),validateFileQuery(), getFile1);
 
 module.exports = router;
