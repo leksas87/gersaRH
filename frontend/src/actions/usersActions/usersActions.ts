@@ -526,6 +526,7 @@ export const updateEmployeeById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
 		const token = localStorage.getItem('gersa-tkn') || '';
+		console.log('aqui!', formData);
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken

@@ -6,6 +6,13 @@
 	border: 1px solid var(--textColorDisable);
 	overflow: hidden;
 }
+.custm-tableArchivos {
+	width: 90%;
+	border-radius: 10px;
+	background-color: var(--backgroundPrimary);
+	border: 1px solid var(--textColorDisable);
+	overflow: hidden;
+}
 .custm-tableHead {
 	background-color: #f4f4f5;
 	border-bottom: 1px solid var(--textColorDisable);
