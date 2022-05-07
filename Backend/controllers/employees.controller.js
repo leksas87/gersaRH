@@ -54,7 +54,7 @@ router.delete(
 		addScheduleSchema,
 		registerSchedule
 		);
-router.get('/:id/hoursAccepted', authorize(), forbiddenGet(), getHourAcepted);
+router.get('/:id/hoursAccepted', authorize(), forbiddenJefeCuadrilla(), getHourAcepted);
 router.post(
 	'/:id/hoursAccepted',
 	authorize(),
@@ -636,6 +636,6 @@ function registerPostHourAcecepted(req, res, next) {
 		.createHourAcecepted(req.body, req.params.id, next,res)
 		.then((report) => {if (report) {
 			res.status(201).json({data:report, message: 'Registro exitoso' })
-		} else {res.status(400).json({message: 'Registro duplicado' })}})
+		} else {res.status(422).json({message: 'Registro duplicado' })}})
 		.catch(next);
 }
