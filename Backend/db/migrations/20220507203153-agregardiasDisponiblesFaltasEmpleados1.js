@@ -5,11 +5,7 @@ const { EMPLOYEE_TABLE, EmployeeSchema } = require('../models/employee.model');
 
 module.exports = {
 	up: async (queryInterface) => {
-		await queryInterface.addColumn(
-			EMPLOYEE_TABLE,
-			'numeroEmpleado',
-			Sequelize.STRING
-		);
+		await queryInterface.addColumn(EMPLOYEE_TABLE,'diasDisponiblesFaltas',Sequelize.INTEGER);
 	},
 
 	down: async (queryInterface) => {

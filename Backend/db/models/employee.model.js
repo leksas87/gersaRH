@@ -70,7 +70,8 @@ const EmployeeSchema = {
 		defaultValue: DataTypes.NOW,
 	},
 	accessCode: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-	numeroEmpleado:{type: DataTypes.STRING,allowNull:true, defaultValue:''}
+	numeroEmpleado:{type: DataTypes.STRING,allowNull:true, defaultValue:''},
+	diasDisponiblesFaltas: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 }
 };
 
 class Employee extends Model {

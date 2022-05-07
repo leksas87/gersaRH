@@ -553,6 +553,8 @@ function updateSchema(req, res, next) {
 		numeroImms: Joi.string().empty(''),
 		curp: Joi.string().empty(''),
 		fechaAltaImss: Joi.date(),
+		numeroEmpleado: Joi.string().empty(''),
+		diasDisponiblesFaltas: Joi.number().integer()
 	});
 	validateRequest(req, next, schema);
 }

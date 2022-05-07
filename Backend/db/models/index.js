@@ -15,6 +15,7 @@ const { RequestType, RequestTypeSchema } = require('./requestType.model');
 const { EventActionType, EventActionTypeSchema } = require('./eventActionType.model');
 const { File, FileSchema } = require('./file.model');
 const { Payroll, PayrollSchema } = require('./payRoll.model');
+const { DocumentType, DocumentTypeSchema } = require('./documentType.model');
 
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
@@ -34,6 +35,7 @@ function setupModels(sequelize) {
   EventActionType.init(EventActionTypeSchema,EventActionType.config(sequelize));
   File.init(FileSchema,File.config(sequelize));
   Payroll.init(PayrollSchema,Payroll.config(sequelize));
+  DocumentType.init(DocumentTypeSchema,DocumentType.config(sequelize));
 
   Employee.associate(sequelize.models);
   User.associate(sequelize.models);

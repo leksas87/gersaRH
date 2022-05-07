@@ -2,6 +2,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const {EMPLOYEE_TABLE} = require('./employee.model');
+const {DOCUMENTTYPE_TABLE} = require('./documentType.model');
 
 const FILE_TABLE = 'File';
 
@@ -14,12 +15,13 @@ const FILE_TABLE = 'File';
     nombreArchivo: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
     ubicacionCarpeta: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
     url: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
-    tipoDocumento : {type:DataTypes.INTEGER,allowNull:true,defaultValue:0}
+    tipoDocumento: {type:DataTypes.INTEGER,allowNull:true,references:{model:DOCUMENTTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'}
   }
 
   class File extends Model {
     static associate(models) {
       this.belongsTo(models.Employee,{as:'employee'});
+      this.belongsTo(models.DocumentType,{as:'documentType'});
     }
 
     static config(sequelize) {
