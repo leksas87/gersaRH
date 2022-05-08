@@ -1,7 +1,8 @@
 const {models} = require('../libs/sequelize');
 
 module.exports = {
-    update
+    update,
+    delete:_delete
 };
 async function getHoursAccepted(id) {
     const hoursAccepted = await models.hoursAccepted.findByPk(id);
