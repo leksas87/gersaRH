@@ -22,7 +22,7 @@ class RegistroHoras extends Model {
     return {
       sequelize,
       tableName: REGISTRO_HORAS_TABLE,
-      modelName: 'RegistroHoras',
+      modelName: 'hoursAccepted',
       timestamps: false
     }
   }

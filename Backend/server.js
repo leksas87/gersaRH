@@ -18,6 +18,7 @@ app.use('/api/workPlaces', require('./controllers/workPlaces.controller'));
 app.use('/api/event', require('./controllers/event.controller'));
 app.use('/api/eventType', require('./controllers/eventType.controller'));
 app.use('/api/schedules', require('./controllers/schedules.controller'));
+app.use('/api/hoursAccepted', require('./controllers/hourAccepted.controller'));
 
 // global error handler
 app.use(errorHandler);

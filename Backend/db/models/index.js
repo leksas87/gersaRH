@@ -13,7 +13,7 @@ const { TimeRequest, TimeRequestSchema } = require('./timeRequest.model');
 const { Status, StatusSchema } = require('./status.model');
 const { RequestType, RequestTypeSchema } = require('./requestType.model');
 const { EventActionType, EventActionTypeSchema } = require('./eventActionType.model');
-const { RegistroHoras, RegistroHorasSchema } = require('./registroHorasExtrasAceptadas.model');
+const { RegistroHoras, RegistroHorasSchema } = require('./hourAccepted.model');
 
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));

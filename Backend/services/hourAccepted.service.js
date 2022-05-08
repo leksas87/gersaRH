@@ -3,22 +3,24 @@ const {models} = require('../libs/sequelize');
 module.exports = {
     update
 };
+async function getHoursAccepted(id) {
+    const hoursAccepted = await models.hoursAccepted.findByPk(id);
+    if (!hoursAccepted) throw 'Registro no encontrado';
+    return hoursAccepted;
+}
+async function update( idHours, params) {
+    const hoursAccepted = await getHoursAccepted(idHours);
 
-async function update(id, idContract, params) {
-    const contract = await getContract(idContract);
-
-    if (!contract) throw 'Contrato no encontrado'
-
-    
+    // if (!hourAccepted) throw 'Registro no encontrado'
 
     // copy params to user and save
-    Object.assign(contract, params);
-    await contract.save();
+    Object.assign(hoursAccepted, params);
+    await hoursAccepted.save();
 
-    return contract.get();
+    return hoursAccepted.get();
 }
 
 async function _delete(id) {
-    const contract = await getContract(id);
-    await contract.destroy();
+    const hoursAccepted = await getHoursAccepted(id);
+    await hoursAccepted.destroy();
 }
