@@ -21,7 +21,7 @@ const FILE_TABLE = 'File';
   class File extends Model {
     static associate(models) {
       this.belongsTo(models.Employee,{as:'employee'});
-      this.belongsTo(models.DocumentType,{as:'documentType'});
+      this.belongsTo(models.DocumentType,{as:'documentType',foreignKey:'tipoDocumento'});
     }
 
     static config(sequelize) {
