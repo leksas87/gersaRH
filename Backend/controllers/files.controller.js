@@ -11,7 +11,7 @@ const validateFileQuery = require('middleware/validate-fileQuery');
 
 router.post('/',authorize(),registerSchema,validateFileName(), register);
 router.patch('/:id', authorize(), updateSchema,validateFilePatch(), update);
-router.get('/',getSchema, authorize(),validateFileQuery(), getFile1);
+router.get('/', authorize(),getSchema,validateFileQuery(), getFile1);
 
 module.exports = router;
 
