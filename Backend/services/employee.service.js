@@ -104,16 +104,16 @@ async function createReport(params, id,next){
 async function createHourAcecepted(params, id,next,res){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
-        
+        console.log('************COL***'+id+'*****'+params.fechaEvento);
         ///validacion 
-        const hourAcepted=await models.RegistroHoras.findAll({where: {employeeId:id,fechaEvento:params.fechaEvento}});
-
-        if (hourAcepted.length>0) {
+        const hourAcepted=await models.hoursAccepted.findAll({where: {employeeId:id,fechaEvento:params.fechaEvento}});
+        
+        if (hourAcepted.length!=0) {
             const error=null;
             return error;
         }
 
-        const report = await models.RegistroHoras.create({
+        const report = await models.hoursAccepted.create({
                                                     employeeId:id,
                                                     fechaCreacion:fechaCreacion,
                                                     horasAceptadas:params.horasAceptadas,
