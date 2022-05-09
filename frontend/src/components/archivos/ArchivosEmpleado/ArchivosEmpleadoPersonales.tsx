@@ -4,6 +4,7 @@ import { getFilesByParams } from '../../../actions/archivosActions/archivosActio
 import { RootSote } from '../../../store/Store';
 import ModalEliminarArchivos from '../ModalEliminarArchivos';
 import ModalNuevoArchivoEmpleadoPersonal from './ModalNuevoArchivoEmpleadoPersonal';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 
 const ArchivosEmpleadoPersonales = () => {
 	const dispatch = useDispatch();
@@ -64,9 +65,9 @@ const ArchivosEmpleadoPersonales = () => {
 											<tr
 												key={file.id}
 												className='custm-table-tr textColorLight'
-												// onClick={() => {
-												// 	irEmpleado(empleado.id);
-												// }}
+												onClick={() => {
+													window.open(`${baseUrlRequestFilesS3}${file.url}`);
+												}}
 											>
 												<th scope='row'>
 													<i className='bi bi-file-earmark-text pe-1' />

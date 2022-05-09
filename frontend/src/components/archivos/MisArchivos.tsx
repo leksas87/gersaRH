@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFilesByParams } from '../../actions/archivosActions/archivosActions';
 import { RootSote } from '../../store/Store';
 import ModalNuevoArchivo from './ModalNuevoArchivo';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 
 const MisArchivos = () => {
 	const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const MisArchivos = () => {
 													key={file.id}
 													className='custm-table-tr textColorLight'
 													onClick={() => {
-														console.log('verArchivo');
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
 													}}
 												>
 													<th scope='row'>

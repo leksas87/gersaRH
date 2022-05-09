@@ -76,6 +76,7 @@ const ModalNuevoArchivo = () => {
 			Body: file,
 			Bucket: S3_BUCKET,
 			Key: keyName,
+			// ContentType: 'image/png',
 		};
 
 		myBucket
