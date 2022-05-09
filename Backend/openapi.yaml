@@ -17,6 +17,12 @@ tags:
   description: Create, read, update, delete schedules information
 - name: eventType
   description: Create, read, update, delete eventType 
+- name: workPlaces
+  description: read workPlaces 
+- name: files
+  description: Create, read, update, delete files information
+- name: hoursAccepted
+  description: Update, delete horas extra
 paths: 
   /users/{id}:
     get:
@@ -193,6 +199,700 @@ paths:
           $ref: '#/components/schemas/NotFound'
         500:
           $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /hoursAccepted/{hoursAcceptedId}:
+    patch:
+        tags:
+        - hoursAccepted
+        summary: End Point para la modificación de horas extra aceptadas
+        description: El End Point recibe por body los parametros a modificar
+        parameters:
+        - name: hoursAcceptedId
+          in: path
+          description: Identificador del empleado
+          required: true
+          schema:
+            type: integer
+        requestBody: 
+          description: "Para realizar un post es necesario enviar todo el schema."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyHourAcept'
+        responses:
+          201:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/hoursAcepted'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+    delete:
+        tags:
+        - hoursAccepted
+        summary: End Point para la eliminar el registro de horas extra aceptadas
+        description: El End Point recibe por path el horario a eliminar
+        parameters:
+        - name: hoursAcceptedId
+          in: path
+          description: Identificador del empleado
+          required: true
+          schema:
+            type: integer
+        responses:
+          201:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ExitoContratosDelete'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+  /employees/{employeeId}/hoursAccepted:
+    get:
+      tags:
+        - "employees"
+      summary: Obtiene la información de las horas extra aceptadas por el jefe de cuadrilla
+      parameters:
+      - name: employeeId
+        in: path
+        description: Identificador del empleado
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/hoursAcepted'
+        202:
+          description: bad
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/hourNotFound'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+    post:
+        tags:
+        - employees
+        summary: End Point para el registro de horas extra aceptadas
+        description: El End Point recibe por body el nombre del tipo de evento
+        requestBody: 
+          description: "Para realizar un post es necesario enviar todo el schema."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyHourAcept'
+        responses:
+          201:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/hoursAcepted'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+  /employees/{employeeId}/timeRequest:
+    get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de las solicitudes de tiempo extra de un empleado
+      parameters:
+      - name: employeeId
+        in: path
+        description: Identificador de la solicitud a obtener
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: (OK) La informacion de las solicitudes se obtuvo de forma exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudTiempoGet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+      - employees
+      summary: Registra la solicitud de tiempo extra de un empleado
+      description: "El EndPoint registra la solicitud de tiempo extra "
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/TimeRequestPOST'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TimeRequestsRegister"
+      security:
+        - bearerAuth: []
+  /employees/timeRequest/:
+   get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de las solicitudes de tiempo extra de un empleado, de varios empleados o todos los empleados
+      responses:
+        200:
+          description: (OK) La informacion de las solicitudes de tiempo extra se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudTiempoGet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []     
+  /employees/timeRequest/{timeRequestId}:
+    patch:
+      tags:
+      - employees
+      summary: Modifica datos en especifico del contrato 
+      description: "El EndPoint recibe via url el id de la solicitud de tiempo extra que se desea modificar, en caso de ser exitoso se regresan los datos modificados de la solicitud. Para realizar la petición se necesita mandar token por headers"
+      parameters:
+      - name: timeRequestId
+        in: path
+        description: Identificador del empleado
+        required: true
+        schema:
+          type: integer
+      requestBody: 
+        description: "Para realizar un patch no es necesario enviar todo el schema, solo el atributo a modificar."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodySolicitudesTiempoPatch'
+        required: false
+      responses:
+        201:
+          description: (OK), modificación exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudTiempoPatch'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /employees/{employeeId}/reports:
+    get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de los reportes de un empleado
+      parameters:
+      - name: employeeId
+        in: path
+        description: Identificador de las solicitudes a obtener
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: (OK) La informacion de las solicitudes se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/ReportsRegister"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []  
+    post:
+      tags:
+      - employees
+      summary: Registra el reporte del empleado seleccionado
+      description: "El EndPoint registra el reporte del empleado"
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ReportsPOST'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportsRegister"
+      security:
+        - bearerAuth: []
+  /employees/reports/:
+   get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de los reportes de todos los empleados
+      responses:
+        200:
+          description: (OK) La informacion de los reportes se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoReportesGet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /employees/{employeeId}/requests:
+    get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de las solicitudes de un empleado
+      parameters:
+      - name: employeeId
+        in: path
+        description: Identificador de las solicitudes a obtener
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: (OK) La informacion de las solicitudes se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudesGet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+      - employees
+      summary: Registra la solicitud del empleado seleccionado
+      description: "El EndPoint registra la solicitud del empleado, dependiendo del tipo de solicitud "
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ResquestPOST'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestsRegister"
+      security:
+        - bearerAuth: []
+  /employees/requests/:
+   get:
+      tags:
+      - employees
+      summary: Obtiene la informacion de la base de datos de las solicitudes de un empleado, de varios empleados o todos los empleados
+      responses:
+        200:
+          description: (OK) La informacion de las solicitudes se obtuvo de forma exitosa
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudesGet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
+  /employees/requests/{requestId}:
+    patch:
+      tags:
+      - employees
+      summary: Modifica datos en especifico del contrato 
+      description: "El EndPoint recibe via url el id de la solicitud que se desea modificar, en caso de ser exitoso se regresan los datos modificados de la solicitud. Para realizar la petición se necesita mandar token por headers"
+      parameters:
+      - name: requestId
+        in: path
+        description: Identificador del empleado
+        required: true
+        schema:
+          type: integer
+      requestBody: 
+        description: "Para realizar un patch no es necesario enviar todo el schema, solo el atributo a modificar."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodySolicitudesPatch'
+        required: false
+      responses:
+        201:
+          description: (OK), modificación exitosa 
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ExitoSolicitudPatch'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        403:
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+        500:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
   /employees/{employeeId}/contracts:
@@ -493,6 +1193,11 @@ paths:
           schema:
             type: string
             format: date
+        - name: eventActionTypeId
+          in: query
+          required: false
+          schema:
+            type: number
       responses:
         200:
           description: ok
@@ -530,6 +1235,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
+      security:
+        - bearerAuth: []
     post:
       tags:
       - employees
@@ -629,7 +1336,6 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
-
   /employees/add-schedule:
     post:
       tags:
@@ -760,6 +1466,7 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
+        
   /schedules/{scheduleId}/:
     patch:
       tags:
@@ -1232,6 +1939,94 @@ paths:
                 $ref: '#/components/schemas/ServerError'
       security:
         - bearerAuth: []
+        
+  /workPlaces/:
+    
+    get:
+        tags:
+        - workPlaces
+        summary: End Point para obtener todos los lugares de trabajao
+        description: El End Point solicita estar autorizado para realizar esta accion
+        responses:
+          200:
+            description: (OK) La informacion de los contratos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/WorkPlaces'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          403:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
+  
+  /files/:
+    
+    get:
+        tags:
+        - files
+        summary: End Point para obtener la lista de archivos de la empresa
+        description: El End Point solicita estar autorizado para realizar esta accion
+        parameters:
+        - name: tipo
+          in: query
+          required: false
+          schema:
+            type: number
+        responses:
+          200:
+            description: (OK) La informacion de los archivos se obtuvo de forma exitosa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/WorkPlaces'
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError'
+          403:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Forbidden'
+          500:
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerError'
+        security:
+          - bearerAuth: []
 components: 
   responses:
     UnauthorizedError:
@@ -1285,10 +2080,6 @@ components:
           type: string
           example: Algo salio mal
           description: Events Bad Request
-        ok:
-          type: boolean
-          example: false
-          description: ok, es un booleano que indica si la repuesta fue exitosa o no
     UnauthorizedError:
       description: Requiere autenticación
       type: object
@@ -1320,7 +2111,7 @@ components:
         message:
           type: string
           example: Algo salio mal
-          description: Events Bad Request
+          description:  Bad Request
     NotFound1:     
       description:  Tipo de evento no encontrado
       type: object
@@ -1329,10 +2120,6 @@ components:
           type: string
           example: Tipo de evento no encontrado
           description: Tipo de evento no encontrado
-        ok:
-          type: boolean
-          example: false
-          description: ok, es un booleano que indica si la repuesta fue exitosa o no
     Auth:      
       type: object
       properties:
@@ -1345,13 +2132,12 @@ components:
               type: string
             lastName:
               type: string
+            token:
+              type: string
+              example: 1232354dsffdhgsdasds
         message:
          type: string
          description: Registro exitoso
-        ok:
-         type: boolean
-         example: true
-         description: (True) Salio bien, (False) Algo salio mal
     Events:      
       type: object
       properties:
@@ -1373,14 +2159,229 @@ components:
                 type: string
               latitudeEvent:
                 type: string
+              eventActionTypeId:
+                type: number
         message:
          type: string
          example: successful
          description: Esta propiedad es un mensaje con detalle sobre la respuesta
-        ok:
-         type: boolean
-         example: true
-         description: (True) Salio bien, (False) Algo salio mal
+    hoursAcepted:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              fechaCreacion:
+                type: string
+                format: date
+              employeeid:
+                type: integer
+              fechaEvento:
+                type: string
+                format: date
+              horasAceptadas:
+                type: integer
+              employeeIdAutorizo:
+                type: integer
+        message:
+         type: string
+         example: successful
+         description: Esta propiedad es un mensaje con detalle sobre la respuesta     
+    ExitoSolicitudTiempoGet:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  fechaCreacion:  
+                    type: string
+                    format: date
+                    description: Fecha de creacion de la solicitud
+                  fechaAsignacion:  
+                    type: string
+                    format: date
+                    description: Fecha de asignacion de la solicitud
+                  horaAsignacion:  
+                    type: string
+                    format: date
+                    description: Hora de asignacion de la solicitud
+                  lugarApoyo:  
+                    type: string
+                    description: Lugar donde tendra que realizar las horas extra
+                  statusId:  
+                      type: integer
+                      description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+                  descripcion:  
+                    type: string
+                    description: Descripcion de la sulicitud 
+                  employeeIdRequest:  
+                      type: integer
+                      description: Id  de la solicitud
+                  
+        message:
+          type: string
+          example: successful
+          description: Esta propiedad es un mensaje con detalle sobre la respuesta
+         
+    ExitoReportesGet:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+                  descripcionEmpleado:  
+                    type: string
+                    description: Descripcion de la sulicitud del empleado
+                  fechaCreacion:  
+                    type: string
+                    format: date
+                    description: Fecha de creacion de la solicitud
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  asunto:  
+                    type: string
+                    description: Que tema desea tratar 
+                  anonimo:  
+                    type: string
+                    description: Reporte realizado anonimamente
+                  
+        message:
+          type: string
+          example: successful
+          description: Esta propiedad es un mensaje con detalle sobre la respuesta
+    ExitoSolicitudesGet:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+                  fechaFin:
+                    type: string
+                    format: date
+                    description: Fecha de fin de la solicitud
+                  fechaInicio:
+                    type: string
+                    format: date
+                    description: Fecha de inicio de la solicitud
+                  adjunto:  
+                    type: string
+                    description: URL del archivo
+                  descripcionEmpleado:  
+                    type: string
+                    description: Descripcion de la sulicitud del empleado
+                  descriptionRespuesta:  
+                    type: string
+                    description: Descripcion de la respuesta sulicitud
+                  statusId:  
+                      type: integer
+                      description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+                  fechaCreacion:  
+                      type: string
+                      format: date
+                      description: Fecha de creacion de la solicitud
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  requestTypeId:  
+                      type: integer
+                      description: Id del tipo de solicitud
+        message:
+          type: string
+          example: successful
+          description: Esta propiedad es un mensaje con detalle sobre la respuesta
+    ExitoSolicitudPatch:      
+      type: object
+      properties:
+        data: 
+          type: object
+          properties:
+                  ifechaFin:
+                    type: string
+                    format: date
+                    description: Fecha de fin de la solicitud
+                  fechaInicio:
+                    type: string
+                    format: date
+                    description: Fecha de inicio de la solicitud
+                  adjunto:  
+                    type: string
+                    description: URL del archivo
+                  descripcionEmpleado:  
+                    type: string
+                    description: Descripcion de la sulicitud del empleado
+                  descriptionRespuesta:  
+                    type: string
+                    description: Descripcion de la respuesta sulicitud
+                  statusId:  
+                      type: integer
+                      description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+                  fechaCreacion:  
+                      type: string
+                      format: date
+                      description: Fecha de creacion de la solicitud
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  requestTypeId:  
+                      type: integer
+                      description: Id del tipo de solicitud
+        message:
+          type: string
+          example: successful
+          description: Esta propiedad es un mensaje con detalle sobre la respuesta
+          
+    ExitoSolicitudTiempoPatch:      
+      type: object
+      properties:
+        data: 
+          type: object
+          properties:
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  fechaCreacion:  
+                    type: string
+                    format: date
+                    description: Fecha de creacion de la solicitud
+                  fechaAsignacion:  
+                    type: string
+                    format: date
+                    description: Fecha de asignacion de la solicitud
+                  horaAsignacion:  
+                    type: string
+                    format: date
+                    description: Hora de asignacion de la solicitud
+                  lugarApoyo:  
+                    type: string
+                    description: Lugar donde tendra que realizar las horas extra
+                  statusId:  
+                      type: integer
+                      description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+                  descripcion:  
+                    type: string
+                    description: Descripcion de la sulicitud 
+                  employeeIdRequest:  
+                      type: integer
+                      description: Id  de la solicitud
+        message:
+          type: string
+          example: successful
+          description: Esta propiedad es un mensaje con detalle sobre la respuesta
+          
     EventsTypes:      
       type: object
       properties:
@@ -1395,6 +2396,20 @@ components:
               nameType:
                 type: string
                 example: Retardo
+    WorkPlaces:      
+      type: object
+      properties:
+        data: 
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              nameWorkPlace:
+                type: string
+                example: Adidas
         message:
          type: string
          example: successful
@@ -1522,6 +2537,27 @@ components:
          type: string
          example: Registro exitoso
          description: Se registro el evento correctamente.
+    TimeRequestPOST:
+      type: object
+      properties:
+        message:
+         type: string
+         example: Registro exitoso
+         description: Se registro la solicitud de tiempo extra correctamente.
+    ResquestPOST:      
+      type: object
+      properties:
+        message:
+         type: string
+         example: Registro exitoso
+         description: Se registro la solicitud correctamente.
+    ReportsPOST:      
+      type: object
+      properties:
+        message:
+         type: string
+         example: Registro exitoso
+         description: Se registro la solicitud correctamente.
     EventsBadRequestPOST:      
       type: object
       properties:
@@ -1572,6 +2608,13 @@ components:
          type: string
          example: Error en el servidor
          description: Error en el servidor
+    hourNotFound:      
+      type: object
+      properties:
+        message:
+         type: string
+         example: No se encontraron registros
+         description: Esta propiedad es un mensaje con detalle sobre la respuesta
     EventNotFound:      
       type: object
       properties:
@@ -1589,6 +2632,88 @@ components:
           type: string
         eventType:  
           type: string
+        eventActionTypeId:
+          type: integer
+          
+    ReportsRegister:
+      type: object
+      properties:
+                  descripcionEmpleado:  
+                    type: string
+                    description: Descripcion de la sulicitud del empleado
+                  employeeId:  
+                      type: integer
+                      description: Id del empleado
+                  asunto:  
+                    type: string
+                    description: Que tema desea tratar 
+                  anonimo:  
+                    type: boolean
+                    description: bandera reporte realizado anonimamente
+                  reportType:
+                    type: string
+                    description: Dato para definir el tipo de usuario que lanza una solicitud
+    
+    TimeRequestsRegister:
+      type: object
+      properties:
+          employeeId:  
+              type: integer
+              description: Id del empleado
+          fechaAsignacion:  
+            type: string
+            format: date
+            description: Fecha de asignacion de la solicitud
+          horaAsignacion:  
+            type: string
+            format: date
+            description: Hora de asignacion de la solicitud
+          lugarApoyo:  
+            type: string
+            description: Lugar donde tendra que realizar las horas extra
+          statusId:  
+              type: integer
+              description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+          descripcion:  
+            type: string
+            description: Descripcion de la sulicitud 
+          employeeIdRequest:  
+               type: integer
+               description: Id  de la solicitud
+    
+    RequestsRegister:
+      type: object
+      properties:
+        fechaFin:
+          type: string
+          format: date
+          description: Fecha de fin de la solicitud
+        fechaInicio:
+          type: string
+          format: date
+          description: Fecha de inicio de la solicitud
+        adjunto:  
+          type: string
+          description: URL del archivo
+        descripcionEmpleado:  
+          type: string
+          description: Descripcion de la sulicitud del empleado
+        descriptionRespuesta:  
+          type: string
+          description: Descripcion de la respuesta sulicitud
+        statusId:  
+            type: integer
+            description: Id de descripcion del estado de la solicitud(pendiente, aceptada, rechazada)
+        fechaCreacion:  
+            type: string
+            format: date
+            description: Fecha de creacion de la solicitud
+        employeeId:  
+            type: integer
+            description: Id del empleado
+        requestTypeId:  
+            type: integer
+            description: Id del tipo de solicitud
     SchemaSchedulePostExito:
       type: object
       properties:
@@ -1872,6 +2997,25 @@ components:
          type: integer
          example: 1
          description: Identificador del Schedule
+    BodyHourAcept:
+      type: object
+      properties:
+        id:
+         type: integer
+         description: Identificador del empleado
+        employeeId:
+         type: integer
+         description: Identificador del empleado
+        fechaEvento:
+         type: string
+         format: date
+         description: Fecha del evento
+        horasAceptadas:
+         type: integer
+         description: Numero de horas autorizadas
+        employeeIdAutorizo:
+         type: integer
+         description: Identificador del jefe de cuadrillo
     BodyEventType:
       type: object
       properties:
@@ -1908,7 +3052,25 @@ components:
          description: tipo de unidad para laborales(semana, quinciena, mes)
         cantidadSalario:
          type: integer
-         description: Salario definido en el contrato     
+         description: Salario definido en el contrato  
+    BodySolicitudesPatch:
+      type: object
+      properties:
+        statusId:
+         type: integer
+         description: Id del status de la solicitud
+        descripcionRespuesta:
+         type: string
+         description: Breve descripcion de la respuesta a dar a solicitud
+    BodySolicitudesTiempoPatch:
+      type: object
+      properties:
+        statusId:
+         type: integer
+         description: Id del status de la solicitud
+        descripcionEmpleado:
+         type: string
+         description: Breve descripcion de la respuesta a dar a solicitud
     BodyContratosResponse:
       type: object
       properties:

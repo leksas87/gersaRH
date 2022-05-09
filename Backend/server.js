@@ -20,6 +20,7 @@ app.use('/api/eventType', require('./controllers/eventType.controller'));
 app.use('/api/schedules', require('./controllers/schedules.controller'));
 app.use('/api/files', require('./controllers/files.controller'));
 app.use('/api/payRolls', require('./controllers/payroll.controller'));
+app.use('/api/hoursAccepted', require('./controllers/hourAccepted.controller'));
 
 // global error handler
 app.use(errorHandler);

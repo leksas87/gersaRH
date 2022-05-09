@@ -47,14 +47,23 @@ router.delete(
 	forbidden(),
 	deleteEmployeeSchedule,
 	deleteSchedule
-);
+	);
+	router.post(
+		'/add-schedule',
+		authorize(),
+		forbidden(),
+		addScheduleSchema,
+		registerSchedule
+		);
+router.get('/:id/hoursAccepted', authorize(), forbiddenJefeCuadrilla(), getHourAcepted);
 router.post(
-	'/add-schedule',
+	'/:id/hoursAccepted',
 	authorize(),
-	forbidden(),
-	addScheduleSchema,
-	registerSchedule
+	forbiddenJefeCuadrilla(),
+	registerHoursAccepted,
+	registerPostHourAcecepted
 );
+
 router.post(
 	'/:id/contracts',
 	authorize(),
@@ -249,6 +258,15 @@ function registerSchemaTimeRequest(req, res, next) {
 		descripcion: Joi.string().required(),
 		descripcionEmpleado: Joi.string(),
 		employeeIdRequest: Joi.number().integer().required()
+	});
+	validateRequest(req, next, schema);
+}
+function registerHoursAccepted(req, res, next) {
+	const schema = Joi.object({
+		employeeId: Joi.number().integer().required(),
+		fechaEvento: Joi.string().required(),
+		horasAceptadas: Joi.string().required(),
+		employeeIdAutorizo: Joi.number().integer().required()
 	});
 	validateRequest(req, next, schema);
 }
@@ -580,6 +598,12 @@ function getSchedule(req, res, next) {
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
+function getHourAcepted(req, res, next) {
+	employeeService
+		.getHourAceptedBy(req.params.id, res)
+		.then((user) => res.json({ data: user, message: 'Succesful' }))
+		.catch(next);
+}
 function deleteSchedule(req, res, next) {
 	console.log(req.params.id);
 	employeeService
@@ -608,5 +632,13 @@ function registerSchedule(req, res, next) {
 	employeeService
 		.createSchedule(req.body)
 		.then(() => res.json({ message: 'Registro exitoso' }))
+		.catch(next);
+}
+function registerPostHourAcecepted(req, res, next) {
+	employeeService
+		.createHourAcecepted(req.body, req.params.id, next,res)
+		.then((report) => {if (report) {
+			res.status(201).json({data:report, message: 'Registro exitoso' })
+		} else {res.status(422).json({message: 'Registro duplicado' })}})
 		.catch(next);
 }

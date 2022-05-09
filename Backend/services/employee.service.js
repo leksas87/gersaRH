@@ -33,7 +33,9 @@ module.exports = {
     getTimeRequestByEmployeeId,
     getReport,
     getRequestByEmployeeId,
-    getRequest
+    getRequest,
+    createHourAcecepted,
+    getHourAceptedBy
 };
 
 async function updateReport(id, params) {
@@ -98,6 +100,47 @@ async function createReport(params, id,next){
         next(`Error de validación: ${error}`);
     }
         
+}
+async function createHourAcecepted(params, id,next,res){
+    try {
+        const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
+        console.log('************COL***'+id+'*****'+params.fechaEvento);
+        ///validacion 
+        const hourAcepted=await models.hoursAccepted.findAll({where: {employeeId:id,fechaEvento:params.fechaEvento}});
+        
+        if (hourAcepted.length!=0) {
+            const error=null;
+            return error;
+        }
+
+        const report = await models.hoursAccepted.create({
+                                                    employeeId:id,
+                                                    fechaCreacion:fechaCreacion,
+                                                    horasAceptadas:params.horasAceptadas,
+                                                    fechaEvento:params.fechaEvento,
+                                                    employeeIdAcepto:params.employeeIdAutorizo
+                                                });
+        
+        return report;
+    } catch (error) {
+        next(` ${error}`);
+    }
+     
+}
+
+async function getHourAceptedBy(id,res) {
+    try {
+        
+        const hourAcepted = await models.RegistroHoras.findAll({where:{employeeId:id}});
+        
+        if ( !hourAcepted)  throw 'Solicitud de tiempo extra no encontrada';
+        
+        return hourAcepted;
+        
+    } catch (error) {
+        return res.status(404).json({ message: error.message});
+    }
+    
 }
 
 async function getTimeRequestByEmployeeId(id,res) {
