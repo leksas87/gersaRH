@@ -1,12 +1,92 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootSote } from '../../store/Store';
+import { v4 as uuidv4 } from 'uuid';
+import AWS from 'aws-sdk';
+import { registerNewFile } from '../../actions/archivosActions/archivosActions';
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
+
+const S3_BUCKET = 'gersarequestfiles';
+const REGION = 'us-east-1';
+
+AWS.config.update({
+	accessKeyId: accessKeyId,
+	secretAccessKey: secretAccessKey,
+});
+
+const myBucket = new AWS.S3({
+	params: { Bucket: S3_BUCKET },
+	region: REGION,
+});
 
 const ModalNuevoArchivoEmpresa = () => {
+	const dispatch = useDispatch();
+	//Senecesita el state que indica  el perfilEmpleado
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	const { registerFileState } = useSelector((state: RootSote) => state.files);
+	//objeto user para formulario Registro
+	const newRequest = {
+		nombreArchivo: '',
+		url: '',
+	};
 	//estado para mostrar la carga del inputFile
 	const [progress, setProgress] = useState(0);
+	//Estado para guardar el nombre Key del InputFile
+	const [inputFile, setInputFile] = useState(newRequest);
 
 	const handeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('enviando');
+
+		if (empleadoData.id) {
+			dispatch(
+				registerNewFile(
+					{
+						employeeId: empleadoData.id,
+						employeeIdUpload: empleadoData.id,
+						nombreArchivo: inputFile.nombreArchivo,
+						ubicacionCarpeta: 'empresa',
+						url: inputFile.url,
+						tipoDocumento: 2,
+					},
+					'modalNuevoArchivoEmpresa',
+					empleadoData.id,
+					2,
+					'empresa'
+				)
+			);
+		} else {
+			console.log('Error falta userId');
+		}
+	};
+	//Metodo que carga el file
+	const handleFileInput = (e: any) => {
+		setProgress(0);
+		// setSelectedFile(e.target.files[0]);
+		const file = e.target.files[0];
+
+		const keyName = `${uuidv4()}.${file.name.split('.').pop()}`;
+		// setInputFileName(keyName);
+		setInputFile({
+			nombreArchivo: file.name,
+			url: keyName,
+		});
+
+		const params = {
+			Body: file,
+			Bucket: S3_BUCKET,
+			Key: keyName,
+			ContentType: file.type,
+		};
+
+		myBucket
+			.putObject(params)
+			.on('httpUploadProgress', (evt) => {
+				setProgress(Math.round((evt.loaded / evt.total) * 100));
+			})
+			.send((err) => {
+				if (err) console.log(err);
+			});
 	};
 	return (
 		<>
@@ -83,14 +163,13 @@ const ModalNuevoArchivoEmpresa = () => {
 												<input
 													className='form-control custm-InputFile'
 													type='file'
-													// onChange={handleFileInput}
+													onChange={handleFileInput}
 												/>
 
 												<div>El progreso de la carga del archivo es del {progress}%</div>
 											</div>
 											<div className='d-flex justify-content-end mt-4'>
-												{/* {!registerState.loading ? ( */}
-												{true ? (
+												{!registerFileState.loading ? (
 													<button type='submit' className='custm-btnFormSubmit inputSubmit'>
 														Subir archivo
 													</button>

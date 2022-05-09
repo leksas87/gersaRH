@@ -39,15 +39,20 @@ const PageEmpleadoPerfil = () => {
 		username: '',
 		lugarDeTrabajo: '',
 	};
+	interface iForm2 {
+		numeroEmpleado: string;
+		diasDisponiblesFaltas: number;
+	}
 	//objeto para formulario2
-	const form2 = {
+	const form2: iForm2 = {
 		numeroEmpleado: '',
+		diasDisponiblesFaltas: 0,
 	};
 	//state de formulario Puesto
 	const [values, setValues] = useState(formPuesto);
 	const [values2, setValues2] = useState(form2);
 	const { supervisor, username, lugarDeTrabajo } = values;
-	const { numeroEmpleado } = values2;
+	const { numeroEmpleado, diasDisponiblesFaltas } = values2;
 
 	useEffect(() => {
 		setValues({
@@ -55,9 +60,12 @@ const PageEmpleadoPerfil = () => {
 			username: perfilUsuario.username,
 			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
 		});
-		setValues2({
-			numeroEmpleado: perfilEmpleado.numeroEmpleado,
-		});
+		if (perfilEmpleado.diasDisponiblesFaltas) {
+			setValues2({
+				numeroEmpleado: perfilEmpleado.numeroEmpleado,
+				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
+			});
+		}
 	}, [perfilUsuario, perfilEmpleado]);
 
 	useEffect(() => {
@@ -107,6 +115,7 @@ const PageEmpleadoPerfil = () => {
 			dispatch(
 				updateEmployeeById(perfilEmpleado.id, {
 					numeroEmpleado: numeroEmpleado,
+					diasDisponiblesFaltas: diasDisponiblesFaltas,
 				})
 			);
 		}
@@ -276,8 +285,8 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='number'
-										name='diasDisponibles'
-										// value={numeroEmpleado}
+										name='diasDisponiblesFaltas'
+										value={diasDisponiblesFaltas}
 										onChange={handleInputChange2}
 										disabled={!valueForm2}
 										placeholder='días disponibles (faltas)'

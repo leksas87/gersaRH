@@ -63,6 +63,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		curp: '',
 		fechaAltaImss: '',
 		numeroEmpleado: '',
+		diasDisponiblesFaltas: null,
 	},
 	tablePath: '',
 	supervisores: [],

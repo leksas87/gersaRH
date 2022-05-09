@@ -1,6 +1,21 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilesEmpresa } from '../../actions/archivosActions/archivosActions';
+import { RootSote } from '../../store/Store';
+import ModalEliminarArchivos from './ModalEliminarArchivos';
 import ModalNuevoArchivoEmpresa from './ModalNuevoArchivoEmpresa';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 
 const ArchivosEmpresa = () => {
+	const dispatch = useDispatch();
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+	const { filesList } = useSelector((state: RootSote) => state.files);
+	//Effect para obtener mis archivos
+	useEffect(() => {
+		if (empleadoData.id) {
+			dispatch(getFilesEmpresa());
+		}
+	}, [dispatch, empleadoData.id]);
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -43,96 +58,36 @@ const ArchivosEmpresa = () => {
 									</tr>
 								</thead>
 								<tbody>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td className='textColorError2'>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td className='textColorError2'>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
+									{filesList
+										.map((file) => (
+											<tr key={file.id} className='custm-table-tr textColorLight'>
+												<th
+													scope='row'
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
+													<i className='bi bi-file-earmark-text pe-1' />
+													{file.nombreArchivo}
+												</th>
+												<td
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
+													{file.fechaCreacion}
+												</td>
+												<td className='textColorError2'>
+													<ModalEliminarArchivos
+														file={file}
+														employeeId={empleadoData.id}
+														tipoDocumento={2}
+														ubicacionCarpeta={'empresa'}
+													/>
+												</td>
+											</tr>
+										))
+										.reverse()}
 								</tbody>
 							</table>
 						</div>
