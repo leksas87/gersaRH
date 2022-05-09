@@ -5,74 +5,7 @@ import { RootSote } from '../../store/Store';
 import ModalEliminarArchivos from './ModalEliminarArchivos';
 import ModalNuevoArchivoEmpresa from './ModalNuevoArchivoEmpresa';
 const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
-const array = [
-	{
-		id: 2,
-		employeeId: 2,
-		employeeIdUpload: 3,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'Archiv para empresa.png',
-		ubicacionCarpeta: 'empresa',
-		url: 'www.test.com.mx',
-		tipoDocumento: 2,
-	},
-	{
-		id: 3,
-		employeeId: 2,
-		employeeIdUpload: 2,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'archivoEmpresa1.jpg',
-		ubicacionCarpeta: 'empresa',
-		url: '20bac375-fc42-49c6-86ae-00a6ee83bed6.jpg',
-		tipoDocumento: 2,
-	},
-	{
-		id: 4,
-		employeeId: 2,
-		employeeIdUpload: 2,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'archivoEmpresa2.jpg',
-		ubicacionCarpeta: 'empresa',
-		url: '20bac375-fc42-49c6-86ae-00a6ee83bed6.jpg',
-		tipoDocumento: 2,
-	},
-	{
-		id: 5,
-		employeeId: 2,
-		employeeIdUpload: 2,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'archivoEmpresa3.jpg',
-		ubicacionCarpeta: 'empresa',
-		url: '20bac375-fc42-49c6-86ae-00a6ee83bed6.jpg',
-		tipoDocumento: 2,
-	},
-	{
-		id: 6,
-		employeeId: 2,
-		employeeIdUpload: 2,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'archivoEmpresa4.jpg',
-		ubicacionCarpeta: 'empresa',
-		url: '20bac375-fc42-49c6-86ae-00a6ee83bed6.jpg',
-		tipoDocumento: 2,
-	},
-	{
-		id: 7,
-		employeeId: 2,
-		employeeIdUpload: 2,
-		isFileActive: true,
-		fechaCreacion: '2022-05-08',
-		nombreArchivo: 'archivoEmpresa7.jpg',
-		ubicacionCarpeta: 'empresa',
-		url: '20bac375-fc42-49c6-86ae-00a6ee83bed6.jpg',
-		tipoDocumento: 2,
-	},
-];
+
 const ArchivosEmpresa = () => {
 	const dispatch = useDispatch();
 	const { empleadoData } = useSelector((state: RootSote) => state.auth);
@@ -125,20 +58,25 @@ const ArchivosEmpresa = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{array
+									{filesList
 										.map((file) => (
-											<tr
-												key={file.id}
-												className='custm-table-tr textColorLight'
-												onClick={() => {
-													window.open(`${baseUrlRequestFilesS3}${file.url}`);
-												}}
-											>
-												<th scope='row'>
+											<tr key={file.id} className='custm-table-tr textColorLight'>
+												<th
+													scope='row'
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
 													<i className='bi bi-file-earmark-text pe-1' />
 													{file.nombreArchivo}
 												</th>
-												<td>{file.fechaCreacion}</td>
+												<td
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
+													{file.fechaCreacion}
+												</td>
 												<td className='textColorError2'>
 													<ModalEliminarArchivos
 														file={file}

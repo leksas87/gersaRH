@@ -123,7 +123,7 @@ export const getFilesByParams = (
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(
-				`files/?employeId=${employeeId}&tipoDocumento=${tipoDocumento}&ubicacionCarpeta=${ubicacionCarpeta}`,
+				`files/?employeeId=${employeeId}&tipoDocumento=${tipoDocumento}&ubicacionCarpeta=${ubicacionCarpeta}`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,

@@ -61,17 +61,23 @@ const ArchivosEmpleadoEmpresa = () => {
 								<tbody>
 									{filesList
 										.map((file) => (
-											<tr
-												className='custm-table-tr textColorLight'
-												onClick={() => {
-													window.open(`${baseUrlRequestFilesS3}${file.url}`);
-												}}
-											>
-												<th scope='row'>
+											<tr className='custm-table-tr textColorLight'>
+												<th
+													scope='row'
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
 													<i className='bi bi-file-earmark-text pe-1' />
 													{file.nombreArchivo}
 												</th>
-												<td>{file.fechaCreacion}</td>
+												<td
+													onClick={() => {
+														window.open(`${baseUrlRequestFilesS3}${file.url}`);
+													}}
+												>
+													{file.fechaCreacion}
+												</td>
 												<td className='textColorError2'>
 													<ModalEliminarArchivos
 														file={file}

@@ -44,6 +44,7 @@ const INITIAL_STATE: iAuthState = {
 		curp: '',
 		fechaAltaImss: '',
 		numeroEmpleado: '',
+		diasDisponiblesFaltas: null,
 	},
 };
 
