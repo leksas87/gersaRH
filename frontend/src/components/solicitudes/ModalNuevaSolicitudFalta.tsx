@@ -81,6 +81,7 @@ const ModalNuevaSolicitudFalta = () => {
 			Body: file,
 			Bucket: S3_BUCKET,
 			Key: keyName,
+			ContentType: file.type,
 		};
 
 		myBucket

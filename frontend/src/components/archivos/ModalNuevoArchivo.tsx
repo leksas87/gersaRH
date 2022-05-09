@@ -30,6 +30,7 @@ const ModalNuevoArchivo = () => {
 		nombreArchivo: '',
 		url: '',
 	};
+	let tipoContenido = '';
 	//estado para mostrar la carga del inputFile
 	const [progress, setProgress] = useState(0);
 	//Estado para guardar el nombre Key del InputFile
@@ -76,7 +77,7 @@ const ModalNuevoArchivo = () => {
 			Body: file,
 			Bucket: S3_BUCKET,
 			Key: keyName,
-			// ContentType: 'image/png',
+			ContentType: file.type,
 		};
 
 		myBucket
