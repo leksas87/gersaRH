@@ -8,6 +8,7 @@ import { SchedulesReducer } from './SchedulesReducer';
 import { RequestReducer } from './RequestReducer';
 import { TimeRequestReducer } from './TimeRequestReducer';
 import { ReportsReducer } from './ReportsReducer';
+import { FilesReducer } from './FilesReducer';
 
 //Todos los reducer se unen aquí
 export const rootReducer = combineReducers({
@@ -20,4 +21,5 @@ export const rootReducer = combineReducers({
 	request: RequestReducer,
 	reports: ReportsReducer,
 	timeRequest: TimeRequestReducer,
+	files: FilesReducer,
 });

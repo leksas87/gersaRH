@@ -1,7 +1,22 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilesByParams } from '../../../actions/archivosActions/archivosActions';
+import { RootSote } from '../../../store/Store';
+import ModalEliminarArchivos from '../ModalEliminarArchivos';
 import ModalNuevoArchivoEmpleadoPersonal from './ModalNuevoArchivoEmpleadoPersonal';
 
 const ArchivosEmpleadoPersonales = () => {
+	const dispatch = useDispatch();
+	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { filesList } = useSelector((state: RootSote) => state.files);
+
+	//Effect para obtener archivos
+	useEffect(() => {
+		if (perfilEmpleado.id) {
+			dispatch(getFilesByParams(perfilEmpleado.id, 1, 'empleado/personales'));
+		}
+	}, [dispatch, perfilEmpleado.id]);
+
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -44,96 +59,31 @@ const ArchivosEmpleadoPersonales = () => {
 									</tr>
 								</thead>
 								<tbody>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td className='textColorError2'>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td className='textColorError2'>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
-									<tr
-										className='custm-table-tr textColorLight'
-										// onClick={() => {
-										// 	irEmpleado(empleado.id);
-										// }}
-									>
-										<th scope='row'>
-											<i className='bi bi-file-earmark-text pe-1' />
-											Imagen.png
-										</th>
-										<td>22/04/22</td>
-										<td
-											className='textColorError2'
-											onClick={() => {
-												console.log('eliminando');
-											}}
-										>
-											<i className='bi bi-trash-fill' /> Eliminar
-										</td>
-									</tr>
+									{filesList
+										.map((file) => (
+											<tr
+												key={file.id}
+												className='custm-table-tr textColorLight'
+												// onClick={() => {
+												// 	irEmpleado(empleado.id);
+												// }}
+											>
+												<th scope='row'>
+													<i className='bi bi-file-earmark-text pe-1' />
+													{file.nombreArchivo}
+												</th>
+												<td>{file.fechaCreacion}</td>
+												<td className='textColorError2'>
+													<ModalEliminarArchivos
+														file={file}
+														employeeId={perfilEmpleado.id}
+														tipoDocumento={1}
+														ubicacionCarpeta={'empleado/personales'}
+													/>
+												</td>
+											</tr>
+										))
+										.reverse()}
 								</tbody>
 							</table>
 						</div>
