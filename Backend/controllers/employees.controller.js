@@ -13,7 +13,7 @@ const forbiddenGet = require('middleware/forbiddenGet');
 const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
-//const { forbidden } = require('joi');
+const payRollService = require('../services/payRoll.service');
 
 // routes
 router.get('/auth', registerAccessCodeSchema, sendInformationByAccessCode);
@@ -99,6 +99,13 @@ router.patch(
 	updateSchemaContracts,
 	updateContracts
 );
+
+router.get(
+	'/:id/payRolls/:payRollId',
+	authorize(),
+	forbiddenGet(),
+	getPayRoll
+);
 router.post(
 	'/:id/timeRequest',
 	authorize(),
@@ -161,6 +168,12 @@ router.get('/:id/reports',authorize(),getReport);
 
 
 module.exports = router;
+
+function getPayRoll(req,res,next) {
+    payRollService.getById(req.params.id, req.params.payRollId)
+        .then(payroll => res.json({data:payroll ,message:'Succesful'}))
+        .catch(next);
+}
 
 function updateReport(req, res, next) {
     employeeService.updateReport(req.params.id, req.body)

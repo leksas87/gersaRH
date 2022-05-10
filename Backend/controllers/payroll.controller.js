@@ -13,7 +13,6 @@ const validateRequest = require('middleware/validate-request');
 router.get('/', authorize(),forbiddenJefeCuadrilla(), getPayRolls);
 router.post('/registerFile/',authorize(), forbiddenJefeCuadrilla(),upload.single("uploadfile"),registerFile);
 router.patch('/:id', authorize(), forbiddenJefeCuadrilla(), updateSchema, update);
-router.get('/:id', authorize(), forbiddenJefeCuadrilla(), getPayRoll);
 
 
 module.exports = router;
@@ -54,11 +53,6 @@ function updateSchema(req, res, next) {
     validateRequest(req, next, schema);
 }
 
-function getPayRoll(req,res,next) {
-    payRollService.getById(req.params.id, res)
-        .then(payroll => res.json({data:payroll ,message:'Succesful'}))
-        .catch(next);
-}
 
 function getPayRolls(req,res,next) {
     payRollService.getAll(req, res)
