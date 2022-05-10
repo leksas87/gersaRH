@@ -11,6 +11,7 @@ import './EmpleadosPage.css';
 import TablaEmpleados from './TablaEmpleados';
 import ModalSeleccionarExcel from './ModalSeleccionarExcel';
 import * as bootstrap from 'bootstrap';
+import ModalImportarNominaExcel from './ModalImportarNominaExcel';
 
 const EmpleadosPage = () => {
 	//Dispatch para ejetur la accion.
@@ -58,6 +59,7 @@ const EmpleadosPage = () => {
 							<ModalSeleccionarExcel />
 							{/* Boton Nuevo Empleado */}
 							<ModalNuevoEmpleado />
+							<ModalImportarNominaExcel />
 							{/* <button className='btn custm-btnMasEmpleado custmBtnActions'>●●●</button> */}
 							<div className='dropdown'>
 								{/* Boton para activar ventana DropDown */}
@@ -103,8 +105,9 @@ const EmpleadosPage = () => {
 											<div className='fs-4'>Descarga la plantilla</div>
 											<div className='fs-4'>excel</div>
 											<div className='custm-dropItemText'>
-												Descarga la plantilla en formato Excel.
+												Descarga la plantilla en formato Excel
 											</div>
+											<div className='custm-dropItemText'>para importar empleados.</div>
 										</button>
 									</li>
 									<li>
@@ -122,6 +125,22 @@ const EmpleadosPage = () => {
 											</div>
 											<div className='custm-dropItemText'>
 												con correo pendiente de activación.
+											</div>
+										</button>
+									</li>
+									<li>
+										{/* Boton para mostrar Modal SeleccionarExcel */}
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											data-bs-toggle='modal'
+											data-bs-target='#ModalImportarNominaExcel'
+										>
+											<div className='fs-4'>Importar Nomina</div>
+											<div className='custm-dropItemText'>Importa el detalle denomina</div>
+											<div className='custm-dropItemText'>semanal de cada empleado</div>
+											<div className='custm-dropItemText'>
+												desde la plantilla de excel.
 											</div>
 										</button>
 									</li>

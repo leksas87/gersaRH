@@ -762,3 +762,80 @@ export const getWorkPlaces = () => {
 			});
 	};
 };
+
+//(POST) Importar Detalle Nomina (REGISTRO VIA EXCEL)
+export const importFileDetalleNomina = (formdata: FormData) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//dispatch para cambiar loading a true
+		dispatch({
+			type: REGISTER_USER_START_LOADING,
+		});
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.post(`payRolls/registerFile/`, formdata, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'multipart/form-data',
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+
+					//Cerrar modal
+					const importNominaModal = document.getElementById(
+						'ModalImportarNominaExcel'
+					);
+					importNominaModal?.click();
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
