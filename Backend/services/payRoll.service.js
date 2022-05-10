@@ -34,9 +34,12 @@ async function update( idPayRoll, params) {
 }
 
 async function getById(id) {
-    const payroll = await models.Payroll.findOne({ where: { id } });
+    const payroll = await models.Payroll.findOne({ where: { 
+                                                            employeeId: id
+                                                         },
+                                                         order:[['id', 'DESC']]
+                                                });
 
-    if(!payroll) throw 'Informacion de nomina no encontrado con ese ID'
-
+    if(!payroll) throw 'Informacion de nomina no encontrado con ese ID o no existe ese usuario'
     return payroll;
 }
