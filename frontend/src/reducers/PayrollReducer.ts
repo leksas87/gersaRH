@@ -1,14 +1,4 @@
 import {
-	CLEAN_FILES_LIST,
-	FilesDispatchTypes,
-	GET_FILES_LIST,
-	GET_FILES_LOADING_END,
-	GET_FILES_START_LOADING,
-	iArchivosReducer,
-	REGISTER_NEW_FILE_LOADING_END,
-	REGISTER_NEW_FILE_START_LOADING,
-} from '../actions/archivosActions/archivosActionTypes';
-import {
 	CLEAN_PAYROLL,
 	CLEAN_PAYROLL_LIST,
 	GET_PAYROLL,
@@ -61,7 +51,7 @@ const INITIAL_STATE: iPayrollReducer = {
 };
 
 //Reducer
-export const FilesReducer = (
+export const PayrollReducer = (
 	state: iPayrollReducer = INITIAL_STATE,
 	action: PayrollDispatchTypes
 ): iPayrollReducer => {

@@ -1,40 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContracts } from '../../actions/contractsActions/contractsActions';
+import { getPayrollByEmployeeId } from '../../actions/payrollActions/payrollActions';
 import { RootSote } from '../../store/Store';
 
 const DetalleNomina = () => {
 	const dispatch = useDispatch();
 	const { empleadoData } = useSelector((state: RootSote) => state.auth);
 	const { contractToShow } = useSelector((state: RootSote) => state.contracts);
-	const payrollDetail = {
-		id: 1,
-		employeeId: 1,
-		numeroEmpleado: '10001',
-		nombreEmpleado: 'Ivan Santana',
-		semana: 7,
-		periodo: 'Del 07 al 13 de febrero del 2022',
-		diasTrabajados: 5,
-		retardos: 1,
-		permisos: 1,
-		horasExtra: 1,
-		sueldo: 5500.56,
-		tiempoExtra: 100.0,
-		bonoAsistencia: 100,
-		descuentoLaboral: 50,
-		festLab: 50,
-		primaDom: 100,
-		primaVacacional: 100,
-		aclaraciones: 100,
-		infonavit: 100,
-		cajaAhorro: 100,
-		dcoExt: 50,
-		permisosHrs: 50,
-		prestamos: 100,
-		solidaridad: 150,
-		descuentoPensionAlimenticia: 100,
-		descuentoPorFiesta: 100,
-	};
+	const { payrollDetail } = useSelector((state: RootSote) => state.payroll);
 
 	const totalPercepciones =
 		payrollDetail.sueldo +
@@ -61,12 +35,16 @@ const DetalleNomina = () => {
 		console.log('inicioando detalle de nomina');
 		if (empleadoData.id) {
 			dispatch(getContracts(empleadoData.id.toString()));
+			dispatch(getPayrollByEmployeeId(empleadoData.id));
 		}
 	}, [dispatch, empleadoData.id]);
 
 	return (
 		<>
-			<div className='d-flex justify-content-center'>
+			<div
+				className='d-flex justify-content-center custm-Width100'
+				style={{ backgroundColor: 'tomato' }}
+			>
 				<div className='custm-postDetalleNom d-flex flex-column align-items-center'>
 					<div
 						className='d-flex custm-Width100 p-3 ps-4 textColorLink fw-bold fs-4'
@@ -131,59 +109,69 @@ const DetalleNomina = () => {
 							<span className='fw-bold'>PERCEPCIONES:</span>
 							<div className='p-3 mb-4 shadow custm-NomDetallShadow d-flex flex-column justify-content-between'>
 								<div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Sueldo.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.sueldo.toLocaleString()}
+									{payrollDetail.sueldo ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Sueldo.</div>
+											<div className='fw-bold'>$ {payrollDetail.sueldo.toFixed(2)}</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Tiempo extra.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.tiempoExtra.toLocaleString()}
+									) : null}
+									{payrollDetail.tiempoExtra ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Tiempo extra.</div>
+											<div className='fw-bold'>
+												$ {payrollDetail.tiempoExtra.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Bono asist.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.bonoAsistencia.toLocaleString()}
+									) : null}
+									{payrollDetail.bonoAsistencia ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Bono asist.</div>
+											<div className='fw-bold'>
+												$ {payrollDetail.bonoAsistencia.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Desc. Lab.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.descuentoLaboral.toLocaleString()}
+									) : null}
+									{payrollDetail.descuentoLaboral ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Desc. Lab.</div>
+											<div className='fw-bold'>
+												$ {payrollDetail.descuentoLaboral.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Fest. lab.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.festLab.toLocaleString()}
+									) : null}
+									{payrollDetail.festLab ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Fest. lab.</div>
+											<div className='fw-bold'>$ {payrollDetail.festLab.toFixed(2)}</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Prima dom.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.primaDom.toLocaleString()}
+									) : null}
+									{payrollDetail.primaDom ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Prima dom.</div>
+											<div className='fw-bold'>$ {payrollDetail.primaDom.toFixed(2)}</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Prima vacacional.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.tiempoExtra.toLocaleString()}
+									) : null}
+									{payrollDetail.tiempoExtra ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Prima vacacional.</div>
+											<div className='fw-bold'>
+												$ {payrollDetail.tiempoExtra.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Aclaraciones.</div>
-										<div className='fw-bold'>
-											$ {payrollDetail.aclaraciones.toLocaleString()}
+									) : null}
+									{payrollDetail.aclaraciones ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Aclaraciones.</div>
+											<div className='fw-bold'>
+												$ {payrollDetail.aclaraciones.toFixed(2)}
+											</div>
 										</div>
-									</div>
+									) : null}
 								</div>
 								<div className='mt-3 d-flex justify-content-around'>
 									<div>Total Percepciones:</div>
 									<div className='textColorLink fw-bold'>
-										$ {totalPercepciones.toLocaleString()}
+										$ {totalPercepciones.toFixed(2)}
 									</div>
 								</div>
 							</div>
@@ -192,59 +180,73 @@ const DetalleNomina = () => {
 							<span className='fw-bold'>DEDUCCIONES:</span>
 							<div className='p-3 mb-4 shadow custm-NomDetallShadow d-flex flex-column justify-content-between'>
 								<div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Infonavit.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.infonavit.toLocaleString()}
+									{payrollDetail.infonavit ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Infonavit.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.infonavit.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Cada de ahorro.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.cajaAhorro.toLocaleString()}
+									) : null}
+									{payrollDetail.cajaAhorro ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Cada de ahorro.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.cajaAhorro.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>dcoExt.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.dcoExt.toLocaleString()}
+									) : null}
+									{payrollDetail.dcoExt ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>dcoExt.</div>
+											<div className='fw-bold'>-$ {payrollDetail.dcoExt.toFixed(2)}</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Permisos (Hrs).</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.permisosHrs.toLocaleString()}
+									) : null}
+									{payrollDetail.permisosHrs ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Permisos (Hrs).</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.permisosHrs.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Prestamos.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.prestamos.toLocaleString()}
+									) : null}
+									{payrollDetail.prestamos ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Prestamos.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.prestamos.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Solidaridad.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.solidaridad.toLocaleString()}
+									) : null}
+									{payrollDetail.solidaridad ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Solidaridad.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.solidaridad.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Descuento pensión alimenticia.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.descuentoPensionAlimenticia.toLocaleString()}
+									) : null}
+									{payrollDetail.descuentoPensionAlimenticia ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Descuento pensión alimenticia.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.descuentoPensionAlimenticia.toFixed(2)}
+											</div>
 										</div>
-									</div>
-									<div className='d-flex justify-content-between me-2 mt-1'>
-										<div>Descuento por fiesta.</div>
-										<div className='fw-bold'>
-											-$ {payrollDetail.descuentoPorFiesta.toLocaleString()}
+									) : null}
+									{payrollDetail.descuentoPorFiesta ? (
+										<div className='d-flex justify-content-between me-2 mt-1'>
+											<div>Descuento por fiesta.</div>
+											<div className='fw-bold'>
+												-$ {payrollDetail.descuentoPorFiesta.toFixed(2)}
+											</div>
 										</div>
-									</div>
+									) : null}
 								</div>
 								<div className='mt-3 d-flex justify-content-around'>
 									<div>Total Deducciones:</div>
 									<div className='textColorLink fw-bold'>
-										-$ {totalDeducciones.toLocaleString()}
+										-$ {totalDeducciones.toFixed(2)}
 									</div>
 								</div>
 							</div>
@@ -254,7 +256,7 @@ const DetalleNomina = () => {
 									<div className='custm-NomDollarIcon me-1 d-flex justify-content-center align-items-center'>
 										<i className='bi bi-currency-dollar' />
 									</div>
-									<div>{totalAPagar.toLocaleString()}</div>
+									<div>{totalAPagar.toFixed(2)}</div>
 								</div>
 							</div>
 						</div>

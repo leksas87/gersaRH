@@ -6,7 +6,6 @@ import {
 	getUserById,
 } from '../../actions/usersActions/usersActions';
 import { RootSote } from '../../store/Store';
-import DetalleNomina from './DetalleNomina';
 import './InicioPage.css';
 
 const InicioPage = () => {
@@ -174,18 +173,6 @@ const InicioPage = () => {
 								</div> */}
 							</div>
 						</div>
-
-						{/* <div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'>
-						<h3>
-						¡Hola, <span style={{ textTransform: 'capitalize' }}>{firstName}</span>!
-						</h3>
-						<p className='text-center'>
-						Bienvenido de vuelta.
-						<br /> Esto es lo nuevo por aqui...
-						</p>
-						</div>
-						<div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'></div>
-					<div className='custm-iPost d-flex justify-content-center align-items-center flex-column shadow'></div> */}
 					</div>
 				</div>
 				{/* <DetalleNomina /> */}
