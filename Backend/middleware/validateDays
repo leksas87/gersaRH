@@ -21,13 +21,7 @@ function validateDays() {
             const avaibleDays=await models.AvailableDays.findOne(({where:{employeeId:employee.id}}));
 
             if(!avaibleDays){
-                // return res.status(404).json({message: "El empleado no tiene REGISTRO"})
                 //comparamos las fechas
-                // const fechaActual = moment().tz(process.env.TZ).format(['YYYYMMDD']);
-                // const fechaIngreso=moment(employee.fechaIngreso).format(['YYYYMMDD']);
-                // const anoActual=moment(employee.fechaIngreso).format(['YYYY']);
-                // var fechaActual = moment([2022, 0, 03]);
-                // var fechaIngreso = moment([2011, 0, 03]);
                 var fechaActual = moment().tz(process.env.TZ);
                 var fechaIngreso = moment(employee.fechaIngreso);
                 let diff=fechaActual.diff(fechaIngreso, 'years') 
