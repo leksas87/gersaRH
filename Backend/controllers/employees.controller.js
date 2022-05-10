@@ -5,6 +5,7 @@ const validateRequest = require('middleware/validate-request');
 const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
+const validateDays=require('middleware/validateDays');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenTimeRequest = require('middleware/forbiddenTimeRequest');
@@ -157,8 +158,7 @@ router.patch(
 );
 
 router.get('/:id/reports',authorize(),getReport);
-
-
+router.get('/:id/availableDays',authorize(),validateDays());
 
 module.exports = router;
 
