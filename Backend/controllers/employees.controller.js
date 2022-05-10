@@ -101,7 +101,7 @@ router.patch(
 );
 
 router.get(
-	'/:id/payRolls/:payRollId',
+	'/:id/payRolls',
 	authorize(),
 	forbiddenGet(),
 	getPayRoll
@@ -170,7 +170,7 @@ router.get('/:id/reports',authorize(),getReport);
 module.exports = router;
 
 function getPayRoll(req,res,next) {
-    payRollService.getById(req.params.id, req.params.payRollId)
+    payRollService.getById(req.params.id)
         .then(payroll => res.json({data:payroll ,message:'Succesful'}))
         .catch(next);
 }
