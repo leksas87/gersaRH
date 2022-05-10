@@ -63,7 +63,7 @@ const ModalImportarNominaExcel = () => {
 							>
 								<div className='custm-modalIcon d-flex justify-content-center align-items-center'>
 									{/* <i className='bi bi-person-plus-fill' /> */}
-									<i className='bi bi-people' />
+									<i className='bi bi-file-earmark-spreadsheet v' />
 								</div>
 								<button
 									type='button'
@@ -88,9 +88,9 @@ const ModalImportarNominaExcel = () => {
 												letterSpacing: '.5px',
 											}}
 										>
-											En la plantilla de Excel añade los de nomina datos de tus empleados.
-											Una vez rellena, sube aquí el archivo para importar la información de
-											tus empleados.
+											En la plantilla de Excel añade el detalle de nomina datos de tus
+											empleados. Una vez rellena, sube aquí el archivo para importar la
+											información de tus empleados.
 										</label>
 									</div>
 									<form onSubmit={hanleSubmit}>

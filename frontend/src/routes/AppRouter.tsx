@@ -59,6 +59,7 @@ import ArchivosEmpleado from '../components/archivos/ArchivosEmpleado/ArchivosEm
 import ArchivosEmpleadoIndex from '../components/archivos/ArchivosEmpleado/ArchivosEmpleadoIndex';
 import ArchivosEmpleadoPersonales from '../components/archivos/ArchivosEmpleado/ArchivosEmpleadoPersonales';
 import ArchivosEmpleadoEmpresa from '../components/archivos/ArchivosEmpleado/ArchivosEmpleadoEmpresa';
+import DetalleNomina from '../components/inicioPage/DetalleNomina';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -113,6 +114,7 @@ const AppRouter = () => {
 								<Route path='misreportes/' element={<PageMisReportes />} />
 								<Route path='horasextras/' element={<PageAutorizarHorasExtras />} />
 								<Route path='misarchivos/' element={<MisArchivos />} />
+								<Route path='detalleNomina/' element={<DetalleNomina />} />
 
 								{/* Rutas para administrador */}
 								<Route element={<RequireAdminPrivileges />}>

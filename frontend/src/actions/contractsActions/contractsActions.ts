@@ -52,40 +52,13 @@ export const getContracts = (userId: string) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
 				} else if (error.response.status === 400) {
-					// console.log('error400');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: 'Algo salio mal',
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
 				} else if (error.response.status === 403) {
-					// console.log('error403');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
 				} else {
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
 				}
 			});
 

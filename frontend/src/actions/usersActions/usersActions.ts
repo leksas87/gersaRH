@@ -801,7 +801,9 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
 					Swal.fire({
 						position: 'top-end',
 						icon: 'warning',
@@ -810,7 +812,9 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 400) {
-					// console.log('error400');
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
 					Swal.fire({
 						position: 'top-end',
 						icon: 'warning',
@@ -819,7 +823,20 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 403) {
-					// console.log('error403');
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 409) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',
@@ -828,6 +845,9 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 						timer: 1500,
 					});
 				} else {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',
