@@ -56,6 +56,11 @@ function download(req, res) {
 async function registerFile(req, res) {
     const sendInvitation=req.params.sendInvitation;
     const usersNames = [];
+
+    if(!req.file){
+        return res.status(400).json({ message:'Error, seleccione un archivo'});
+    }
+    
     const URL=`${__basedir}/uploads/${req.file.filename}`;
 
     try {

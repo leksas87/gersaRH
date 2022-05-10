@@ -68,7 +68,11 @@ function getPayRolls(req,res,next) {
 
 async function registerFile(req, res) {
     const usersNames = [];
-    console.log(req.file.filename)
+
+    if(!req.file){
+        return res.status(400).json({ message:'Error, seleccione un archivo'});
+    }
+    
     const URL=`${__basedir}/uploads/${req.file.filename}`;
 
     try {
