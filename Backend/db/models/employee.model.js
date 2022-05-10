@@ -83,6 +83,7 @@ class Employee extends Model {
 			foreignKey: 'employeeId',
 			otherKey: 'scheduleId',
 		});
+		this.hasOne(models.AvailableDays,{foreignKey:'employeeId'});
 	}
 
 	static config(sequelize) {
