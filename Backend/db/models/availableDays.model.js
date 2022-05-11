@@ -9,7 +9,7 @@ const AvailableDaysSchema = {
   employeeId:{ type: DataTypes.INTEGER,allowNull:true,references:{model:EMPLOYEE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'},
   avaibleDays: { allowNull: false,type: DataTypes.INTEGER},
   fechaLimite: { allowNull: false,type: DataTypes.STRING},
-  status: { allowNull: false,type: DataTypes.INTEGER},
+  status: { allowNull: true,type: DataTypes.INTEGER},
 }
 class AvailableDays extends Model {
     static associate(models) {  

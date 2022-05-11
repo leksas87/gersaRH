@@ -24,9 +24,17 @@ function validateDays() {
                 //comparamos las fechas
                 var fechaActual = moment().tz(process.env.TZ);
                 var fechaIngreso = moment(employee.fechaIngreso);
+                //años de antiguedad
                 let diff=fechaActual.diff(fechaIngreso, 'years') 
-                
+
+                //fecha limite para uso de los dias
+                var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
                 console.log(diff);    
+                console.log('FechaLimite '+moment(fechaLimite).format('DD/MM/YYYY'));
+
+                const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:diff,fechaLimite:moment(fechaLimite).format('DD/MM/YYYY'),status:1});
+
+                return res.status(201).json({data:day,message:"Registro exitoso"})
                 // console.log(employee);
             }
             
