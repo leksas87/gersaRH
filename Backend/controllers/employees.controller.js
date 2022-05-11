@@ -613,7 +613,7 @@ function getSchedule(req, res, next) {
 }
 function getHourAcepted(req, res, next) {
 	employeeService
-		.getHourAceptedBy(req.params.id, res)
+		.getHourAceptedBy(req.params.id,req.query.startDate, req.query.endDate, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }
