@@ -131,16 +131,15 @@ async function createHourAcecepted(params, id,next,res){
 async function getHourAceptedBy(id,fechaInicio,fechaFin,res) {
     try {
         let queryHours="";
+
         if (!fechaInicio && !fechaFin) {
             queryHours={where:{employeeId:id}};
         }
         else{
             queryHours = {where:{employeeId:id,fechaEvento: {[Op.between]: [fechaInicio,fechaFin]}}};
         }
-        
-        console.log(queryHours);
 
-        const hourAcepted = await models.RegistroHoras.findAll({where:{employeeId:id}});
+        const hourAcepted = await models.hoursAccepted.findAll(queryHours);
 
         if ( !hourAcepted)  throw 'Solicitud de tiempo extra no encontrada';
         
