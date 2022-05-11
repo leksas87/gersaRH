@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeeEventsByDates } from '../../../actions/eventsActions/eventsActions';
 import { iEmployeeEvent } from '../../../actions/eventsActions/eventsActionTypes';
 import { RootSote } from '../../../store/Store';
+import AutorizarHorasExtras from './AutorizarHorasExtras';
+import TotalHorasComponent from './TotalHorasComponent';
 
 const PageControlHorasExtras = () => {
 	//dispatch para ejecutar las Actions
@@ -87,6 +89,7 @@ const PageControlHorasExtras = () => {
 			(event) => moment(event.DateEvent).format('dddd') === 'Tuesday'
 		);
 		setWeeksArrayTuesday(result2);
+		// console.log(result2);
 
 		//Wednesday
 		const result3 = employeeEvents.filter(
@@ -200,6 +203,12 @@ const PageControlHorasExtras = () => {
 											<div className='d-flex justify-content-center'>{element.name}</div>
 										</th>
 									))}
+									<th scope='col'>
+										<div className='d-flex justify-content-center'>Total horas</div>
+									</th>
+									<th scope='col'>
+										<div className='d-flex justify-content-center'>Autorizar</div>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -209,17 +218,21 @@ const PageControlHorasExtras = () => {
 											<div className='d-flex align-items-center justify-content-center text-center'>
 												{semana.dia}{' '}
 												{moment(fechaInicio).add(semana.position, 'day').format('DD')}
+												{/* {moment(fechaInicio).add(semana.position, 'day').format('L')} */}
 											</div>
 										</th>
-										{tipoDeAccionArray.map((tipoAction) => (
-											<td>
+										{tipoDeAccionArray.map((tipoAction, i) => (
+											<td key={i}>
 												{semana.weeksArrayDay &&
 													semana.weeksArrayDay
 														.filter(
 															(array) => array.eventActionTypeId === tipoAction.eventActionType
 														)
 														.map((item) => (
-															<div className='d-flex align-items-center justify-content-center'>
+															<div
+																key={item.id}
+																className='d-flex align-items-center justify-content-center'
+															>
 																<span className='textColorLight'>hrs</span>
 																<div className='custm-hrsExit'>
 																	{moment(item.DateEvent).format('HH:mm')}
@@ -237,6 +250,14 @@ const PageControlHorasExtras = () => {
 														))}
 											</td>
 										))}
+										<td>
+											<TotalHorasComponent semana={semana.weeksArrayDay} />
+										</td>
+										<td>
+											<AutorizarHorasExtras
+												date={moment(fechaInicio).add(semana.position, 'day').format('L')}
+											/>
+										</td>
 									</tr>
 								))}
 							</tbody>
