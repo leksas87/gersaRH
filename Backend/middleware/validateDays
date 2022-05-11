@@ -31,7 +31,7 @@ function validateDays() {
                 //fecha limite para uso de los dias
                 var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
 
-                const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('DD/MM/YYYY'),status:1});
+                const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('YYYY-MM-DD'),status:1});
                 
 
                 return res.status(201).json({data:day,message:"Registro exitoso"})
@@ -102,7 +102,5 @@ async function evaluateYear(years) {
     if (years>24 && years < 30) {
         return 22; 
     }
-
-
     return 0;
 }
