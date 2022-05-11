@@ -32,20 +32,34 @@ function validateDays() {
                 var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
 
                 const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('DD/MM/YYYY'),status:1});
+                
 
                 return res.status(201).json({data:day,message:"Registro exitoso"})
             }
 
             if(avaibleDays.fechaLimite){
-
+                
                 var fechaActual = moment().tz(process.env.TZ);
-                if (fechaActual>avaibleDays.fechaLimite) {
+
+                if (fechaActual>moment(avaibleDays.fechaLimite,'YYYY-MM-DD')) {
                     console.log('recalculo');
+                    //comparamos las fechas
+                    var fechaActual = moment().tz(process.env.TZ);
+                    var fechaIngreso = moment(employee.fechaIngreso);
+
                     let diff=fechaActual.diff(fechaIngreso, 'years'); 
 
                     let years=await evaluateYear(diff)
                     //fecha limite para uso de los dias
                     var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
+
+                    let params={avaibleDays:years,fechaLimite:moment(fechaLimite).format('YYYY-MM-DD')}
+
+                    Object.assign(avaibleDays, params);
+                    await avaibleDays.save();
+
+                    return res.status(200).json({data:avaibleDays,message:'Successfull'});
+                    
                 }
                 else{
                     return res.status(200).json({data:avaibleDays,message:'Successfull'});
