@@ -174,13 +174,13 @@ async function getRequest(req,res) {
         const employee= await models.Employee.findOne({where:{userId:req.user.id}});
         switch (req.user.rollTypeId) {
             case 1:
-                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
             break;
             case 2:
-                Requests = await models.Request.findAll({where:{employeeId:employee.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({where:{employeeId:employee.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
             break;
             case 3:
-                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}],include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}],include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
                     
             break;
         
@@ -203,7 +203,7 @@ async function getRequestByEmployeeId(id,res) {
         const atributeUser=['firstName','lastName'];
         const atributeEmployeeWorkPlace=['id','supervisor','lugarDeTrabajo'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const Requests = await models.Request.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+        const Requests = await models.Request.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
 
         console.log(Requests.length); 
 
