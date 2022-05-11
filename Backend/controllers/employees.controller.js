@@ -144,7 +144,7 @@ router.post(
 router.get(
 	'/:id/request',
 	authorize(),
-	forbiddenGetUnique(),
+	forbiddenJefeCuadrilla(),
 	getRequestByEmployeeId
 );
 

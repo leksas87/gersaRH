@@ -9,7 +9,6 @@ function forbiddenGetUnique() {
 
         // attach full user record to request object
         async (req, res, next) => {
-
             
             // revisa si el usuario tiene permisos de ver la informacion
             if( req.user.id != req.params.id){
