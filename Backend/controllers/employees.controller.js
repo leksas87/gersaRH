@@ -128,7 +128,7 @@ router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 router.patch(
 	'/requests/:id',
 	authorize(), 
-	forbiddenGet(), 
+	forbiddenJefeCuadrilla(), 
 	updateSchemaRequests, 
 	updateRequests
 );
@@ -144,7 +144,7 @@ router.post(
 router.get(
 	'/:id/request',
 	authorize(),
-	forbiddenJefeCuadrilla(),
+	forbiddenGetUnique(),
 	getRequestByEmployeeId
 );
 
