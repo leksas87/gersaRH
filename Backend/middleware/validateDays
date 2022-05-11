@@ -25,14 +25,15 @@ function validateDays() {
                 var fechaActual = moment().tz(process.env.TZ);
                 var fechaIngreso = moment(employee.fechaIngreso);
                 //años de antiguedad
-                let diff=fechaActual.diff(fechaIngreso, 'years') 
+                let diff=fechaActual.diff(fechaIngreso, 'years'); 
 
+                let years=await evaluateYear(diff)
                 //fecha limite para uso de los dias
                 var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
                 console.log(diff);    
                 console.log('FechaLimite '+moment(fechaLimite).format('DD/MM/YYYY'));
 
-                const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:diff,fechaLimite:moment(fechaLimite).format('DD/MM/YYYY'),status:1});
+                const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('DD/MM/YYYY'),status:1});
 
                 return res.status(201).json({data:day,message:"Registro exitoso"})
                 // console.log(employee);
@@ -41,4 +42,41 @@ function validateDays() {
             next();
         }
     ];
+}
+async function evaluateYear(years) {
+    console.log(years);
+    if (years==0) {
+        return 0; 
+    }
+    if (years==1) {
+        return 6; 
+    }
+    if (years==2) {
+        return 8; 
+    }
+    if (years==3) {
+        return 11; 
+    }
+    if (years==4) {
+        return 13; 
+    }
+    if (years>4 && years < 10) {
+        return 15; 
+    }
+    if (years>9 && years < 15) {
+        return 17; 
+    }
+    if (years>14 && years < 20) {
+        return 19; 
+    }
+    if (years>19 && years < 25) {
+        console.log('$$$$$');
+        return 21; 
+    }
+    if (years>24 && years < 30) {
+        return 22; 
+    }
+
+
+    return 0;
 }
