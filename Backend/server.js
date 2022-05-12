@@ -21,6 +21,7 @@ app.use('/api/schedules', require('./controllers/schedules.controller'));
 app.use('/api/files', require('./controllers/files.controller'));
 app.use('/api/payRolls', require('./controllers/payroll.controller'));
 app.use('/api/hoursAccepted', require('./controllers/hourAccepted.controller'));
+app.use('/api/availableDays', require('./controllers/availableDays.controller'));
 
 // global error handler
 app.use(errorHandler);

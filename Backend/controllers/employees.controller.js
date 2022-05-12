@@ -5,6 +5,8 @@ const validateRequest = require('middleware/validate-request');
 const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
+const validateDays=require('middleware/validateDays');
+const validaDias=require('middleware/validaDias');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenTimeRequest = require('middleware/forbiddenTimeRequest');
@@ -128,7 +130,7 @@ router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 router.patch(
 	'/requests/:id',
 	authorize(), 
-	forbiddenGet(), 
+	forbiddenJefeCuadrilla(), 
 	updateSchemaRequests, 
 	updateRequests
 );
@@ -138,6 +140,7 @@ router.post(
 	authorize(),
 	forbiddenGetUnique(),
 	registerSchemaRequest,
+	validaDias(),
 	registerRequest
 	);
 	
@@ -164,8 +167,7 @@ router.patch(
 );
 
 router.get('/:id/reports',authorize(),getReport);
-
-
+router.get('/:id/availableDays',authorize(),validateDays());
 
 module.exports = router;
 
