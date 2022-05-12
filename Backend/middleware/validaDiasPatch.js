@@ -5,13 +5,13 @@ const { AvailableDays } = require('../db/models/availableDays.model');
 const { Employee } = require('../db/models/employee.model');
 const moment = require('moment-timezone');
 
-module.exports = validaDias;
+module.exports = validaDiasPatch;
 
-function validaDias() {
+function validaDiasPatch() {
     return [
         // attach full user record to request object
         async (req, res, next) => {
-            
+            console.log('**************');
             //verificamos que tenga registro de fecha de ingreso
             const employee=await models.Employee.findOne({where:{id:req.params.id}});
             
@@ -71,6 +71,12 @@ function validaDias() {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
                     }
 
+                    let restas=avaibleDays.avaibleDays-resta
+
+                    let params={avaibleDays:restas}
+
+                    Object.assign(avaibleDays, params);
+                    await avaibleDays.save();
                 }
             }
 

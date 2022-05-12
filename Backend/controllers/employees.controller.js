@@ -132,6 +132,7 @@ router.patch(
 	authorize(), 
 	forbiddenJefeCuadrilla(), 
 	updateSchemaRequests, 
+	validateDays(),
 	updateRequests
 );
 
