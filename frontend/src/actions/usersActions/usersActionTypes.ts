@@ -16,8 +16,8 @@ export const GET_ADMINISTRADORES = 'getAdministradores';
 export const CLEAN_ADMINISTRADORES = 'cleanAdministradores';
 export const GET_WORKPLACES = 'getWorkPlaces';
 export const CLEAN_WORKPLACES = 'cleanWorkPlaces';
-export const GET_AVAILABLEDAYS = 'getAvailableDays';
-export const CLEAN_AVAILABLEDAYS = 'cleanAvailableDays';
+export const GET_DIASDISPONIBLES = 'getDiasDisponibles';
+export const CLEAN_DIASDISPONIBLES = 'cleanDiasDisponibles';
 
 //Usuario que se recibe del fetch al ahcer logIn
 //En realidad esta interfaz es usuario
@@ -85,6 +85,13 @@ export interface iAvailableDays {
 	id: number | null;
 	employeeId: number;
 	availableDays: number;
+	fechaLimite: string;
+	status: number;
+}
+export interface iDiasDisponibles {
+	id: number | null;
+	employeeId: number;
+	avaibleDays: number;
 	fechaLimite: string;
 	status: number;
 }
@@ -179,15 +186,15 @@ export interface CleanWorkPlaces {
 	type: typeof CLEAN_WORKPLACES;
 }
 //Obtener availableDays
-export interface GetAvailableDays {
-	type: typeof GET_AVAILABLEDAYS;
+export interface GetDiasDisponibles {
+	type: typeof GET_DIASDISPONIBLES;
 	payload: {
-		availableDays: iAvailableDays;
+		diasDisponibles: iDiasDisponibles;
 	};
 }
 //Limpiar availableDays
-export interface CleanAvailableDays {
-	type: typeof CLEAN_AVAILABLEDAYS;
+export interface CLEAN_DIASDISPONIBLES {
+	type: typeof CLEAN_DIASDISPONIBLES;
 }
 
 //Types para el dispatch
@@ -209,5 +216,5 @@ export type UsersDispatchTypes =
 	| GetUsersByID
 	| GetWorkPlaces
 	| CleanWorkPlaces
-	| GetAvailableDays
-	| CleanAvailableDays;
+	| GetDiasDisponibles
+	| CLEAN_DIASDISPONIBLES;

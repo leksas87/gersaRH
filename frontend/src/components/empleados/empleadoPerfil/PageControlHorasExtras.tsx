@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
 	getEmployeeEventsByDates,
 	getEmployeeHoursAcceptedByDates,
@@ -92,6 +93,8 @@ const PageControlHorasExtras = () => {
 		});
 		//Si perfilEmpleado.Id existe se hace el dispatch
 		if (perfilEmpleado.id) {
+			console.log(fechaInicio);
+			console.log(fechaFin);
 			dispatch(getEmployeeEventsByDates(perfilEmpleado.id, fechaInicio, fechaFin));
 			dispatch(
 				getEmployeeHoursAcceptedByDates(perfilEmpleado.id, fechaInicio, fechaFin)

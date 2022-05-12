@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,9 +10,8 @@ import { RootSote } from '../../store/Store';
 const PagePerfil = () => {
 	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilUsuario, administradores, supervisores } = useSelector(
-		(state: RootSote) => state.users
-	);
+	const { perfilUsuario, administradores, supervisores, diasDisponibles } =
+		useSelector((state: RootSote) => state.users);
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	//Tomar solo la fecha
@@ -56,11 +54,11 @@ const PagePerfil = () => {
 		if (perfilEmpleado.diasDisponiblesFaltas) {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
-				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
+				diasDisponiblesFaltas: diasDisponibles.avaibleDays,
 				fechaIngreso: miFechaIngreso,
 			});
 		}
-	}, [perfilUsuario, perfilEmpleado]);
+	}, [perfilUsuario, perfilEmpleado, miFechaIngreso, diasDisponibles]);
 	useEffect(() => {
 		dispatch(getEmployeeByRollType(3));
 		dispatch(getEmployeeByRollType(1));

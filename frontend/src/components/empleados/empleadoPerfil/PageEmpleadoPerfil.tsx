@@ -1,9 +1,9 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	getEmployeeByRollType,
 	getWorkPlaces,
+	patchEmployeeavailableDays,
 	resendInvitationByuserName,
 	updateEmployeeById,
 	updateUserById,
@@ -19,6 +19,7 @@ const PageEmpleadoPerfil = () => {
 		administradores,
 		supervisores,
 		workPlaces,
+		diasDisponibles,
 	} = useSelector((state: RootSote) => state.users);
 
 	const jefes = administradores.concat(supervisores);
@@ -70,15 +71,14 @@ const PageEmpleadoPerfil = () => {
 			username: perfilUsuario.username,
 			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
 		});
-		if (perfilEmpleado.diasDisponiblesFaltas) {
+		if (diasDisponibles.avaibleDays) {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
-				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
-				// fechaIngreso: moment(perfilEmpleado.fechaIngreso).format('YYYY-MM-DD'),
+				diasDisponiblesFaltas: diasDisponibles.avaibleDays,
 				fechaIngreso: miFechaIngreso,
 			});
 		}
-	}, [perfilUsuario, perfilEmpleado]);
+	}, [perfilUsuario, perfilEmpleado, miFechaIngreso, diasDisponibles]);
 
 	useEffect(() => {
 		dispatch(getEmployeeByRollType(3));
@@ -123,11 +123,19 @@ const PageEmpleadoPerfil = () => {
 	const handlesubmitForm2 = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		if (diasDisponiblesFaltas !== diasDisponibles.avaibleDays) {
+			if (diasDisponibles.id) {
+				dispatch(
+					patchEmployeeavailableDays(diasDisponibles.id, {
+						avaibleDays: diasDisponiblesFaltas,
+					})
+				);
+			}
+		}
 		if (perfilEmpleado.id) {
 			dispatch(
 				updateEmployeeById(perfilEmpleado.id, {
 					numeroEmpleado: numeroEmpleado,
-					diasDisponiblesFaltas: diasDisponiblesFaltas,
 					fechaIngreso: fechaIngreso,
 				})
 			);
