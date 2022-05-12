@@ -215,14 +215,17 @@ const PageControlHorario = () => {
 											</div>
 										</th>
 										{tipoDeAccionArray.map((tipoAction) => (
-											<td>
+											<td key={tipoAction.name}>
 												{semana.weeksArrayDay &&
 													semana.weeksArrayDay
 														.filter(
 															(array) => array.eventActionTypeId === tipoAction.eventActionType
 														)
 														.map((item) => (
-															<div className='d-flex align-items-center justify-content-center'>
+															<div
+																key={item.id}
+																className='d-flex align-items-center justify-content-center'
+															>
 																<span className='textColorLight'>hrs</span>
 																<div className='custm-hrsExit'>
 																	{moment(item.DateEvent).format('HH:mm')}

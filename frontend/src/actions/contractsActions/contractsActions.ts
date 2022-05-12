@@ -109,56 +109,103 @@ export const getContractToShow = (contract: iContract) => {
 //(POST) Registro de nuevo contrato
 export const registerNewContract = (data: iNewContract) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
 		//dispatch para cambiar loading a true
 		dispatch({
 			type: REGISTER_NEW_CONTRACT_START_LOADING,
 		});
 
 		//Peticion Fetch a la API para hacer login
-		const respuesta = await fetchConToken(
-			`employees/${data.userId}/contracts/`,
-			data,
-			'POST'
-		);
-		//.json() a la respuesta
-		const body = await respuesta?.json();
+		axiosClientWithToken
+			.post(`employees/${data.userId}/contracts/`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					// se obtienen los nuevos contratos
+					dispatch<any>(getContracts(data.userId.toString()));
+					// dispatch para cambiar loading a true
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡${respuesta.data.message}!`,
+						// title: `¡OKtestTT!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
 
-		//Mensajes de Confirmación o Error
-		if (body.ok) {
-			//se obtienen los nuevos contratos
-			dispatch<any>(getContracts(data.userId.toString()));
-			//dispatch para cambiar loading a true
-			dispatch({
-				type: REGISTER_NEW_COONTRACT_LOADING_END,
+					//Cerrar modal
+					const newContractModal = document.getElementById('newContractModal');
+					newContractModal?.click();
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+				} else if (error.response.status === 400) {
+					console.log(error.response);
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+				} else if (error.response.status === 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch({
+						type: REGISTER_NEW_COONTRACT_LOADING_END,
+					});
+				}
 			});
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: `¡${body.message}!`,
-				showConfirmButton: false,
-				timer: 2000,
-			});
-
-			//Cerrar modal
-			const newContractModal = document.getElementById('newContractModal');
-			newContractModal?.click();
-
-			// if (miExampleModal) {
-			// 	const modal = bootstrap.Modal.getInstance(miExampleModal);
-			// 	modal?.hide();
-			// }
-		} else {
-			dispatch({
-				type: REGISTER_NEW_COONTRACT_LOADING_END,
-			});
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 
@@ -169,41 +216,77 @@ export const updateContractById = (
 	formData: {}
 ) => {
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
 		//Peticion Fetch a la API para modificar el accesso
-		const respuesta = await fetchConToken(
-			`employees/${employeeId}/contracts/${contractId}`,
-			formData,
-			'PATCH'
-		);
-		//.json() a la respuesta
-		const body = await respuesta?.json();
 
-		if (body.ok) {
-			dispatch<any>(getContractsWithoutContractToshow(body.data.userId));
-			//Se hace la modificacion del contrato en el Reducer
-			dispatch({ type: GET_CONTRACTS_TO_SHOW, payload: { contrato: body.data } });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Actualización exitosa!',
-				showConfirmButton: false,
-				timer: 2000,
+		//Peticion Axios a la API
+		axiosClientWithToken
+			.patch(`employees/${employeeId}/contracts/${contractId}`, formData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					dispatch<any>(getContractsWithoutContractToshow(employeeId.toString()));
+					//Se hace la modificacion del contrato en el Reducer
+
+					dispatch({
+						type: GET_CONTRACTS_TO_SHOW,
+						payload: { contrato: respuesta.data.data },
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: '¡Actualización exitosa!',
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 
 //(GET) Obtener lsita de contratos by userID
-export const getContractsWithoutContractToshow = (userId: string) => {
+export const getContractsWithoutContractToshow = (employeeId: string) => {
 	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<ContractsDispatchTypes>) => {
 		//se limpia el array de contratos.
@@ -211,7 +294,7 @@ export const getContractsWithoutContractToshow = (userId: string) => {
 		//Peticion Fetch a la API para hacer obtener los contratos
 		// const respuesta = await fetchConToken(`contracts/${userId}`, {}, 'GET');
 		const respuesta = await fetchConToken(
-			`employees/${userId}/contracts`,
+			`employees/${employeeId}/contracts`,
 			{},
 			'GET'
 		);

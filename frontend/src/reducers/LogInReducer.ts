@@ -45,6 +45,7 @@ const INITIAL_STATE: iAuthState = {
 		fechaAltaImss: '',
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: null,
+		fechaIngreso: '',
 	},
 };
 
