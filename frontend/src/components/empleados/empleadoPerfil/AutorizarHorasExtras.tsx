@@ -1,11 +1,9 @@
-import moment from 'moment';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendEmployeeHoursAccepted } from '../../../actions/eventsActions/eventsActions';
 import { useForm } from '../../../hooks/useForm';
 import { RootSote } from '../../../store/Store';
 
-const AutorizarHorasExtras = ({ date }: any) => {
+const AutorizarHorasExtras = ({ date, fechaInicio, fechaFin }: any) => {
 	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
@@ -35,7 +33,9 @@ const AutorizarHorasExtras = ({ date }: any) => {
 						horasAceptadas: horasAceptadas,
 						employeeIdAutorizo: empleadoData.id,
 					},
-					perfilEmpleado.id
+					perfilEmpleado.id,
+					fechaInicio,
+					fechaFin
 				)
 			);
 		}

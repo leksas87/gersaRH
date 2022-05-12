@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import Swal from 'sweetalert2';
 import { axiosClientWithToken } from '../../helpers/axios';
 import { fetchConToken, fetchCheckconData } from '../../helpers/fetch';
@@ -692,7 +692,12 @@ export const employeeEventValidation = (
 };
 
 //(POST) employee HoursAccepted
-export const sendEmployeeHoursAccepted = (data: {}, employeeId: number) => {
+export const sendEmployeeHoursAccepted = (
+	data: {},
+	employeeId: number,
+	fechaInicio: string,
+	fechaFin: string
+) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		const token = localStorage.getItem('gersa-tkn') || '';
 		//Peticion Axios a la API para Registrar nuevo Event
@@ -711,6 +716,10 @@ export const sendEmployeeHoursAccepted = (data: {}, employeeId: number) => {
 						showConfirmButton: false,
 						timer: 1500,
 					});
+
+					dispatch<any>(
+						getEmployeeHoursAcceptedByDates(employeeId, fechaInicio, fechaFin)
+					);
 				} else if (respuesta.status === 204) {
 					// console.log('error404');
 					Swal.fire({
@@ -784,8 +793,6 @@ export const getEmployeeHoursAcceptedByDates = (
 
 		//LimpiarEmployeeEvents
 		dispatch({ type: CLEAN_EMPLOYEE_HOURS_ACCEPTED });
-		console.log(startDate);
-		console.log(endDate);
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
@@ -799,12 +806,10 @@ export const getEmployeeHoursAcceptedByDates = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log(respuesta.data);
-
-					// dispatch({
-					// 	type: GET_EMPLOYEE_HOURS_ACCEPTED,
-					// 	payload: { employeeHoursAccepted: },
-					// });
+					dispatch({
+						type: GET_EMPLOYEE_HOURS_ACCEPTED,
+						payload: { employeeHoursAccepted: respuesta.data.data },
+					});
 				}
 			})
 			.catch((error) => {

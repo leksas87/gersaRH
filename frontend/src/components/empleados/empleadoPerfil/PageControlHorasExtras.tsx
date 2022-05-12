@@ -18,42 +18,9 @@ const PageControlHorasExtras = () => {
 		(state: RootSote) => state.users
 	);
 	//Se necesita el state que contiene los datos del EmployeeEvents
-	const { employeeEvents } = useSelector((state: RootSote) => state.events);
-
-	const hoursArray = [
-		{
-			id: 1,
-			fechaCreacion: '2022-05-11',
-			employeeid: 3,
-			fechaEvento: '2022-05-11',
-			horasAceptadas: 2,
-			employeeIdAutorizo: 3,
-		},
-		{
-			id: 2,
-			fechaCreacion: '2022-05-12',
-			employeeid: 3,
-			fechaEvento: '2022-05-12',
-			horasAceptadas: 4,
-			employeeIdAutorizo: 3,
-		},
-		{
-			id: 3,
-			fechaCreacion: '2022-05-13',
-			employeeid: 3,
-			fechaEvento: '2022-05-13',
-			horasAceptadas: 1,
-			employeeIdAutorizo: 3,
-		},
-		{
-			id: 4,
-			fechaCreacion: '2022-05-14',
-			employeeid: 3,
-			fechaEvento: '2022-05-14',
-			horasAceptadas: 6,
-			employeeIdAutorizo: 3,
-		},
-	];
+	const { employeeEvents, employeeHoursAccepted } = useSelector(
+		(state: RootSote) => state.events
+	);
 
 	const tipoDeAccionArray = [
 		{ name: 'Entrada', eventActionType: 5 },
@@ -106,16 +73,19 @@ const PageControlHorasExtras = () => {
 		.endOf('isoWeek')
 		.format('YYYY-MM-DD HH:mm:ss');
 
-	//Efecto que ejecuta la peticion al Backend
 	useEffect(() => {
 		let initialValue = 0;
-		const sum = hoursArray.reduce(
-			(previousValue, currentValue) => previousValue + currentValue.horasAceptadas,
+		const sum = employeeHoursAccepted.reduce(
+			(previousValue, currentValue) =>
+				previousValue + parseInt(currentValue.horasAceptadas),
 			initialValue
 		);
 
 		setTotalHorasAceptadas(sum);
+	}, [employeeHoursAccepted]);
 
+	//Efecto que ejecuta la peticion al Backend
+	useEffect(() => {
 		setDays({
 			fechaInicioD: moment(fechaInicio).format('L'),
 			fechaFinD: moment(fechaFin).format('L'),
@@ -308,7 +278,11 @@ const PageControlHorasExtras = () => {
 										</td>
 										<td>
 											<AutorizarHorasExtras
-												date={moment(fechaInicio).add(semana.position, 'day').format('L')}
+												date={moment(fechaInicio)
+													.add(semana.position, 'day')
+													.format('YYYY-MM-DD')}
+												fechaFin={fechaFin}
+												fechaInicio={fechaInicio}
 											/>
 										</td>
 									</tr>
@@ -347,27 +321,25 @@ const PageControlHorasExtras = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{hoursArray
-											.map((file) => (
-												<tr key={file.id} className='custm-table-tr textColorLight'>
-													<th className='textColorSecondary' scope='row'>
-														<div className='d-flex align-items-center justify-content-center text-center'>
-															{file.fechaEvento}
-														</div>
-													</th>
-													<td>
-														<div className='d-flex align-items-center justify-content-center text-center'>
-															{file.horasAceptadas}
-														</div>
-													</td>
-													<td>
-														<div className='d-flex align-items-center justify-content-center text-center'>
-															{file.fechaCreacion}
-														</div>
-													</td>
-												</tr>
-											))
-											.reverse()}
+										{employeeHoursAccepted.map((file) => (
+											<tr key={file.id} className='custm-table-tr textColorLight'>
+												<th className='textColorSecondary' scope='row'>
+													<div className='d-flex align-items-center justify-content-center text-center'>
+														{file.fechaEvento}
+													</div>
+												</th>
+												<td>
+													<div className='d-flex align-items-center justify-content-center text-center'>
+														{file.horasAceptadas}
+													</div>
+												</td>
+												<td>
+													<div className='d-flex align-items-center justify-content-center text-center'>
+														{file.fechaCreacion}
+													</div>
+												</td>
+											</tr>
+										))}
 									</tbody>
 								</table>
 							</div>

@@ -44,7 +44,7 @@ export interface iEmployeeHoursAccepted {
 	fechaCreacion: string;
 	employeeid: number | null;
 	fechaEvento: string;
-	horasAceptadas: number | null;
+	horasAceptadas: string;
 	employeeIdAutorizo: number | null;
 }
 //Interfaz para confirmacion de usuario.
