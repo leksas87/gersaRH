@@ -4,6 +4,8 @@ import {
 	AUTH_LOGOUT,
 	AUTH_START_LOADING,
 	AUTH_SUCCESS,
+	CLEAN_AVAILABLEDAYS,
+	GET_AVAILABLEDAYS,
 	GET_EMPLEADO_DATA,
 } from '../actions/loginActions/loginActionsTypes';
 import { iAuthState } from '../interfaces/interfaces';
@@ -47,6 +49,13 @@ const INITIAL_STATE: iAuthState = {
 		diasDisponiblesFaltas: null,
 		fechaIngreso: '',
 	},
+	availableDays: {
+		id: null,
+		employeeId: 0,
+		availableDays: 0,
+		fechaLimite: '',
+		status: 0,
+	},
 };
 
 //Reducer
@@ -88,6 +97,16 @@ export const LogInReducer = (
 				rollTypeId: null,
 				authState: { ...state.authState, isAutenticated: false },
 				empleadoData: INITIAL_STATE.empleadoData,
+			};
+		case GET_AVAILABLEDAYS:
+			return {
+				...state,
+				availableDays: action.payload.availableDays,
+			};
+		case CLEAN_AVAILABLEDAYS:
+			return {
+				...state,
+				availableDays: INITIAL_STATE.availableDays,
 			};
 
 		default:

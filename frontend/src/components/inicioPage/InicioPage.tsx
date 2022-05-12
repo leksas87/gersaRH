@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getMyAvailableDays } from '../../actions/loginActions/loginActions';
 import {
 	getEmployeeById,
 	getUserById,
@@ -10,7 +11,9 @@ import './InicioPage.css';
 
 const InicioPage = () => {
 	//Se necesita el state que indica el nombre del usuario
-	const { firstName, id } = useSelector((state: RootSote) => state.auth);
+	const { firstName, id, empleadoData } = useSelector(
+		(state: RootSote) => state.auth
+	);
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	const [isBirthday, setIsBirthday] = useState(false);
@@ -39,7 +42,10 @@ const InicioPage = () => {
 	useEffect(() => {
 		dispatch(getUserById(id));
 		dispatch(getEmployeeById(id));
-	}, [id, dispatch]);
+		if (empleadoData.id) {
+			dispatch(getMyAvailableDays(empleadoData.id));
+		}
+	}, [id, dispatch, empleadoData.id]);
 
 	return (
 		<>
