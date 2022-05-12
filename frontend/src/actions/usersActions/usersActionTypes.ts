@@ -73,6 +73,7 @@ export interface iEmployeeData {
 	userId: number | null;
 	numeroEmpleado: string;
 	diasDisponiblesFaltas: number | null;
+	fechaIngreso: string;
 }
 export interface iWorkPlaces {
 	id: number | null;

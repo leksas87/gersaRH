@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -42,17 +43,19 @@ const PageEmpleadoPerfil = () => {
 	interface iForm2 {
 		numeroEmpleado: string;
 		diasDisponiblesFaltas: number;
+		fechaIngreso: string;
 	}
 	//objeto para formulario2
 	const form2: iForm2 = {
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: 0,
+		fechaIngreso: '',
 	};
 	//state de formulario Puesto
 	const [values, setValues] = useState(formPuesto);
 	const [values2, setValues2] = useState(form2);
 	const { supervisor, username, lugarDeTrabajo } = values;
-	const { numeroEmpleado, diasDisponiblesFaltas } = values2;
+	const { numeroEmpleado, diasDisponiblesFaltas, fechaIngreso } = values2;
 
 	useEffect(() => {
 		setValues({
@@ -64,6 +67,7 @@ const PageEmpleadoPerfil = () => {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
 				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
+				fechaIngreso: moment(perfilEmpleado.fechaIngreso).format('YYYY-MM-DD'),
 			});
 		}
 	}, [perfilUsuario, perfilEmpleado]);
@@ -116,6 +120,7 @@ const PageEmpleadoPerfil = () => {
 				updateEmployeeById(perfilEmpleado.id, {
 					numeroEmpleado: numeroEmpleado,
 					diasDisponiblesFaltas: diasDisponiblesFaltas,
+					fechaIngreso: fechaIngreso,
 				})
 			);
 		}
@@ -290,6 +295,17 @@ const PageEmpleadoPerfil = () => {
 										onChange={handleInputChange2}
 										disabled={!valueForm2}
 										placeholder='días disponibles (faltas)'
+									/>
+								</div>
+								<div className='mb-4'>
+									<label className='custm-Width100'>Fecha de Ingreso</label>
+									<input
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										type='date'
+										name='fechaIngreso'
+										value={fechaIngreso}
+										onChange={handleInputChange2}
+										disabled={!valueForm2}
 									/>
 								</div>
 								<div

@@ -64,6 +64,7 @@ const INITIAL_STATE: iUsuariosReducer = {
 		fechaAltaImss: '',
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: null,
+		fechaIngreso: '',
 	},
 	tablePath: '',
 	supervisores: [],
