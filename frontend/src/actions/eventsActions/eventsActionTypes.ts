@@ -7,6 +7,8 @@ export const EVENTS_IS_USER_ACTIVE_FALSE = 'events_Is_User_Active_False';
 export const EVENTS_OPTION = 'events_Option';
 export const GET_EMPLOYEE_EVENTS = 'get_employee_events';
 export const CLEAN_EMPLOYEE_EVENTS = 'clean_employee_events';
+export const GET_EMPLOYEE_HOURS_ACCEPTED = 'get_employee_hours_accepted';
+export const CLEAN_EMPLOYEE_HOURS_ACCEPTED = 'clean_employee_hours_accepted';
 export const GET_SERVER_TIME = 'get_server_time';
 export const CLEAN_SERVER_TIME = 'clean_server_time';
 export const GET_SERVER_DAY = 'get_server_day';
@@ -25,6 +27,7 @@ export interface iEventsReducerState {
 	eventServerDay: string;
 	employeeEvents: iEmployeeEvent[];
 	eventValidation: iEventValidation;
+	employeeHoursAccepted: iEmployeeHoursAccepted[];
 }
 //Interfaz para eventos del empleado.
 export interface iEmployeeEvent {
@@ -35,6 +38,14 @@ export interface iEmployeeEvent {
 	longitudeEvent: string;
 	latitudeEvent: string;
 	eventActionTypeId: string | number;
+}
+export interface iEmployeeHoursAccepted {
+	id: number | null;
+	fechaCreacion: string;
+	employeeid: number | null;
+	fechaEvento: string;
+	horasAceptadas: string;
+	employeeIdAutorizo: number | null;
 }
 //Interfaz para confirmacion de usuario.
 export interface iEventValidation {
@@ -97,6 +108,17 @@ export interface Get_employee_events {
 export interface Clean_employee_events {
 	type: typeof CLEAN_EMPLOYEE_EVENTS;
 }
+//Obtener las horas aceptadas del empleado
+export interface Get_employee_hours_accepted {
+	type: typeof GET_EMPLOYEE_HOURS_ACCEPTED;
+	payload: {
+		employeeHoursAccepted: iEmployeeHoursAccepted[];
+	};
+}
+//Limpiar las horas aceptadas del empleado
+export interface Clean_employee_hours_accepted {
+	type: typeof CLEAN_EMPLOYEE_HOURS_ACCEPTED;
+}
 //Obtener el timpo del servidor
 export interface Get_server_time {
 	type: typeof GET_SERVER_TIME;
@@ -147,4 +169,6 @@ export type EventsDispatchTypes =
 	| Get_server_day
 	| Clean_server_day
 	| Get_event_validation
-	| Clean_event_validation;
+	| Clean_event_validation
+	| Get_employee_hours_accepted
+	| Clean_employee_hours_accepted;

@@ -41,10 +41,7 @@ const DetalleNomina = () => {
 
 	return (
 		<>
-			<div
-				className='d-flex justify-content-center custm-Width100'
-				style={{ backgroundColor: 'tomato' }}
-			>
+			<div className='d-flex justify-content-center mb-5' style={{ width: '95%' }}>
 				<div className='custm-postDetalleNom d-flex flex-column align-items-center'>
 					<div
 						className='d-flex custm-Width100 p-3 ps-4 textColorLink fw-bold fs-4'
