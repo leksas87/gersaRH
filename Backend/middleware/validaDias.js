@@ -32,9 +32,9 @@ function validaDias() {
                 var fechaLimite=moment(employee.fechaIngreso).add(diff+1,'year');
 
                 const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('YYYY-MM-DD'),status:1});
-                
-                next();
-                return res.status(201).json({data:day,message:"Registro nuevo de días , favor de reintentar..."})
+                return res.status(400).json({data:day,message:"Registro nuevo de días , favor de reintentar..."})
+                // return;
+                // next();
             }
 
             if(avaibleDays.fechaLimite){
@@ -58,7 +58,7 @@ function validaDias() {
                     Object.assign(avaibleDays, params);
                     await avaibleDays.save();
 
-                    return res.status(201).json({data:avaibleDays,message:'Se ha recalculado los días disponibles'});
+                    return res.status(200).json({data:avaibleDays,message:'Se ha recalculado los días disponibles'});
                     
                 }
                 else{

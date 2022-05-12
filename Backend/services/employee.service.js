@@ -207,7 +207,7 @@ async function getRequestByEmployeeId(id,res) {
 
         console.log(Requests.length); 
 
-        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+        if (Requests.length==0) { return Request};
 
         return Requests;
 
@@ -312,7 +312,7 @@ async function getRequestById(id) {
 async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
-
+        console.log('registro de request*********');
         const request= await models.Request.create({employeeId:id,fechaCreacion:fechaCreacion,fechaInicio:params.fechaInicio,fechaFin:params.fechaFin,statusId:params.statusId,descripcionEmpleado:params.descripcionEmpleado,descriptionRespuesta:params.descriptionRespuesta,requestTypeId:params.requestTypeId,adjunto:params.adjunto});
         
         return request;
