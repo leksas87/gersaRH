@@ -71,6 +71,12 @@ function validaDias() {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
                     }
 
+                    // let restas=avaibleDays.avaibleDays-resta
+
+                    // let params={avaibleDays:restas}
+
+                    // Object.assign(avaibleDays, params);
+                    // await avaibleDays.save();
                 }
             }
 

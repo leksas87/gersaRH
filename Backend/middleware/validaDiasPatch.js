@@ -5,16 +5,19 @@ const { AvailableDays } = require('../db/models/availableDays.model');
 const { Employee } = require('../db/models/employee.model');
 const moment = require('moment-timezone');
 
-module.exports = validaDiasPatch;
+module.exports = validaDias;
 
-function validaDiasPatch() {
+function validaDias() {
     return [
         // attach full user record to request object
         async (req, res, next) => {
-            console.log('**************');
-            //verificamos que tenga registro de fecha de ingreso
-            const employee=await models.Employee.findOne({where:{id:req.params.id}});
             
+            //verificamos que tenga registro de fecha de ingreso
+            const employeeid=await models.Request.findOne({where:{id:req.params.id}});
+            
+            console.log(employeeid);
+            const employee=await models.Employee.findOne({where:{id:employeeid.employeeId}});
+
             if(!employee.fechaIngreso){return res.status(404).json({message: "El empleado no tiene fecha de ingreso"})}
             
             // verificamos que exista registro de dias
@@ -62,8 +65,9 @@ function validaDiasPatch() {
                     
                 }
                 else{
-                    var fechaInicio = moment(req.body.fechaInicio);
-                    var fechaFin = moment(req.body.fechaFin);
+                    if (req.params.statusId==2) {
+                    var fechaInicio = moment(employeeid.fechaInicio);
+                    var fechaFin = moment(employeeid.fechaFin);
                     
                     let resta=fechaFin.diff(fechaInicio,'days');
 
@@ -71,12 +75,15 @@ function validaDiasPatch() {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
                     }
 
-                    let restas=avaibleDays.avaibleDays-resta
+                    
+                        let restas=avaibleDays.avaibleDays-resta
 
-                    let params={avaibleDays:restas}
+                        let params={avaibleDays:restas}
 
-                    Object.assign(avaibleDays, params);
-                    await avaibleDays.save();
+                        Object.assign(avaibleDays, params);
+                        await avaibleDays.save();
+                    }
+                    
                 }
             }
 
