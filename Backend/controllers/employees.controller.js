@@ -589,7 +589,8 @@ function updateSchema(req, res, next) {
 		curp: Joi.string().empty(''),
 		fechaAltaImss: Joi.date(),
 		numeroEmpleado: Joi.string().empty(''),
-		diasDisponiblesFaltas: Joi.number().integer()
+		diasDisponiblesFaltas: Joi.number().integer(),
+		fechaIngreso: Joi.date(),
 	});
 	validateRequest(req, next, schema);
 }

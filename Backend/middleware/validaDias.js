@@ -15,7 +15,7 @@ function validaDias() {
             //verificamos que tenga registro de fecha de ingreso
             const employee=await models.Employee.findOne({where:{id:req.params.id}});
             
-            if(!employee.fechaIngreso){return res.status(404).json({message: "El empleado no tiene fecha de ingreso"})}
+            if(!employee.fechaIngreso){return res.status(400).json({message: "El empleado no tiene fecha de ingreso"})}
             
             // verificamos que exista registro de dias
             const avaibleDays=await models.AvailableDays.findOne(({where:{employeeId:employee.id}}));
@@ -58,7 +58,7 @@ function validaDias() {
                     Object.assign(avaibleDays, params);
                     await avaibleDays.save();
 
-                    return res.status(200).json({data:avaibleDays,message:'Se ha recalculado los días disponibles'});
+                    return res.status(201).json({data:avaibleDays,message:'Se ha recalculado los días disponibles'});
                     
                 }
                 else{
