@@ -806,6 +806,7 @@ export const getEmployeeHoursAcceptedByDates = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
+					console.log('fromBack', respuesta.data.data);
 					dispatch({
 						type: GET_EMPLOYEE_HOURS_ACCEPTED,
 						payload: { employeeHoursAccepted: respuesta.data.data },

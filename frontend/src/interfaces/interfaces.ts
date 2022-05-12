@@ -1,6 +1,7 @@
 import {
 	iAdministrador,
 	iAvailableDays,
+	iDiasDisponibles,
 	iEmpleado,
 	iEmployeeData,
 	iSupervisor,
@@ -49,7 +50,7 @@ export interface iUsuariosReducer {
 	supervisores: iSupervisor[];
 	administradores: iAdministrador[];
 	workPlaces: iWorkPlaces[];
-	availableDays: iAvailableDays;
+	diasDisponibles: iDiasDisponibles;
 }
 //Interface de confirmacion contraseña
 export interface iConfirmarContraseña {

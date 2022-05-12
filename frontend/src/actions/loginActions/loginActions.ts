@@ -196,7 +196,6 @@ export const getMyAvailableDays = (id: number) => {
 			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log(respuesta.data);
 					//Se guarda los usuarios obtenidos en el Reducer
 					dispatch({
 						type: GET_AVAILABLEDAYS,
