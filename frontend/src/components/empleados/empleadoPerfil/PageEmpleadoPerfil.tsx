@@ -235,7 +235,7 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										// placeholder={perfilEmpleado.lugarDeTrabajo}
+										placeholder='seleccione uno'
 										list='datalistOptions'
 										value={lugarDeTrabajo}
 										name='lugarDeTrabajo'
@@ -243,7 +243,7 @@ const PageEmpleadoPerfil = () => {
 										disabled={!value}
 									/>
 									<datalist id='datalistOptions'>
-										<option value='2'>Adidas</option>
+										{/* <option value='2'>Adidas</option> */}
 										{workPlaces.map((workPlace) => (
 											<option key={workPlace.id} value={workPlace.nameWorkPlace} />
 										))}

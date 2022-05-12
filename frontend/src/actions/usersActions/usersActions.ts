@@ -526,7 +526,6 @@ export const updateEmployeeById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
 		const token = localStorage.getItem('gersa-tkn') || '';
-		console.log('aqui!', formData);
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
@@ -593,31 +592,68 @@ export const updateEmployeeById = (id: number, formData: {}) => {
 //(PUT -users ) Modificar datos del usuario
 export const updateUserById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para modificar el accesso
-		const respuesta = await fetchConToken(`users/${id}`, formData, 'PUT');
-		//.json() a la respuesta
-		const body = await respuesta?.json();
-
-		if (body.ok) {
-			//Se hace la modificacion del usuario en el Reducer
-			dispatch({ type: GET_USER_BY_ID, payload: { empleado: body.data } });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Registro exitoso!',
-				showConfirmButton: false,
-				timer: 2000,
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.patch(`users/${id}`, formData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//Se hace la modificacion del usuario en el Reducer
+					dispatch({
+						type: GET_USER_BY_ID,
+						payload: { empleado: respuesta.data.data },
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: '¡Registro exitoso!',
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 
