@@ -17,6 +17,8 @@ import {
 	CLEAN_ADMINISTRADORES,
 	GET_WORKPLACES,
 	CLEAN_WORKPLACES,
+	GET_AVAILABLEDAYS,
+	CLEAN_AVAILABLEDAYS,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -70,6 +72,13 @@ const INITIAL_STATE: iUsuariosReducer = {
 	supervisores: [],
 	administradores: [],
 	workPlaces: [],
+	availableDays: {
+		id: null,
+		employeeId: 0,
+		availableDays: 0,
+		fechaLimite: '',
+		status: 0,
+	},
 };
 
 //Reducer
@@ -172,6 +181,16 @@ export const UsersReducer = (
 			return {
 				...state,
 				workPlaces: INITIAL_STATE.workPlaces,
+			};
+		case GET_AVAILABLEDAYS:
+			return {
+				...state,
+				availableDays: action.payload.availableDays,
+			};
+		case CLEAN_AVAILABLEDAYS:
+			return {
+				...state,
+				availableDays: INITIAL_STATE.availableDays,
 			};
 
 		default:

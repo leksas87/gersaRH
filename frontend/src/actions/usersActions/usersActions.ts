@@ -16,6 +16,8 @@ import {
 	GET_ADMINISTRADORES,
 	CLEAN_WORKPLACES,
 	GET_WORKPLACES,
+	GET_AVAILABLEDAYS,
+	CLEAN_AVAILABLEDAYS,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -893,5 +895,92 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 					});
 				}
 			});
+	};
+};
+
+//(GET) Obtener DiasDisponibles de faltas
+export const getEmployeeavailableDays = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		dispatch({ type: CLEAN_AVAILABLEDAYS });
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${id}/availableDays`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					console.log(respuesta.data);
+					//Se guarda los usuarios obtenidos en el Reducer
+					dispatch({
+						type: GET_AVAILABLEDAYS,
+						payload: { availableDays: respuesta.data.data },
+					});
+				}
+				if (respuesta.status === 201) {
+					console.log('201');
+					console.log(respuesta.data);
+					//Se guarda los usuarios obtenidos en el Reducer
+					dispatch({
+						type: GET_AVAILABLEDAYS,
+						payload: { availableDays: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					console.log('error403-');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'error',
+					// 	title: `¡${error.response.data.message}!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+
+		//Peticion Fetch a la API para obtener los usuarios
+		// const respuesta = await fetchConToken(`employees/${id}`, {}, 'GET');
+		// //.json() a la respuesta
+		// const body = await respuesta?.json();
+
+		// if (body.ok) {
+		// 	//Se guarda los usuarios obtenidos en el Reducer
+		// 	dispatch({ type: GET_EMPLOYEE_BY_ID, payload: { empleadoData: body.data } });
+		// } else {
+		// 	console.log('Algo salio mal');
+		// 	console.log(body.message);
+		// }
 	};
 };

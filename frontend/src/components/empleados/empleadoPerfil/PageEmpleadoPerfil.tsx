@@ -23,6 +23,13 @@ const PageEmpleadoPerfil = () => {
 
 	const jefes = administradores.concat(supervisores);
 
+	//Tomar solo la fecha
+	const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
+	const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
+		0,
+		indiceFechaIngreso
+	);
+
 	//Dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 
@@ -67,7 +74,8 @@ const PageEmpleadoPerfil = () => {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
 				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
-				fechaIngreso: moment(perfilEmpleado.fechaIngreso).format('YYYY-MM-DD'),
+				// fechaIngreso: moment(perfilEmpleado.fechaIngreso).format('YYYY-MM-DD'),
+				fechaIngreso: miFechaIngreso,
 			});
 		}
 	}, [perfilUsuario, perfilEmpleado]);

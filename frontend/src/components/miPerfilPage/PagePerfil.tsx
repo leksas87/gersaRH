@@ -1,15 +1,27 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getEmployeeByRollType,
+	getWorkPlaces,
+} from '../../actions/usersActions/usersActions';
 
 import { RootSote } from '../../store/Store';
 
 const PagePerfil = () => {
+	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilUsuario, administradores, supervisores } = useSelector(
 		(state: RootSote) => state.users
 	);
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+
+	//Tomar solo la fecha
+	const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
+	const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
+		0,
+		indiceFechaIngreso
+	);
 
 	const jefes = administradores.concat(supervisores);
 	//objeto para formulario formPuesto
@@ -35,6 +47,26 @@ const PagePerfil = () => {
 	const { supervisor } = values;
 	const { numeroEmpleado, diasDisponiblesFaltas, fechaIngreso } = values2;
 
+	useEffect(() => {
+		setValues({
+			supervisor: perfilEmpleado.supervisor,
+			username: perfilUsuario.username,
+			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
+		});
+		if (perfilEmpleado.diasDisponiblesFaltas) {
+			setValues2({
+				numeroEmpleado: perfilEmpleado.numeroEmpleado,
+				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
+				fechaIngreso: miFechaIngreso,
+			});
+		}
+	}, [perfilUsuario, perfilEmpleado]);
+	useEffect(() => {
+		dispatch(getEmployeeByRollType(3));
+		dispatch(getEmployeeByRollType(1));
+		dispatch(getWorkPlaces());
+	}, [dispatch]);
+
 	const handleInputChange = (event: any) => {
 		setValues({
 			...values,
@@ -48,20 +80,6 @@ const PagePerfil = () => {
 		});
 	};
 
-	useEffect(() => {
-		setValues({
-			supervisor: perfilEmpleado.supervisor,
-			username: perfilUsuario.username,
-			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
-		});
-		if (perfilEmpleado.diasDisponiblesFaltas) {
-			setValues2({
-				numeroEmpleado: perfilEmpleado.numeroEmpleado,
-				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
-				fechaIngreso: moment(perfilEmpleado.fechaIngreso).format('YYYY-MM-DD'),
-			});
-		}
-	}, [perfilUsuario, perfilEmpleado]);
 	// const nombre = firstName;
 	// const correo = perfilEmpleado.username;
 	const isMailActive = perfilUsuario.active;
@@ -105,6 +123,7 @@ const PagePerfil = () => {
 										onChange={handleInputChange}
 										disabled
 									>
+										<option value=''>Selecciona una opcion</option>
 										{jefes.map((jefe) => (
 											<option key={jefe.id} value={jefe.id}>
 												{jefe.User.firstName} {jefe.User.lastName}
