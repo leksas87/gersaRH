@@ -65,7 +65,7 @@ function validaDias() {
                     
                 }
                 else{
-                    if (req.params.statusId==2) {
+                    if (req.body.statusId==2) {
                     var fechaInicio = moment(employeeid.fechaInicio);
                     var fechaFin = moment(employeeid.fechaFin);
                     
@@ -75,7 +75,6 @@ function validaDias() {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
                     }
 
-                    
                         let restas=avaibleDays.avaibleDays-resta
 
                         let params={avaibleDays:restas}
