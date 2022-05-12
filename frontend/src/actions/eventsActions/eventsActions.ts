@@ -6,6 +6,7 @@ import { Toast } from '../../helpers/swalAlert';
 import moment from 'moment';
 import {
 	CLEAN_EMPLOYEE_EVENTS,
+	CLEAN_EMPLOYEE_HOURS_ACCEPTED,
 	CLEAN_EVENT_VALIDATION,
 	EventsDispatchTypes,
 	EVENTS_IS_USER_ACTIVE,
@@ -13,6 +14,7 @@ import {
 	EVENTS_LOADING_END,
 	EVENTS_START_LOADING,
 	GET_EMPLOYEE_EVENTS,
+	GET_EMPLOYEE_HOURS_ACCEPTED,
 	GET_EVENT_VALIDATION,
 	GET_SERVER_DAY,
 	GET_SERVER_TIME,
@@ -673,6 +675,163 @@ export const employeeEventValidation = (
 						position: 'top-end',
 						icon: 'error',
 						title: `¡No se encontro un horario asignado!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(POST) employee HoursAccepted
+export const sendEmployeeHoursAccepted = (data: {}, employeeId: number) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//Peticion Axios a la API para Registrar nuevo Event
+		axiosClientWithToken
+			.post(`employees/${employeeId}/hoursAccepted`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 201) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡Registro exitoso!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (respuesta.status === 204) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					console.log(error.response);
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 404) {
+					// console.log('error404');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) employee horasExtrasAceptadas by Dates
+export const getEmployeeHoursAcceptedByDates = (
+	employeeId: number,
+	startDate: string,
+	endDate: string
+) => {
+	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//LimpiarEmployeeEvents
+		dispatch({ type: CLEAN_EMPLOYEE_HOURS_ACCEPTED });
+		console.log(startDate);
+		console.log(endDate);
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(
+				`employees/${employeeId}/hoursAccepted?startDate=${startDate}&endDate=${endDate}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					console.log(respuesta.data);
+
+					// dispatch({
+					// 	type: GET_EMPLOYEE_HOURS_ACCEPTED,
+					// 	payload: { employeeHoursAccepted: },
+					// });
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
 						showConfirmButton: false,
 						timer: 1500,
 					});

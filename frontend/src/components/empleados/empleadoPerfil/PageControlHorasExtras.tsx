@@ -1,7 +1,10 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeeEventsByDates } from '../../../actions/eventsActions/eventsActions';
+import {
+	getEmployeeEventsByDates,
+	getEmployeeHoursAcceptedByDates,
+} from '../../../actions/eventsActions/eventsActions';
 import { iEmployeeEvent } from '../../../actions/eventsActions/eventsActionTypes';
 import { RootSote } from '../../../store/Store';
 import AutorizarHorasExtras from './AutorizarHorasExtras';
@@ -11,9 +14,46 @@ const PageControlHorasExtras = () => {
 	//dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
+	const { perfilEmpleado, perfilUsuario } = useSelector(
+		(state: RootSote) => state.users
+	);
 	//Se necesita el state que contiene los datos del EmployeeEvents
 	const { employeeEvents } = useSelector((state: RootSote) => state.events);
+
+	const hoursArray = [
+		{
+			id: 1,
+			fechaCreacion: '2022-05-11',
+			employeeid: 3,
+			fechaEvento: '2022-05-11',
+			horasAceptadas: 2,
+			employeeIdAutorizo: 3,
+		},
+		{
+			id: 2,
+			fechaCreacion: '2022-05-12',
+			employeeid: 3,
+			fechaEvento: '2022-05-12',
+			horasAceptadas: 4,
+			employeeIdAutorizo: 3,
+		},
+		{
+			id: 3,
+			fechaCreacion: '2022-05-13',
+			employeeid: 3,
+			fechaEvento: '2022-05-13',
+			horasAceptadas: 1,
+			employeeIdAutorizo: 3,
+		},
+		{
+			id: 4,
+			fechaCreacion: '2022-05-14',
+			employeeid: 3,
+			fechaEvento: '2022-05-14',
+			horasAceptadas: 6,
+			employeeIdAutorizo: 3,
+		},
+	];
 
 	const tipoDeAccionArray = [
 		{ name: 'Entrada', eventActionType: 5 },
@@ -25,6 +65,7 @@ const PageControlHorasExtras = () => {
 		fechaInicioD: '',
 		fechaFinD: '',
 	});
+	const [totalHorasAceptadas, setTotalHorasAceptadas] = useState(0);
 
 	//useState que guarda los Arrays por días de la semana
 	const [weeksArrayMonday, setWeeksArrayMonday] = useState<iEmployeeEvent[]>();
@@ -67,13 +108,25 @@ const PageControlHorasExtras = () => {
 
 	//Efecto que ejecuta la peticion al Backend
 	useEffect(() => {
+		let initialValue = 0;
+		const sum = hoursArray.reduce(
+			(previousValue, currentValue) => previousValue + currentValue.horasAceptadas,
+			initialValue
+		);
+
+		setTotalHorasAceptadas(sum);
+
 		setDays({
 			fechaInicioD: moment(fechaInicio).format('L'),
 			fechaFinD: moment(fechaFin).format('L'),
 		});
 		//Si perfilEmpleado.Id existe se hace el dispatch
-		if (perfilEmpleado.id)
+		if (perfilEmpleado.id) {
 			dispatch(getEmployeeEventsByDates(perfilEmpleado.id, fechaInicio, fechaFin));
+			dispatch(
+				getEmployeeHoursAcceptedByDates(perfilEmpleado.id, fechaInicio, fechaFin)
+			);
+		}
 	}, [semanaEvent, dispatch, fechaFin, fechaInicio, perfilEmpleado.id]);
 
 	//Efecto que separa el array principal en los eventos por día
@@ -262,6 +315,63 @@ const PageControlHorasExtras = () => {
 								))}
 							</tbody>
 						</table>
+					</div>
+				</div>
+				<div className='mt-4 custm-Width100 d-flex flex-column'>
+					<div className='textColorSecondary fs-5'>
+						Informe de empleado - Horas extras
+					</div>
+					<div className='textColorSecondary'>
+						Empleado: {`${perfilUsuario.firstName} ${perfilUsuario.lastName}`}
+					</div>
+					<div className='textColorSecondary mt-3'>
+						Horas extras Aceptadas:{' '}
+						<span className='fw-bold'>{totalHorasAceptadas} horas</span>
+					</div>
+
+					<div className='d-flex justify-content-center   custm-Width100'>
+						<div className='custm-tableArchivos mt-3'>
+							<div className='table-responsive '>
+								<table className='table align-middle'>
+									<thead className='custm-tableThead'>
+										<tr>
+											<th scope='col' className='custm-col textColorLight'>
+												Fecha del evento
+											</th>
+											<th scope='col' className='custm-col textColorLight'>
+												Horas aceptadas
+											</th>
+											<th scope='col' className='custm-col textColorLight'>
+												Fecha de Autorización
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{hoursArray
+											.map((file) => (
+												<tr key={file.id} className='custm-table-tr textColorLight'>
+													<th className='textColorSecondary' scope='row'>
+														<div className='d-flex align-items-center justify-content-center text-center'>
+															{file.fechaEvento}
+														</div>
+													</th>
+													<td>
+														<div className='d-flex align-items-center justify-content-center text-center'>
+															{file.horasAceptadas}
+														</div>
+													</td>
+													<td>
+														<div className='d-flex align-items-center justify-content-center text-center'>
+															{file.fechaCreacion}
+														</div>
+													</td>
+												</tr>
+											))
+											.reverse()}
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

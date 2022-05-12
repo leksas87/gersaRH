@@ -1,58 +1,68 @@
 import moment from 'moment';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { sendEmployeeHoursAccepted } from '../../../actions/eventsActions/eventsActions';
+import { useForm } from '../../../hooks/useForm';
 import { RootSote } from '../../../store/Store';
 
 const AutorizarHorasExtras = ({ date }: any) => {
+	const dispatch = useDispatch();
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
-	useEffect(() => {
-		if (date) {
-			// const entrada = semana.find((array: any) => array.eventActionTypeId === 5);
-			// const salida = semana.find((array: any) => array.eventActionTypeId === 6);
-			// if (entrada && salida) {
-			// 	const horaEntrada = moment(entrada.DateEvent);
-			// 	const horaSalida = moment(salida.DateEvent);
-			// 	console.log('AuthTimeE', horaEntrada);
-			// 	console.log('AuthTimeS', horaSalida);
-			// }
+	const { empleadoData } = useSelector((state: RootSote) => state.auth);
+
+	interface iHorasAceptadas {
+		horasAceptadas: string;
+	}
+	//objeto user para formulario Registro
+	const newForm: iHorasAceptadas = {
+		horasAceptadas: '',
+	};
+	//Uso de hook useForm para manejo de campos en el formulario
+	const [formValues, handleInputChange] = useForm(newForm);
+	//Desestructuracion de propiedades
+	const { horasAceptadas } = formValues;
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		if (perfilEmpleado.id) {
+			dispatch(
+				sendEmployeeHoursAccepted(
+					{
+						employeeId: perfilEmpleado.id,
+						fechaEvento: date,
+						horasAceptadas: horasAceptadas,
+						employeeIdAutorizo: empleadoData.id,
+					},
+					perfilEmpleado.id
+				)
+			);
 		}
-	}, [date]);
+	};
 	return (
 		<>
-			<div className='d-flex'>
+			<form onSubmit={handleSubmit} className='d-flex'>
 				<div className='d-flex align-items-center justify-content-center text-center'>
-					{/* <div className=''>00:00</div> */}
-					{/* <input
-						min={0}
-						className='form-control  custm-empleadoFormIntput'
-						type='number'
-						style={{ width: '4rem', background: '#f6f6f6' }}
-					/> */}
 					<input
 						min={0}
+						required
 						className='form-control  custm-empleadoFormIntput'
 						type='text'
-						value={date}
 						style={{ width: '4rem', background: '#f6f6f6' }}
+						value={horasAceptadas}
+						name='horasAceptadas'
+						onChange={handleInputChange}
 					/>
-					{perfilEmpleado.id && (
-						<input
-							min={0}
-							className='form-control  custm-empleadoFormIntput'
-							type='text'
-							value={perfilEmpleado.id}
-							style={{ width: '4rem', background: '#f6f6f6' }}
-						/>
-					)}
 				</div>
 				<button
+					type='submit'
 					className='ms-1 inputSubmit'
 					style={{ color: 'white', borderRadius: '10px' }}
 				>
 					Aceptar
 				</button>
-			</div>
+			</form>
 		</>
 	);
 };
