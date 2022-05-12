@@ -7,6 +7,7 @@ const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
 const validateDays=require('middleware/validateDays');
 const validaDias=require('middleware/validaDias');
+const validaDiasPatch=require('middleware/validaDiasPatch');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenTimeRequest = require('middleware/forbiddenTimeRequest');
@@ -132,6 +133,7 @@ router.patch(
 	authorize(), 
 	forbiddenJefeCuadrilla(), 
 	updateSchemaRequests, 
+	validaDiasPatch(),
 	updateRequests
 );
 
