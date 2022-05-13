@@ -17,6 +17,11 @@ const forbiddenGetUnique=require('middleware/forbiddenGetUnique');
 const employeeService = require('../services/employee.service');
 const contractService = require('../services/contract.service');
 const payRollService = require('../services/payRoll.service');
+const {models} = require('./../libs/sequelize');
+const xl = require('excel4node');
+const moment = require('moment-timezone');
+const {Op}=require('sequelize');
+const path = require('path');
 
 // routes
 router.get('/auth', registerAccessCodeSchema, sendInformationByAccessCode);
@@ -27,6 +32,7 @@ router.post(
 	registerCheck
 );
 router.get('/check', registerAccessCodeSchema, Check);
+router.get('/reportsEmployees',authorize(),getReportsEmployees);
 router.get('/reports',authorize(),getReport);
 router.get('/timeRequest',authorize(),forbiddenGet(),getTimeRequest);
 router.post('/', authorize(), registerSchema, register);
@@ -172,6 +178,349 @@ router.get('/:id/reports',authorize(),getReport);
 router.get('/:id/availableDays',authorize(),validateDays());
 
 module.exports = router;
+
+async function getReportsEmployees(req, res, next) {
+
+	//Se define la fecha en la que se realiza la petición
+	 let semanaNow = moment().tz("America/Mexico_City").format('w');
+	 let semanaInicio = moment().isoWeek(semanaNow-2).startOf("isoweek").format('YYYY-MM-DD');
+	 let semanaFin = moment().isoWeek(semanaNow-2).startOf("isoweek").format('YYYY-MM-DD');
+	//Libro de trabajo
+	const wb = new xl.Workbook();
+	const reportes = [];
+	//Hoja de trabajo
+	const ws = wb.addWorksheet('Reporte');
+	//Estilo normal
+	const style = wb.createStyle({
+		font:{
+			color: '#040404',
+			size: 12
+		}
+	});
+
+	//Estilo verde
+	const greeS = wb.createStyle({
+		font:{
+			color: '#388813',
+			size: 12
+		}
+	});
+	//Se crea el formato`string text ${expression} string text`
+	ws.cell(1,1).string(`Reporte empleados Periodo:${semanaInicio} a ${semanaFin}`).style(style)
+	ws.cell(3,1).string("Numero Empleado").style(greeS);
+	ws.cell(3,2).string("Empleado").style(greeS);
+	ws.cell(3,3).string("Lugar de trabajo").style(greeS);
+	ws.cell(3,4).string("Horario").style(greeS);
+	ws.cell(3,5).string("Fecha").style(greeS);
+	ws.cell(3,6).string("Asistencia").style(greeS);
+	ws.cell(3,7).string("Hora de Entrada").style(greeS);
+	ws.cell(3,8).string("Hora inicio descanso").style(greeS);
+	ws.cell(3,9).string("Hora fin descanso").style(greeS);
+	ws.cell(3,10).string("Hora de Salida").style(greeS);
+	ws.cell(3,11).string("Horas extra").style(greeS);
+	ws.cell(3,12).string("Inicio hora extra").style(greeS);
+	ws.cell(3,13).string("Fin Hora Extra").style(greeS);
+
+	ws.column(1).setWidth(30);
+	ws.column(2).setWidth(30);
+	ws.column(3).setWidth(20);
+	ws.column(4).setWidth(30);
+	ws.column(5).setWidth(25);
+	ws.column(6).setWidth(25);
+	ws.column(7).setWidth(25);
+	ws.column(8).setWidth(25);
+	ws.column(9).setWidth(25);
+	ws.column(10).setWidth(25);
+	ws.column(11).setWidth(25);
+	ws.column(12).setWidth(25);
+	ws.column(13).setWidth(25);
+
+	//Obtenemos los empleados de la base
+	const employees = await models.Employee.findAll();
+
+	//Se recorre el arregle de los empleados para ir recuperando su información
+	for (const employeesF of employees) {
+		let user = await models.User.findByPk(employeesF.userId);
+		let relacion = await models.EmployeeSchedule.findOne({ where: { 
+																	employeeId: employeesF.id
+																	},
+															  order:[['id', 'ASC']]
+															});
+		if(!relacion){
+			let schedule = {scheduleName:"No tiene registro"}	;									
+			let userSave = {
+					numeroEmpleado: employeesF.numeroEmpleado,
+					empleado: user.firstName +" "+ user.lastName,
+					lugarTrabajo: schedule.scheduleName,
+					horario: schedule.scheduleName,
+					dia:schedule.scheduleName,
+					asistencia: schedule.scheduleName,
+					horaEntrada: schedule.scheduleName,
+					horaInicioDescanso: schedule.scheduleName,
+					horaFinDescanso: schedule.scheduleName,
+					horaSalida: schedule.scheduleName,
+					horasExtra: schedule.scheduleName,
+					inicioHoraExtra: schedule.scheduleName,
+					finHoraExtra: schedule.scheduleName
+			};
+			if(user.isEmployeeActive)
+				reportes.push(userSave);
+		}else{
+			let schedule = await models.Schedule.findByPk(relacion.scheduleId);		
+			for(let i = 0; i < 7; i++){
+				let asistencia1 = null;
+				let ban = false;
+				let day = moment(semanaInicio).add(i, 'days').format('YYYY-MM-DD');
+				let dayStart = moment(semanaInicio).add(i, 'days').format('YYYY-MM-DD 00:00:00');
+				let dayEnd = moment(semanaInicio).add(i, 'days').format('YYYY-MM-DD 23:59:59');
+				let dayNumber = moment(semanaInicio).add(i, 'days').format('d');
+				switch (dayNumber) {
+					case "0":
+						if(!schedule.Domingo){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "1":
+						if(!schedule.Lunes){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "2":
+						if(!schedule.Martes){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "3":
+						if(!schedule.Miercoles){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "4":
+						if(!schedule.Jueves){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "5":
+						if(!schedule.Viernes){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+					case "6":
+						if(!schedule.Sabado){
+							ban = true;
+							asistencia1 = "Descanso"
+						}
+						break;
+				
+					default:
+						break;
+				}
+				if(!ban){
+					let request = await models.Request.findOne({
+																where:{
+																		employeeId: employeesF.id,
+																		statusId: 2
+																	  },
+																order:[['id', 'DESC']]
+																});
+					
+					console.log(request);
+					if(request != null){	
+						if(moment(day).isSameOrAfter(request.fechaInicio) && moment(day).isSameOrBefore(request.fechaFin)){
+							ban = true;
+							switch (request.requestTypeId) {
+								case 1:
+									asistencia1 = "Vacaciones"
+									break;
+								case 2:
+									asistencia1 = "Incapacidad"
+									break;
+								case 3:
+									asistencia1 = "Falta"
+									break;
+								default:
+									break;
+							}
+						}
+					}
+				}
+				let eventoHoraEntrada =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:1
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+				let eventoHoraInicioDescanso =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:2
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+	            let eventoHoraFinDescanso =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:3
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+				let eventoHoraSalida =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:4
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+				let eventoInicioHoraExtra =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:5
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+				let eventoFinHoraExtra =  await models.Event.findOne({ where: { 
+																					employeeId: employeesF.id,
+																					DateEvent: {[Op.between]: [dayStart,dayEnd]},
+																					eventActionTypeId:6
+																				  },
+																		  order:[['id', 'ASC']]
+																		});
+				let horaEntrada1;
+				let horaInicioDescanso1;
+				let horaFinDescanso1;
+				let horaSalida1;
+				let inicioHoraExtra1;
+				let finHoraExtra1;
+				let horasExtra1;
+				if(eventoHoraEntrada === null){
+					horaEntrada1 = "No hay registro"
+				}else{ 
+					horaEntrada1 = moment(eventoHoraEntrada.DateEvent).format('HH:mm:ss');
+				}
+				if(eventoHoraInicioDescanso === null){
+					horaInicioDescanso1 = "No hay registro";
+				}else{
+					horaInicioDescanso1 = moment(eventoHoraInicioDescanso.DateEvent).format('HH:mm:ss');
+				}
+				if(eventoHoraFinDescanso === null){
+					horaFinDescanso1 = "No hay registro";
+				}else{
+					horaFinDescanso1 = moment(eventoHoraFinDescanso.DateEvent).format('HH:mm:ss');
+				}
+				if(eventoHoraSalida === null){
+					horaSalida1 = "No hay registro";
+				}else{
+					horaSalida1 = moment(eventoHoraSalida.DateEvent).format('HH:mm:ss');
+				}
+				if(eventoInicioHoraExtra === null){
+					inicioHoraExtra1 = "No hay registro";
+				}else{
+					inicioHoraExtra1 = moment(eventoInicioHoraExtra.DateEvent).format('HH:mm:ss');
+				}
+				if(eventoFinHoraExtra === null){
+					finHoraExtra1 = "No hay registro";
+				}else{
+					finHoraExtra1 = moment(eventoFinHoraExtra.DateEvent).format('HH:mm:ss');
+				}
+				if(!ban){
+					if(eventoHoraEntrada != null && eventoHoraInicioDescanso != null && eventoHoraFinDescanso != null && eventoHoraSalida != null){
+						if(eventoHoraEntrada.eventTypeId === 3 || eventoHoraInicioDescanso.eventTypeId === 3 || eventoHoraFinDescanso.eventTypeId === 3 || eventoHoraSalida.eventTypeId === 3){
+							ban = true;
+							asistencia1 = "Acta administrativa"
+						}else if(eventoHoraEntrada.eventTypeId === 2 || eventoHoraInicioDescanso.eventTypeId === 2 || eventoHoraFinDescanso.eventTypeId === 2 || eventoHoraSalida.eventTypeId === 2){
+							ban = true;
+							asistencia1 = "Retardo"
+						}else if(eventoHoraEntrada.eventTypeId === 1 || eventoHoraInicioDescanso.eventTypeId === 1 || eventoHoraFinDescanso.eventTypeId === 1 || eventoHoraSalida.eventTypeId === 1){
+							ban = true;
+							asistencia1 = "OK"
+						}
+					}
+					if(eventoInicioHoraExtra === null && !ban){
+						asistencia1 = "No hay registro";
+					}
+					if(eventoFinHoraExtra === null && !ban){
+						asistencia1 = "No hay registro";
+					}
+					
+				}
+
+
+				let horasExtra = await models.hoursAccepted.findOne({
+																		where:{
+																				employeeId: employeesF.id,
+																				fechaEvento: {[Op.between]: [dayStart,dayEnd]},
+																			},
+																		order:[['id', 'DESC']]
+																	});
+				if(horasExtra === null){
+					horasExtra1 = "No hay horas extra"
+				}else{
+					horasExtra1 = horasExtra.horasAceptadas;
+				}
+																		
+				 let userSave = {
+					numeroEmpleado: employeesF.numeroEmpleado,
+					empleado: user.firstName +" "+ user.lastName,
+					lugarTrabajo: employeesF.lugarDeTrabajo,
+					horario: schedule.scheduleName,
+					dia:day,
+					asistencia: asistencia1,
+					horaEntrada: horaEntrada1,
+					horaInicioDescanso: horaInicioDescanso1,
+					horaFinDescanso: horaFinDescanso1,
+					horaSalida: horaSalida1,
+					horasExtra: horasExtra1,
+					inicioHoraExtra: inicioHoraExtra1,
+					finHoraExtra: finHoraExtra1
+				};
+				if(user.isEmployeeActive)
+					reportes.push(userSave);
+			}
+		
+		}
+	}
+	
+	console.log(reportes);
+	let cont = 4;
+	for (const reportesF of reportes) {
+		ws.cell(cont,1).string(reportesF.numeroEmpleado).style(style);
+		ws.cell(cont,2).string(reportesF.empleado).style(style);
+		ws.cell(cont,3).string(reportesF.lugarTrabajo).style(style);
+		ws.cell(cont,4).string(reportesF.horario).style(style);
+		ws.cell(cont,5).string(reportesF.dia).style(style);
+		ws.cell(cont,6).string(reportesF.asistencia).style(style);
+		ws.cell(cont,7).string(reportesF.horaEntrada).style(style);
+		ws.cell(cont,8).string(reportesF.horaInicioDescanso).style(style);
+		ws.cell(cont,9).string(reportesF.horaFinDescanso).style(style);
+		ws.cell(cont,10).string(reportesF.horaSalida).style(style);
+		ws.cell(cont,11).string(reportesF.horasExtra).style(style);
+		ws.cell(cont,12).string(reportesF.inicioHoraExtra).style(style);
+		ws.cell(cont,13).string(reportesF.finHoraExtra).style(style);
+		cont++;
+	}
+
+	const pathExcel = path.join(__dirname,'excel', 'ReporteSemanalGersa.xlsx');
+
+	 wb.write(pathExcel, function(err,stats){
+	 	if(err){
+	 		console.log(err);
+	 	}else{
+	 		function downloadFile(){
+				
+				res.download(pathExcel);	 
+	 		}
+	 		downloadFile();
+	 		return false
+	 	}
+	 });
+}
 
 function getPayRoll(req,res,next) {
     payRollService.getById(req.params.id)
