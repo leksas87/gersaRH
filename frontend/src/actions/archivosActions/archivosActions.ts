@@ -215,6 +215,104 @@ export const getFilesEmpresa = () => {
 };
 
 //(PATCH) Patch de archivos
+// export const eliminarArchivo = (
+// 	fileId: number,
+// 	modalId: string,
+// 	employeeId: number,
+// 	tipoDocumento: number,
+// 	ubicacionCarpeta: string
+// ) => {
+// 	return async (dispatch: Dispatch<FilesDispatchTypes>) => {
+// 		//Se recupera el token guardado el localStorage
+// 		const token = localStorage.getItem('gersa-tkn') || '';
+// 		//dispatch para cambiar loading a true
+// 		dispatch({ type: REGISTER_NEW_FILE_START_LOADING });
+// 		//Peticion Axios a la API
+// 		axiosClientWithToken
+// 			.patch(
+// 				`files/${fileId}`,
+// 				{
+// 					isFileActive: false,
+// 				},
+// 				{
+// 					headers: {
+// 						Authorization: `Bearer ${token}`,
+// 					},
+// 				}
+// 			)
+// 			.then((respuesta) => {
+// 				if (respuesta.status === 200) {
+// 					//dispatch para cambiar loading a false
+// 					dispatch({ type: REGISTER_NEW_FILE_LOADING_END });
+// 					//Mostrar Alerta
+// 					Swal.fire({
+// 						position: 'top-end',
+// 						icon: 'success',
+// 						title: `¡Se eliminó el archivo!`,
+// 						showConfirmButton: false,
+// 						timer: 2000,
+// 					});
+// 					// Cerrar modal
+// 					const asignScheduleModal = document.getElementById(modalId);
+// 					asignScheduleModal?.click();
+
+// 					setTimeout(() => {
+// 						if (ubicacionCarpeta === 'empresa') {
+// 							dispatch<any>(getFilesEmpresa());
+// 						} else {
+// 							dispatch<any>(
+// 								getFilesByParams(employeeId, tipoDocumento, ubicacionCarpeta)
+// 							);
+// 						}
+// 					}, 2000);
+// 				}
+// 			})
+// 			.catch((error) => {
+// 				if (error.response.status === 500) {
+// 					// console.log('error500');
+// 					dispatch({ type: REGISTER_NEW_FILE_LOADING_END });
+// 					Swal.fire({
+// 						position: 'top-end',
+// 						icon: 'warning',
+// 						title: `¡Error en el servido!`,
+// 						showConfirmButton: false,
+// 						timer: 1500,
+// 					});
+// 				} else if (error.response.status === 400) {
+// 					// console.log('error400');
+// 					dispatch({ type: REGISTER_NEW_FILE_LOADING_END });
+// 					Swal.fire({
+// 						position: 'top-end',
+// 						icon: 'warning',
+// 						title: `¡${error.response.data.message}!`,
+// 						showConfirmButton: false,
+// 						timer: 1500,
+// 					});
+// 				} else if (error.response.status === 403) {
+// 					// console.log('error403');
+// 					dispatch({ type: REGISTER_NEW_FILE_LOADING_END });
+// 					Swal.fire({
+// 						position: 'top-end',
+// 						icon: 'error',
+// 						title: `¡${error.response.data.message}!`,
+// 						showConfirmButton: false,
+// 						timer: 1500,
+// 					});
+// 				} else {
+// 					dispatch({ type: REGISTER_NEW_FILE_LOADING_END });
+// 					Swal.fire({
+// 						position: 'top-end',
+// 						icon: 'error',
+// 						title: `¡${error.response.data.message}!`,
+// 						showConfirmButton: false,
+// 						timer: 1500,
+// 					});
+// 				}
+// 			});
+// 	};
+// };
+
+//(DELETE)  de archivos
 export const eliminarArchivo = (
 	fileId: number,
 	modalId: string,
@@ -229,17 +327,11 @@ export const eliminarArchivo = (
 		dispatch({ type: REGISTER_NEW_FILE_START_LOADING });
 		//Peticion Axios a la API
 		axiosClientWithToken
-			.patch(
-				`files/${fileId}`,
-				{
-					isFileActive: false,
+			.delete(`files/${fileId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
 					//dispatch para cambiar loading a false

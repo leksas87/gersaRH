@@ -53,8 +53,6 @@ export const startLogin = (email: string, password: string) => {
 					payload: { usuario },
 				});
 
-				console.log('fromLogin', body.data);
-
 				dispatch<any>(getEmployeeDataById(body.data.id));
 			} else {
 				//Mensaje de error proveniente de la API

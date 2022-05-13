@@ -1010,3 +1010,94 @@ export const patchEmployeeavailableDays = (id: number, data: {}) => {
 			});
 	};
 };
+
+//(GET) Obtener Excel de reporte Empleados
+export const getReporteEmpleados = () => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//dispatch para cambiar loading a true
+		dispatch({
+			type: REGISTER_USER_START_LOADING,
+		});
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/reportsEmployees`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				console.log('fromAxios');
+				if (respuesta.status === 200) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡${respuesta.data.message}!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 409) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};

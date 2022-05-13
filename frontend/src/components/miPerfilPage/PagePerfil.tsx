@@ -23,7 +23,7 @@ const PagePerfil = () => {
 		0,
 		indiceFechaIngreso
 	);
-	// 	setmiFechaIngreso(myFechaIngreso);
+	// setmiFechaIngreso(myFechaIngreso);
 	// }
 
 	const jefes = administradores.concat(supervisores);
@@ -63,7 +63,7 @@ const PagePerfil = () => {
 				fechaIngreso: miFechaIngreso,
 			});
 		}
-	}, [perfilUsuario, perfilEmpleado, miFechaIngreso, diasDisponibles]);
+	}, [perfilUsuario, perfilEmpleado, diasDisponibles]);
 	useEffect(() => {
 		dispatch(getEmployeeByRollType(3));
 		dispatch(getEmployeeByRollType(1));
