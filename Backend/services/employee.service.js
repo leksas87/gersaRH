@@ -136,8 +136,10 @@ async function getHourAceptedBy(id,fechaInicio,fechaFin,res) {
             queryHours={where:{employeeId:id}};
         }
         else{
-            let fechaInicioPre=moment(fechaInicio,'YYYY-MM-DD 00:00:00')
-            queryHours = {where:{employeeId:id,fechaEvento: {[Op.between]: [fechaInicioPre,fechaFin]}}};
+            const fechaInicioPre = moment(fechaInicio).add(-1, 'days').format('YYYY-MM-DD 00:00:00');
+            const fechaFinPre = moment(fechaFin).format('YYYY-MM-DD 23:59:59');
+
+            queryHours = {where:{employeeId:id,fechaEvento: {[Op.between]: [fechaInicioPre,fechaFinPre]}}};
         }
 
         const hourAcepted = await models.hoursAccepted.findAll(queryHours);
