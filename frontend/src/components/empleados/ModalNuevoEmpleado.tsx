@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import validator from 'validator';
 import { iNuevoEmpleado } from '../../interfaces/interfaces';
@@ -29,7 +29,7 @@ const ModalNuevoEmpleado = () => {
 		phone: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(employee);
+	const [formValues, handleInputChange, reset] = useForm(employee);
 	//Desestructuracion de propiedades
 	const { name, apellidos, correo, phone } = formValues;
 
@@ -117,6 +117,21 @@ const ModalNuevoEmpleado = () => {
 		setError('');
 		return true;
 	};
+
+	useEffect(() => {
+		function toclose(e: any) {
+			reset();
+		}
+
+		const myModalEl = document.getElementById('exampleModal');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, [reset]);
 
 	return (
 		<>

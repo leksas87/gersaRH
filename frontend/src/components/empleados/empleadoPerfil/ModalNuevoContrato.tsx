@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerNewContract } from '../../../actions/contractsActions/contractsActions';
 import { useForm } from '../../../hooks/useForm';
@@ -33,7 +33,7 @@ const ModalNuevoContrato = () => {
 		errors: [],
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(newContract);
+	const [formValues, handleInputChange, reset] = useForm(newContract);
 
 	// useState para manejo de errores
 	const [error, setError] = useState(errors);
@@ -138,7 +138,20 @@ const ModalNuevoContrato = () => {
 		setError({ errors: [], msgError: '' });
 		return true;
 	};
+	useEffect(() => {
+		function toclose(e: any) {
+			reset();
+		}
 
+		const myModalEl = document.getElementById('newContractModal');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, [reset]);
 	return (
 		<>
 			<div>

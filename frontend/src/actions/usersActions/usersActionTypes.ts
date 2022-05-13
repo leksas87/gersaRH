@@ -193,7 +193,7 @@ export interface GetDiasDisponibles {
 	};
 }
 //Limpiar availableDays
-export interface CLEAN_DIASDISPONIBLES {
+export interface CleanDiasDisponibles {
 	type: typeof CLEAN_DIASDISPONIBLES;
 }
 
@@ -217,4 +217,4 @@ export type UsersDispatchTypes =
 	| GetWorkPlaces
 	| CleanWorkPlaces
 	| GetDiasDisponibles
-	| CLEAN_DIASDISPONIBLES;
+	| CleanDiasDisponibles;

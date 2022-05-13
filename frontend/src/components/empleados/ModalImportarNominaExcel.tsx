@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { importFileDetalleNomina } from '../../actions/usersActions/usersActions';
 import { useForm } from '../../hooks/useForm';
@@ -12,7 +12,7 @@ const ModalImportarNominaExcel = () => {
 	// useState para mensaje de error
 	const [errorMsg, setErrorMsg] = useState('');
 	// useForm para el inputFile
-	const [formValues, onchange] = useForm({
+	const [formValues, onchange, reset] = useForm({
 		uploadfile: '',
 	});
 	const { uploadfile } = formValues;
@@ -41,6 +41,22 @@ const ModalImportarNominaExcel = () => {
 		setErrorMsg('');
 		return true;
 	};
+
+	useEffect(() => {
+		function toclose(e: any) {
+			reset();
+		}
+
+		const myModalEl = document.getElementById('ModalImportarNominaExcel');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, [reset]);
+
 	return (
 		<>
 			<div>

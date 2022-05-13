@@ -4,7 +4,7 @@ import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
 import { v4 as uuidv4 } from 'uuid';
 import AWS from 'aws-sdk';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
 const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
 
@@ -38,7 +38,7 @@ const ModalNuevaSolicitudFalta = () => {
 		requestTypeId: 1,
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(newRequest);
+	const [formValues, handleInputChange, reset] = useForm(newRequest);
 	//estado para mostrar la carga del inputFile
 	const [progress, setProgress] = useState(0);
 	//Estado para guardar el nombre Key del InputFile
@@ -93,6 +93,20 @@ const ModalNuevaSolicitudFalta = () => {
 				if (err) console.log(err);
 			});
 	};
+	useEffect(() => {
+		function toclose(e: any) {
+			reset();
+		}
+
+		const myModalEl = document.getElementById('modalSolicitudIncapacidad');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, [reset]);
 	return (
 		<>
 			<div>
