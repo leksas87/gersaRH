@@ -33,8 +33,7 @@ function validaDias() {
 
                 const day =await models.AvailableDays.create({employeeId:employee.id,avaibleDays:years,fechaLimite:moment(fechaLimite).format('YYYY-MM-DD'),status:1});
                 return res.status(400).json({data:day,message:"Registro nuevo de días , favor de reintentar..."})
-                // return;
-                // next();
+
             }
 
             if(avaibleDays.fechaLimite){
@@ -67,16 +66,9 @@ function validaDias() {
                     
                     let resta=fechaFin.diff(fechaInicio,'days');
 
-                    if (resta>avaibleDays.avaibleDays) {
+                    if (resta>avaibleDays.avaibleDays||resta==avaibleDays.avaibleDays) {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
                     }
-
-                    // let restas=avaibleDays.avaibleDays-resta
-
-                    // let params={avaibleDays:restas}
-
-                    // Object.assign(avaibleDays, params);
-                    // await avaibleDays.save();
                 }
             }
 
