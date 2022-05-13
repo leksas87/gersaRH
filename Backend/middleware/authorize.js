@@ -13,7 +13,6 @@ function authorize() {
         async (req, res, next) => {
             // get user with id from token 'sub' (subject) property
             const user = await models.User.findByPk(req.user.sub);
-            console.log(req.user.sub);
             // check user still exists
             if (!user)
                 return res.status(401).json({ message: 'Requiere autenticación'});

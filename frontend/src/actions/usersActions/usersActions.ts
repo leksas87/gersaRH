@@ -16,6 +16,8 @@ import {
 	GET_ADMINISTRADORES,
 	CLEAN_WORKPLACES,
 	GET_WORKPLACES,
+	CLEAN_DIASDISPONIBLES,
+	GET_DIASDISPONIBLES,
 } from './usersActionTypes';
 import Swal from 'sweetalert2';
 import {
@@ -526,7 +528,6 @@ export const updateEmployeeById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
 		const token = localStorage.getItem('gersa-tkn') || '';
-		console.log('aqui!', formData);
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
@@ -593,31 +594,68 @@ export const updateEmployeeById = (id: number, formData: {}) => {
 //(PUT -users ) Modificar datos del usuario
 export const updateUserById = (id: number, formData: {}) => {
 	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
-		//Peticion Fetch a la API para modificar el accesso
-		const respuesta = await fetchConToken(`users/${id}`, formData, 'PUT');
-		//.json() a la respuesta
-		const body = await respuesta?.json();
-
-		if (body.ok) {
-			//Se hace la modificacion del usuario en el Reducer
-			dispatch({ type: GET_USER_BY_ID, payload: { empleado: body.data } });
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
-				title: '¡Registro exitoso!',
-				showConfirmButton: false,
-				timer: 2000,
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.patch(`users/${id}`, formData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//Se hace la modificacion del usuario en el Reducer
+					dispatch({
+						type: GET_USER_BY_ID,
+						payload: { empleado: respuesta.data.data },
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: '¡Registro exitoso!',
+						showConfirmButton: false,
+						timer: 2000,
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					// console.log('error403');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
 			});
-		} else {
-			console.log(body.message);
-			Swal.fire({
-				position: 'top-end',
-				icon: 'error',
-				title: body.message,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
 	};
 };
 
@@ -848,6 +886,119 @@ export const importFileDetalleNomina = (formdata: FormData) => {
 					dispatch({
 						type: REGISTER_USER_LOADING_END,
 					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) Obtener DiasDisponibles de faltas
+export const getEmployeeavailableDays = (id: number) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		dispatch({ type: CLEAN_DIASDISPONIBLES });
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${id}/availableDays`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					//Se guarda los usuarios obtenidos en el Reducer
+					dispatch({
+						type: GET_DIASDISPONIBLES,
+						payload: { diasDisponibles: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					console.log('error403-');
+				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+//(PATCH) Obtener DiasDisponibles de faltas
+export const patchEmployeeavailableDays = (id: number, data: {}) => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		dispatch({ type: CLEAN_DIASDISPONIBLES });
+		//Se recupera el token guardado el localStorage
+		const token = localStorage.getItem('gersa-tkn') || '';
+
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.patch(`availableDays/${id}`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					// Se guarda los usuarios obtenidos en el Reducer
+					dispatch({
+						type: GET_DIASDISPONIBLES,
+						payload: { diasDisponibles: respuesta.data.data },
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					// console.log('error500');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					// console.log('error400');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: 'Algo salio mal',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					console.log('error403-');
+				} else {
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',

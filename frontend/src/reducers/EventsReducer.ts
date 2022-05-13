@@ -1,5 +1,6 @@
 import {
 	CLEAN_EMPLOYEE_EVENTS,
+	CLEAN_EMPLOYEE_HOURS_ACCEPTED,
 	CLEAN_EVENT_VALIDATION,
 	CLEAN_SERVER_DAY,
 	CLEAN_SERVER_TIME,
@@ -9,6 +10,7 @@ import {
 	EVENTS_LOADING_END,
 	EVENTS_START_LOADING,
 	GET_EMPLOYEE_EVENTS,
+	GET_EMPLOYEE_HOURS_ACCEPTED,
 	GET_EVENT_VALIDATION,
 	GET_SERVER_DAY,
 	GET_SERVER_TIME,
@@ -38,6 +40,7 @@ const INITIAL_STATE: iEventsReducerState = {
 		message: 'null',
 		employeeWorksToday: true,
 	},
+	employeeHoursAccepted: [],
 };
 
 //Reducer
@@ -93,6 +96,16 @@ export const EventsReducer = (
 			return {
 				...state,
 				employeeEvents: INITIAL_STATE.employeeEvents,
+			};
+		case GET_EMPLOYEE_HOURS_ACCEPTED:
+			return {
+				...state,
+				employeeHoursAccepted: [...action.payload.employeeHoursAccepted],
+			};
+		case CLEAN_EMPLOYEE_HOURS_ACCEPTED:
+			return {
+				...state,
+				employeeHoursAccepted: INITIAL_STATE.employeeHoursAccepted,
 			};
 		case GET_SERVER_TIME:
 			return {

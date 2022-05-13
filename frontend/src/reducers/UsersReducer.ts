@@ -17,6 +17,8 @@ import {
 	CLEAN_ADMINISTRADORES,
 	GET_WORKPLACES,
 	CLEAN_WORKPLACES,
+	GET_DIASDISPONIBLES,
+	CLEAN_DIASDISPONIBLES,
 } from '../actions/usersActions/usersActionTypes';
 import { iUsuariosReducer } from '../interfaces/interfaces';
 
@@ -64,11 +66,19 @@ const INITIAL_STATE: iUsuariosReducer = {
 		fechaAltaImss: '',
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: null,
+		fechaIngreso: '',
 	},
 	tablePath: '',
 	supervisores: [],
 	administradores: [],
 	workPlaces: [],
+	diasDisponibles: {
+		id: null,
+		employeeId: 0,
+		avaibleDays: 0,
+		fechaLimite: '',
+		status: 0,
+	},
 };
 
 //Reducer
@@ -171,6 +181,16 @@ export const UsersReducer = (
 			return {
 				...state,
 				workPlaces: INITIAL_STATE.workPlaces,
+			};
+		case GET_DIASDISPONIBLES:
+			return {
+				...state,
+				diasDisponibles: action.payload.diasDisponibles,
+			};
+		case CLEAN_DIASDISPONIBLES:
+			return {
+				...state,
+				diasDisponibles: INITIAL_STATE.diasDisponibles,
 			};
 
 		default:

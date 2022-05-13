@@ -202,75 +202,87 @@ const PageEmpleadoPersonal = () => {
 				phone: phone,
 			})
 		);
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				fechaNacimiento: fechaNacimiento,
-				genero: genero,
-				nacionalidad: nacionalidad,
-				frecuenciaPago: frecuenciaPago,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					fechaNacimiento: fechaNacimiento,
+					genero: genero,
+					nacionalidad: nacionalidad,
+					frecuenciaPago: frecuenciaPago,
+				})
+			);
+		}
 		toggleValue(false);
 	};
 	//Submit del formulario DocIdentidad
 	const handlesubmitDocIdentidad = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				tipoIdentificacion: tipoIdentificacion,
-				documentoIdentidad: documentoIdentidad,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					tipoIdentificacion: tipoIdentificacion,
+					documentoIdentidad: documentoIdentidad,
+				})
+			);
+		}
 		toggleDdiValue(false);
 	};
 	//Submit del formulario Direccion
 	const handlesubmitDireccion = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				direccion1: direccion1,
-				direccion2: direccion2,
-				ciudad: ciudad,
-				codigoPostal: codigoPostal,
-				estadoProvincia: estadoProvincia,
-				pais: pais,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					direccion1: direccion1,
+					direccion2: direccion2,
+					ciudad: ciudad,
+					codigoPostal: codigoPostal,
+					estadoProvincia: estadoProvincia,
+					pais: pais,
+				})
+			);
+		}
 		toggleDireccion(false);
 	};
 	//Submit del formulario ContEmergencia
 	const handlesubmitContEmergencia = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				emergenciaNombre: emergenciaNombre,
-				empergenciaTelefono: empergenciaTelefono,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					emergenciaNombre: emergenciaNombre,
+					empergenciaTelefono: empergenciaTelefono,
+				})
+			);
+		}
 		toggleContactoE(false);
 	};
 	//Submit del formulario InfBancaria
 	const handlesubmitInfBancaria = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				numeroCuentaBancaria: numeroCuentaBancaria,
-				swiftBic: swiftBic,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					numeroCuentaBancaria: numeroCuentaBancaria,
+					swiftBic: swiftBic,
+				})
+			);
+		}
 		toggleInfoBank(false);
 	};
 	//Submit del formulario NumSegSocial
 	const handlesubmitNumSegSocial = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(
-			updateEmployeeById(perfilUsuario.id, {
-				rfc: rfc,
-				numeroImms: numeroImms,
-				curp: curp,
-				fechaAltaImss: fechaAltaImss,
-			})
-		);
+		if (perfilEmpleado.id) {
+			dispatch(
+				updateEmployeeById(perfilEmpleado.id, {
+					rfc: rfc,
+					numeroImms: numeroImms,
+					curp: curp,
+					fechaAltaImss: fechaAltaImss,
+				})
+			);
+		}
 		toggleNumSafe(false);
 	};
 
@@ -358,6 +370,7 @@ const PageEmpleadoPersonal = () => {
 										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									>
+										<option value=''>Selecciona uno</option>
 										<option value='Masculino'>Masculino</option>
 										<option value='Femenino'>Femenino</option>
 									</select>
@@ -395,6 +408,7 @@ const PageEmpleadoPersonal = () => {
 										onChange={handleInputChangeInfoGral}
 										disabled={!value}
 									>
+										<option value=''>Selecciona uno</option>
 										<option value='Semanal'>Semanal</option>
 										<option value='Quincenal'>Quincenal</option>
 										<option value='Mensual'>Mensual</option>
@@ -460,6 +474,7 @@ const PageEmpleadoPersonal = () => {
 										onChange={handleInputChangeDocIdentidad}
 										disabled={!ddiValue}
 									>
+										<option value=''>Seleccione uno</option>
 										<option value='INE'>INE</option>
 										<option value='Pasaporte'>Pasaporte</option>
 										<option value='Cartilla militar'>Cartilla militar</option>
@@ -756,6 +771,7 @@ const PageEmpleadoPersonal = () => {
 										onChange={handleInputChangeInfBancaria}
 										disabled={!infoBankEValue}
 									>
+										<option value=''>Seleccione uno</option>
 										<option value='SWIFT'>SWIFT</option>
 										<option value='BIC'>BIC</option>
 									</select>

@@ -224,6 +224,12 @@
 	margin: 0px 3px 0px 3px;
 	border-radius: 10px;
 }
+.custm-hrsTotal {
+	background-color: rgba(255, 251, 14, 0.5);
+	padding: 5px 8px 5px 8px;
+	margin: 0px 3px 0px 3px;
+	border-radius: 10px;
+}
 
 @media (max-width: 991px) {
 	.custm-empleadoContainerContent {

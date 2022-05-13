@@ -128,11 +128,19 @@ async function createHourAcecepted(params, id,next,res){
      
 }
 
-async function getHourAceptedBy(id,res) {
+async function getHourAceptedBy(id,fechaInicio,fechaFin,res) {
     try {
-        
-        const hourAcepted = await models.RegistroHoras.findAll({where:{employeeId:id}});
-        
+        let queryHours="";
+
+        if (!fechaInicio && !fechaFin) {
+            queryHours={where:{employeeId:id}};
+        }
+        else{
+            queryHours = {where:{employeeId:id,fechaEvento: {[Op.between]: [fechaInicio,fechaFin]}}};
+        }
+
+        const hourAcepted = await models.hoursAccepted.findAll(queryHours);
+
         if ( !hourAcepted)  throw 'Solicitud de tiempo extra no encontrada';
         
         return hourAcepted;
@@ -166,13 +174,13 @@ async function getRequest(req,res) {
         const employee= await models.Employee.findOne({where:{userId:req.user.id}});
         switch (req.user.rollTypeId) {
             case 1:
-                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
             break;
             case 2:
-                Requests = await models.Request.findAll({where:{employeeId:employee.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({where:{employeeId:employee.id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
             break;
             case 3:
-                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}],include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+                Requests = await models.Request.findAll({include:[{model:models.Employee,as: "employee" ,where:{supervisor:employee.id},attributes:['id']}],include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
                     
             break;
         
@@ -195,11 +203,11 @@ async function getRequestByEmployeeId(id,res) {
         const atributeUser=['firstName','lastName'];
         const atributeEmployeeWorkPlace=['id','supervisor','lugarDeTrabajo'];
         //const TimeRequests = await models.TimeRequest.findByPk(id);
-        const Requests = await models.Request.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
+        const Requests = await models.Request.findAll({where:{employeeId:id},include:[{model:models.Employee,as: "employee",include:[{model:models.User,as:'User',attributes:atributeUser}],attributes:atributeEmployeeWorkPlace}]});
 
         console.log(Requests.length); 
 
-        if (Requests.length===0)  return res.status(403).json( {message: 'El empleado no tiene solicitudes registradas'});
+        if (Requests.length==0) { return Request};
 
         return Requests;
 
@@ -304,7 +312,7 @@ async function getRequestById(id) {
 async function createRequest(params, id,next){
     try {
         const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
-
+        console.log('registro de request*********');
         const request= await models.Request.create({employeeId:id,fechaCreacion:fechaCreacion,fechaInicio:params.fechaInicio,fechaFin:params.fechaFin,statusId:params.statusId,descripcionEmpleado:params.descripcionEmpleado,descriptionRespuesta:params.descriptionRespuesta,requestTypeId:params.requestTypeId,adjunto:params.adjunto});
         
         return request;

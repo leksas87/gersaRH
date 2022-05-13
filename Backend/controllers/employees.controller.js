@@ -5,6 +5,9 @@ const validateRequest = require('middleware/validate-request');
 const validateTimeRequest = require('middleware/validate-timeRequest');
 const validateRequestHeader = require('middleware/validate-request-header');
 const validateRequestParams = require('middleware/validate-request-params');
+const validateDays=require('middleware/validateDays');
+const validaDias=require('middleware/validaDias');
+const validaDiasPatch=require('middleware/validaDiasPatch');
 const authorize = require('middleware/authorize');
 const forbidden = require('middleware/forbidden');
 const forbiddenTimeRequest = require('middleware/forbiddenTimeRequest');
@@ -134,8 +137,9 @@ router.get('/:id/contracts', authorize(), forbiddenGet(), getByEmployee);
 router.patch(
 	'/requests/:id',
 	authorize(), 
-	forbiddenGet(), 
+	forbiddenJefeCuadrilla(), 
 	updateSchemaRequests, 
+	validaDiasPatch(),
 	updateRequests
 );
 
@@ -144,6 +148,7 @@ router.post(
 	authorize(),
 	forbiddenGetUnique(),
 	registerSchemaRequest,
+	validaDias(),
 	registerRequest
 	);
 	
@@ -170,8 +175,7 @@ router.patch(
 );
 
 router.get('/:id/reports',authorize(),getReport);
-
-
+router.get('/:id/availableDays',authorize(),validateDays());
 
 module.exports = router;
 
@@ -934,7 +938,8 @@ function updateSchema(req, res, next) {
 		curp: Joi.string().empty(''),
 		fechaAltaImss: Joi.date(),
 		numeroEmpleado: Joi.string().empty(''),
-		diasDisponiblesFaltas: Joi.number().integer()
+		diasDisponiblesFaltas: Joi.number().integer(),
+		fechaIngreso: Joi.date(),
 	});
 	validateRequest(req, next, schema);
 }
@@ -962,7 +967,7 @@ function getSchedule(req, res, next) {
 }
 function getHourAcepted(req, res, next) {
 	employeeService
-		.getHourAceptedBy(req.params.id, res)
+		.getHourAceptedBy(req.params.id,req.query.startDate, req.query.endDate, res)
 		.then((user) => res.json({ data: user, message: 'Succesful' }))
 		.catch(next);
 }

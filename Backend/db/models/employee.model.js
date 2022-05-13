@@ -69,6 +69,11 @@ const EmployeeSchema = {
 		allowNull: true,
 		defaultValue: DataTypes.NOW,
 	},
+	fechaIngreso: {
+		type: DataTypes.DATE,
+		allowNull: true,
+		defaultValue: DataTypes.NOW,
+	},
 	accessCode: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 	numeroEmpleado:{type: DataTypes.STRING,allowNull:true, defaultValue:''},
 	diasDisponiblesFaltas: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 }
@@ -83,6 +88,7 @@ class Employee extends Model {
 			foreignKey: 'employeeId',
 			otherKey: 'scheduleId',
 		});
+		this.hasOne(models.AvailableDays,{foreignKey:'employeeId'});
 	}
 
 	static config(sequelize) {

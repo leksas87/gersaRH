@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getEmployeeByRollType,
 	getWorkPlaces,
+	patchEmployeeavailableDays,
 	resendInvitationByuserName,
 	updateEmployeeById,
 	updateUserById,
@@ -18,9 +19,17 @@ const PageEmpleadoPerfil = () => {
 		administradores,
 		supervisores,
 		workPlaces,
+		diasDisponibles,
 	} = useSelector((state: RootSote) => state.users);
 
 	const jefes = administradores.concat(supervisores);
+
+	//Tomar solo la fecha
+	const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
+	const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
+		0,
+		indiceFechaIngreso
+	);
 
 	//Dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
@@ -42,17 +51,19 @@ const PageEmpleadoPerfil = () => {
 	interface iForm2 {
 		numeroEmpleado: string;
 		diasDisponiblesFaltas: number;
+		fechaIngreso: string;
 	}
 	//objeto para formulario2
 	const form2: iForm2 = {
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: 0,
+		fechaIngreso: '',
 	};
 	//state de formulario Puesto
 	const [values, setValues] = useState(formPuesto);
 	const [values2, setValues2] = useState(form2);
 	const { supervisor, username, lugarDeTrabajo } = values;
-	const { numeroEmpleado, diasDisponiblesFaltas } = values2;
+	const { numeroEmpleado, diasDisponiblesFaltas, fechaIngreso } = values2;
 
 	useEffect(() => {
 		setValues({
@@ -60,13 +71,14 @@ const PageEmpleadoPerfil = () => {
 			username: perfilUsuario.username,
 			lugarDeTrabajo: perfilEmpleado.lugarDeTrabajo,
 		});
-		if (perfilEmpleado.diasDisponiblesFaltas) {
+		if (diasDisponibles.avaibleDays) {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
-				diasDisponiblesFaltas: perfilEmpleado.diasDisponiblesFaltas,
+				diasDisponiblesFaltas: diasDisponibles.avaibleDays,
+				fechaIngreso: miFechaIngreso,
 			});
 		}
-	}, [perfilUsuario, perfilEmpleado]);
+	}, [perfilUsuario, perfilEmpleado, miFechaIngreso, diasDisponibles]);
 
 	useEffect(() => {
 		dispatch(getEmployeeByRollType(3));
@@ -111,11 +123,20 @@ const PageEmpleadoPerfil = () => {
 	const handlesubmitForm2 = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		if (diasDisponiblesFaltas !== diasDisponibles.avaibleDays) {
+			if (diasDisponibles.id) {
+				dispatch(
+					patchEmployeeavailableDays(diasDisponibles.id, {
+						avaibleDays: diasDisponiblesFaltas,
+					})
+				);
+			}
+		}
 		if (perfilEmpleado.id) {
 			dispatch(
 				updateEmployeeById(perfilEmpleado.id, {
 					numeroEmpleado: numeroEmpleado,
-					diasDisponiblesFaltas: diasDisponiblesFaltas,
+					fechaIngreso: fechaIngreso,
 				})
 			);
 		}
@@ -230,7 +251,7 @@ const PageEmpleadoPerfil = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										// placeholder={perfilEmpleado.lugarDeTrabajo}
+										placeholder='seleccione uno'
 										list='datalistOptions'
 										value={lugarDeTrabajo}
 										name='lugarDeTrabajo'
@@ -238,7 +259,7 @@ const PageEmpleadoPerfil = () => {
 										disabled={!value}
 									/>
 									<datalist id='datalistOptions'>
-										<option value='2'>Adidas</option>
+										{/* <option value='2'>Adidas</option> */}
 										{workPlaces.map((workPlace) => (
 											<option key={workPlace.id} value={workPlace.nameWorkPlace} />
 										))}
@@ -290,6 +311,17 @@ const PageEmpleadoPerfil = () => {
 										onChange={handleInputChange2}
 										disabled={!valueForm2}
 										placeholder='días disponibles (faltas)'
+									/>
+								</div>
+								<div className='mb-4'>
+									<label className='custm-Width100'>Fecha de Ingreso</label>
+									<input
+										className='form-control custm-Width100 custm-empleadoFormIntput'
+										type='date'
+										name='fechaIngreso'
+										value={fechaIngreso}
+										onChange={handleInputChange2}
+										disabled={!valueForm2}
 									/>
 								</div>
 								<div

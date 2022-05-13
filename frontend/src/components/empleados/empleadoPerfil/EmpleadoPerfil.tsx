@@ -5,6 +5,7 @@ import { reSendAccessCode } from '../../../actions/eventsActions/eventsActions';
 import { getContracts } from '../../../actions/contractsActions/contractsActions';
 import {
 	changeRollToUser,
+	getEmployeeavailableDays,
 	getEmployeeById,
 	getUserById,
 } from '../../../actions/usersActions/usersActions';
@@ -40,6 +41,7 @@ const EmpleadoPerfil = () => {
 	useEffect(() => {
 		if (empleadoId) dispatch(getUserById(empleadoId));
 		if (empleadoId) dispatch(getEmployeeById(empleadoId));
+		if (empleadoId) dispatch(getEmployeeavailableDays(parseInt(empleadoId)));
 
 		if (empleadoId) dispatch(getContracts(empleadoId));
 	}, [dispatch, empleadoId]);

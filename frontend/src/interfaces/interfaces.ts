@@ -1,5 +1,7 @@
 import {
 	iAdministrador,
+	iAvailableDays,
+	iDiasDisponibles,
 	iEmpleado,
 	iEmployeeData,
 	iSupervisor,
@@ -17,6 +19,7 @@ export interface iAuthState {
 		isAutenticated: boolean;
 	};
 	empleadoData: iEmployeeData;
+	availableDays: iAvailableDays;
 }
 export interface iUsuario {
 	uid: string;
@@ -47,6 +50,7 @@ export interface iUsuariosReducer {
 	supervisores: iSupervisor[];
 	administradores: iAdministrador[];
 	workPlaces: iWorkPlaces[];
+	diasDisponibles: iDiasDisponibles;
 }
 //Interface de confirmacion contraseña
 export interface iConfirmarContraseña {
