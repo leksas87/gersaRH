@@ -18,11 +18,11 @@ const PagePerfil = () => {
 
 	//Tomar solo la fecha
 	// if (perfilEmpleado.fechaIngreso) {
-	const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
-	const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
-		0,
-		indiceFechaIngreso
-	);
+	// const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
+	// const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
+	// 	0,
+	// 	indiceFechaIngreso
+	// );
 	// setmiFechaIngreso(myFechaIngreso);
 	// }
 
@@ -36,19 +36,17 @@ const PagePerfil = () => {
 	interface iForm2 {
 		numeroEmpleado: string;
 		diasDisponiblesFaltas: number;
-		fechaIngreso: string;
 	}
 	//objeto para formulario2
 	const form2: iForm2 = {
 		numeroEmpleado: '',
 		diasDisponiblesFaltas: 0,
-		fechaIngreso: '',
 	};
 	//state de formulario Puesto
 	const [values, setValues] = useState(formPuesto);
 	const [values2, setValues2] = useState(form2);
 	const { supervisor } = values;
-	const { numeroEmpleado, diasDisponiblesFaltas, fechaIngreso } = values2;
+	const { numeroEmpleado, diasDisponiblesFaltas } = values2;
 
 	useEffect(() => {
 		setValues({
@@ -60,13 +58,12 @@ const PagePerfil = () => {
 			setValues2({
 				numeroEmpleado: perfilEmpleado.numeroEmpleado,
 				diasDisponiblesFaltas: diasDisponibles.avaibleDays,
-				fechaIngreso: miFechaIngreso,
 			});
 		}
 	}, [perfilUsuario, perfilEmpleado, diasDisponibles]);
 	useEffect(() => {
-		dispatch(getEmployeeByRollType(3));
-		dispatch(getEmployeeByRollType(1));
+		// dispatch(getEmployeeByRollType(3));
+		// dispatch(getEmployeeByRollType(1));
 		dispatch(getWorkPlaces());
 	}, [dispatch]);
 
@@ -113,13 +110,13 @@ const PagePerfil = () => {
 							<form style={{ width: '90%' }} className='pt-5'>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Reporta a</label>
-									{/* <input
+									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										placeholder={perfilEmpleado.supervisor}
 										disabled
-									/> */}
-									<select
+									/>
+									{/* <select
 										className='form-control  custm-Width100 custm-empleadoFormIntput'
 										name='supervisor'
 										value={supervisor}
@@ -132,7 +129,7 @@ const PagePerfil = () => {
 												{jefe.User.firstName} {jefe.User.lastName}
 											</option>
 										))}
-									</select>
+									</select> */}
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>
@@ -180,8 +177,8 @@ const PagePerfil = () => {
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										name='numeroEmpleado'
-										value={numeroEmpleado}
-										onChange={handleInputChange2}
+										value={perfilEmpleado.numeroEmpleado}
+										// onChange={handleInputChange2}
 										disabled
 										placeholder='Número de empleado'
 									/>
@@ -193,8 +190,8 @@ const PagePerfil = () => {
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='number'
 										name='diasDisponiblesFaltas'
-										value={diasDisponiblesFaltas}
-										onChange={handleInputChange2}
+										value={diasDisponibles.avaibleDays}
+										// onChange={handleInputChange2}
 										disabled
 										placeholder='días disponibles (faltas)'
 									/>
@@ -203,9 +200,9 @@ const PagePerfil = () => {
 									<label className='custm-Width100'>Fecha de Ingreso</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='date'
+										type='text'
 										name='fechaIngreso'
-										value={fechaIngreso}
+										value={perfilEmpleado.fechaIngreso}
 										onChange={handleInputChange2}
 										disabled
 									/>

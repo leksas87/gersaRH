@@ -7,11 +7,11 @@ const PageInfoPersonal = () => {
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
 	//Tomar solo la fecha
-	const indiceFechaNacimiento = perfilEmpleado.fechaNacimiento.indexOf('T');
-	const fechaNac = perfilEmpleado.fechaNacimiento.substring(
-		0,
-		indiceFechaNacimiento
-	);
+	// const indiceFechaNacimiento = perfilEmpleado.fechaNacimiento.indexOf('T');
+	// const fechaNac = perfilEmpleado.fechaNacimiento.substring(
+	// 	0,
+	// 	indiceFechaNacimiento
+	// );
 	return (
 		<>
 			<div className='d-flex flex-column align-items-center'>
@@ -59,8 +59,8 @@ const PageInfoPersonal = () => {
 									<label className='custm-Width100'>Fecha de nacimiento</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='date'
-										value={fechaNac}
+										type='text'
+										value={perfilEmpleado.fechaNacimiento}
 										disabled
 									/>
 								</div>
@@ -233,7 +233,7 @@ const PageInfoPersonal = () => {
 										<input
 											className='form-control custm-Width100 custm-empleadoFormIntput'
 											type='text'
-											placeholder={perfilEmpleado.codigoPostal.toString()}
+											placeholder={perfilEmpleado.codigoPostal}
 											disabled
 										/>
 									</div>
@@ -359,7 +359,7 @@ const PageInfoPersonal = () => {
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
-										placeholder={perfilEmpleado.numeroCuentaBancaria.toString()}
+										placeholder={perfilEmpleado.numeroCuentaBancaria}
 										disabled
 									/>
 								</div>
@@ -443,7 +443,7 @@ const PageInfoPersonal = () => {
 									<label className='custm-Width100'>Fecha alta IMSS</label>
 									<input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
-										type='date'
+										type='text'
 										placeholder={perfilEmpleado.fechaAltaImss}
 										disabled
 									/>
