@@ -14,12 +14,17 @@ const PagePerfil = () => {
 		useSelector((state: RootSote) => state.users);
 	const { perfilEmpleado } = useSelector((state: RootSote) => state.users);
 
+	// const [miFechaIngreso, setmiFechaIngreso] = useState('');
+
 	//Tomar solo la fecha
+	// if (perfilEmpleado.fechaIngreso) {
 	const indiceFechaIngreso = perfilEmpleado.fechaIngreso.indexOf('T');
 	const miFechaIngreso = perfilEmpleado.fechaIngreso.substring(
 		0,
 		indiceFechaIngreso
 	);
+	// 	setmiFechaIngreso(myFechaIngreso);
+	// }
 
 	const jefes = administradores.concat(supervisores);
 	//objeto para formulario formPuesto

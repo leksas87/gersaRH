@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerNewRequest } from '../../actions/requestActions/requestActions';
 import { useForm } from '../../hooks/useForm';
@@ -23,7 +23,7 @@ const ModalNuevaSolicitudVacaciones = () => {
 		requestTypeId: 1,
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(newRequest);
+	const [formValues, handleInputChange, reset] = useForm(newRequest);
 
 	//Desestructuracion de propiedades
 	const { fechaFin, fechaInicio, descripcionEmpleado } = formValues;
@@ -49,6 +49,20 @@ const ModalNuevaSolicitudVacaciones = () => {
 			console.log('Error falta userId');
 		}
 	};
+	useEffect(() => {
+		function toclose(e: any) {
+			reset();
+		}
+
+		const myModalEl = document.getElementById('modalSolicitudVacaciones');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, [reset]);
 
 	return (
 		<>
