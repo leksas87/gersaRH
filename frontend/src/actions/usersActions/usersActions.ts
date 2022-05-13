@@ -1025,6 +1025,7 @@ export const getReporteEmpleados = () => {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
+				responseType: 'blob',
 			})
 			.then((respuesta) => {
 				console.log('fromAxios');
@@ -1035,10 +1036,16 @@ export const getReporteEmpleados = () => {
 					Swal.fire({
 						position: 'top-end',
 						icon: 'success',
-						title: `¡${respuesta.data.message}!`,
+						title: `¡Descargando!`,
 						showConfirmButton: false,
 						timer: 2000,
 					});
+					const url = window.URL.createObjectURL(new Blob([respuesta.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', 'plantilla.xlsx');
+					document.body.appendChild(link);
+					link.click();
 				}
 			})
 			.catch((error) => {
