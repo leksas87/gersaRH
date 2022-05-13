@@ -10,7 +10,7 @@ function validateFileName() {
         // attach full user record to request object
         async (req, res, next) => {
             // get user with id from token 'sub' (subject) property
-            const fileName = await models.File.findOne({ where: { nombreArchivo: req.body.nombreArchivo, employeeId: req.body.employeeId } });
+            
             const user = await models.User.findByPk(req.body.employeeId);
             // check user still exists
             if(!user)
@@ -19,9 +19,7 @@ function validateFileName() {
                 if(req.body.employeeId != req.body.employeeIdUpload || req.user.id != req.body.employeeIdUpload )
                 return res.status(403).json( {message: 'Usuario no autorizado'});
             }
-            if (fileName)
-                return res.status(400).json({ message: 'El nombre del archivo "' + req.body.nombreArchivo + '" ya existe.'});
-
+            
             next();
         }
     ];
