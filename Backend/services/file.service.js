@@ -6,8 +6,15 @@ const moment = require('moment-timezone');
 module.exports = {
     create,
     update,
-    getFile1
+    getFile1,
+    delete: _delete,
 };
+
+async function _delete(id) {
+    const user = await models.File.findByPk(id);
+        if (!user) throw 'Usuario no encontrado';
+    await user.destroy();
+}
 
 async function getFile1(req,res) {
     console.log("Entro archivo");

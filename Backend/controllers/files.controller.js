@@ -11,9 +11,16 @@ const validateFileQuery = require('middleware/validate-fileQuery');
 
 router.post('/',authorize(),registerSchema,validateFileName(), register);
 router.patch('/:id', authorize(), updateSchema,validateFilePatch(), update);
+router.delete('/:id', authorize(),validateFilePatch(), _delete);
 router.get('/', authorize(),getSchema,validateFileQuery(), getFile1);
 
 module.exports = router;
+
+function _delete(req, res, next) {
+    fileService.delete(req.params.id)
+        .then(() => res.json({ message: 'Archivo eliminado exitosamente'}))
+        .catch(next);
+}
 
 function getSchema(req, res, next) {
     const schema = Joi.object({
