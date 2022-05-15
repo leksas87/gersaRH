@@ -62,8 +62,8 @@ const PagePerfil = () => {
 		}
 	}, [perfilUsuario, perfilEmpleado, diasDisponibles]);
 	useEffect(() => {
-		// dispatch(getEmployeeByRollType(3));
-		// dispatch(getEmployeeByRollType(1));
+		dispatch(getEmployeeByRollType(3));
+		dispatch(getEmployeeByRollType(1));
 		dispatch(getWorkPlaces());
 	}, [dispatch]);
 
@@ -110,13 +110,13 @@ const PagePerfil = () => {
 							<form style={{ width: '90%' }} className='pt-5'>
 								<div className='mb-4'>
 									<label className='custm-Width100'>Reporta a</label>
-									<input
+									{/* <input
 										className='form-control custm-Width100 custm-empleadoFormIntput'
 										type='text'
 										placeholder={perfilEmpleado.supervisor}
 										disabled
-									/>
-									{/* <select
+									/> */}
+									<select
 										className='form-control  custm-Width100 custm-empleadoFormIntput'
 										name='supervisor'
 										value={supervisor}
@@ -129,7 +129,7 @@ const PagePerfil = () => {
 												{jefe.User.firstName} {jefe.User.lastName}
 											</option>
 										))}
-									</select> */}
+									</select>
 								</div>
 								<div className='mb-4'>
 									<label className='custm-Width100'>
