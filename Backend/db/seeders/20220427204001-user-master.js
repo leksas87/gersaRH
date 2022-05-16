@@ -24,6 +24,10 @@ module.exports = {
       );
       const userRows = user[0];
 
+      await queryInterface.bulkInsert('Contracts',[
+        {fechaDeInicio: new Date(),  userId: userRows[0].id, isContractActivide: true}
+      ], {});
+
     return await queryInterface.bulkInsert('Employees', [
       {fechanacimiento: new Date(),  userId: userRows[0].id,fechaIngreso: "2022-01-01"}
     ], {});
