@@ -2,6 +2,22 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { eliminarArchivo } from '../../actions/archivosActions/archivosActions';
 import { iFileList } from '../../actions/archivosActions/archivosActionTypes';
+import AWS from 'aws-sdk';
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
+
+const S3_BUCKET = 'gersarequestfiles';
+const REGION = 'us-east-1';
+
+AWS.config.update({
+	accessKeyId: accessKeyId,
+	secretAccessKey: secretAccessKey,
+});
+
+const myBucket = new AWS.S3({
+	params: { Bucket: S3_BUCKET },
+	region: REGION,
+});
 
 interface propsTypes {
 	file: iFileList;
@@ -32,6 +48,14 @@ const ModalEliminarArchivos = ({
 					ubicacionCarpeta
 				)
 			);
+			//Eliminar del S3
+			const params = {
+				Bucket: S3_BUCKET,
+				Key: file.url,
+			};
+			myBucket.deleteObject(params, (error) => {
+				if (error) console.log(error);
+			});
 		}
 	};
 	return (

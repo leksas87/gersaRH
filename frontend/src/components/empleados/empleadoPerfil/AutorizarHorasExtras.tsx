@@ -17,7 +17,7 @@ const AutorizarHorasExtras = ({ date, fechaInicio, fechaFin }: any) => {
 		horasAceptadas: '',
 	};
 	//Uso de hook useForm para manejo de campos en el formulario
-	const [formValues, handleInputChange] = useForm(newForm);
+	const [formValues, handleInputChange, reset] = useForm(newForm);
 	//Desestructuracion de propiedades
 	const { horasAceptadas } = formValues;
 
@@ -38,6 +38,7 @@ const AutorizarHorasExtras = ({ date, fechaInicio, fechaFin }: any) => {
 					fechaFin
 				)
 			);
+			reset();
 		}
 	};
 	return (

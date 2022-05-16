@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	downloadTamplateExcel,
+	getReporteEmpleados,
 	getUsers,
 	sendInvitationsMassive,
 } from '../../actions/usersActions/usersActions';
@@ -43,6 +44,12 @@ const EmpleadosPage = () => {
 		let searchDropdown = new bootstrap.Dropdown('#btnMenuEmpleadosMas');
 		searchDropdown.show();
 	};
+
+	const exportInformeEmpleados = () => {
+		console.log('test');
+		dispatch(getReporteEmpleados());
+	};
+
 	return (
 		<>
 			<div className='custm-empleadosContainer rounded-3 shadow mt-4'>
@@ -142,6 +149,20 @@ const EmpleadosPage = () => {
 											<div className='custm-dropItemText'>
 												desde la plantilla de excel.
 											</div>
+										</button>
+									</li>
+									<li>
+										{/* Boton para mostrar Modal SeleccionarExcel */}
+										<button
+											className='dropdown-item custm-dropdown-item custm-dropItem'
+											type='button'
+											onClick={exportInformeEmpleados}
+										>
+											<div className='fs-4'>Exportar reporte de</div>
+											<div className='fs-4'>empleados</div>
+											<div className='custm-dropItemText'>Exporta el archivo excel</div>
+											<div className='custm-dropItemText'>con la informacion</div>
+											<div className='custm-dropItemText'>semanal de cada empleado</div>
 										</button>
 									</li>
 								</ul>

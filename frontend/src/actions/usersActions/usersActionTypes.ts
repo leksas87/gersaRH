@@ -84,7 +84,7 @@ export interface iWorkPlaces {
 export interface iAvailableDays {
 	id: number | null;
 	employeeId: number;
-	availableDays: number;
+	avaibleDays: number;
 	fechaLimite: string;
 	status: number;
 }

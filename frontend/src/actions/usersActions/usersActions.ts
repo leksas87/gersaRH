@@ -156,14 +156,14 @@ export const getEmployeeById = (id: string) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
@@ -694,14 +694,14 @@ export const getEmployeeByRollType = (rollTypeId: number) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
@@ -999,6 +999,104 @@ export const patchEmployeeavailableDays = (id: number, data: {}) => {
 				} else if (error.response.status === 403) {
 					console.log('error403-');
 				} else {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+};
+
+//(GET) Obtener Excel de reporte Empleados
+export const getReporteEmpleados = () => {
+	return async (dispatch: Dispatch<UsersDispatchTypes>) => {
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//dispatch para cambiar loading a true
+		dispatch({
+			type: REGISTER_USER_START_LOADING,
+		});
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/reportsEmployees`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+				responseType: 'blob',
+			})
+			.then((respuesta) => {
+				console.log('fromAxios');
+				if (respuesta.status === 200) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: `¡Descargando!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+					const url = window.URL.createObjectURL(new Blob([respuesta.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', 'plantilla.xlsx');
+					document.body.appendChild(link);
+					link.click();
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡Error en el servido!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 400) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 409) {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					dispatch({
+						type: REGISTER_USER_LOADING_END,
+					});
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',

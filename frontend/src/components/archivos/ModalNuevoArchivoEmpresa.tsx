@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootSote } from '../../store/Store';
 import { v4 as uuidv4 } from 'uuid';
@@ -88,6 +88,23 @@ const ModalNuevoArchivoEmpresa = () => {
 				if (err) console.log(err);
 			});
 	};
+
+	useEffect(() => {
+		function toclose(e: any) {
+			(document.getElementById('inputUpFileEmpresa') as HTMLInputElement).value =
+				'';
+		}
+
+		const myModalEl = document.getElementById('modalNuevoArchivoEmpresa');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, []);
+
 	return (
 		<>
 			<div>
@@ -161,6 +178,7 @@ const ModalNuevoArchivoEmpresa = () => {
 													Selecciona un archivo*
 												</label>
 												<input
+													id='inputUpFileEmpresa'
 													className='form-control custm-InputFile'
 													type='file'
 													onChange={handleFileInput}

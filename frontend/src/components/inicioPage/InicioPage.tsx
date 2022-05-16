@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -24,14 +25,18 @@ const InicioPage = () => {
 	useEffect(() => {
 		//metodo si hoy es cumpleaños
 		const isToday = () => {
-			const today = new Date();
-			// console.log('fechaHoy', today);
-			// console.log(perfilEmpleado.fechaNacimiento);
-			const fecha = new Date(perfilEmpleado.fechaNacimiento);
-			// console.log('fechaCumple', fecha);
-			return (
-				fecha.getDate() === today.getDate() && fecha.getMonth() === today.getMonth()
-			);
+			//se obtiene fecha actual
+			const todayDay = moment().subtract(1, 'days').format('DD');
+			const todayMonth = moment().format('MM');
+			// console.log(todayDay, '--', todayMonth);
+
+			const fechaNacDay = moment(perfilEmpleado.fechaNacimiento).format('DD');
+			const fechaNacMonth = moment(perfilEmpleado.fechaNacimiento).format('MM');
+
+			// console.log(fechaNacDay, '---', fechaNacMonth);
+
+			if (todayDay === fechaNacDay && todayMonth === fechaNacMonth) return true;
+			else return false;
 		};
 
 		// isToday();

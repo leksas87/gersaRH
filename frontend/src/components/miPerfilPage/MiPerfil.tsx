@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { getMyAvailableDays } from '../../actions/loginActions/loginActions';
 import {
 	getEmployeeById,
 	getUserById,
@@ -14,7 +15,7 @@ const MiPerfil = () => {
 	const dispatch = useDispatch();
 
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { firstName, lastName, id } = useSelector(
+	const { firstName, lastName, id, empleadoData } = useSelector(
 		(state: RootSote) => state.auth
 	);
 
@@ -28,7 +29,10 @@ const MiPerfil = () => {
 	useEffect(() => {
 		dispatch(getUserById(id));
 		dispatch(getEmployeeById(id));
-	}, [id, dispatch]);
+		if (empleadoData.id) {
+			dispatch(getMyAvailableDays(empleadoData.id));
+		}
+	}, [id, dispatch, empleadoData.id]);
 
 	return (
 		<>
