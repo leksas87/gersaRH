@@ -156,14 +156,14 @@ export const getEmployeeById = (id: string) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
@@ -694,14 +694,14 @@ export const getEmployeeByRollType = (rollTypeId: number) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({

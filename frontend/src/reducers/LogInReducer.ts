@@ -52,7 +52,7 @@ const INITIAL_STATE: iAuthState = {
 	availableDays: {
 		id: null,
 		employeeId: 0,
-		availableDays: 0,
+		avaibleDays: 0,
 		fechaLimite: '',
 		status: 0,
 	},

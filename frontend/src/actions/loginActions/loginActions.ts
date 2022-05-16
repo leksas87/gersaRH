@@ -139,14 +139,14 @@ export const getEmployeeDataById = (id: number) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
@@ -195,6 +195,7 @@ export const getMyAvailableDays = (id: number) => {
 				},
 			})
 			.then((respuesta) => {
+				// console.log(respuesta);
 				if (respuesta.status === 200) {
 					//Se guarda los usuarios obtenidos en el Reducer
 					dispatch({
@@ -214,14 +215,14 @@ export const getMyAvailableDays = (id: number) => {
 			})
 			.catch((error) => {
 				if (error.response.status === 500) {
-					// console.log('error500');
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡Error en el servido!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log('error500');
+					// Swal.fire({
+					// 	position: 'top-end',
+					// 	icon: 'warning',
+					// 	title: `¡Error en el servido!`,
+					// 	showConfirmButton: false,
+					// 	timer: 1500,
+					// });
 				} else if (error.response.status === 400) {
 					// console.log('error400');
 					Swal.fire({
