@@ -14,8 +14,7 @@ function validaDias() {
             
             //verificamos que tenga registro de fecha de ingreso
             const employeeid=await models.Request.findOne({where:{id:req.params.id}});
-            
-            console.log(employeeid);
+ 
             const employee=await models.Employee.findOne({where:{id:employeeid.employeeId}});
 
             if(!employee.fechaIngreso){return res.status(404).json({message: "El empleado no tiene fecha de ingreso"})}
@@ -69,7 +68,7 @@ function validaDias() {
                     var fechaInicio = moment(employeeid.fechaInicio);
                     var fechaFin = moment(employeeid.fechaFin);
                     
-                    let resta=fechaFin.diff(fechaInicio,'days');
+                    let resta=fechaFin.diff(fechaInicio,'days')+1;
 
                     if (resta>avaibleDays.avaibleDays) {
                         return res.status(400).json({data:avaibleDays,message:'Sin suficientes días'});
@@ -78,7 +77,7 @@ function validaDias() {
                         let restas=avaibleDays.avaibleDays-resta
 
                         let params={avaibleDays:restas}
-
+                        ////actualizamos el numero de dias.
                         Object.assign(avaibleDays, params);
                         await avaibleDays.save();
                     }
