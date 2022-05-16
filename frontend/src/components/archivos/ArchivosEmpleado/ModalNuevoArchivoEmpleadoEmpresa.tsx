@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import AWS from 'aws-sdk';
@@ -89,6 +89,22 @@ const ModalNuevoArchivoEmpleadoEmpresa = () => {
 				if (err) console.log(err);
 			});
 	};
+	useEffect(() => {
+		function toclose(e: any) {
+			(
+				document.getElementById('inputUpFileEmpleadoEmpresa') as HTMLInputElement
+			).value = '';
+		}
+
+		const myModalEl = document.getElementById('modalNuevoArchivoEmpleadoEmpresa');
+		if (myModalEl) {
+			myModalEl.addEventListener('hidden.bs.modal', toclose);
+		}
+
+		return () => {
+			myModalEl?.removeEventListener('hidden.bs.modal', toclose);
+		};
+	}, []);
 	return (
 		<>
 			<div>
@@ -162,6 +178,7 @@ const ModalNuevoArchivoEmpleadoEmpresa = () => {
 													Selecciona un archivo*
 												</label>
 												<input
+													id='inputUpFileEmpleadoEmpresa'
 													className='form-control custm-InputFile'
 													type='file'
 													onChange={handleFileInput}

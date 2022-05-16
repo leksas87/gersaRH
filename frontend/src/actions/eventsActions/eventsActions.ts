@@ -182,43 +182,63 @@ export const sendAccessCodeDataCheck = (accessCode: number, data: {}) => {
 //(GET) Reenviar codigo de Acceso al empleado
 export const reSendAccessCode = (userId: number) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
-		//Peticion Fetch a la API para hacer CheckIn
-		try {
-			const respuesta = await fetchConToken(
-				`employees/${userId}/accessCode`,
-				{},
-				'GET'
-			);
-			//.json() a la respuesta
-			const body = await respuesta?.json();
-
-			//Condicion si existe un id
-			if (body.ok) {
-				Swal.fire({
-					position: 'center',
-					icon: 'success',
-					title: `¡Código de acceso, Reenviado!`,
-					showConfirmButton: false,
-					timer: 2000,
-				});
-				dispatch({ type: RESEND_ACCESS_CODE });
-			} else {
-				Swal.fire({
-					position: 'center',
-					icon: 'error',
-					title: `¡${body.message}!`,
-					showConfirmButton: false,
-					timer: 2000,
-				});
-			}
-		} catch (error) {
-			console.log(error);
-			Toast.fire({
-				icon: 'error',
-				title: '¡Ups! Algo salió mal. <br/> Por favor, Intenta de nuevo!',
+		const token = localStorage.getItem('gersa-tkn') || '';
+		//Peticion Axios a la API para Registrar nuevo schedule
+		axiosClientWithToken
+			.get(`employees/${userId}/accessCode`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((respuesta) => {
+				if (respuesta.status === 200) {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: `¡Código de acceso, Reenviado!`,
+						showConfirmButton: false,
+						timer: 2000,
+					});
+					dispatch({ type: RESEND_ACCESS_CODE });
+				}
+			})
+			.catch((error) => {
+				if (error.response.status === 500) {
+					Toast.fire({
+						icon: 'error',
+						title: '¡Ups! Algo salió mal. <br/> Por favor, Intenta de nuevo!',
+					});
+				} else if (error.response.status === 400) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'warning',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 403) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else if (error.response.status === 409) {
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: `¡${error.response.data.message}!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				} else {
+					Toast.fire({
+						icon: 'error',
+						title: '¡Ups! Algo salió mal. <br/> Por favor, Intenta de nuevo!',
+					});
+				}
 			});
-			// dispatch({ type: AUTH_LOADING_FINISH });
-		}
 	};
 };
 
