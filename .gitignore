@@ -9,8 +9,6 @@
 /FrontEnd/build
 
 # env
-/frontend/.env.development
-/frontend/.env.production
 
 #excel file
 /Backend/uploads/.xlsx
