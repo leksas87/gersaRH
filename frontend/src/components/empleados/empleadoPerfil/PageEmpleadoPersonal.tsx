@@ -20,16 +20,15 @@ const PageEmpleadoPersonal = () => {
 		indiceFechaNacimiento
 	);
 	let indiceFechaImss;
+	let fechaAltImss: any;
 	//Tomar solo la fecha
 	if (perfilEmpleado.fechaAltaImss) {
 		indiceFechaImss = perfilEmpleado.fechaAltaImss.indexOf('T');
+		fechaAltImss = perfilEmpleado.fechaAltaImss.substring(0, indiceFechaImss);
 	} else {
 		indiceFechaImss = 0;
+		fechaAltImss = '';
 	}
-	const fechaAltImss = perfilEmpleado.fechaAltaImss.substring(
-		0,
-		indiceFechaImss
-	);
 
 	let direction2 = '';
 	if (perfilEmpleado.direccion2) direction2 = perfilEmpleado.direccion2;
