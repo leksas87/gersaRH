@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
 const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
 
-const S3_BUCKET = 'gersarequestfiles';
+const S3_BUCKET = 'gersarhfiles';
 const REGION = 'us-east-1';
 
 AWS.config.update({

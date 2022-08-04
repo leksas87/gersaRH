@@ -6,8 +6,9 @@ import { registerNewFile } from '../../../actions/archivosActions/archivosAction
 import { RootSote } from '../../../store/Store';
 const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID_S3AWS;
 const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY_S3AWS;
+// const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
+const S3_BUCKET = 'gersarhfiles';
 
-const S3_BUCKET = 'gersarequestfiles';
 const REGION = 'us-east-1';
 
 AWS.config.update({

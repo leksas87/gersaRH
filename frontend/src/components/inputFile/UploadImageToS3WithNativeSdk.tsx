@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // import entire SDK
 import AWS from 'aws-sdk';
 
-const S3_BUCKET = 'gersarequestfiles';
+const S3_BUCKET = 'gersarhfiles';
 const REGION = 'us-east-1';
 
 AWS.config.update({
