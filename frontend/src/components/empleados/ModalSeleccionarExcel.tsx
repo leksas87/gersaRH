@@ -30,8 +30,8 @@ const ModalSeleccionarExcel = () => {
 
 		//Validacion, si el formulario es correcto entonces... Enviar Excel
 		if (isFormValid()) {
-			if (checked) dispatch(registerNewUsersSend(formData, 'donotsend'));
-			else dispatch(registerNewUsersSend(formData, 'send'));
+			if (checked) dispatch(registerNewUsersSend(formData, 'send'));
+			else dispatch(registerNewUsersSend(formData, 'donotsend'));
 		}
 	};
 

@@ -234,9 +234,9 @@ export const downloadTamplateExcelFromServer = () => {
 
 //Descargar Plantilla Excel desde Front
 export const downloadTamplateExcel = () => {
+	const baseUrl = process.env.REACT_APP_BASE_URL;
 	const downloadInstance = document.createElement('a');
-	downloadInstance.href =
-		'http://localhost:3000/assets/tamplates/PlantillaEmpleadosGersaRH.xlsx';
+	downloadInstance.href = `${baseUrl}/assets/tamplates/PlantillaEmpleadosGersaRH.xlsx`;
 	downloadInstance.target = '_blank';
 	downloadInstance.download = 'plantillaImportarEmpleadosGersaRH';
 
