@@ -1,15 +1,10 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { RootSote } from '../../../store/Store';
 
 const ArchivosEmpleadoIndex = () => {
 	//Se necesita el state que contiene los datos del empleadoSeleccionado
-	const { perfilEmpleado, perfilUsuario } = useSelector(
-		(state: RootSote) => state.users
-	);
-	//Hook para obtener los parametros del url
-	const params = useParams();
+	const { perfilUsuario } = useSelector((state: RootSote) => state.users);
 	const location = useLocation();
 
 	return (

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -134,7 +135,8 @@ const PagePerfil = () => {
 								<input
 									className='form-control custm-Width100 custm-empleadoFormIntput'
 									type='text'
-									placeholder={perfilEmpleado.fechaIngreso}
+									// placeholder={perfilEmpleado.fechaIngreso}
+									placeholder={moment(perfilEmpleado.fechaIngreso).format('DD/MM/YYYY')}
 									disabled
 								/>
 							</div>

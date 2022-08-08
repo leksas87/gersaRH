@@ -77,6 +77,12 @@ const PageEmpleadoPerfil = () => {
 				diasDisponiblesFaltas: diasDisponibles.avaibleDays,
 				fechaIngreso: miFechaIngreso,
 			});
+		} else {
+			setValues2({
+				numeroEmpleado: perfilEmpleado.numeroEmpleado,
+				diasDisponiblesFaltas: 0,
+				fechaIngreso: miFechaIngreso,
+			});
 		}
 	}, [perfilUsuario, perfilEmpleado, miFechaIngreso, diasDisponibles]);
 
