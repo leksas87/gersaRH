@@ -5,6 +5,7 @@
 /frontend/.env.development
 /frontend/.env.production
 /Backend/node_modules
+/Backend/.env
 
 
 # production
