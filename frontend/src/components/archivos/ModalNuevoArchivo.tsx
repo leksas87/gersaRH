@@ -30,7 +30,6 @@ const ModalNuevoArchivo = () => {
 		nombreArchivo: '',
 		url: '',
 	};
-	let tipoContenido = '';
 	//estado para mostrar la carga del inputFile
 	const [progress, setProgress] = useState(0);
 	//Estado para guardar el nombre Key del InputFile
