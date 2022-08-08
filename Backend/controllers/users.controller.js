@@ -56,7 +56,6 @@ function download(req, res) {
 async function registerFile(req, res) {
     const sendInvitation=req.params.sendInvitation;
     const usersNames = [];
-
     if(!req.file){
         return res.status(400).json({ message:'Error, seleccione un archivo'});
     }
@@ -144,7 +143,6 @@ async function registerFile(req, res) {
                     if( user.unidadLaborales === null ) { user.unidadLaborales = ""; }
                     if( user.tipoSalario === null ) { user.tipoSalario = ""; }
                     if( user.cantidadSalario === null ) { user.cantidadSalario = 0; }
-                    console.log(user.scheduleId)             
                     usersNames.push(user);
                 }
                 
@@ -209,8 +207,6 @@ async function registerFile(req, res) {
                  });
 
                  const employeeSchedules = await models.EmployeeSchedule.findAll();
-                 console.log("paso el buscar la relacion****");
-                 console.log(employeeSchedules);
                  employeeSchedules.forEach(async employeeScheduleC => {
                     if(employeeScheduleC.employeeId === employee.id ){
                         await employeeScheduleC.destroy();
@@ -234,17 +230,17 @@ async function registerFile(req, res) {
                 if (sendInvitation==='send') {
                     await userService.sendInvitation(userF);
                 } 
-                // await models.User.create(user);
-                const employee = await models.User.create(userF);
-                await models.Employee.create({
-                    userId: employee.id,
+                const user = await models.User.create(userF);
+                let superVisor = await models.User.findOne({where : {username: userF.supervisor}});
+                const employee = await models.Employee.create({
+                    userId: user.id,
                     tipoIdentificacion:userF.tipoIdentificacion,
                     documentoIdentidad:userF.documentoIdentidad,
                     fechaNacimiento:userF.fechaNacimiento,
                     genero:userF.genero,
                     nacionalidad:userF.nacionalidad,
                     lugarDeTrabajo:userF.lugarDeTrabajo,
-                    supervisor:userF.supervisor,
+                    supervisor:(superVisor === null || superVisor === undefined)?"0":superVisor.id.toString(),
                     numeroCuentaBancaria:userF.numeroCuentaBancaria,
                     swiftBic:userF.swiftBic,
                     frecuenciaPago:userF.frecuenciaPago,

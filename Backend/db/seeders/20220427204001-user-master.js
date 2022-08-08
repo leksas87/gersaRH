@@ -29,7 +29,7 @@ module.exports = {
       ], {});
 
     return await queryInterface.bulkInsert('Employees', [
-      {fechanacimiento: new Date(),  userId: userRows[0].id,fechaIngreso: "2022-01-01"}
+      {fechanacimiento: new Date(),  userId: userRows[0].id,fechaIngreso: "2022-01-01", fechaAltaImss:"2022-01-01"}
     ], {});
 
   },
