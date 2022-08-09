@@ -15,7 +15,7 @@ function forbiddenTimeRequest() {
             //obtiene el dato del usuario asignado al time request
             const employee=await models.Employee.findOne({where:{userId:req.user.id}});
 
-            const timeRequest=await models.TimeRequest.findOne({where:{employeeId:employee.id}});
+            const timeRequest=await models.TimeRequest.findOne({where:{employeeId:employee.id, id:timeRequestId}});
             // revisa si el usuario tiene permisos de ver la informacion
             if(!timeRequest){
                 return res.status(403).json( {message: 'Usuario no autorizado'});

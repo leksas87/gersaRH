@@ -72,8 +72,30 @@ async function reenvioToken({ username, password }) {
     return { ...omitHash(user.get()), token };
 }
 
-async function getAll() {
-    return await models.User.findAll();
+async function getAll(req,res) {
+    //return await models.User.findAll();
+    const employee = await models.Employee.findOne({
+        where: { userId: req.user.id },
+    });
+    const roll = req.user.rollTypeId;
+    switch (roll) {
+        case 1:
+            return await models.User.findAll();
+
+        case 3:
+            return await models.User.findAll({
+                include: [
+                    {
+                        model: models.Employee,
+                        where: { supervisor: employee.id },
+                        attributes: ['id'],
+                    },
+                ]
+            });
+
+        default:
+            break;
+    }
 }
 
 async function getById(id) {
