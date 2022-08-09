@@ -27,7 +27,7 @@ const PageReportesAdministrativos = () => {
 						className='textColorSecondary fs-4'
 						style={{ textDecoration: 'underline' }}
 					>
-						Reportes administrativos2
+						Reportes administrativos
 					</div>
 					<div>
 						<ModalNuevoReporteAdministrativo />

@@ -232,6 +232,7 @@ const ModalNuevaSolicitudIncapacidad = () => {
 													className='form-control custm-InputFile'
 													type='file'
 													onChange={handleFileInput}
+													required
 												/>
 
 												<div>El progreso de la carga del archivo es del {progress}%</div>

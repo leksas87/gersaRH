@@ -134,6 +134,7 @@ const ModalNuevoReporteAdministrativo = () => {
 													value={descripcionEmpleado}
 													onChange={handleInputChange}
 													placeholder='Escribe un breve detalle'
+													required
 												></textarea>
 											</div>
 
