@@ -211,8 +211,7 @@ async function getRequest(req, res) {
 				Requests = await models.Request.findAll({
 					include: [
 						{
-							model: models.Employee,
-							as: 'employee',
+							model: models.Employee,as: 'employee',
 							include: [{ model: models.User, as: 'User', attributes: atributeUser }],
 							attributes: atributeEmployeeWorkPlace,
 						},
@@ -224,8 +223,7 @@ async function getRequest(req, res) {
 					where: { employeeId: employee.id },
 					include: [
 						{
-							model: models.Employee,
-							as: 'employee',
+							model: models.Employee,as: 'employee',
 							include: [{ model: models.User, as: 'User', attributes: atributeUser }],
 							attributes: atributeEmployeeWorkPlace,
 						},
@@ -236,16 +234,14 @@ async function getRequest(req, res) {
 				Requests = await models.Request.findAll({
 					include: [
 						{
-							model: models.Employee,
-							as: 'employee',
+							model: models.Employee,as: 'employee',
 							where: { supervisor: employee.id },
 							attributes: ['id'],
 						},
 					],
 					include: [
 						{
-							model: models.Employee,
-							as: 'employee',
+							model: models.Employee,as: 'employee',
 							include: [{ model: models.User, as: 'User', attributes: atributeUser }],
 							attributes: atributeEmployeeWorkPlace,
 						},

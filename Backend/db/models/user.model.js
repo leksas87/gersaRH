@@ -21,6 +21,7 @@ const UserSchema = {
 class User extends Model {
   static associate(models) {
     // associate
+    this.hasOne(models.Employee);
     this.belongsTo(models.RollType,{as:'rollType'});
   }
 
