@@ -261,16 +261,11 @@ const Sidebar = ({ screenSize = true }: iProps) => {
 									Salir
 								</button>
 							</li>
-							<li>
+							{/* <li>
 								<button className='dropdown-item custm-dropdown-item' type='button'>
 									Another action
 								</button>
-							</li>
-							<li>
-								<button className='dropdown-item custm-dropdown-item' type='button'>
-									Something else here
-								</button>
-							</li>
+							</li> */}
 						</ul>
 					</div>
 				</div>
