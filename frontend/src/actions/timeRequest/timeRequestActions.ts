@@ -398,7 +398,7 @@ export const gettimeRequestList = () => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 404) {
-					// console.log('error404');
+					console.log('error404:', error.response.data.message);
 					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
 					Swal.fire({
 						position: 'top-end',
@@ -475,7 +475,7 @@ export const gettimeRequestListByEmployeeId = (employeeId: number) => {
 						timer: 1500,
 					});
 				} else if (error.response.status === 404) {
-					console.log('error404', error.response.data.message);
+					console.log('Testerror404', error.response.data.message);
 					dispatch({ type: GET_EMPLOYEES_BY_PARAMS_LOADING_END });
 					Swal.fire({
 						position: 'top-end',
@@ -507,6 +507,7 @@ export const patchtimeRequestById = (
 	return async (dispatch: Dispatch<TimeRequestDispatchTypes>) => {
 		//Se recupera el token guardado el localStorage
 		const token = localStorage.getItem('gersa-tkn') || '';
+		console.log('Enviando user ID', employeeId);
 
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken

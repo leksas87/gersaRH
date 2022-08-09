@@ -5,6 +5,7 @@ import { useForm } from '../../hooks/useForm';
 import { RootSote } from '../../store/Store';
 import ModalAutorizarSolicitudes from './ModalAutorizarSolicitudes';
 import './PageAutorizaciones.css';
+const baseUrlRequestFilesS3 = process.env.REACT_APP_GERSA_REQUEST_BUCKET_S3;
 const PageAutorizaciones = () => {
 	//dispatch para ejecutar las actions
 	const dispatch = useDispatch();
@@ -158,7 +159,7 @@ const PageAutorizaciones = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={request.adjunto}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}
@@ -198,7 +199,7 @@ const PageAutorizaciones = () => {
 															<div>Adjunto:</div>
 															<a
 																className='fs-4  textColorSecondary'
-																href={`https://www.google.com.mx/maps/`}
+																href={`${baseUrlRequestFilesS3}${request.adjunto}`}
 																target='_blank'
 																rel='noopener noreferrer'
 																style={{ textDecoration: 'none' }}

@@ -49,7 +49,8 @@ export const registerNewReport = (
 
 					if (modalId === 'modalNuevoReporteAdministrativo') {
 						setTimeout(() => {
-							dispatch<any>(getReportList());
+							// dispatch<any>(getReportList());
+							dispatch<any>(getReportListByEmployeeId(employeeId));
 						}, 2000);
 					} else if (modalId === 'modalNuevoReporteEmpleado') {
 						setTimeout(() => {
@@ -70,15 +71,30 @@ export const registerNewReport = (
 						timer: 1500,
 					});
 				} else if (error.response.status === 400) {
-					// console.log('error400');
-					dispatch({ type: REGISTER_NEW_REPORT_LOADING_END });
-					Swal.fire({
-						position: 'top-end',
-						icon: 'warning',
-						title: `¡${error.response.data.message}!`,
-						showConfirmButton: false,
-						timer: 1500,
-					});
+					console.log(error.response.data.message);
+					if (
+						error.response.data.message ===
+						`Error de validación: "descripcionEmpleado" is not allowed to be empty`
+					) {
+						dispatch({ type: REGISTER_NEW_REPORT_LOADING_END });
+						Swal.fire({
+							position: 'top-end',
+							icon: 'warning',
+							title: `¡Error de validación: "descripcion" no puede estar vacío`,
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					} else {
+						// console.log('error400');
+						dispatch({ type: REGISTER_NEW_REPORT_LOADING_END });
+						Swal.fire({
+							position: 'top-end',
+							icon: 'warning',
+							title: `¡${error.response.data.message}!`,
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					}
 				} else if (error.response.status === 403) {
 					// console.log('error403');
 					dispatch({ type: REGISTER_NEW_REPORT_LOADING_END });
