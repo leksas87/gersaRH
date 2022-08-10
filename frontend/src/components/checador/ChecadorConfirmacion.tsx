@@ -105,13 +105,30 @@ const ChecadorConfirmacion = () => {
 							>
 								NO
 							</button>
-							<button
-								className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
-								type='button'
-								onClick={confirmationRegister}
-							>
-								SI
-							</button>
+							{cordenadas.latitude && cordenadas.longitude ? (
+								<button
+									className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
+									type='button'
+									onClick={confirmationRegister}
+								>
+									SI
+								</button>
+							) : (
+								<button
+									className='btn custm-btnCheckConfirmation custm-btnCheckConfirmation2'
+									type='button'
+									onClick={confirmationRegister}
+									style={{ fontSize: '16px', width: 'auto' }}
+									disabled
+								>
+									<span
+										className='spinner-border spinner-border-sm me-2'
+										role='status'
+										aria-hidden='true'
+									></span>
+									Cargando Ubicación...
+								</button>
+							)}
 						</div>
 					</div>
 				) : eventValidation.message === 'Empleado no tiene horas extra' ? (
