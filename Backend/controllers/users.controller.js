@@ -103,7 +103,7 @@ async function registerFile(req, res) {
                         unidadLaborales:row[32],
                         tipoSalario:row[33],
                         cantidadSalario:row[34],
-                        scheduleId:row[35],
+                        schedule:row[35],
                         
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
@@ -160,6 +160,7 @@ async function registerFile(req, res) {
     try {
 
         for (const userF of usersNames) {
+            //Verifica si tiene que crear o actualizar el usuario
             if (await models.User.findOne({ where: { username: userF.username } })) {
                 let user = await models.User.findOne({ where: { username: userF.username } });
                 user.firstName = userF.firstName;
@@ -213,12 +214,15 @@ async function registerFile(req, res) {
                     }
                  });
                 //Revisar error post 
-                const relacion = await models.EmployeeSchedule.create({
-                    employeeId: employee.id,
-                    scheduleId: userF.scheduleId
-                });
-
-                relacion.save();
+                let schedule = await models.Schedule.findOne({where:{scheduleName:userF.schedule}});
+                if(schedule != null || schedule != undefined){
+                   const relacion = await models.EmployeeSchedule.create({
+                        employeeId: employee.id,
+                        scheduleId: schedule.id
+                    });
+                    relacion.save();
+                }
+                
                 
                 user.save();
                 employee.save();
@@ -270,10 +274,12 @@ async function registerFile(req, res) {
                     tipoSalario:userF.tipoSalario,
                     cantidadSalario:userF.cantidadSalario
                 });
-                await models.EmployeeSchedule.create({
-                    employeeId: employee.id,
-                    scheduleId: userF.scheduleId
-                });
+                let schedule = await models.Schedule.findOne({where:{scheduleName:userF.schedule}});
+                if(schedule != null || schedule != undefined){
+                    await models.EmployeeSchedule.create({
+                        employeeId: employee.id,
+                        scheduleId: schedule.id
+                    });}
             }
             
         }
