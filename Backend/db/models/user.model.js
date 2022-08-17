@@ -14,7 +14,7 @@ const UserSchema = {
 	firstName: { type: DataTypes.STRING, allowNull: false },
 	lastName: { type: DataTypes.STRING, allowNull: false },
 	username: { type: DataTypes.STRING, allowNull: false },
-	phone: { type: DataTypes.STRING, allowNull: false },
+	phone: { type: DataTypes.STRING, allowNull: true, defaultValue: '' },
 	active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
 	hash: { type: DataTypes.STRING, allowNull: false, defaultValue: '' },
 	rollTypeId: {
