@@ -107,12 +107,12 @@ async function registerFile(req, res) {
                         
                     };
                     if (usersNames.find(element=>element.username === user.username)) {
-                    
                         throw 'Error, se encontró un correo repetido';
                         
                     }
-
+                    console.log(user.username, i);
                     let fechaNow = moment().tz("America/Mexico_City").format('YYYY-MM-DD');
+                    if( user.phone === null ) { user.phone = ""; } 
                     if( user.tipoIdentificacion === null ) { user.tipoIdentificacion = ""; } 
                     if( user.documentoIdentidad === null ) { user.documentoIdentidad = ""; }
                     if( user.fechaNacimiento === null ) { user.fechaNacimiento = fechaNow; }
