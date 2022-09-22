@@ -46,7 +46,7 @@ function getByUserName(req, res, next) {
 }
 
 function download(req, res) {
-    var dirname ='storage/template/plantilla-empleados.xlsx';
+    var dirname =`${__basedir}/storage/template/plantilla-empleados.xlsx`;//'storage/template/plantilla-empleados.xlsx'
     var fileName = "plantilla-empleados.xlsx"
     res.download(dirname,fileName, (error) => {
         error?console.log(error):console.log("Listo")
@@ -119,7 +119,7 @@ async function registerFile(req, res) {
                     if( user.genero === null ) { user.genero = ""; }
                     if( user.nacionalidad === null ) { user.nacionalidad = ""; }             
                     if( user.lugarDeTrabajo === null ) { user.lugarDeTrabajo = ""; }
-                    if( user.supervisor === null ) { user.supervisor = ""; }
+                    if( user.supervisor === null ) { throw 'Error, no se encontró un correo como supervisor'; }
                     if( user.numeroCuentaBancaria === null ) { user.numeroCuentaBancaria = ""; }
                     if( user.swiftBic === null ) { user.swiftBic = ""; }
                     if( user.frecuenciaPago === null ) { user.frecuenciaPago = ""; }
@@ -154,13 +154,16 @@ async function registerFile(req, res) {
         if (error==='Error, se encontró un correo repetido') {
             return res.status(400).json({ message:'Error, se encontró un correo repetido',ok:false})
         }    
-        
+        if (error==='Error, no se encontró un correo como supervisor') {
+            return res.status(400).json({ message:'Error, no se encontró un correo como supervisor',ok:false})
+        } 
     }
 
     try {
 
         for (const userF of usersNames) {
             //Verifica si tiene que crear o actualizar el usuario
+            let superVisor = await models.User.findOne({where : {username: userF.supervisor}});
             if (await models.User.findOne({ where: { username: userF.username } })) {
                 let user = await models.User.findOne({ where: { username: userF.username } });
                 user.firstName = userF.firstName;
@@ -174,8 +177,8 @@ async function registerFile(req, res) {
                 employee.genero = userF.genero;
                 employee.nacionalidad = userF.nacionalidad;
                 employee.lugarDeTrabajo = userF.lugarDeTrabajo;
-                employee.supervisor = userF.supervisor;
-                employee.numeroCuentaBancaria = userF.numeroCuentaBancaria;
+                employee.supervisor = (superVisor === null || superVisor === undefined)?"0":superVisor.id.toString();
+                employee.numeroCuentaBancaria = userF.numeroCuentaBancaria.toString();
                 employee.swiftBic = userF.swiftBic;
                 employee.frecuenciaPago = userF.frecuenciaPago;
                 employee.direccion1 = userF.direccion1;
@@ -235,7 +238,6 @@ async function registerFile(req, res) {
                     await userService.sendInvitation(userF);
                 } 
                 const user = await models.User.create(userF);
-                let superVisor = await models.User.findOne({where : {username: userF.supervisor}});
                 const employee = await models.Employee.create({
                     userId: user.id,
                     tipoIdentificacion:userF.tipoIdentificacion,
@@ -245,7 +247,7 @@ async function registerFile(req, res) {
                     nacionalidad:userF.nacionalidad,
                     lugarDeTrabajo:userF.lugarDeTrabajo,
                     supervisor:(superVisor === null || superVisor === undefined)?"0":superVisor.id.toString(),
-                    numeroCuentaBancaria:userF.numeroCuentaBancaria,
+                    numeroCuentaBancaria:userF.numeroCuentaBancaria.toString(),
                     swiftBic:userF.swiftBic,
                     frecuenciaPago:userF.frecuenciaPago,
                     direccion1:userF.direccion1,
