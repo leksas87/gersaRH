@@ -814,7 +814,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 							employeeId: employeeSchedul.employeeId,
 							DateEvent: { [Op.between]: [fechaInicioPre, fechaFinPre] },
 						},
-						order: [['DateEvent', 'DESC']],
+						order: [['createdAt', 'DESC']],
 					});
 
 					if (eventsPre.length === 0)
