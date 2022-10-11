@@ -22,6 +22,8 @@ const xl = require('excel4node');
 const moment = require('moment-timezone');
 const {Op}=require('sequelize');
 const path = require('path');
+const { Employee } = require('../db/models/employee.model');
+const userService = require('../services/user.service');
 
 // routes
 router.get('/auth', registerAccessCodeSchema, sendInformationByAccessCode);
@@ -805,9 +807,13 @@ function deleteEmployeeSchedule(req, res, next) {
 	validateRequestParams(req, next, schema);
 }
 function registerContracts(req, res, next) {
+	console.log('creamos el contrato');
+	console.log('log body',req.body)
 	contractService
 		.create(req.body, req.params.id)
-		.then(() => res.json({ message: 'Registro exitoso'}))
+		.then(() => {//actualizamos al usuario
+			userService.update(req.params.id,{isEmployeeActive:true});
+			res.json({ message: 'Registro exitoso'});})
 		.catch(next);
 }
 
