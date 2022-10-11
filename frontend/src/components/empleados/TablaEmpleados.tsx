@@ -202,7 +202,7 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i
 										className='custm-icon bi bi-arrow-down-up'
 										onClick={() => {
-											sortEmployees(empleados, 'Nombre', isAscending);
+											sortEmployees(displayListArr, 'Nombre', isAscending);
 											isAscending ? setIsAscending(false) : setIsAscending(true);
 										}}
 									/>
@@ -212,7 +212,7 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i
 										className='custm-icon bi bi-arrow-down-up'
 										onClick={() => {
-											sortEmployees(empleados, 'Apellidos', isAscending);
+											sortEmployees(displayListArr, 'Apellidos', isAscending);
 											isAscending ? setIsAscending(false) : setIsAscending(true);
 										}}
 									/>
@@ -222,7 +222,8 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i
 										className='custm-icon bi bi-arrow-down-up'
 										onClick={() => {
-											sortEmployees(empleados, 'Correo', isAscending);
+											// sortEmployees(empleados, 'Correo', isAscending);
+											sortEmployees(displayListArr, 'Correo', isAscending);
 											isAscending ? setIsAscending(false) : setIsAscending(true);
 										}}
 									/>
@@ -232,7 +233,7 @@ const TablaEmpleados = ({ empleados }: iTablaEmpleadosProps) => {
 									<i
 										className='custm-icon bi bi-arrow-down-up'
 										onClick={() => {
-											sortEmployees(empleados, 'Telefono', isAscending);
+											sortEmployees(displayListArr, 'Telefono', isAscending);
 											isAscending ? setIsAscending(false) : setIsAscending(true);
 										}}
 									/>
