@@ -8,9 +8,7 @@ export const sortEmployees = (
     ) => {
         switch (tipo) {
             case "Nombre":
-                if(isAscending){
-                    console.log(isAscending);
-                    
+                if(isAscending){                    
                     empleados.sort(( a:any, b:any ) => 
                     { 
                         const primero = a.firstName.toLocaleLowerCase();
@@ -26,7 +24,6 @@ export const sortEmployees = (
                     });
                 }
                 else{
-                    console.log(isAscending)
                     empleados.sort(( a:any, b:any ) => 
                     { 
                         const primero = a.firstName.toLocaleLowerCase();
