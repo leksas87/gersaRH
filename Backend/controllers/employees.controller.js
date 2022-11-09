@@ -829,7 +829,8 @@ function registerEventSchema(req, res, next) {
 		latitudeEvent: Joi.string().required(),
 		longitudeEvent: Joi.string().required(),
 		EventTypeId: Joi.string().required(),
-		eventActionTypeId:Joi.number().required()
+		eventActionTypeId:Joi.number().required(),
+		url:Joi.string().required()
 	});
 	validateRequest(req, next, schema);
 }
