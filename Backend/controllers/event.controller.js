@@ -28,7 +28,8 @@ function registerSchema(req, res, next) {
     const schema = Joi.object({
         employeeId: Joi.number().integer().required(),
         longitude:Joi.string().required(),
-        latitude:Joi.string().required()
+        latitude:Joi.string().required(),
+        url:Joi.string().required()
     });
     validateRequest(req, next, schema);
 }

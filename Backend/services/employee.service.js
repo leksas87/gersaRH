@@ -443,6 +443,7 @@ async function registerEvents(params, id) {
 			longitudeEvent: params.longitudeEvent,
 			latitudeEvent: params.latitudeEvent,
 			eventActionTypeId: params.eventActionTypeId,
+			url: params.url
 		});
 	} catch (error) {
 		return res
