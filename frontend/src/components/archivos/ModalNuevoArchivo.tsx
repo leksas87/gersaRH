@@ -77,7 +77,8 @@ const ModalNuevoArchivo = () => {
 			Bucket: S3_BUCKET,
 			Key: keyName,
 			ContentType: file.type,
-		};
+ 		};
+		console.log('FILETYPE:::',file.type);
 
 		myBucket
 			.putObject(params)

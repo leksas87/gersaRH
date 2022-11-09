@@ -54,7 +54,7 @@ const ChecadorTeclado = () => {
 	//useEffect para redireccionar al login una vez se actualizo el password
 	useEffect(() => {
 		if (eventsState.eventIsUserConfirm) {
-			navigate('/checador/select');
+			navigate('/checador/foto');
 		}
 	}, [eventsState, navigate]);
 

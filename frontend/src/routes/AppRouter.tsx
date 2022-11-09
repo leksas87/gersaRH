@@ -60,6 +60,7 @@ import ArchivosEmpleadoIndex from '../components/archivos/ArchivosEmpleado/Archi
 import ArchivosEmpleadoPersonales from '../components/archivos/ArchivosEmpleado/ArchivosEmpleadoPersonales';
 import ArchivosEmpleadoEmpresa from '../components/archivos/ArchivosEmpleado/ArchivosEmpleadoEmpresa';
 import DetalleNomina from '../components/inicioPage/DetalleNomina';
+import ChecadorFotoPage from '../components/checador/ChecadorFotoPage';
 
 const AppRouter = () => {
 	const dispatch = useDispatch();
@@ -212,6 +213,7 @@ const AppRouter = () => {
 							<Route index element={<ChecadorTeclado />} />
 							{/* <Route path='exit' element={<ChecadorTeclado />} /> */}
 							<Route element={<RequireCheckState />}>
+								<Route path='foto' element={<ChecadorFotoPage />} />
 								<Route path='select' element={<ChecadorPage />} />
 								<Route path='tiempoextra' element={<ChecadorHorasExtrasPage />} />
 								<Route path='confirm' element={<ChecadorConfirmacion />} />

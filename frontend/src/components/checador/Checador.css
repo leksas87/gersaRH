@@ -100,6 +100,34 @@
 	transform: scale(0.97);
 	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);
 }
+.custm-btnCheckSubmitPic {
+	background-color: #0f4257;
+}
+.custm-btnCheckSubmitPic:hover {
+	background-color: #12526d;
+}
+.custm-btnRound {
+	background-color: #bebebe;
+	border-radius: 50%;
+	border: 2px solid var(--colorSecondary);
+	color: var(--colorSecondary);
+	padding: 15px;
+	width: 45px;
+	height: 45px;
+	font-size: 1.3rem;
+	font-weight: bold;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	transition: 0.1s ease-in-out;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.custm-btnRound:hover {
+	background-color: #cecece;
+	color: var(--colorSecondaryHover);
+	transform: scale(0.97);
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);
+}
 /* ConfirmacionPage */
 .custm-btnCheckConfirmation {
 	width: 105px;

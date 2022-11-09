@@ -15,6 +15,8 @@ export const GET_SERVER_DAY = 'get_server_day';
 export const CLEAN_SERVER_DAY = 'clean_server_day';
 export const GET_EVENT_VALIDATION = 'get_event_validation';
 export const CLEAN_EVENT_VALIDATION = 'clean_event_validation';
+export const GET_EMPLOYEE_PHOTOUUID = 'get_employee_photouuid';
+export const CLEAN_EMPLOYEE_PHOTOUUID = 'clean_employee_photouuid';
 
 //Interfaz para confirmacion de usuario.
 export interface iEventsReducerState {
@@ -28,6 +30,7 @@ export interface iEventsReducerState {
 	employeeEvents: iEmployeeEvent[];
 	eventValidation: iEventValidation;
 	employeeHoursAccepted: iEmployeeHoursAccepted[];
+	employeePhotoUuid: string;
 }
 //Interfaz para eventos del empleado.
 export interface iEmployeeEvent {
@@ -152,6 +155,17 @@ export interface Get_event_validation {
 export interface Clean_event_validation {
 	type: typeof CLEAN_EVENT_VALIDATION;
 }
+//Obtener el uuid del la foto de AWS
+export interface Get_employee_photouuid {
+	type: typeof GET_EMPLOYEE_PHOTOUUID;
+	payload: {
+		employeePhotoUuid: string;
+	};
+}
+//Limpiar el timpo del servidor
+export interface Clean_employee_photouuid {
+	type: typeof CLEAN_EMPLOYEE_PHOTOUUID;
+}
 
 //Types para el dispatch
 export type EventsDispatchTypes =
@@ -171,4 +185,6 @@ export type EventsDispatchTypes =
 	| Get_event_validation
 	| Clean_event_validation
 	| Get_employee_hours_accepted
-	| Clean_employee_hours_accepted;
+	| Clean_employee_hours_accepted
+	| Get_employee_photouuid
+	| Clean_employee_photouuid;

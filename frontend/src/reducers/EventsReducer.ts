@@ -1,6 +1,7 @@
 import {
 	CLEAN_EMPLOYEE_EVENTS,
 	CLEAN_EMPLOYEE_HOURS_ACCEPTED,
+	CLEAN_EMPLOYEE_PHOTOUUID,
 	CLEAN_EVENT_VALIDATION,
 	CLEAN_SERVER_DAY,
 	CLEAN_SERVER_TIME,
@@ -11,6 +12,7 @@ import {
 	EVENTS_START_LOADING,
 	GET_EMPLOYEE_EVENTS,
 	GET_EMPLOYEE_HOURS_ACCEPTED,
+	GET_EMPLOYEE_PHOTOUUID,
 	GET_EVENT_VALIDATION,
 	GET_SERVER_DAY,
 	GET_SERVER_TIME,
@@ -41,6 +43,7 @@ const INITIAL_STATE: iEventsReducerState = {
 		employeeWorksToday: true,
 	},
 	employeeHoursAccepted: [],
+	employeePhotoUuid:''
 };
 
 //Reducer
@@ -137,6 +140,16 @@ export const EventsReducer = (
 				...state,
 				eventValidation: INITIAL_STATE.eventValidation,
 			};
+		case GET_EMPLOYEE_PHOTOUUID:
+			return{
+				...state,
+				employeePhotoUuid: action.payload.employeePhotoUuid
+			};
+		case CLEAN_EMPLOYEE_PHOTOUUID:
+			return {
+				...state,
+				employeePhotoUuid: INITIAL_STATE.employeePhotoUuid
+			}
 
 		default:
 			return state;

@@ -44,6 +44,7 @@ const ChecadorConfirmacion = () => {
 	//Metodo que envia los datos de confirmacion
 	const confirmationRegister = () => {
 		if (userConfirmation.employeeId) {
+			console.log('userConfirmation.employeeId::::',userConfirmation.employeeId);
 			dispatch(
 				sendEmployeeEvent(
 					{

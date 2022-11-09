@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Webcam from 'react-webcam';
 import {
 	changecheckIsUserActiveFalse,
 	employeeEventValidation,
 	getEmployeeEvents,
 } from '../../actions/eventsActions/eventsActions';
 import { RootSote } from '../../store/Store';
+
 import './Checador.css';
 
+
 const ChecadorPage = () => {
+
+
 	//dispatch para ejecutar las Actions
 	const dispatch = useDispatch();
 	//useNavigate para redireccionar a la página de confirmación
@@ -25,6 +30,8 @@ const ChecadorPage = () => {
 		terminaDescanso: true,
 		salida: true,
 	});
+
+	
 
 	//efecto para obtener los eventos del empleado
 	useEffect(() => {
@@ -58,7 +65,6 @@ const ChecadorPage = () => {
 			terminaDescanso: terminaDescanso,
 			salida: salida,
 		});
-		// console.log('test:-', eventsState);
 	}, [employeeEvents]);
 
 	//metodo que se ejecuta al dar clic en un boton del checador
@@ -66,6 +72,9 @@ const ChecadorPage = () => {
 		console.log('actionTypeId: ', eventActionTypeId);
 
 		if (userConfirmation.employeeId) {
+			console.log('userConfirmation.employeeId',userConfirmation.employeeId);
+			console.log('eventActionTypeId',eventActionTypeId);
+			console.log('userConfirmation.token',userConfirmation.token);
 			//Se obtiene los horarios del empleado
 			dispatch(
 				employeeEventValidation(
@@ -94,8 +103,7 @@ const ChecadorPage = () => {
 				to='/checador/tiempoextra'
 				style={{ position: 'absolute', right: '0px', top: '0px' }}
 				className=' btn d-flex flex-column align-items-center custm-btnCheckMargin'
-				// disabled
-				// onClick={registerEvent}
+				
 			>
 				<div className='custm-btnCheckHE custm-btnCheckIn d-flex justify-content-center align-items-center'>
 					<i className='bi bi-stopwatch-fill textColorSecondary' />
