@@ -17,6 +17,7 @@ const EventSchema = {
   latitudeEvent:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
   longitudeEvent:{type: DataTypes.STRING,allowNull: true,defaultValue:''},
   eventActionTypeId: {type: DataTypes.INTEGER,allowNull:true,references:{model:EVENTACTIONTYPE_TABLE,key:'id'},onUpdate:'CASCADE',onDelete:'SET NULL'}, 
+  url: { type: DataTypes.STRING, allowNull: true, defaultValue:'' },
 }
 class Event extends Model {
 

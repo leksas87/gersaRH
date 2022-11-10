@@ -66,6 +66,14 @@ body {
 	justify-content: center;
 	align-items: center;
 }
+.loadingContainerPicture {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .textColorLight {
 	color: var(--textColorLight);
 }

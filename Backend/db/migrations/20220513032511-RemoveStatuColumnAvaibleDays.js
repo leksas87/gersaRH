@@ -5,7 +5,7 @@ const { AVAILABLEDAYS_TABLE, AvailableDaysSchema } = require('../models/availabl
 
 module.exports = {
 	up: async (queryInterface) => {
-		await queryInterface.removeColumn(AVAILABLEDAYS_TABLE,'status');
+		//await queryInterface.removeColumn(AVAILABLEDAYS_TABLE,'status');
 	},
 
 	down: async (queryInterface) => {
