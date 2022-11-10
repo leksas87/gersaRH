@@ -49,7 +49,6 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 			.catch((error) => {
 				if (error.response.status === 400) {
 					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error400');
 					console.log(error.response.data.message);
 					if (
 						error.response.data.message ===
@@ -73,7 +72,6 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 					}
 				} else if (error.response.status === 404) {
 					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error404');
 
 					Swal.fire({
 						position: 'top-end',
@@ -84,7 +82,6 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 					});
 				} else if (error.response.status === 500) {
 					dispatch({ type: EVENTS_LOADING_END });
-					// console.log('error500');
 					Swal.fire({
 						position: 'top-end',
 						icon: 'warning',
@@ -108,7 +105,6 @@ export const sendAccessCodeCheck = (accessCode: number) => {
 
 //Cambiar el valor del isUserActive
 export const changecheckIsUserActiveFalse = () => {
-	// console.log('Ejecutando getUsers');
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//isUserActive = false
 		dispatch({ type: EVENTS_IS_USER_ACTIVE_FALSE });
@@ -258,9 +254,6 @@ export const getEmployeeEvents = (employeeId: number, token: string) => {
 			})
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					// console.log(respuesta.data.registros);
-					// const reverseArray = respuesta.data.registros.reverse();
-					// console.log('arrayAlreves', reverseArray);
 					dispatch({
 						type: GET_EMPLOYEE_EVENTS,
 						payload: { employeeEvents: respuesta.data.registros },
@@ -430,7 +423,6 @@ export const sendEmployeeEvent = (
 ) => {
 	return async (dispatch: Dispatch<EventsDispatchTypes>) => {
 		//Peticion Axios a la API para Registrar nuevo Event
-		console.log(data);
 		axiosClientWithToken
 			.post(`employees/${employeeId}/events`, data, {
 				headers: {
@@ -594,13 +586,6 @@ export const employeeEventValidation = (
 		//LimpiarEmployeeEvents
 		dispatch({ type: CLEAN_EVENT_VALIDATION });
 
-
-		console.log('ANTES DE ENVIAR:::',
-		employeeId,
-		eventActionTypeId,
-		token);
-		
-
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(
@@ -613,7 +598,6 @@ export const employeeEventValidation = (
 			)
 			.then((respuesta) => {
 				if (respuesta.status === 200) {
-					console.log('RespuestaValidacion200->', respuesta.data);
 					dispatch({
 						type: GET_EVENT_VALIDATION,
 						payload: {
@@ -627,7 +611,6 @@ export const employeeEventValidation = (
 						},
 					});
 				} else if (respuesta.status === 202) {
-					console.log('RespuestaValidacion 202->', respuesta.data);
 					dispatch({
 						type: GET_EVENT_VALIDATION,
 						payload: {
@@ -643,7 +626,6 @@ export const employeeEventValidation = (
 				}
 			})
 			.catch((error) => {
-				console.log('RESPUESTA:::',error);
 				if (error.response.status === 500) {
 					console.log(error.response);
 					Swal.fire({

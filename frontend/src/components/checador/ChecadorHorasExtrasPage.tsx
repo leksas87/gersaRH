@@ -43,17 +43,14 @@ const ChecadorHorasExtrasPage = () => {
 			(element) => element.eventActionTypeId === 6
 		);
 
-		console.log(entrada, salida);
 		setEventsState({
 			entrada: entrada,
 			salida: salida,
 		});
-		// console.log('test:-', eventsState);
 	}, [employeeEvents]);
 
 	//metodo que se ejecuta al dar clic en un boton del checador
 	const registerEvent = (eventActionTypeId: number) => {
-		console.log('actionTypeId: ', eventActionTypeId);
 
 		if (userConfirmation.employeeId) {
 			//Se obtiene los horarios del empleado

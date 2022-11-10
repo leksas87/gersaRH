@@ -23,11 +23,6 @@ const myBucket = new AWS.S3({
 	params: { Bucket: S3_BUCKET },
 	region: REGION,
 });
-const newRequest = {
-    nombreArchivo: '',
-    url: '',
-};
-
 
 const ChecadorFotoPage = () => {
     //dispatch para ejecutar las Actions
@@ -39,7 +34,6 @@ const ChecadorFotoPage = () => {
 	);
 
     //Webcam Methods
-    const [inputFile, setInputFile] = useState(newRequest);
     const [imageShot, setImageShot] = useState(null);
     const webcamRef:any = useRef(null);
     const capture = useCallback(
@@ -59,11 +53,7 @@ const ChecadorFotoPage = () => {
 	const navigateCheck = ():any => {
 		dispatch(changecheckIsUserActiveFalse());
 	};
-    const navigateSelect = ():any =>{
-        navigate('/checador/select');
-    }
-   
-
+    
     const saveImageToAWSBucket = () =>{
 
         const file:any = dataURLtoFile(imageShot,'captura.jpeg');
@@ -71,12 +61,6 @@ const ChecadorFotoPage = () => {
         const keyName = `${uuidv4()}.${'file.jpeg'.split('.').pop()}`;
         console.log(file.name);
         const type = 'image/jpeg';
-
-
-        setInputFile({
-			nombreArchivo: file.name,
-			url: keyName,
-		});
 
         const params = {
 			Body: file,
@@ -134,7 +118,6 @@ const ChecadorFotoPage = () => {
                         className='btn custm-btnRound'
                         type='button'
                         onClick={repeate}
-                        // disabled={code.length < 4 ? true : false}
                     >
                         <i className='bi bi-arrow-repeat' />
                     </button>

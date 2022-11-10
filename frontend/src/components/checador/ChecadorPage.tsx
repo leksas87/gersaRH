@@ -69,7 +69,6 @@ const ChecadorPage = () => {
 
 	//metodo que se ejecuta al dar clic en un boton del checador
 	const registerEvent = (eventActionTypeId: number) => {
-		console.log('actionTypeId: ', eventActionTypeId);
 
 		if (userConfirmation.employeeId) {
 			//Se obtiene los horarios del empleado
