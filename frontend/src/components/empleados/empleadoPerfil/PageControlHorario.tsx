@@ -231,7 +231,7 @@ const PageControlHorario = () => {
 																	{moment(item.DateEvent).format('HH:mm')}
 																</div>
 																<a
-																	className='fs-3 btn textColorSecondary'
+																	className='fs-5 textColorSecondary p-1'
 																	href={`https://www.google.com.mx/maps/@${item.latitudeEvent},${item.longitudeEvent},16z`}
 																	target='_blank'
 																	rel='noopener noreferrer'
@@ -239,6 +239,17 @@ const PageControlHorario = () => {
 																>
 																	<i className='bi bi-geo-alt' />
 																</a>
+																{item.url&&(
+																<a
+																	className='fs-5 textColorSecondary p-1'
+																	href={`https://gersarhfotoschecador.s3.amazonaws.com/${item.url}`}
+																	target='_blank'
+																	rel='noopener noreferrer'
+																	style={{ textDecoration: 'none' }}
+																>
+																	<i className='bi bi-camera-fill' />
+																</a>
+																)}
 															</div>
 														))}
 											</td>

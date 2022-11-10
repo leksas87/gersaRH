@@ -41,6 +41,7 @@ export interface iEmployeeEvent {
 	longitudeEvent: string;
 	latitudeEvent: string;
 	eventActionTypeId: string | number;
+	url:string;
 }
 export interface iEmployeeHoursAccepted {
 	id: number | null;
