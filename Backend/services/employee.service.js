@@ -120,7 +120,6 @@ async function createReport(params, id, next) {
 async function createHourAcecepted(params, id, next, res) {
 	try {
 		const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
-		console.log('************COL***' + id + '*****' + params.fechaEvento);
 		///validacion
 		const hourAcepted = await models.hoursAccepted.findAll({
 			where: { employeeId: id, fechaEvento: params.fechaEvento },
@@ -408,7 +407,6 @@ async function getRequestById(id) {
 async function createRequest(params, id, next) {
 	try {
 		const fechaCreacion = moment().tz(process.env.TZ).format('YYYY-MM-DD');
-		console.log('registro de request*********');
 		const request = await models.Request.create({
 			employeeId: id,
 			fechaCreacion: fechaCreacion,
@@ -576,7 +574,6 @@ async function getEmployeesOfJc(id, res, req) {
 }
 async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 	let refEventTypeId = 1;
-
 	if (eventActionTypeId) {
 		const fechaHoraCreacion = moment()
 			.tz(process.env.TZ)
@@ -815,7 +812,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 							employeeId: employeeSchedul.employeeId,
 							DateEvent: { [Op.between]: [fechaInicioPre, fechaFinPre] },
 						},
-						order: [['createdAt', 'DESC']],
+						order: [['DateEvent', 'DESC']],
 					});
 
 					if (eventsPre.length === 0)
