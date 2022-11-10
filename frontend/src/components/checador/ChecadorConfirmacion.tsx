@@ -9,7 +9,7 @@ import './Checador.css';
 
 const ChecadorConfirmacion = () => {
 	//Senecesita el state que indica  el checkState
-	const { userConfirmation, eventValidation } = useSelector(
+	const { userConfirmation, eventValidation,employeePhotoUuid } = useSelector(
 		(state: RootSote) => state.events
 	);
 
@@ -45,6 +45,7 @@ const ChecadorConfirmacion = () => {
 	const confirmationRegister = () => {
 		if (userConfirmation.employeeId) {
 			console.log('userConfirmation.employeeId::::',userConfirmation.employeeId);
+			console.log('userConfirmation uuid::::',employeePhotoUuid);
 			dispatch(
 				sendEmployeeEvent(
 					{
@@ -52,6 +53,7 @@ const ChecadorConfirmacion = () => {
 						longitudeEvent: cordenadas.longitude.toString(),
 						EventTypeId: eventValidation.eventTypeId?.toString(),
 						eventActionTypeId: eventValidation.eventActionTypeId,
+						url:employeePhotoUuid
 					},
 					userConfirmation.employeeId,
 					userConfirmation.token

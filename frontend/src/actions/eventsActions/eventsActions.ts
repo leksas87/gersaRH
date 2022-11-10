@@ -594,6 +594,13 @@ export const employeeEventValidation = (
 		//LimpiarEmployeeEvents
 		dispatch({ type: CLEAN_EVENT_VALIDATION });
 
+
+		console.log('ANTES DE ENVIAR:::',
+		employeeId,
+		eventActionTypeId,
+		token);
+		
+
 		//Peticion Axios a la API para Registrar nuevo schedule
 		axiosClientWithToken
 			.get(

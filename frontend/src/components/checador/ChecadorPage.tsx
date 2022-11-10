@@ -72,9 +72,6 @@ const ChecadorPage = () => {
 		console.log('actionTypeId: ', eventActionTypeId);
 
 		if (userConfirmation.employeeId) {
-			console.log('userConfirmation.employeeId',userConfirmation.employeeId);
-			console.log('eventActionTypeId',eventActionTypeId);
-			console.log('userConfirmation.token',userConfirmation.token);
 			//Se obtiene los horarios del empleado
 			dispatch(
 				employeeEventValidation(
