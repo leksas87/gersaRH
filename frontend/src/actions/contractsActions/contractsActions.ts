@@ -300,8 +300,7 @@ export const getContractsWithoutContractToshow = (employeeId: string) => {
 		);
 		//.json() a la respuesta
 		const body = await respuesta?.json();
-
-		if (body.ok) {
+		if (body.data[0]) {
 			//Se guarda los contratos obtenidos en el Reducer
 			dispatch({ type: GET_CONTRACTS, payload: { contratos: body.data } });
 		} else {
