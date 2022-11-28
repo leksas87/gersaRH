@@ -57,7 +57,7 @@ const SessionTimeout = () => {
 				};
 				warningInactive(fecha);
 			} else return;
-		}, 6600000); //110 mntos //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
+		}, 21600000); //6horas //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
 		// }, 5000); //5segundos //Tiempo en activar modal de alerta (tiene que ser  menor al tiempo que expira el toquen).
 	}, [isAuthenticated, dispatch]);
 
