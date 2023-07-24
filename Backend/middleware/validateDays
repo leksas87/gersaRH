@@ -11,10 +11,8 @@ function validateDays() {
     return [
         // attach full user record to request object
         async (req, res, next) => {
-  
             //verificamos que tenga registro de fecha de ingreso
-            const employee=await models.Employee.findOne({where:{id:req.params.id}});
-            
+            const employee=await models.Employee.findOne({where:{userid:req.params.id}});
             if(!employee.fechaIngreso){return res.status(404).json({message: "El empleado no tiene fecha de ingreso"})}
             
             // verificamos que exista registro de dias
