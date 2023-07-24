@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { models } = require('./../libs/sequelize');
 const { Op, DataTypes } = require('sequelize');
 const moment = require('moment-timezone');
+const { Employee } = require('../db/models/employee.model');
 
 module.exports = {
 	create,
@@ -427,10 +428,10 @@ async function createRequest(params, id, next) {
 
 async function registerEvents(params, id) {
 	try {
-		const employee = await getEmployeeById(id);
+		const employee=await Employee.findByPk(id);
 		const refId = parseInt(params.EventTypeId, 10);
+		console.log('------------- ->',refId);
 		const eventType = await models.EventType.findByPk(refId);
-		//const eventType = await models.EventType.findOne({where:{nameType:params.EventTypeId}});
 
 		const fechaEvent = moment().tz(process.env.TZ).format('YYYY-MM-DD HH:mm:ss');
 
@@ -574,15 +575,17 @@ async function getEmployeesOfJc(id, res, req) {
 }
 async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 	let refEventTypeId = 1;
+	console.log('------------- ->',eventActionTypeId);
 	if (eventActionTypeId) {
 		const fechaHoraCreacion = moment()
 			.tz(process.env.TZ)
 			.format('YYYY-MM-DD HH:mm:ss');
 		const fechaCreacion = moment(fechaHoraCreacion).format('YYYY-MM-DD');
 		const employeeSchedules = await models.EmployeeSchedule.findAll({
-			where: { employeeId: id },
+			where: { employeeId: id },//to do cambiar el id de empleyoo
 		});
-
+		console.log('-------------employeeSchedules ->',employeeSchedules);
+		console.log('-------------id ->',id);
 		if (employeeSchedules.length === 0)
 			return res.status(202).json({ message: 'Horario no encontrado' });
 
@@ -797,6 +800,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 				break;
 
 			case '3':
+				console.log('.......caso 3')
 				for (const employeeSchedul of employeeSchedules) {
 					const fechaInicioPre = moment()
 						.tz(process.env.TZ)
@@ -814,7 +818,7 @@ async function getEvents(id, fechaInicio, fechaFin, eventActionTypeId, res) {
 						},
 						order: [['DateEvent', 'DESC']],
 					});
-
+					console.log('-------------eventos del empleado ->',eventsPre);
 					if (eventsPre.length === 0)
 						res
 							.status(202)
@@ -1203,7 +1207,7 @@ async function createSchedule(params) {
 }
 
 async function getEmployeeById(id) {
-	const employee = await models.Employee.findOne({ where: { userId: id } });
+	const employee = await models.Employee.findOne({ where: { useidrId: id } });
 
 	if (!employee) throw 'Empleado no encontrado';
 

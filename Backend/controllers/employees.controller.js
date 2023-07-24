@@ -186,7 +186,8 @@ async function getReportsEmployees(req, res, next) {
 	//Se define la fecha en la que se realiza la petición
 	 let semanaNow = moment().tz("America/Mexico_City").format('w');
 	 let semanaInicio = moment().isoWeek(semanaNow-2).startOf("isoweek").format('YYYY-MM-DD');
-	 let semanaFin = moment().isoWeek(semanaNow-2).startOf("isoweek").format('YYYY-MM-DD');
+	 let semanaFin = moment(semanaInicio).add(6, 'days').format('YYYY-MM-DD 00:00:00');
+
 	//Libro de trabajo
 	const wb = new xl.Workbook();
 	const reportes = [];
@@ -818,6 +819,7 @@ function registerContracts(req, res, next) {
 }
 
 function registerEvents(req, res, next) {
+	console.log('regitro del evento');
 	employeeService
 		.registerEvents(req.body, req.params.id)
 		.then(res.json({ message: 'Succesful'}))
